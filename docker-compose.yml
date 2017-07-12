@@ -1,0 +1,20 @@
+version: '2'
+services:
+  laravel:
+    image: reflexions/docker-laravel:latest
+    ports:
+      - 80:80
+    env_file: .env
+    links:
+      - database
+    volumes:
+      - .:/var/www/laravel
+
+  database:
+    image: postgres:9.6
+    ports:
+      - 5432:5432
+    env_file: .env
+    environment:
+      LC_ALL: C.UTF-8
+    

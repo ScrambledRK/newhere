@@ -1,67 +1,155 @@
 {
-    "name": "laravel5-angular-material-starter",
-    "authors": [
-        "Jad Joubran <jad@jadjoubran.com>"
-    ],
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "angular": "~1.5",
-        "angular-ui-router": "~0.2.15",
-        "ngstorage": "~0.3.3",
-        "angular-material": "~1.1.1",
-        "angular-animate": "1.5.9",
-        "angular-aria": "1.5.9",
-        "angular-messages": "1.5.9",
-        "restangular": "~1.5.2",
-        "angular-loading-bar": "~0.8.0",
-        "satellizer": "^0.14.0",
-        "angular-material-data-table": "~0.10.*",
-        "angular-ui-tree": "~2.15.*",
-        "angular-drag-and-drop-lists": "^1.4.0",
-        "angular-filter": "^0.5.8",
-        "textAngular": "^1.5.1",
-        "bootstrap-css-only": "^3.3.6",
-        "angular-sanitize": "^1.5.5",
-        "ng-flow": "~2",
-        "angular-wizard": "^0.6.1",
-        "ui-leaflet": "^1.0.1",
-        "leaflet-fullscreen": "^1.0.1",
-        "angular-paging": "^2.2.1",
-        "angular-translate": "2.11.x",
-        "angular-translate-loader-static-files": "2.11.x",
-        "sprintf": ">=1.0.0",
-        "leaflet-routing-machine": "https://github.com/perliedman/leaflet-routing-machine.git#^3.0.3",
-        "angular-translate-storage-local": "^2.11.0",
-        "angular-translate-storage-cookie": "^2.11.0",
-        "leaflet-icon-pulse": "leaflet-pulse-icon#^0.1.0",
-        "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#leaflet-0.7"
+  "name": "laravel5-angular-material-starter",
+  "authors": [
+    "Jad Joubran <jad@jadjoubran.com>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "https://github.com/angular/bower-angular.git#c5accffceeee635c740434046d3b06079ea47a58",
+    "angular-animate": "https://github.com/angular/bower-angular-animate.git#c51985f49b0a158175efbeaf775fd8373cbbf45e",
+    "angular-aria": "https://github.com/angular/bower-angular-aria.git#9af10d1ba174802c58a460d3c93aef1d80725964",
+    "angular-cookies": "https://github.com/angular/bower-angular-cookies.git#5535967ced822af91356af87b617611615cc8fc2",
+    "angular-drag-and-drop-lists": "https://github.com/marceljuenemann/angular-drag-and-drop-lists.git#7e98e194a8d66fa735bf6dc7c3e39886287b914e",
+    "angular-filter": "https://github.com/a8m/angular-filter.git#5d6772c9fac777054dfeb3ab0246416d639858e9",
+    "angular-loading-bar": "https://github.com/chieffancypants/angular-loading-bar.git#d734873e52ded18fa27d67f52272ae43267dfd63",
+    "angular-material": "https://github.com/angular/bower-material.git#0b0264d0b8b72090de6f52354ca91bb8411c8bdb",
+    "angular-material-data-table": "https://github.com/daniel-nagy/md-data-table.git#d20fb0c2126fcecdfa6cb7bb9923887c44a4dc0a",
+    "angular-messages": "https://github.com/angular/bower-angular-messages.git#5963a482fe52e25dcffd9fcc6fcf646bbc51b8a1",
+    "angular-paging": "https://github.com/brantwills/Angular-Paging.git#51bae38eea7638e0846547a7f31c8e6c200e5ca5",
+    "angular-sanitize": "https://github.com/angular/bower-angular-sanitize.git#b3948967f3f50e6100a44034d0a2645f509beaf7",
+    "angular-simple-logger": "https://github.com/nmccready/angular-simple-logger.git#9f0e640b4cebffbc6d35fdf92ef7472774fc401a",
+    "angular-translate": "https://github.com/PascalPrecht/bower-angular-translate.git#5e0cf414627a79cc3dd2d1f9d140eee0652ac630",
+    "angular-translate-loader-static-files": "https://github.com/PascalPrecht/bower-angular-translate-loader-static-files.git#fde3094dc42f0e83338bbb5308cc53d26c9f8ee3",
+    "angular-translate-storage-cookie": "https://github.com/PascalPrecht/bower-angular-translate-storage-cookie.git#fd8e7738ea1e4fd2239f17f20e0e6ddd78cb5ff5",
+    "angular-translate-storage-local": "https://github.com/PascalPrecht/bower-angular-translate-storage-local.git#cc0ed798b7ce5fb51f3a699de781fd2661e5980e",
+    "angular-ui-router": "https://github.com/angular-ui/angular-ui-router-bower.git#6704f0706504aca2b0d92e308530281ac31a3b29",
+    "angular-ui-tree": "https://github.com/JimLiu/angular-ui-tree.git#6ad4df091288b32eb287ee108a14ae220ccd818d",
+    "angular-wizard": "https://github.com/mgonto/angular-wizard.git#31e4129170122568689c2424ddf6256a12356e31",
+    "bootstrap-css-only": "https://github.com/fyockm/bootstrap-css-only.git#3008e2ad8a0387e6cef4869b380de05ff6477574",
+    "flow.js": "https://github.com/flowjs/flow.js.git#f6194e7b377e49eb09ee2af72bc3d822271f3392",
+    "font-awesome": "https://github.com/FortAwesome/Font-Awesome.git#a3fe90fa5f6fac55d197f9cbd18e3f57dafb716c",
+    "leaflet": "https://github.com/Leaflet/Leaflet.git#197f9d43b7bbc73c0492bf62cd666a5a98038098",
+    "leaflet-fullscreen": "https://github.com/Leaflet/Leaflet.fullscreen.git#c4998cf2ea7e4bd2b64006eede0a16037995e4b7",
+    "leaflet-icon-pulse": "https://github.com/mapshakers/leaflet-icon-pulse.git#fd39285a20d0ac3d085ab837607464d5b2c69f4a",
+    "leaflet-pulse-icon": "https://github.com/mapshakers/leaflet-icon-pulse.git#fd39285a20d0ac3d085ab837607464d5b2c69f4a",
+    "leaflet-routing-machine": "https://github.com/perliedman/leaflet-routing-machine.git#fdf3616771c3538f9cdab63c1cda6425a328bdd3",
+    "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#54f32574a27521610cc2b347b13013c3dd5a4dcf",
+    "lodash": "https://github.com/lodash/lodash.git#e31a059367a827da961ac3324bbfd35b084efb62",
+    "ng-flow": "https://github.com/flowjs/ng-flow.git#c3b5b73fb49b0a71c37082b17a3f6aa152590766",
+    "ngstorage": "https://github.com/gsklee/ngStorage.git#253b718a0b35b044fba25c78b1b2020d672c4017",
+    "rangy": "https://github.com/timdown/rangy-release.git#a9518d3d6142b7fe58fd47ddd6a1068f7eb52a0b",
+    "restangular": "https://github.com/mgonto/restangular.git#d03cab513eda96f1a68395bf9bd76d2da00e8d51",
+    "satellizer": "https://github.com/sahat/satellizer.git#99a2603cadc1879dd577c0a19cf6c3fa9c92ac51",
+    "sprintf": "https://github.com/alexei/sprintf.js.git#6bfe81840e560d675a9de3d79c06354a47ac9236",
+    "textAngular": "https://github.com/fraywing/textAngular.git#a4c905845164d8c20e5cf69ece742185b2a1f1ed",
+    "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#919b862389ddddc85c197746f3126fd24de0dc42"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css"
+      ]
     },
-    "overrides": {
-        "font-awesome": {
-            "main": [
-                "css/font-awesome.css"
-            ]
-        },
-        "leaflet-fullscreen": {
-            "main": [
-                "dist/Leaflet.fullscreen.js",
-                "dist/leaflet.fullscreen.css"
-            ]
-        },
-        "leaflet-icon-pulse": {
-            "main": [
-                "src/L.Icon.Pulse.js",
-                "src/L.Icon.Pulse.css"
-            ]
-        }
+    "leaflet-fullscreen": {
+      "main": [
+        "dist/Leaflet.fullscreen.js",
+        "dist/leaflet.fullscreen.css"
+      ]
     },
-    "resolutions": {
-        "angular": "~1.5"
+    "leaflet-pulse-icon": {
+      "main": [
+        "src/L.Icon.Pulse.js",
+        "src/L.Icon.Pulse.css"
+      ]
     }
+  },
+  "bowerLocker": {
+    "lastUpdated": "2017-07-12T12:48:22.654Z",
+    "lockedVersions": {
+      "angular": "1.6.5",
+      "angular-animate": "1.6.5",
+      "angular-aria": "1.6.5",
+      "angular-cookies": "1.6.5",
+      "angular-drag-and-drop-lists": "2.1.0",
+      "angular-filter": "0.5.16",
+      "angular-loading-bar": "0.9.0",
+      "angular-material": "1.1.4",
+      "angular-material-data-table": "0.10.10",
+      "angular-messages": "1.6.5",
+      "angular-paging": "2.2.2",
+      "angular-sanitize": "1.6.5",
+      "angular-simple-logger": "0.1.7",
+      "angular-translate": "2.15.2",
+      "angular-translate-loader-static-files": "2.15.2",
+      "angular-translate-storage-cookie": "2.15.2",
+      "angular-translate-storage-local": "2.15.2",
+      "angular-ui-router": "1.0.5",
+      "angular-ui-tree": "2.22.5",
+      "angular-wizard": "1.1.1",
+      "bootstrap-css-only": "3.3.7",
+      "flow.js": "2.13.0",
+      "font-awesome": "4.7.0",
+      "leaflet": "0.7.7",
+      "leaflet-fullscreen": "1.0.2",
+      "leaflet-icon-pulse": "0.1.0",
+      "leaflet-pulse-icon": "0.1.0",
+      "leaflet-routing-machine": "3.2.5",
+      "leaflet.markercluster": "1.0.6",
+      "lodash": "4.17.4",
+      "ng-flow": "2.7.7",
+      "ngstorage": "0.3.11",
+      "rangy": "1.3.0",
+      "restangular": "1.6.1",
+      "satellizer": "0.15.5",
+      "sprintf": "1.1.1",
+      "textAngular": "1.5.16",
+      "ui-leaflet": "2.0.0"
+    }
+  },
+  "resolutions": {
+    "angular": "c5accffceeee635c740434046d3b06079ea47a58",
+    "angular-animate": "c51985f49b0a158175efbeaf775fd8373cbbf45e",
+    "angular-aria": "9af10d1ba174802c58a460d3c93aef1d80725964",
+    "angular-cookies": "5535967ced822af91356af87b617611615cc8fc2",
+    "angular-drag-and-drop-lists": "7e98e194a8d66fa735bf6dc7c3e39886287b914e",
+    "angular-filter": "5d6772c9fac777054dfeb3ab0246416d639858e9",
+    "angular-loading-bar": "d734873e52ded18fa27d67f52272ae43267dfd63",
+    "angular-material": "0b0264d0b8b72090de6f52354ca91bb8411c8bdb",
+    "angular-material-data-table": "d20fb0c2126fcecdfa6cb7bb9923887c44a4dc0a",
+    "angular-messages": "5963a482fe52e25dcffd9fcc6fcf646bbc51b8a1",
+    "angular-paging": "51bae38eea7638e0846547a7f31c8e6c200e5ca5",
+    "angular-sanitize": "b3948967f3f50e6100a44034d0a2645f509beaf7",
+    "angular-simple-logger": "9f0e640b4cebffbc6d35fdf92ef7472774fc401a",
+    "angular-translate": "5e0cf414627a79cc3dd2d1f9d140eee0652ac630",
+    "angular-translate-loader-static-files": "fde3094dc42f0e83338bbb5308cc53d26c9f8ee3",
+    "angular-translate-storage-cookie": "fd8e7738ea1e4fd2239f17f20e0e6ddd78cb5ff5",
+    "angular-translate-storage-local": "cc0ed798b7ce5fb51f3a699de781fd2661e5980e",
+    "angular-ui-router": "6704f0706504aca2b0d92e308530281ac31a3b29",
+    "angular-ui-tree": "6ad4df091288b32eb287ee108a14ae220ccd818d",
+    "angular-wizard": "31e4129170122568689c2424ddf6256a12356e31",
+    "bootstrap-css-only": "3008e2ad8a0387e6cef4869b380de05ff6477574",
+    "flow.js": "f6194e7b377e49eb09ee2af72bc3d822271f3392",
+    "font-awesome": "a3fe90fa5f6fac55d197f9cbd18e3f57dafb716c",
+    "leaflet": "197f9d43b7bbc73c0492bf62cd666a5a98038098",
+    "leaflet-fullscreen": "c4998cf2ea7e4bd2b64006eede0a16037995e4b7",
+    "leaflet-icon-pulse": "fd39285a20d0ac3d085ab837607464d5b2c69f4a",
+    "leaflet-pulse-icon": "fd39285a20d0ac3d085ab837607464d5b2c69f4a",
+    "leaflet-routing-machine": "fdf3616771c3538f9cdab63c1cda6425a328bdd3",
+    "leaflet.markercluster": "54f32574a27521610cc2b347b13013c3dd5a4dcf",
+    "lodash": "e31a059367a827da961ac3324bbfd35b084efb62",
+    "ng-flow": "c3b5b73fb49b0a71c37082b17a3f6aa152590766",
+    "ngstorage": "253b718a0b35b044fba25c78b1b2020d672c4017",
+    "rangy": "a9518d3d6142b7fe58fd47ddd6a1068f7eb52a0b",
+    "restangular": "d03cab513eda96f1a68395bf9bd76d2da00e8d51",
+    "satellizer": "99a2603cadc1879dd577c0a19cf6c3fa9c92ac51",
+    "sprintf": "6bfe81840e560d675a9de3d79c06354a47ac9236",
+    "textAngular": "a4c905845164d8c20e5cf69ece742185b2a1f1ed",
+    "ui-leaflet": "919b862389ddddc85c197746f3126fd24de0dc42"
+  }
 }
