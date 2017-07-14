@@ -1,8 +1,9 @@
 {
-  "name": "laravel5-angular-material-starter",
-  "authors": [
-    "Jad Joubran <jad@jadjoubran.com>"
-  ],
+  "name": "newhere",
+  "description": "where refugees can get all the information for their orientation",
+  "authors": [],
+  "license": "MIT",
+  "homepage": "http://www.welcomeoida.at",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -39,7 +40,7 @@
     "leaflet-icon-pulse": "https://github.com/mapshakers/leaflet-icon-pulse.git#fd39285a20d0ac3d085ab837607464d5b2c69f4a",
     "leaflet-pulse-icon": "https://github.com/mapshakers/leaflet-icon-pulse.git#fd39285a20d0ac3d085ab837607464d5b2c69f4a",
     "leaflet-routing-machine": "https://github.com/perliedman/leaflet-routing-machine.git#fdf3616771c3538f9cdab63c1cda6425a328bdd3",
-    "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#54f32574a27521610cc2b347b13013c3dd5a4dcf",
+    "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#232e93ccbe5b70241913f47a4d1a8ceec8c88c30",
     "lodash": "https://github.com/lodash/lodash.git#e31a059367a827da961ac3324bbfd35b084efb62",
     "ng-flow": "https://github.com/flowjs/ng-flow.git#c3b5b73fb49b0a71c37082b17a3f6aa152590766",
     "ngstorage": "https://github.com/gsklee/ngStorage.git#253b718a0b35b044fba25c78b1b2020d672c4017",
@@ -100,7 +101,7 @@
       "leaflet-icon-pulse": "0.1.0",
       "leaflet-pulse-icon": "0.1.0",
       "leaflet-routing-machine": "3.2.5",
-      "leaflet.markercluster": "1.0.6",
+      "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#leaflet-0.7",
       "lodash": "4.17.4",
       "ng-flow": "2.7.7",
       "ngstorage": "0.3.11",
@@ -141,7 +142,7 @@
     "leaflet-icon-pulse": "fd39285a20d0ac3d085ab837607464d5b2c69f4a",
     "leaflet-pulse-icon": "fd39285a20d0ac3d085ab837607464d5b2c69f4a",
     "leaflet-routing-machine": "fdf3616771c3538f9cdab63c1cda6425a328bdd3",
-    "leaflet.markercluster": "54f32574a27521610cc2b347b13013c3dd5a4dcf",
+    "leaflet.markercluster": "232e93ccbe5b70241913f47a4d1a8ceec8c88c30",
     "lodash": "e31a059367a827da961ac3324bbfd35b084efb62",
     "ng-flow": "c3b5b73fb49b0a71c37082b17a3f6aa152590766",
     "ngstorage": "253b718a0b35b044fba25c78b1b2020d672c4017",
