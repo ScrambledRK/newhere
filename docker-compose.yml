@@ -1,9 +1,11 @@
 version: '2'
 services:
   laravel:
-    image: reflexions/docker-laravel:latest
+    build:
+      context: ./docker
+      dockerfile: docker-image-dev.txt
     ports:
-      - 80:80
+      - 6000:80
     env_file: .env
     links:
       - database
