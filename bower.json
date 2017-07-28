@@ -68,6 +68,12 @@
         "src/L.Icon.Pulse.js",
         "src/L.Icon.Pulse.css"
       ]
+    },
+    "angular-ui-router": {
+      "main": [
+        "release/angular-ui-router.js",
+        "release/stateEvents.js"
+      ]
     }
   },
   "bowerLocker": {
