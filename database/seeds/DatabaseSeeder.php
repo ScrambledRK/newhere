@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(NgoSeeder::class);
-       // $this->call(OfferTableSeeder::class);
+        $this->call(OfferTableSeeder::class);
         $this->call(DashboardWidgetsSeeder::class);
         $this->call(NgoFakeStarsSeeder::class);
     }
