@@ -1,0 +1,13 @@
+FROM reflexions/docker-laravel:latest
+
+RUN yes | apt-get install php5-intl
+RUN yes | pecl install xdebug
+
+RUN echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" >> /etc/php5/apache2/php.ini \
+&& echo "xdebug.idekey = PHPSTORM" >> /etc/php5/apache2/php.ini \
+&& echo "xdebug.default_enable = 1" >> /etc/php5/apache2/php.ini \
+&& echo "xdebug.remote_enable = 1" >> /etc/php5/apache2/php.ini \
+&& echo "xdebug.remote_autostart = 0" >> /etc/php5/apache2/php.ini \
+&& echo "xdebug.remote_connect_back = 0" >> /etc/php5/apache2/php.ini \
+&& echo "xdebug.profiler_enable = 0" >> /etc/php5/apache2/php.ini \
+&& echo "xdebug.remote_host = 172.18.0.1" >> /etc/php5/apache2/php.ini
