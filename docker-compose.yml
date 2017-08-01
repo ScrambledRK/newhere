@@ -1,0 +1,23 @@
+version: '2'
+services:
+  laravel:
+    build:
+      context: ./docker
+      dockerfile: docker-image-dev.txt
+    ports:
+      - 6000:80
+      - 443:443
+    env_file: .env
+    links:
+      - database
+    volumes:
+      - .:/var/www/laravel
+
+  database:
+    image: postgres:9.6
+    ports:
+      - 5432:5432
+    env_file: .env
+    environment:
+      LC_ALL: C.UTF-8
+    
