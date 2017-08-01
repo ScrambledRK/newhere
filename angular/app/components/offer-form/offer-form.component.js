@@ -1,6 +1,10 @@
 class OfferFormController {
-    constructor($http, $q, OfferService, ToastService, NgoService, CategoryService, $state, $translate, LanguageService, OfferTranslationService) {
+    constructor($http, $q, OfferService, ToastService, NgoService, CategoryService,
+                $state, $translate, LanguageService, OfferTranslationService, $scope) {
         'ngInject';
+
+        this.$scope = $scope;
+        this.cms = this.$scope.$root.cms;
 
         this.$q = $q;
         this.aborter = $q.defer();
