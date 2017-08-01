@@ -1,5 +1,5 @@
 export class OfferService{
-    constructor(API, $q, ToastService, $state, $translate, DialogService, $scope){
+    constructor(API, $q, ToastService, $state, $translate, DialogService, $rootScope){
         'ngInject';
 
         this.API = API;
@@ -10,8 +10,7 @@ export class OfferService{
         this.offer;
         this.$translate = $translate;
 
-        this.$scope = $scope;
-        this.cms = this.$scope.$root.cms;
+        this.cms = $rootScope.cms;
     }
 
     count(){
