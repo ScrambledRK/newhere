@@ -6,7 +6,7 @@ services:
       dockerfile: docker-image-dev.txt
     ports:
       - 6000:80
-      - 443:443
+      - 6001:443
     env_file: .env
     links:
       - database
@@ -16,8 +16,9 @@ services:
   database:
     image: postgres:9.6
     ports:
-      - 5432:5432
+      - 5999:5432
     env_file: .env
     environment:
       LC_ALL: C.UTF-8
-    
+    volumes:
+      - ./storage/backups:/var/backups
