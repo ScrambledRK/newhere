@@ -3,7 +3,7 @@ class FilterSelectorController{
         'ngInject';
         var vm = this;
         //
-        this.selectedFilter = [];
+        this.selectedFilter = [];   // customized user filter; list of set filters ...
         this.dropdownFilters = {};
         this.filters = [];
         this.FilterService = FilterService;

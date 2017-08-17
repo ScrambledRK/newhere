@@ -1,5 +1,5 @@
 class NgoFormController{
-    constructor($auth, NgoService, ToastService, $state, $translate, LanguageService, $http, $q) {
+    constructor($auth, NgoService, ToastService, $state, $translate, LanguageService, $http, $q, $rootScope) {
         'ngInject';
 
         this.$q = $q;
@@ -7,6 +7,7 @@ class NgoFormController{
         this.$http = $http;
         angular.element(document.querySelector('#addressSearch')).$valid = false;
 
+        this.cms = $rootScope.cms;
 
         this.$auth = $auth;
         this.NgoService = NgoService;
