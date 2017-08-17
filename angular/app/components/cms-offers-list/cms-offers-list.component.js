@@ -1,5 +1,5 @@
 class CmsOffersListController{
-    constructor($sessionStorage, OfferService, NgoService, $filter, $state, $translate, DialogService){
+    constructor($sessionStorage, OfferService, NgoService, $filter, $state, $translate, DialogService, $rootScope){
         'ngInject';
         var vm = this;
         vm.menu = {
@@ -14,6 +14,9 @@ class CmsOffersListController{
         this.DialogService = DialogService;
         this.NgoService = NgoService;
         this.OfferService = OfferService;
+
+        this.cms = $rootScope.cms;
+
         if(this.cms){
           this.NgoService.fetchAll().then((response) => {
               vm.ngos = response;
