@@ -1,6 +1,7 @@
 module.exports = {
 	// configuration
 	entry: "./angular/index.main.js",
+	devtool: 'source-map',
 	output: {
 		filename: "app.js"
 	},

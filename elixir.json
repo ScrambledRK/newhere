@@ -1,6 +1,7 @@
 {
     "js": {
-        "outputFolder": "public/js"
+        "outputFolder": "public/js",
+        "tempFolder": "public/jstmp"
     },
     "css": {
         "outputFolder": "public/css",
