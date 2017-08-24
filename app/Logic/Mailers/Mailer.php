@@ -17,8 +17,7 @@ abstract class Mailer {
       $this->beautymail->queue($view, $data, function($message) use ($email, $name, $subject, $fromEmail)
       {
           $message
-              ->from('info@newhere.at')
-              ->to($email,$name)
+              ->to($email,$name)    // do not set "from" and spoof a sender, this will fail on the mail-server
               ->subject($subject);
       });
     }

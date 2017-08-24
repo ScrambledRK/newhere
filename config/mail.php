@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => env('APP_MAIL_FROM_ADDRESS', 'help@newhere.org'), 'name' => env('APP_MAIL_FROM_NAME', 'help@newhere.org')],
 
     /*
     |--------------------------------------------------------------------------
