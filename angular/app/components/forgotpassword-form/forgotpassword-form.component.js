@@ -15,9 +15,6 @@ class ForgotpasswordFormController {
         this.UserService.forgotpassword(this.email, () => {
             this.sending = false;
             this.$state.go('app.login');
-            this.$translate('Email wurde versendet').then((msg) => {
-                this.ToastService.show(msg);
-            });
         });
     }
 
