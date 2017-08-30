@@ -3,7 +3,7 @@
     <span>
     <md-input-container class="md-block">
       <label>{{ 'NGO' | translate }}</label>
-      <md-select ng-model="vm.offer.ngo_id" >
+      <md-select ng-model="vm.offer.ngo_id">
         <md-option ng-repeat="ngo in vm.ngos" ng-value="ngo.id">{{ ngo.organisation }}</md-option>
       </md-select>
     </md-input-container>
@@ -73,7 +73,8 @@
                                 <span class="md-subhead">{{ '%d ausgewählt' | translate | sprintf: vm.offer.categories.length }}</span>
                             </md-card-title-text>
                         </md-card-title>
-                        <treeview items="vm.categories" selection="vm.offer.categories" options="vm.categoriesOptions"></treeview>
+                        <treeview items="vm.categories" selection="vm.offer.categories"
+                                  options="vm.categoriesOptions"></treeview>
                     </md-card>
                 </div>
             </div>
@@ -90,11 +91,13 @@
                 </md-card-title>
                 <md-content layout-padding layout="column" layout-align="space-between center">
                     <span>{{ 'von' | translate }}
-                        <md-datepicker ng-model="vm.valid_from" md-placeholder="{{ 'Datum eingeben' | translate }}"></md-datepicker>
+                        <md-datepicker ng-model="vm.valid_from"
+                                       md-placeholder="{{ 'Datum eingeben' | translate }}"></md-datepicker>
                     </span>
                     <span>
                         {{ 'bis' | translate }}
-                        <md-datepicker ng-model="vm.valid_until" md-min-date="vm.valid_from" md-placeholder="{{ 'Datum eingeben' | translate }}"></md-datepicker>
+                        <md-datepicker ng-model="vm.valid_until" md-min-date="vm.valid_from"
+                                       md-placeholder="{{ 'Datum eingeben' | translate }}"></md-datepicker>
                     </span>
                 </md-content>
             </md-card>
@@ -111,8 +114,12 @@
                         </md-checkbox>
                     </div>
                     <div ng-show="!vm.offer.withoutAddress">
-                        <md-autocomplete ng-init="vm.offer.street=''" md-selected-item="vm.selectedItem" md-selected-item-change="vm.selectedItemChange(item)" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.street+' '+item.number+', '+item.zip+' '+item.city"
-                            md-min-length="2" md-floating-label="{{ 'Adresssuche' | translate }}" placeholder="z.B. Stephansplatz 1, 1010 Wien">
+                        <md-autocomplete ng-init="vm.offer.street=''" md-selected-item="vm.selectedItem"
+                                         md-selected-item-change="vm.selectedItemChange(item)"
+                                         md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)"
+                                         md-item-text="item.street+' '+item.number+', '+item.zip+' '+item.city"
+                                         md-min-length="2" md-floating-label="{{ 'Adresssuche' | translate }}"
+                                         placeholder="z.B. Stephansplatz 1, 1010 Wien">
                             <md-item-template>
                                 <span md-highlight-text="vm.searchText">{{item.street+' '+item.number+', '+item.zip+' '+item.city}}</span>
                             </md-item-template>
@@ -146,13 +153,20 @@
                         <md-table-container>
                             <table md-table>
                                 <tbody md-body ng-repeat="untranslatedOffer in vm.untranslatedOffers">
-                                    <tr ng-repeat="trans in untranslatedOffer.translations" ng-init="sourceTranslation = (vm.offer.translations| filter : {locale: vm.defaultLanguage.language})[0]" ng-if="untranslatedOffer.id == vm.offer.id">
-                                        <td md-cell ng-repeat="language in vm.enabledLanguages | filter: {language: trans.locale}">
-                                            <cms-offer-translation-item translation="trans" source-translation="sourceTranslation" language="language" source-language="vm.defaultLanguage" offer="untranslatedOffer">
-                                            </cms-offer-translation-item>
-                                        </td>
-                                        <td class="md-cell">{{trans.locale}}</td>
-                                    </tr>
+                                <tr ng-repeat="trans in untranslatedOffer.translations"
+                                    ng-init="sourceTranslation = (vm.offer.translations| filter : {locale: vm.defaultLanguage.language})[0]"
+                                    ng-if="untranslatedOffer.id == vm.offer.id">
+                                    <td md-cell
+                                        ng-repeat="language in vm.enabledLanguages | filter: {language: trans.locale}">
+                                        <cms-offer-translation-item translation="trans"
+                                                                    source-translation="sourceTranslation"
+                                                                    language="language"
+                                                                    source-language="vm.defaultLanguage"
+                                                                    offer="untranslatedOffer">
+                                        </cms-offer-translation-item>
+                                    </td>
+                                    <td class="md-cell">{{trans.locale}}</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </md-table-container>
@@ -163,7 +177,9 @@
     </md-content>
     <div flex layout="row" layout-align="end center">
 
-        <md-button type="submit" class="md-primary md-raised" ng-disabled="offerForm.$invalid || Form.$pristine">{{ 'Speichern' | translate }}</md-button>
+        <md-button type="submit" class="md-primary md-raised" ng-disabled="offerForm.$invalid || Form.$pristine">{{
+            'Speichern' | translate }}
+        </md-button>
         <md-button class="md-primary" ng-click="vm.cancel()">{{ 'Abbrechen' | translate }}</md-button>
     </div>
 </form>
