@@ -50,6 +50,7 @@ import {OfferFormComponent} from './app/components/offer-form/offer-form.compone
 import {CmsOffersListComponent} from './app/components/cms-offers-list/cms-offers-list.component';
 import {CmsFiltersListComponent} from './app/components/cms-filters-list/cms-filters-list.component';
 import {CmsFilterFormComponent} from './app/components/cms-filter-form/cms-filter-form.component';
+import {CmsProfileComponent} from './app/components/cms-profile/cms-profile.component';
 
 angular.module('app.components')
 	.component('loader', LoaderComponent)
@@ -103,4 +104,5 @@ angular.module('app.components')
 	.component('offerForm', OfferFormComponent)
 	.component('cmsOffersList', CmsOffersListComponent)
 	.component('cmsFiltersList', CmsFiltersListComponent)
-	.component('cmsFilterForm', CmsFilterFormComponent);
+	.component('cmsFilterForm', CmsFilterFormComponent)
+	.component('cmsProfile', CmsProfileComponent);

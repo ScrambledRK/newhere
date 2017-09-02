@@ -25,8 +25,8 @@ $api->group(['middleware' => ['api', 'language']], function ($api) {
      */
     $api->controller('auth', 'Auth\AuthController');
 
-    $api->post('password', 'Auth\PasswordResetController@postPasswordReset');
-    $api->post('password/{token}', 'Auth\PasswordResetController@postNewPassword');
+    $api->post('password', 'Auth\PasswordResetController@requestPasswordResetMail');
+    $api->post('password/{token}', 'Auth\PasswordResetController@submitNewPassword');
 
 
     $api->get('images/upload', 'ImageController@test');
@@ -53,11 +53,8 @@ $api->group(['middleware' => ['api', 'language']], function ($api) {
 });
 
 //protected routes with JWT (must be logged in)
-$api->group(['middleware' => ['api', 'api.auth', 'language']], function ($api) {
-    /**
-     * @var \Dingo\Api\Routing\Router $api
-     */
-
+$api->group(['middleware' => ['api', 'api.auth', 'language']], function ($api)
+{
     $api->get('offer-translations', 'Cms\OfferTranslationController@index');
     $api->get('offer-translations/untranslated', 'Cms\OfferTranslationController@untranslatedIndex');
     $api->put('offer-translations/{id}', ['uses' => 'Cms\OfferTranslationController@translate'])->where('id', '[0-9]+');
@@ -94,10 +91,11 @@ $api->group(['middleware' => ['api', 'api.auth', 'language']], function ($api) {
     $api->get('ngos/my', 'Cms\NgoController@my');
     $api->put('ngos/my/{id}', 'Cms\NgoController@update');
 
-
+    $api->post('profile/password', 'Auth\PasswordResetController@resetPassword');
 
     // FOR ADMINS AND NGO-admins
-    $api->group(['middleware' => ['role:superadmin|admin|organisation-admin']], function ($api) {
+    $api->group(['middleware' => ['role:superadmin|admin|organisation-admin']], function ($api)
+    {
         $api->post('users', 'Cms\UserController@create');
         $api->delete('users/{id}', 'Cms\UserController@bulkRemove');
         $api->get('ngoUsers', 'Cms\UserController@byNgo');
@@ -107,43 +105,42 @@ $api->group(['middleware' => ['api', 'api.auth', 'language']], function ($api) {
     });
 
     // FOR NGO-admins and NGO-user
-    $api->group(['middleware' => ['role:organisation-admin|organisation-user']], function ($api) {
+    $api->group(['middleware' => ['role:organisation-admin|organisation-user']], function ($api)
+    {
         $api->put('offers/{id}/toggleEnabled', 'Cms\OfferController@toggleEnabled');
     });
 
     // JUST FOR ADMINS
-    $api->group(['middleware' => ['role:superadmin|admin']], function ($api) {
+    $api->group(['middleware' => ['role:superadmin|admin']], function ($api)
+    {
 
-      $api->get('languages', 'Cms\LanguageController@index');
-      $api->put('languages/{id}', 'Cms\LanguageController@update');
+        $api->get('languages', 'Cms\LanguageController@index');
+        $api->put('languages/{id}', 'Cms\LanguageController@update');
 
-      $api->get('ngos', 'Cms\NgoController@index');
-      $api->post('ngos', 'Cms\NgoController@create');
-      $api->put('ngos/{id}', 'Cms\NgoController@update');
-      $api->put('ngos/{id}/togglePublished', 'Cms\NgoController@togglePublished');
-      $api->patch('ngos/{ids}', 'Cms\NgoController@bulkAssign');
-      $api->delete('ngos/{id}', 'Cms\NgoController@bulkRemove');
+        $api->get('ngos', 'Cms\NgoController@index');
+        $api->post('ngos', 'Cms\NgoController@create');
+        $api->put('ngos/{id}', 'Cms\NgoController@update');
+        $api->put('ngos/{id}/togglePublished', 'Cms\NgoController@togglePublished');
+        $api->patch('ngos/{ids}', 'Cms\NgoController@bulkAssign');
+        $api->delete('ngos/{id}', 'Cms\NgoController@bulkRemove');
 
-      $api->get('users', 'Cms\UserController@index');
-      $api->get('users/role/{role}', 'Cms\UserController@byRole');
+        $api->get('users', 'Cms\UserController@index');
+        $api->get('users/role/{role}', 'Cms\UserController@byRole');
+        $api->get('users/{id}', 'Cms\UserController@show');
+        $api->put('users/{id}', 'Cms\UserController@update');
 
-      $api->get('users/{id}', 'Cms\UserController@show');
-      $api->put('users/{id}', 'Cms\UserController@update');
+        $api->get('roles', 'Cms\RoleController@index');
 
-      $api->get('roles', 'Cms\RoleController@index');
+        $api->post('categories', 'Cms\CategoryController@create');
+        $api->put('categories/{id}', ['uses' => 'Cms\CategoryController@update']);
+        $api->put('categories/{id}/toggleEnabled', 'Cms\CategoryController@toggleEnabled');
+        $api->put('categories/{id}/move', 'Cms\CategoryController@move');
 
+        $api->patch('offers/{ids}', 'Cms\OfferController@bulkAssign');
 
-      $api->post('categories', 'Cms\CategoryController@create');
-      $api->put('categories/{id}', ['uses' => 'Cms\CategoryController@update']);
-      $api->put('categories/{id}/toggleEnabled', 'Cms\CategoryController@toggleEnabled');
-      $api->put('categories/{id}/move', 'Cms\CategoryController@move');
-
-      $api->patch('offers/{ids}', 'Cms\OfferController@bulkAssign');
-
-
-      $api->put('filters/{id}/toggleEnabled', 'Cms\FilterController@toggleEnabled');
-      $api->get('filters/{id}', ['uses' => 'Cms\FilterController@show']);
-      $api->post('filters', 'Cms\FilterController@create');
-      $api->put('filters/{id}', ['uses' => 'Cms\FilterController@update']);
+        $api->put('filters/{id}/toggleEnabled', 'Cms\FilterController@toggleEnabled');
+        $api->get('filters/{id}', ['uses' => 'Cms\FilterController@show']);
+        $api->post('filters', 'Cms\FilterController@create');
+        $api->put('filters/{id}', ['uses' => 'Cms\FilterController@update']);
     });
 });

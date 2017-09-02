@@ -14,12 +14,12 @@
         <md-icon md-menu-origin>menu</md-icon>
     </md-button>
     <md-menu-content width="3">
-        <!--<md-menu-item>
-            <md-button>
+        <md-menu-item>
+            <md-button ui-sref="cms.profile">
                 <md-icon md-menu-align-target>person</md-icon>
                 {{ 'Profil' | translate }}
             </md-button>
-        </md-menu-item>-->
+        </md-menu-item>
         <md-menu-item>
             <md-button ui-sref="app.landing">
                 <md-icon md-menu-align-target>map</md-icon>
@@ -29,7 +29,7 @@
         <md-menu-item ng-if="vm.isAllowed(['admin', 'superadmin',  'moderator'])">
             <md-button ui-sref="cms.translations">
                 <md-icon md-menu-align-target>translate</md-icon>
-                Translations
+                {{ 'Übersetzungen' | translate }}
             </md-button>
         </md-menu-item>
         <md-menu-item ng-if="vm.isAllowed(['organisation-admin', 'organisation-user'])">

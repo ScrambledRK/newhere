@@ -39,5 +39,14 @@
     "nach einem Ort suchen": "search for a place",
     "Anbieter": "Provider",
     "Email wurde versendet": "E-mail was sent",
-    "Klicke auf den Link in der Email, die wir dir soeben gesendet haben!":"Follow the link we've just sent to your mail address!"
+    "Klicke auf den Link in der Email, die wir dir soeben gesendet haben!":"Follow the link we've just sent to your mail address!",
+    "Fehler beim Speichern der Daten.":"an error occurred saving the offer",
+    "Angebot aktualisiert.":"updated offer",
+    "Übersetzungen":"Translations",
+    "Sie haben sich erfolgreich angemeldet.":"login successful",
+    "Bestätigt":"confirmed",
+    "Passwort ändern":"change password",
+    "Das Passwort wurde erfolgreich gespeichert.":"password changed successfully",
+    "Sie sind zum Aufruf dieser Seite nicht berechtigt!":"you do not have sufficient permissions to visit this page!",
+    "Erfolgreich abgemeldet.":"logout successful"
 }
