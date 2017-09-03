@@ -10,9 +10,9 @@ export class UserService
 		this.API = API;
 		this.ToastService = ToastService;
 		this.$translate = $translate;
-		this.users = null;
-		this.user = null;
-		this.myself = null;
+		this.users = undefined;
+		this.user = undefined;
+		this.myself = undefined;
 	}
 
 	all( success, error, force )
