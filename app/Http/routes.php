@@ -61,11 +61,10 @@ function groupAdministration($api, $callback)
 groupEveryone($api, function ($api)
 {
     $api->get('offers', 'Cms\OfferController@index');
-    $api->get('offers/search', 'Cms\OfferController@search');
-    $api->get('offer/autocomplete/{search}', 'Cms\OfferController@autocomplete');
-
-    $api->get('offerDetail', 'Cms\OfferDetailController@index');
     $api->get('offers/{id}', ['uses' => 'Cms\OfferController@show'])->where('id', '[0-9]+');
+
+    $api->get('offers/search', 'Search@offer');
+    $api->get('offer/autocomplete/{search}', 'AutoComplete@address');
 });
 
 groupAuthenticated($api, function ($api)
@@ -73,21 +72,56 @@ groupAuthenticated($api, function ($api)
     $api->post('offers', 'Cms\OfferController@create');
     $api->put('offers/{id}', 'Cms\OfferController@update');
     $api->delete('offers/{id}', 'Cms\OfferController@bulkRemove');
-    $api->get('myoffers', 'Cms\NgoController@myOffers');
 
-    $api->get('offers/stats', 'Cms\OfferController@stats');
+    $api->get('offers/stats', 'Statistics@offers');
     $api->get('offer-translations/stats', 'Cms\OfferTranslationController@stats');
 
     //
     groupOrganisation($api, function ($api)
     {
-        $api->put('offers/{id}/toggleEnabled', 'Cms\OfferController@toggleEnabled');
+        $api->put('offers/{id}/toggleEnabled', 'Cms\OfferController@setIsEnabled');
     });
 
     //
     groupAdministration($api, function ($api)
     {
         $api->patch('offers/{ids}', 'Cms\OfferController@bulkAssign');
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+|--------------------------------------------------------------------------
+| NGOS
+|--------------------------------------------------------------------------
+*/
+groupEveryone($api, function ($api)
+{
+    $api->get('ngos', 'Cms\NgoController@index');
+    $api->get('ngo/{id}', 'Cms\NgoController@show');
+});
+
+//
+groupAuthenticated($api, function ($api)
+{
+    $api->get('ngos/stats', 'Cms\NgoController@stats');
+    $api->get('ngos/my', 'Cms\NgoController@my');
+    $api->put('ngos/my/{id}', 'Cms\NgoController@update');
+
+    //
+    groupOrganisation($api, function ($api)
+    {
+
+    });
+
+    //
+    groupAdministration($api, function ($api)
+    {
+        $api->post('ngos', 'Cms\NgoController@create');
+        $api->put('ngos/{id}', 'Cms\NgoController@update');
+        $api->put('ngos/{id}/togglePublished', 'Cms\NgoController@togglePublished');
+        $api->patch('ngos/{ids}', 'Cms\NgoController@bulkAssign');
+        $api->delete('ngos/{id}', 'Cms\NgoController@bulkRemove');
     });
 });
 
@@ -135,42 +169,6 @@ groupAuthenticated($api, function ($api)
     {
         $api->get('languages', 'Cms\LanguageController@index');
         $api->put('languages/{id}', 'Cms\LanguageController@update');
-    });
-});
-
-/*
-|--------------------------------------------------------------------------
-|--------------------------------------------------------------------------
-| NGOS
-|--------------------------------------------------------------------------
-*/
-groupEveryone($api, function ($api)
-{
-    $api->get('ngo/{id}', 'Cms\NgoController@show');
-});
-
-//
-groupAuthenticated($api, function ($api)
-{
-    $api->get('ngos/stats', 'Cms\NgoController@stats');
-    $api->get('ngos/my', 'Cms\NgoController@my');
-    $api->put('ngos/my/{id}', 'Cms\NgoController@update');
-
-    //
-    groupOrganisation($api, function ($api)
-    {
-
-    });
-
-    //
-    groupAdministration($api, function ($api)
-    {
-        $api->get('ngos', 'Cms\NgoController@index');
-        $api->post('ngos', 'Cms\NgoController@create');
-        $api->put('ngos/{id}', 'Cms\NgoController@update');
-        $api->put('ngos/{id}/togglePublished', 'Cms\NgoController@togglePublished');
-        $api->patch('ngos/{ids}', 'Cms\NgoController@bulkAssign');
-        $api->delete('ngos/{id}', 'Cms\NgoController@bulkRemove');
     });
 });
 
