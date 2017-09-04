@@ -153,7 +153,7 @@ class OfferController extends Controller
 
         DB::commit();
 
-        return response()->success( compact( [ 'success', 'offer' ] ) );
+        return response()->success( compact( [ 'offer' ] ) );
     }
 
 
@@ -172,7 +172,6 @@ class OfferController extends Controller
         // ---------------------------------- //
         // ---------------------------------- //
 
-        $ngoUser = Auth::user();
         $ngo = null;
 
         //
@@ -182,6 +181,7 @@ class OfferController extends Controller
         }
         else
         {
+            $ngoUser = Auth::user();
             $ngo = $ngoUser->ngos()->firstOrFail();
         }
 

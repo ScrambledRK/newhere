@@ -48,5 +48,7 @@
     "Passwort ändern":"change password",
     "Das Passwort wurde erfolgreich gespeichert.":"password changed successfully",
     "Sie sind zum Aufruf dieser Seite nicht berechtigt!":"you do not have sufficient permissions to visit this page!",
-    "Erfolgreich abgemeldet.":"logout successful"
+    "Erfolgreich abgemeldet.":"logout successful",
+    "Registrierung erfolgreich":"registration successful",
+    "Ngo aktualisiert.":"updated ngo"
 }

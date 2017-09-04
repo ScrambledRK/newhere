@@ -119,7 +119,7 @@ groupAuthenticated($api, function ($api)
     {
         $api->post('ngos', 'Cms\NgoController@create');
         $api->put('ngos/{id}', 'Cms\NgoController@update');
-        $api->put('ngos/{id}/togglePublished', 'Cms\NgoController@togglePublished');
+        $api->put('ngos/{id}/togglePublished', 'Cms\NgoController@setIsPublished');
         $api->patch('ngos/{ids}', 'Cms\NgoController@bulkAssign');
         $api->delete('ngos/{id}', 'Cms\NgoController@bulkRemove');
     });
