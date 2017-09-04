@@ -74,7 +74,7 @@ groupAuthenticated($api, function ($api)
     $api->delete('offers/{id}', 'Cms\OfferController@bulkRemove');
 
     $api->get('offers/stats', 'Statistics@offers');
-    $api->get('offer-translations/stats', 'Cms\OfferTranslationController@stats');
+    $api->get('offer-translations/stats', 'Statistics@translations');
 
     //
     groupOrganisation($api, function ($api)
@@ -104,7 +104,7 @@ groupEveryone($api, function ($api)
 //
 groupAuthenticated($api, function ($api)
 {
-    $api->get('ngos/stats', 'Cms\NgoController@stats');
+    $api->get('ngos/stats', 'Statistics@ngos');
     $api->get('ngos/my', 'Cms\NgoController@my');
     $api->put('ngos/my/{id}', 'Cms\NgoController@update');
 

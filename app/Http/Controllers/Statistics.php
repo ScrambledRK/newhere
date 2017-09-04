@@ -2,11 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App;
+use App\Http\Controllers\Cms\AbstractTranslationController;
+use App\Language;
 use App\Ngo;
 use App\Offer;
 
-class Statistics extends Controller
+// TODO: do not extend and inherit translation specific code in statistics
+class Statistics extends AbstractTranslationController
 {
+    /**
+     * @var \App\Services\Translation
+     */
+    private $translationService;
+
+    /**
+     * LanguageController constructor.
+     * @param App\Services\Translation $translationService
+     */
+    public function __construct( \App\Services\Translation $translationService )
+    {
+        $this->translationService = $translationService;
+    }
 
     /**
      * @return mixed
@@ -86,5 +103,63 @@ class Statistics extends Controller
                 ]
             ]
         );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function translations()
+    {
+        list( $activeLanguages, $activeLanguageCount ) = $this->loadLanguages();
+
+        $defaultLanguage = Language::where( 'default_language', true )->first();
+
+        $offers = Offer::all();
+        $stats = [];
+
+        //
+        foreach( $offers as $idx => $offer )
+        {
+            $defaultTranslation = $offer->translate( $defaultLanguage->language );
+
+            if( !$defaultTranslation )
+            {
+                unset( $offers[ $idx ] );
+                continue;
+            }
+
+            $version = $defaultTranslation->version;
+
+            foreach( $activeLanguages as $language )
+            {
+                if( $language->default_language )
+                    continue;
+
+                if( !isset( $stats[ $language->language ] ) )
+                {
+                    $this->translationService->translateLanguage( $language, App::getLocale() );
+                    $stats[ $language->language ][ 'language' ] = $language;
+                    $stats[ $language->language ][ 'translated' ] = 0;
+                    $stats[ $language->language ][ 'untranslated' ] = 0;
+                }
+
+                //
+                $translation = $offer->translate( $language->language );
+
+                if( $translation && $translation->version == $version )
+                {
+                    $stats[ $language->language ][ 'translated' ]++;
+                }
+                else
+                {
+                    $stats[ $language->language ][ 'untranslated' ]++;
+                }
+            }
+        }
+
+        return response()->success(
+            [
+                'stats' => $stats
+            ] );
     }
 }
