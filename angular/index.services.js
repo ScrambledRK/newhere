@@ -15,6 +15,7 @@ import {CategoryService} from './services/category.service';
 import {APIService} from './services/API.service';
 import {DialogService} from './services/dialog.service';
 import {ToastService} from './services/toast.service';
+import {SearchService} from './services/search.service';
 
 
 angular.module('app.services')
@@ -34,4 +35,5 @@ angular.module('app.services')
 	.service('CategoryService', CategoryService)
 	.service('API', APIService)
 	.service('DialogService', DialogService)
+	.service('SearchService', SearchService)
 	.service('ToastService', ToastService);

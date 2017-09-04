@@ -1,89 +1,105 @@
-class NgoFormController{
-    constructor($auth, NgoService, ToastService, $state, $translate, LanguageService, $http, $q, $rootScope) {
-        'ngInject';
+class NgoFormController
+{
+	constructor( $auth,
+	             NgoService,
+	             ToastService,
+	             $state,
+	             $translate,
+	             LanguageService,
+	             SearchService,
+	             $rootScope	)
+	{
+		'ngInject';
 
-        this.$q = $q;
-        this.aborter = $q.defer();
-        this.$http = $http;
-        angular.element(document.querySelector('#addressSearch')).$valid = false;
 
-        this.cms = $rootScope.cms;
+		angular.element( document.querySelector( '#addressSearch' ) ).$valid = false;
 
-        this.$auth = $auth;
-        this.NgoService = NgoService;
-        this.ToastService = ToastService;
-        this.$state = $state;
-        this.$translate = $translate;
-        this.$LanguageService = LanguageService;
-    }
+		this.cms = $rootScope.cms;
 
-    querySearch(query) {
-        if (this.$http.pendingRequests.length) {
-            this.aborter.resolve();
-            this.aborter = this.$q.defer();
-        }
-        return this.$http.get('/api/offer/autocomplete/' + query, {
-            timeout: this.aborter.promise
-        }).then(function(response) {
-            return response.data; //
-        });
-    }
+		this.$auth = $auth;
+		this.NgoService = NgoService;
+		this.ToastService = ToastService;
+		this.SearchService = SearchService;
+		this.$state = $state;
+		this.$translate = $translate;
+		this.$LanguageService = LanguageService;
+	}
 
-    selectedItemChange(item) {
-        if (!item) return;
-        if (!this.ngo) {
-            this.ngo = {};
-        }
-        this.ngo.street = item.street;
-        this.ngo.street_number = item.number;
-        this.ngo.city = item.city;
-        this.ngo.zip = item.zip;
-    }
+	querySearch( query )
+	{
+		return this.SearchService.searchAddress( query );
+	}
 
-    register() {
-        this.ngo.language = this.$LanguageService.activeLanguage();
+	selectedItemChange( item )
+	{
+		if( !item ) return;
+		if( !this.ngo )
+		{
+			this.ngo = {};
+		}
+		this.ngo.street = item.street;
+		this.ngo.street_number = item.number;
+		this.ngo.city = item.city;
+		this.ngo.zip = item.zip;
+	}
 
-        if (this.ngo.editMode) {
-            this.NgoService.update(this.ngo);
-        } else {
-            if (!this.cms) {
-                this.$auth.signup(this.ngo)
-                    .then((response) => {
-                        //remove this if you require email verification
-                        //this.$auth.setToken(response.data);
-                        this.$translate('Registrierung erfolgreich.').then((msg) => {
-                            this.ToastService.show(msg);
-                        });                 
-                        this.$state.go('app.login');
-                    })
-                    .catch(this.failedRegistration.bind(this));
-            } else {
-                this.NgoService.create(this.ngo);
-            }
-        }
-    }
+	register()
+	{
+		this.ngo.language = this.$LanguageService.activeLanguage();
 
-    cancel() {
-        this.NgoService.cancel(this.cms);
-    }
+		if( this.ngo.editMode )
+		{
+			this.NgoService.update( this.ngo );
+		}
+		else
+		{
+			if( !this.cms )
+			{
+				this.$auth.signup( this.ngo )
+				.then( ( response ) =>
+				{
+					//remove this if you require email verification
+					//this.$auth.setToken(response.data);
+					this.$translate( 'Registrierung erfolgreich.' ).then( ( msg ) =>
+					{
+						this.ToastService.show( msg );
+					} );
+					this.$state.go( 'app.login' );
+				} )
+				.catch( this.failedRegistration.bind( this ) );
+			}
+			else
+			{
+				this.NgoService.create( this.ngo );
+			}
+		}
+	}
 
-    failedRegistration(response) {
-        if (response.status === 422) {
-            for (var error in response.data.errors) {
-                return this.ToastService.error(response.data.errors[error][0]);
-            }
-        }
-        this.ToastService.error(response.statusText);
-    }
+	cancel()
+	{
+		this.NgoService.cancel( this.cms );
+	}
+
+	failedRegistration( response )
+	{
+		if( response.status === 422 )
+		{
+			for( var error in response.data.errors )
+			{
+				return this.ToastService.error( response.data.errors[error][0] );
+			}
+		}
+		this.ToastService.error( response.statusText );
+	}
 
 }
 
 export const NgoFormComponent = {
-    templateUrl: './views/app/components/ngo-form/ngo-form.component.html',
-    controller: NgoFormController,
-    controllerAs: 'vm',
-    bindings: {
-        cms: '=',
-        ngo: '='
-    }
+	templateUrl: './views/app/components/ngo-form/ngo-form.component.html',
+	controller: NgoFormController,
+	controllerAs: 'vm',
+	bindings: {
+		cms: '=',
+		ngo: '='
+	}
 }

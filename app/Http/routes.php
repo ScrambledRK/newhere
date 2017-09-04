@@ -64,7 +64,7 @@ groupEveryone($api, function ($api)
     $api->get('offers/{id}', ['uses' => 'Cms\OfferController@show'])->where('id', '[0-9]+');
 
     $api->get('offers/search', 'Search@offer');
-    $api->get('offer/autocomplete/{search}', 'AutoComplete@address');
+
 });
 
 groupAuthenticated($api, function ($api)
@@ -231,6 +231,8 @@ groupEveryone($api, function ($api)
     $api->get('categories/{id}/offers', ['uses' => 'Cms\CategoryController@offers']);
 
     $api->get('filters', 'Cms\FilterController@index');
+
+    $api->get('search/address/{search}', 'Search@address');
 });
 
 //

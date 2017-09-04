@@ -1,23 +1,30 @@
 class OfferFormController
 {
-	constructor( $http, $q, OfferService, ToastService, NgoService, CategoryService,
-	             $state, $translate, LanguageService, OfferTranslationService, $rootScope )
+	constructor( OfferService,
+	             ToastService,
+	             NgoService,
+	             CategoryService,
+	             $state,
+	             $translate,
+	             LanguageService,
+	             SearchService,
+	             OfferTranslationService,
+	             $rootScope )
 	{
 		'ngInject';
 
 		this.cms = $rootScope.cms;
 
-		this.$q = $q;
-		this.aborter = $q.defer();
 		var vm = this;
 
 		this.categories = [];
 		this.translations = [];
 		this.untranslatedOffers = [];
 		this.defaultLanguage = {};
-		this.$http = $http;
+
 		this.OfferService = OfferService;
 		this.ToastService = ToastService;
+		this.SearchService = SearchService;
 		this.$state = $state;
 		this.$translate = $translate;
 
@@ -109,18 +116,7 @@ class OfferFormController
 
 	querySearch( query )
 	{
-		if( this.$http.pendingRequests.length )
-		{
-			this.aborter.resolve();
-			this.aborter = this.$q.defer();
-		}
-		return this.$http.get( '/api/offer/autocomplete/' + query, {
-			timeout: this.aborter.promise
-		} ).then( function( response )
-		{
-			return response.data; // usually response.data
-		} );
-
+		return this.SearchService.searchAddress( query );
 	}
 
 	selectedItemChange( item )

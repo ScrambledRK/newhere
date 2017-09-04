@@ -1,11 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Logic\Address\AddressAPI;
 use App\Offer;
 use Illuminate\Http\Request;
 
 class Search extends Controller
 {
+    /**
+     * @param $search
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function address( $search )
+    {
+        $addressApi = new AddressAPI();
+        $returnArray = $addressApi->getAddressSuggestions( $search );
+
+        return response()->json( $returnArray );
+    }
+
     /**
      * @param Request $request
      * @return mixed

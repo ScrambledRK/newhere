@@ -1,6 +1,13 @@
 export class OfferService
 {
-	constructor( API, $q, ToastService, $state, $translate, DialogService, $rootScope )
+	constructor(
+		API,
+		$q,
+		ToastService,
+		$state,
+		$translate,
+		DialogService,
+		$rootScope )
 	{
 		'ngInject';
 
