@@ -1,45 +1,47 @@
 class AppMainMenuController
 {
-	constructor( $mdSidenav, $translate, $window, $state, $auth, ToastService )
+	/**
+	 * @param {*} $mdSidenav
+	 * @param {*} $state
+	 * @param {*} $auth
+	 * @param {ToastService} ToastService
+	 */
+	constructor( $mdSidenav,
+	             $state,
+	             $auth,
+	             ToastService )
 	{
 		'ngInject';
 
 		//
 		this.$mdSidenav = $mdSidenav;
-		this.$window = $window;
 		this.$state = $state;
 		this.$auth = $auth;
+
 		this.ToastService = ToastService;
-		this.$translate = $translate;
 	}
 
+	//
+	$onInit()
+	{
+	}
+
+	//
 	closeMainMenu()
 	{
 		this.$mdSidenav( 'main-menu' ).close();
 	}
 
-	changeLanguage()
-	{
-		this.$window.localStorage.removeItem( 'language' );
-		this.closeMainMenu();
-		this.$state.go( 'app.landing' );
-	}
-
+	//
 	logout()
 	{
 		this.$auth.logout().then( ( response ) =>
 		{
-			this.$translate( 'Erfolgreich abgemeldet.' ).then( ( msg ) =>
-			{
-				this.ToastService.show( msg );
-			} );
+			this.ToastService.show( 'Erfolgreich abgemeldet.' );
 			this.$state.go( 'app.landing' );
 		} );
 	}
 
-	$onInit()
-	{
-	}
 }
 
 export const AppMainMenuComponent = {

@@ -1,31 +1,43 @@
 class AppLanguageSwitcherController
 {
-	constructor( LanguageService, $state, $rootScope )
+	/**
+	 * @param {LanguageService} LanguageService
+	 * @param {*} $rootScope
+	 */
+	constructor( LanguageService,
+	             $rootScope )
 	{
 		'ngInject';
-		this.LanguageService = LanguageService;
-		this.LanguageService.fetchPublished( ( publishedLanguages ) =>
-		{
-			this.languages = publishedLanguages;
-		} );
-		this.$state = $state;
+
+		let vm = this;
+
 		this.$rootScope = $rootScope;
+		this.LanguageService = LanguageService;
+
+		this.languages = [];
 	}
 
+	//
 	$onInit()
 	{
+		this.LanguageService.fetchPublished().then( (list) =>
+		{
+			this.languages = list;
+		});
 	}
 
+	//
 	switchLanguage( language )
 	{
-		var vm = this;
-		this.LanguageService.changeLanguage( language, function()
-		{
-			vm.$rootScope.$broadcast( 'languageChanged' );
-		} );
+		this.LanguageService.changeLanguage( language );
+		this.$rootScope.$broadcast( 'languageChanged' );
 	}
 }
 
+/**
+ *
+ * @type {{templateUrl: string, controller: AppLanguageSwitcherController, controllerAs: string, bindings: {}}}
+ */
 export const AppLanguageSwitcherComponent = {
 	templateUrl: './views/app/language-switcher/language-switcher.component.html',
 	controller: AppLanguageSwitcherController,

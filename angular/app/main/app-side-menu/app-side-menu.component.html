@@ -1,11 +1,15 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-4dp"
 			md-component-id="main-menu">
+
 	<md-toolbar>
 		<md-button ng-click="vm.closeMainMenu()">
 			<md-icon>close</md-icon>
 		</md-button>
 	</md-toolbar>
+
 	<md-content layout-padding>
+
+		<!-- -->
 		<md-list>
 			<md-list-item ng-if="!$root.$auth.isAuthenticated()">
 				<md-button class=""
@@ -14,26 +18,12 @@
 			</md-list-item>
 			<md-list-item>
 				<md-button class=""
-						   ui-sref="app.start.categories">{{ 'Wähle eine Kategorie' | translate }}
-				</md-button>
-			</md-list-item>
-			<md-list-item>
-				<md-button class=""
 						   ui-sref="app.ngoRegister">{{ 'Als NGO registrieren' | translate }}
 				</md-button>
 			</md-list-item>
-			<md-list-item>
-				<md-button class=""
-						   ui-sref="app.login">{{ 'Hilf uns beim übersetzen' | translate }}
-				</md-button>
-			</md-list-item>
-			<md-list-item>
-				<md-button class=""
-						   ng-click="vm.changeLanguage()">{{ 'Sprache ändern' | translate }}
-				</md-button>
-			</md-list-item>
-
 		</md-list>
+
+		<!-- -->
 		<md-list ng-if="$root.$auth.isAuthenticated()">
 			<md-divider></md-divider>
 			<md-list-item>
@@ -47,10 +37,13 @@
 				</md-button>
 			</md-list-item>
 		</md-list>
+
+		<!-- -->
 		<md-list class="bottom-nav">
 			<md-list-item>
 				<md-button ui-sref="app.impressum">Impressum &amp; Nutzungsbedingungen</md-button>
 			</md-list-item>
 		</md-list>
+
 	</md-content>
 </md-sidenav>
