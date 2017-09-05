@@ -1,144 +1,207 @@
-class CmsOffersListController{
-    constructor($sessionStorage, OfferService, NgoService, $filter, $state, $translate, DialogService, $rootScope){
-        'ngInject';
-        var vm = this;
-        vm.menu = {
-          isOpen:false
-        };
-        vm.loading = true;
-        vm.isNgoPublished = false;
-        this.$sessionStorage = $sessionStorage;
-        this.$filter = $filter;
-        this.$state = $state;
-        this.$translate = $translate;
-        this.DialogService = DialogService;
-        this.NgoService = NgoService;
-        this.OfferService = OfferService;
+class CmsOffersListController
+{
+	constructor( API,
+				 OfferService,
+	             NgoService,
+	             DialogService,
+	             UserService,
+	             $sessionStorage,
+	             $filter,
+	             $state,
+	             $translate )
+	{
+		'ngInject';
 
-        this.cms = $rootScope.cms;
+		var vm = this;
 
-        if(this.cms){
-          this.NgoService.fetchAll().then((response) => {
-              vm.ngos = response;
-          });
-        }
+		vm.menu = {
+			isOpen: false
+		};
 
-        this.selectedOffers = [];
-        this.query = {
-            order: '-id',
-            limit: 10,
-            page: 1
-        };
-        this.search = {
-            show: false,
-            query: ''
-        }
-        if(this.$sessionStorage.offerQuery){
-          this.query = this.$sessionStorage.offerQuery;
-        }
-        this.listOrderByColumn = '-organisation';
-        // this.onOrderChange = (order) => {
-        //     //console.log("onOrderChange " + order);
-        //     return vm.offers = this.$filter('orderBy')(vm.offers, [order], true);
-        // };
-        // this.onPaginationChange = (page, limit) => {
-        //     //console.log(page, limit);
-        // };
-        this.getOffers = ()=>{
-            if (this.cms) {
-                vm.$sessionStorage.offerQuery = vm.query;
-                vm.promise = this.OfferService.fetchFiltered(vm.query, (response) => {
-                    vm.offers = response;
-                    vm.loading = false;
-                    vm.count = response.count;
-                });
-            } else {
-                this.OfferService.fetchMyOffers(this.query, (response) => {
-                    vm.offers = response;
-                    vm.loading = false;
-                    vm.count = response.count;
-                    vm.isNgoPublished = response.ngoPublished;
-                });
-            }
-        };
-        this.getOffers();
-    }
+		vm.loading = true;
+		vm.isNgoPublished = false;
 
-    toggleEnabled(offer) {
-        this.OfferService.toggleEnabled(offer);
-    }
-    bulkToggleEnabled(enabled){
-      this.OfferService.bulkAssign(this.selectedOffers, 'enabled' ,enabled, (list) =>{
-        angular.forEach(list, (item) => {
-          angular.forEach(this.offers, (offer, key) => {
-            if(offer.id == item.id){
-              offer.enabled = enabled;
-            }
-          });
-        });
-        this.selectedOffers = [];
-        this.DialogService.hide();
-      });
-    }
+		//
+		this.$sessionStorage = $sessionStorage;
+		this.$filter = $filter;
+		this.$state = $state;
+		this.$translate = $translate;
 
-    remove() {
-        //@todo translation!!!
-      this.DialogService.prompt('Deleting Offers?', 'You are about to delete offer(s). Type in DELETE and confirm?', 'Delete Secret').then((response) => {
-         if (response === "DELETE") {
-             this.OfferService.bulkRemove(this.selectedOffers, (list) => {
-                 this.selectedOffers = [];
-                 angular.forEach(list, (item) => {
-                     angular.forEach(this.offers, (offer, key) => {
-                         if(offer.id == item.id){
-                             this.offers.splice(key, 1);
-                         }
-                     });
-                 });
-             });
-         } else {
-             this.DialogService.alert('Not correct', 'Thankfully, you entered the wrong secret. So nothing is going to change... for now.');
-         }
-      });
-    }
-    updateNgo(offer){
-      this.OfferService.save(offer);
-    }
-    assignNgo(){
-      this.DialogService.fromTemplate('assignToNgo', {
-         controller: () => this,
-         controllerAs: 'vm'
-      });
-    }
+		//
+		this.API = API;
+		this.DialogService = DialogService;
+		this.NgoService = NgoService;
+		this.OfferService = OfferService;
+		this.UserService = UserService;
 
-    assignSave(){
-      this.OfferService.bulkAssign(this.selectedOffers, 'ngo_id',this.ngo.id, (list) =>{
-        angular.forEach(list, (item) => {
-          angular.forEach(this.offers, (offer, key) => {
-            if(offer.id == item.id){
-              offer.ngo_id = this.ngo.id;
-            }
-          });
-        });
-        this.selectedOffers = [];
-        this.DialogService.hide();
-      });
-    }
-    cancel(){
-        if (this.cms) {
-            this.DialogService.hide();
-        } else {
-            alert("go back");
-        }
-    }
-    $onInit(){
-    }
+		// --------------------- //
+
+		this.selectedOffers = [];
+		this.listOrderByColumn = '-organisation';
+
+		this.search = {
+			show: false,
+			query: ''
+		};
+
+		this.query = {
+			order: '-id',
+			limit: 10,
+			page: 1
+		};
+
+		//
+		if( this.$sessionStorage.offerQuery )
+			this.query = this.$sessionStorage.offerQuery;
+
+		vm.$sessionStorage.offerQuery = this.query;
+	}
+
+	/**
+	 *
+	 */
+	$onInit()
+	{
+		this.promise = this.API.one( 'users', 'me' ).get()
+		.then(
+			( user ) =>
+			{
+				this.query.user_id = user.id;
+				return this.API.all( 'offers' ).getList( this.query );
+			}
+		).then(
+			( response ) =>
+			{
+				this.loading = false;
+				this.offers = response;
+				this.count = response.count;
+			}
+		)
+	}
+
+	/**
+	 *
+	 */
+	toggleEnabled( offer )
+	{
+		this.OfferService.toggleEnabled( offer );
+	}
+
+	/**
+	 *
+	 */
+	bulkToggleEnabled( enabled )
+	{
+		this.OfferService.bulkAssign( this.selectedOffers, 'enabled', enabled, ( list ) =>
+		{
+			angular.forEach( list, ( item ) =>
+			{
+				angular.forEach( this.offers, ( offer, key ) =>
+				{
+					if( offer.id === item.id )
+					{
+						offer.enabled = enabled;
+					}
+				} );
+			} );
+			this.selectedOffers = [];
+			this.DialogService.hide();
+		} );
+	}
+
+	/**
+	 *
+	 */
+	remove()
+	{
+		//@todo translation!!!
+		this.DialogService.prompt( 'Deleting Offers?', 'You are about to delete offer(s). Type in DELETE and confirm?', 'Delete Secret' ).then( ( response ) =>
+		{
+			if( response === "DELETE" )
+			{
+				this.OfferService.bulkRemove( this.selectedOffers, ( list ) =>
+				{
+					this.selectedOffers = [];
+					angular.forEach( list, ( item ) =>
+					{
+						angular.forEach( this.offers, ( offer, key ) =>
+						{
+							if( offer.id === item.id )
+							{
+								this.offers.splice( key, 1 );
+							}
+						} );
+					} );
+				} );
+			}
+			else
+			{
+				this.DialogService.alert( 'Not correct', 'Thankfully, you entered the wrong secret. So nothing is going to change... for now.' );
+			}
+		} );
+	}
+
+	/**
+	 *
+	 */
+	updateNgo( offer )
+	{
+		this.OfferService.save( offer );
+	}
+
+	/**
+	 *
+	 */
+	assignNgo()
+	{
+		if( !this.ngos )
+		{
+			this.NgoService.fetchAll().then( ( response ) =>
+			{
+				this.ngos = response;
+			} );
+		}
+
+		this.DialogService.fromTemplate( 'assignToNgo', {
+			controller: () => this,
+			controllerAs: 'vm'
+		} );
+	}
+
+	/**
+	 *
+	 */
+	assignSave()
+	{
+		this.OfferService.bulkAssign( this.selectedOffers, 'ngo_id', this.ngo.id, ( list ) =>
+		{
+			angular.forEach( list, ( item ) =>
+			{
+				angular.forEach( this.offers, ( offer, key ) =>
+				{
+					if( offer.id === item.id )
+					{
+						offer.ngo_id = this.ngo.id;
+					}
+				} );
+			} );
+			this.selectedOffers = [];
+			this.DialogService.hide();
+		} );
+	}
+
+	cancel()
+	{
+		this.DialogService.hide();
+	}
+
 }
 
 export const CmsOffersListComponent = {
-    templateUrl: './views/app/components/cms-offers-list/cms-offers-list.component.html',
-    controller: CmsOffersListController,
-    controllerAs: 'vm',
-    bindings: {
-      cms: '='
-    }
+	templateUrl: './views/app/components/cms-offers-list/cms-offers-list.component.html',
+	controller: CmsOffersListController,
+	controllerAs: 'vm',
+	bindings: {
+		cms: '='
+	}
 }

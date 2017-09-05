@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Logic\Address\AddressAPI;
 use App\Ngo;
 use App\Offer;
+use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,19 @@ class OfferController extends Controller
 
         //
         $count = $offers->count();
+
+        //
+        if( $request->has( 'user_id' ) )
+        {
+            $user = User::findOrFail( $request->get( 'user_id' ) )
+                        ->load( ['ngos'] );
+
+            foreach ($user->ngos as $ngo)
+            {
+                $offers = $offers->where( 'ngo_id', $ngo->id );
+                $count = $offers->count();
+            }
+        }
 
         //
         if( $request->has( 'ngo_id' ) )

@@ -42,7 +42,7 @@ export class UserService
 
 	me( success, error, force )
 	{
-		this.API.one( 'users', 'me' ).get().then( ( item ) =>
+		return this.API.one( 'users', 'me' ).get().then( ( item ) =>
 		{
 			this.myself = item;
 			success( this.myself );

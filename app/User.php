@@ -27,7 +27,7 @@ class User extends Authenticatable
     ];
 
     public function ngos(){
-      return $this->belongsToMany('App\Ngo', 'ngo_users');
+      return $this->belongsToMany('App\Ngo', 'ngo_users' );
     }
     public function languages(){
       return $this->belongsToMany('App\Language', 'user_languages');

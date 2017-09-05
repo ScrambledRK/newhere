@@ -1,13 +1,12 @@
 export class OfferService
 {
-	constructor(
-		API,
-		$q,
-		ToastService,
-		$state,
-		$translate,
-		DialogService,
-		$rootScope )
+	constructor( API,
+	             $q,
+	             ToastService,
+	             $state,
+	             $translate,
+	             DialogService,
+	             $rootScope )
 	{
 		'ngInject';
 
@@ -16,20 +15,18 @@ export class OfferService
 		this.$q = $q;
 		this.$state = $state;
 		this.DialogService = DialogService;
-		this.offer;
 		this.$translate = $translate;
 
 		this.cms = $rootScope.cms;
 	}
 
-	count()
-	{
-
-	}
-
+	/**
+	 *
+	 * @returns {*}
+	 */
 	fetchAll()
 	{
-		var vm = this;
+		let vm = this;
 		return this.$q( function( resolve )
 		{
 			vm.API.all( 'offers' ).getList().then( function( response )
@@ -46,9 +43,17 @@ export class OfferService
 		} );
 	}
 
+	/**
+	 *
+	 * @param query
+	 * @param success
+	 * @param error
+	 * @param force
+	 * @returns {*}
+	 */
 	fetchFiltered( query, success, error, force )
 	{
-		var q = this.API.all( 'offers' ).getList( query );
+		let q = this.API.all( 'offers' ).getList( query );
 		q.then( ( response ) =>
 		{
 			success( response );
@@ -56,9 +61,17 @@ export class OfferService
 		return q;
 	}
 
-	fetchSearch( term, success, error, force )
+	/**
+	 *
+	 * @param query
+	 * @param success
+	 * @param error
+	 * @param force
+	 * @returns {*}
+	 */
+	fetchSearch( query, success, error, force )
 	{
-		var q = this.API.all( 'offers' ).customGETLIST( 'search', { query: term } );
+		var q = this.API.one( 'offers' ).one( 'search' ).getList( query );
 		q.then( ( response ) =>
 		{
 			success( response );
@@ -66,31 +79,28 @@ export class OfferService
 		return q;
 	}
 
-	fetchMyOffers( query, success, error, force )
-	{
-		var q = this.API.all( 'myoffers' ).getList( query );
-		q.then( ( response ) =>
-		{
-			success( response );
-		} );
-		return q;
-	}
-
+	/**
+	 *
+	 * @param id
+	 * @param success
+	 * @param error
+	 * @returns {boolean}
+	 */
 	one( id, success, error )
 	{
+		if( !id )
+			return false;
 
-		if( !id ) return false;
-		// if (this.offer.id == id) {
-		//     success(this.offer);
-		// } else {
 		this.API.one( 'offers', id ).get().then( ( item ) =>
 		{
-			this.offer = item;
-			success( this.offer );
+			success( item );
 		}, error );
-		// }
 	}
 
+	/**
+	 *
+	 * @param cms
+	 */
 	cancel( cms )
 	{
 		if( cms )
@@ -103,6 +113,10 @@ export class OfferService
 		}
 	}
 
+	/**
+	 *
+	 * @param offer
+	 */
 	create( offer )
 	{
 		this.API.all( 'offer' ).post( offer ).then( () =>
@@ -116,6 +130,13 @@ export class OfferService
 		} );
 	}
 
+	/**
+	 *
+	 * @param offer
+	 * @param success
+	 * @param error
+	 * @param goto
+	 */
 	save( offer, success, error, goto )
 	{
 		if( offer.id )
@@ -126,15 +147,11 @@ export class OfferService
 					{
 						this.ToastService.show( msg );
 					} );
-					if( success ) success( response );
-					if( this.cms )
-					{
-						this.$state.go( "cms.offers" );
-					}
-					else
-					{
-						history.back();
-					}
+
+					if( success )
+						success( response );
+
+					this.cancel( this.cms );
 				},
 				( error ) =>
 				{
@@ -154,8 +171,12 @@ export class OfferService
 				{
 					this.ToastService.show( msg );
 				} );
+
 				this.DialogService.hide();
-				if( success ) success( response );
+
+				if( success )
+					success( response );
+
 				if( goto )
 				{
 					this.$state.go( goto );
@@ -164,12 +185,14 @@ export class OfferService
 				{
 					this.$state.go( "cms.offers" );
 				}
-
 			} );
 		}
-
 	}
 
+	/**
+	 *
+	 * @param offer
+	 */
 	toggleEnabled( offer )
 	{
 		this.API.one( 'offers', offer.id ).customPUT( {
@@ -194,9 +217,15 @@ export class OfferService
 		);
 	}
 
+	/**
+	 *
+	 * @param list
+	 * @param success
+	 * @param error
+	 */
 	bulkRemove( list, success, error )
 	{
-		var ids = [];
+		let ids = [];
 		angular.forEach( list, ( item ) =>
 		{
 			ids.push( item.id );
@@ -213,13 +242,23 @@ export class OfferService
 		} );
 	}
 
+	/**
+	 *
+	 * @param list
+	 * @param field
+	 * @param value
+	 * @param success
+	 * @param error
+	 */
 	bulkAssign( list, field, value, success, error )
 	{
-		var ids = [];
+		let ids = [];
+
 		angular.forEach( list, ( item ) =>
 		{
 			ids.push( item.id );
 		} );
+
 		this.API.several( 'offers', ids ).patch( {
 			field: field,
 			value: value
