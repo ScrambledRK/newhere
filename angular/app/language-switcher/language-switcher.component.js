@@ -2,18 +2,14 @@ class AppLanguageSwitcherController
 {
 	/**
 	 * @param {LanguageService} LanguageService
-	 * @param {*} $rootScope
 	 */
-	constructor( LanguageService,
-	             $rootScope )
+	constructor( LanguageService )
 	{
 		'ngInject';
 
 		let vm = this;
 
-		this.$rootScope = $rootScope;
 		this.LanguageService = LanguageService;
-
 		this.languages = [];
 	}
 
@@ -30,7 +26,6 @@ class AppLanguageSwitcherController
 	switchLanguage( language )
 	{
 		this.LanguageService.changeLanguage( language );
-		this.$rootScope.$broadcast( 'languageChanged' );
 	}
 }
 

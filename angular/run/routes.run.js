@@ -15,8 +15,6 @@ export function RoutesRun( $rootScope,
 	let deregisterationCallback = $rootScope.$on( "$stateChangeStart",
 		function( event, toState, toParams, fromState, fromParams )
 		{
-			console.log( "something, something" );
-
 			$rootScope.cms = toState.name.indexOf( 'cms' ) > -1;
 
 			$rootScope.fromState = fromState;

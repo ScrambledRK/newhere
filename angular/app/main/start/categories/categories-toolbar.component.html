@@ -1,0 +1,37 @@
+<md-toolbar md-theme="whitey">
+	<div class="md-toolbar-tools"
+		 layout="row"
+		 layout-align="center center">
+		<md-button aria-label="Back"
+				   ng-click="vm.goBack()">
+			<md-icon>chevron_left</md-icon>
+			<span translate="Zurück"></span>
+		</md-button>
+		<md-icon class="big-icon"
+				 md-svg-src="{{vm.category.image.src || vm.category.parent.image.src || vm.category.parent.parent.image.src}}"></md-icon>
+		<div style="cursor:pointer"
+			 hide-xs
+			 ng-if="vm.category.parent.parent"
+			 ui-sref="app.start.categories.sub({slug:vm.CategoryService.category.parent.slug })">
+			<small>{{vm.category.parent.parent.title}}</small>
+			<md-icon>chevron_right</md-icon>
+		</div>
+		<div style="cursor:pointer"
+			 hide-xs
+			 ng-if="vm.category.parent"
+			 ui-sref="app.start.categories.sub({slug:vm.CategoryService.category.parent.slug })">
+			<small>{{vm.category.parent.title}}</small>
+			<md-icon>chevron_right</md-icon>
+		</div>
+		<div>
+			<small>{{vm.category.title}}</small>
+		</div>
+		<span flex></span>
+		<md-button aria-label="More"
+				   ng-click="vm.showFilter()"
+				   ng-if="!vm.hideFilter"
+				   translate="Filter">
+			<md-icon>filter_list</md-icon>
+		</md-button>
+	</div>
+</md-toolbar>

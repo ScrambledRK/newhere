@@ -13,12 +13,16 @@
 		<md-list>
 			<md-list-item ng-if="!$root.$auth.isAuthenticated()">
 				<md-button class=""
-						   ui-sref="app.login">{{ 'Anmelden' | translate }}
+						   ui-sref="app.login"
+						   aria-label="login"
+						   translate="Anmelden">
 				</md-button>
 			</md-list-item>
 			<md-list-item>
 				<md-button class=""
-						   ui-sref="app.ngoRegister">{{ 'Als NGO registrieren' | translate }}
+						   ui-sref="app.ngoRegister"
+						   aria-label="register"
+						   translate="Als NGO registrieren">
 				</md-button>
 			</md-list-item>
 		</md-list>
@@ -28,20 +32,34 @@
 			<md-divider></md-divider>
 			<md-list-item>
 				<md-button class=""
-						   ng-click="vm.logout()">{{ 'Abmelden' | translate }}
+						   ng-click="vm.logout()"
+						   aria-label="logout"
+						   translate="Abmelden">
 				</md-button>
 			</md-list-item>
 			<md-list-item>
 				<md-button class=""
-						   ui-sref="cms.profile">{{ 'Profil' | translate }}
+						   ui-sref="cms.profile"
+						   aria-label="profile"
+						   translate="Profil">
 				</md-button>
 			</md-list-item>
 		</md-list>
 
 		<!-- -->
+
+
+
+		<!-- -->
 		<md-list class="bottom-nav">
+			<md-divider></md-divider>
+			<language-switcher></language-switcher>
+			<md-divider></md-divider>
 			<md-list-item>
-				<md-button ui-sref="app.impressum">Impressum &amp; Nutzungsbedingungen</md-button>
+				<md-button ui-sref="app.impressum"
+						   aria-label="impressum">
+					Impressum &amp; Nutzungsbedingungen
+				</md-button>
 			</md-list-item>
 		</md-list>
 

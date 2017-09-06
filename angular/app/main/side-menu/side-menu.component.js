@@ -44,9 +44,13 @@ class AppMainMenuController
 
 }
 
+/**
+ *
+ * @type {{templateUrl: string, controller: AppMainMenuController, controllerAs: string, bindings: {}}}
+ */
 export const AppMainMenuComponent = {
-	templateUrl: './views/app/main/app-side-menu/app-side-menu.component.html',
+	templateUrl: './views/app/main/side-menu/side-menu.component.html',
 	controller: AppMainMenuController,
 	controllerAs: 'vm',
 	bindings: {}
-}
+};

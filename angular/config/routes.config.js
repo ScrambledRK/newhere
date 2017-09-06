@@ -16,6 +16,7 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'app',
 			{
 				abstract: true,
+				data: {},
 
 				views:
 					{
@@ -23,7 +24,10 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 							templateUrl: getView( 'main' )
 						},
 
-						header: {},
+						'header@app': {
+							templateUrl: getView( 'main/header' )
+						},
+
 						footer: {},
 						main: {}
 					}
@@ -37,11 +41,36 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 
 				views:
 					{
-						'header@app': {
-							templateUrl: getView( 'main/header' )
-						},
 						'body@app': {
-							templateUrl: getView( 'main/app-landing/app-landing' )
+							templateUrl: getView( 'main/landing/landing' )
+						}
+					}
+			} )
+
+		//
+		.state( 'app.start',
+			{
+				abstract: true,
+				data: {},
+
+				views:
+					{
+						'body@app': {
+							templateUrl: getView( 'main/start/start' )
+						}
+					}
+			} )
+
+		//
+		.state( 'app.start.categories',
+			{
+				url: '/start',
+				data: {},
+
+				views:
+					{
+						'content@app.start': {
+							template: "<app-categories-content/>"
 						}
 					}
 			} )

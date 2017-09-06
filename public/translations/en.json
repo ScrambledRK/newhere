@@ -50,5 +50,7 @@
     "Sie sind zum Aufruf dieser Seite nicht berechtigt!":"you do not have sufficient permissions to visit this page!",
     "Erfolgreich abgemeldet.":"logout successful",
     "Registrierung erfolgreich":"registration successful",
-    "Ngo aktualisiert.":"updated ngo"
+    "Ngo aktualisiert.":"updated ngo",
+    "Liste anzeigen":"show list",
+    "Karte erkunden":"explore map"
 }

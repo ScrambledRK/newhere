@@ -6,6 +6,7 @@ export function TranslateConfig($translateProvider) {
         suffix: '.json'
     });
 
+    $translateProvider.useMissingTranslationHandlerLog();
     $translateProvider.preferredLanguage('en');
     $translateProvider.fallbackLanguage('de');
     $translateProvider.useLocalStorage();
