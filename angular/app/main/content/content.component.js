@@ -29,13 +29,12 @@ class ContentController
 
 	$onInit()
 	{
-		this.categories = this.ContentService.all();
+		this.categories = this.ContentService.categories;
 	}
 
 	//
 	changeCategory( category )
 	{
-		console.log( "changeCategory", category );  // ui-sref="app.start.categories.sub({slug: category.slug})"
 		this.$state.go('main.content', {slug:category}, {reload:true} );
 	}
 }

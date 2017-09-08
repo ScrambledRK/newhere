@@ -21,7 +21,7 @@ class MapController
 		//
 		$scope.$on( "leafletDirectiveMarker.nhMap.click", function( event, args )
 		{
-			vm.$state.go( 'app.start.detail', {
+			vm.$state.go( 'main.content.detail', {
 				id: args.model.offer_id
 			} );
 		} );
@@ -36,7 +36,7 @@ class MapController
 		$scope.$on( 'leafletDirectiveMarker.nhMap.dragend', function( e, args )
 		{
 			args.leafletObject.setLatLng( vm.orgLatLng );
-			vm.$state.go( 'app.start.detail', {
+			vm.$state.go( 'main.content.detail', {
 				id: args.model.offer_id
 			} );
 		} );
