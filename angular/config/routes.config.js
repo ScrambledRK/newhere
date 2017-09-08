@@ -51,7 +51,7 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'main.content',
 			{
-				url: '/content',
+				url: '/content/:slug',
 				data: {},
 
 				views:

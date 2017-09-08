@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cms;
+namespace App\Http\Controllers;
 
 use App;
 use App\Http\Controllers\Controller;
@@ -30,10 +30,10 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $languages = Language::all();
-        $this->translationService->translateLanguage( $languages, App::getLocale() );
+        $result = Language::all();
+        $this->translationService->translateLanguage( $result, App::getLocale() );
 
-        return response()->success( compact( 'languages' ) );
+        return response()->success( compact( 'result' ) );
     }
 
     /**
@@ -41,14 +41,14 @@ class LanguageController extends Controller
      */
     public function defaultLanguage()
     {
-        $language = Language::where( 'default_language', true )->first();
+        $result = Language::where( 'default_language', true )->first();
 
-        if( !$language )
+        if( !$result )
             return response()->error( 'No default language found', 404 );
 
-        $this->translationService->translateLanguage( $language, App::getLocale() );
+        $this->translationService->translateLanguage( $result, App::getLocale() );
 
-        return response()->json( $language );
+        return response()->json( $result );
     }
 
     /**
@@ -56,10 +56,10 @@ class LanguageController extends Controller
      */
     public function enabledIndex()
     {
-        $enabled = Language::where( 'enabled', true )->get();
-        $this->translationService->translateLanguage( $enabled, App::getLocale() );
+        $result = Language::where( 'enabled', true )->get();
+        $this->translationService->translateLanguage( $result, App::getLocale() );
 
-        return response()->success( compact( 'enabled' ) );
+        return response()->success( compact( 'result' ) );
     }
 
     /**
@@ -67,18 +67,18 @@ class LanguageController extends Controller
      */
     public function publishedIndex()
     {
-        $published = Language::where( 'enabled', true )
+        $result = Language::where( 'enabled', true )
                              ->where( 'published', true )
                              ->get();
 
-        foreach( $published as $language )
+        foreach( $result as $language )
         {
             $language->translatedName = Locale::getDisplayLanguage( $language->language, $language->language );
         }
 
-        $this->translationService->translateLanguage( $published, App::getLocale() );
+        $this->translationService->translateLanguage( $result, App::getLocale() );
 
-        return response()->success( compact( 'published' ) );
+        return response()->success( compact( 'result' ) );
     }
 
     /**
@@ -96,26 +96,26 @@ class LanguageController extends Controller
         // ---------------------------------- //
         // ---------------------------------- //
 
-        $language = Language::findOrFail( (int)$id );
+        $result = Language::findOrFail( (int)$id );
         $modified = false;
 
         if( isset( $request->enabled ) )
         {
-            $language->enabled = (bool)$request->enabled;
+            $result->enabled = (bool)$request->enabled;
             $modified = true;
         }
 
         if( isset( $request->published ) )
         {
-            $language->published = (bool)$request->published;
+            $result->published = (bool)$request->published;
             $modified = true;
         }
 
         if( $modified )
         {
-            $language->save();
+            $result->save();
         }
 
-        return response()->success( compact( 'language' ) );
+        return response()->success( compact( 'result' ) );
     }
 }

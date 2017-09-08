@@ -26,11 +26,11 @@ export class APIService
 				} )
 				.addFullRequestInterceptor( function( element, operation, what, url, headers )
 				{
-					var token = $window.localStorage.satellizer_token;
+					let token = $window.localStorage.satellizer_token;
+
 					if( token )
-					{
 						headers.Authorization = 'Bearer ' + token;
-					}
+
 					headers.Language = $window.localStorage.language || 'de';
 				} )
 				.addResponseInterceptor( function( data, operation, what, url )
@@ -39,7 +39,8 @@ export class APIService
 
 					if( operation === "getList" )
 					{
-						var type = what;
+						let type = what;
+
 						if( type === 'search' )
 						{
 							type = url.substring( 5, url.indexOf( '/search', 5 ) );
@@ -50,16 +51,13 @@ export class APIService
 						}
 
 						console.log( type, what, url );
-						extractedData = data.data[type];
+						extractedData = data.data["result"];
 
 						if( data.data['count'] )
 						{
 							extractedData.count = data.data['count'];
 						}
-						if( data.data['ngoPublished'] )
-						{
-							extractedData.ngoPublished = data.data['ngoPublished'];
-						}
+
 						extractedData.error = data.errors;
 					}
 					else

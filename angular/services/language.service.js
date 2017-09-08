@@ -20,7 +20,7 @@ export class LanguageService
 		this.$rootScope = $rootScope;
 
 		this.publishedLanguages = null;
-		this.selectedLanguage = '';
+		this.selectedLanguage = this.$window.localStorage.language;
 	}
 
 	/**

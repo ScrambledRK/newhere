@@ -5,10 +5,12 @@ class ContentController
 	 * @param {ContentService} ContentService
 	 * @param {MapService} MapService
 	 * @param $rootScope
+	 * @param $state
 	 */
 	constructor( ContentService,
 	             MapService,
-	             $rootScope )
+	             $rootScope,
+	             $state )
 	{
 		'ngInject';
 
@@ -16,6 +18,8 @@ class ContentController
 		this.categories = null;
 
 		//
+		this.$state = $state;
+
 		this.ContentService = ContentService;
 		this.MapService = MapService;
 		this.MapService.markers = {};
@@ -32,6 +36,7 @@ class ContentController
 	changeCategory( category )
 	{
 		console.log( "changeCategory", category );  // ui-sref="app.start.categories.sub({slug: category.slug})"
+		this.$state.go('main.content', {slug:category}, {reload:true} );
 	}
 }
 

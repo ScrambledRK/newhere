@@ -43,7 +43,7 @@ class HeaderController
 	//
 	gotoStart()
 	{
-		this.$state.go('main.content');
+		this.$state.go('main.content', {slug:null} );
 	}
 
 	//
