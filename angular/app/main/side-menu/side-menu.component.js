@@ -1,4 +1,4 @@
-class AppMainMenuController
+class SideMenuController
 {
 	/**
 	 * @param {*} $mdSidenav
@@ -27,9 +27,9 @@ class AppMainMenuController
 	}
 
 	//
-	closeMainMenu()
+	close()
 	{
-		this.$mdSidenav( 'main-menu' ).close();
+		this.$mdSidenav( 'side-menu' ).close();
 	}
 
 	//
@@ -38,7 +38,7 @@ class AppMainMenuController
 		this.$auth.logout().then( ( response ) =>
 		{
 			this.ToastService.show( 'Erfolgreich abgemeldet.' );
-			this.$state.go( 'app.landing' );
+			this.$state.go( 'main.landing' );
 		} );
 	}
 
@@ -46,11 +46,11 @@ class AppMainMenuController
 
 /**
  *
- * @type {{templateUrl: string, controller: AppMainMenuController, controllerAs: string, bindings: {}}}
+ * @type {{templateUrl: string, controller: SideMenuController, controllerAs: string, bindings: {}}}
  */
-export const AppMainMenuComponent = {
+export const SideMenuComponent = {
 	templateUrl: './views/app/main/side-menu/side-menu.component.html',
-	controller: AppMainMenuController,
+	controller: SideMenuController,
 	controllerAs: 'vm',
 	bindings: {}
 };

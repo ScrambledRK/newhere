@@ -10,7 +10,7 @@
 				layout-fill
 				ng-class="{'split-screen': $root.isSplit, 'show-details': $root.showDetails}">
 
-		<!-- UI-VIEW content becomes categories-content or details -->
+		<!-- UI-VIEW content/map -->
 		<md-content id="list-container"
 					ng-show="!$root.showMap || $mdMedia('gt-sm')"
 					flex
@@ -28,8 +28,10 @@
 					layout="column"
 					class="anim-show map-container"
 					md-whiteframe="3">
-			<map></map>
+			<main-map></main-map>
 		</md-content>
+
+		<!-- ui-toggler bottom-->
 		<div layout="row"
 			 class="view-toggler"
 			 ng-if="$root.showMap && !$root.isSplit"

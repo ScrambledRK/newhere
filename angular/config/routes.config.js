@@ -13,7 +13,7 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 	// ------------------------------------------ //
 
 	$stateProvider
-		.state( 'app',
+		.state( 'main',
 			{
 				abstract: true,
 				data: {},
@@ -21,11 +21,12 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 				views:
 					{
 						front: {
-							templateUrl: getView( 'main' )
+							templateUrl: getView( 'main/main' )
 						},
 
-						'header@app': {
-							templateUrl: getView( 'main/header' )
+						'header@main': {
+							template: "<main-header></main-header>" +
+							"<main-side-menu></main-side-menu>"
 						},
 
 						footer: {},
@@ -34,44 +35,35 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 			} )
 
 		//
-		.state( 'app.landing',
+		.state( 'main.landing',
 			{
 				url: '/',
 				data: {},
 
 				views:
 					{
-						'body@app': {
+						'body@main': {
 							templateUrl: getView( 'main/landing/landing' )
 						}
 					}
 			} )
 
 		//
-		.state( 'app.start',
+		.state( 'main.content',
 			{
-				abstract: true,
+				url: '/content',
 				data: {},
 
 				views:
 					{
-						'body@app': {
-							templateUrl: getView( 'main/start/start' )
+						'body@main': {
+							templateUrl: getView( 'main/content/content' )
+						},
+
+						'content@main.content': {
+							template: "<main-content></main-content>"
 						}
 					}
 			} )
 
-		//
-		.state( 'app.start.categories',
-			{
-				url: '/start',
-				data: {},
-
-				views:
-					{
-						'content@app.start': {
-							template: "<app-categories-content/>"
-						}
-					}
-			} )
 }

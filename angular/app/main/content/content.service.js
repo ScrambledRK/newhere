@@ -1,4 +1,4 @@
-export class CategoryService
+export class ContentService
 {
 	/**
 	 *

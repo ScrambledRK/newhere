@@ -1,7 +1,7 @@
 /**
  *
  */
-class AppHeaderController
+class HeaderController
 {
 	/**
 	 *
@@ -23,8 +23,8 @@ class AppHeaderController
 		$scope.currState = $state;
 		$scope.$watch( 'currState.current.name', function( stateName, oldStateName )
 		{
-			vm.showNgoLink = stateName.indexOf( 'app.landing' ) > -1;
-			vm.showLocator = stateName.indexOf( 'start' ) > -1;
+			vm.showNgoLink = stateName.indexOf( 'main.landing' ) > -1;
+			vm.showLocator = stateName.indexOf( 'content' ) > -1;
 		} );
 	}
 
@@ -34,32 +34,32 @@ class AppHeaderController
 	}
 
 	//
-	openMainMenu()
+	openSideMenu()
 	{
-		this.$mdSidenav( 'main-menu' ).open();
-		this.$mdSidenav( 'filter' ).close();
+		this.$mdSidenav( 'side-menu' ).open();
+		//this.$mdSidenav( 'filter' ).close();
 	}
 
 	//
 	gotoStart()
 	{
-		this.$state.go('app.start.categories');
+		this.$state.go('main.content');
 	}
 
 	//
 	gotoNgoLanding()
 	{
-		this.$state.go('app.start.categories');
+		this.$state.go('main.content');
 	}
 }
 
 /**
  *
- * @type {{templateUrl: string, controller: AppHeaderController, controllerAs: string, bindings: {}}}
+ * @type {{templateUrl: string, controller: HeaderController, controllerAs: string, bindings: {}}}
  */
-export const AppHeaderComponent = {
+export const HeaderComponent = {
 	templateUrl: './views/app/main/header/header.component.html',
-	controller: AppHeaderController,
+	controller: HeaderController,
 	controllerAs: 'vm',
 	bindings: {}
 }

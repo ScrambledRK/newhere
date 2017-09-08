@@ -38,12 +38,8 @@ export function RoutesRun( $rootScope,
 					{
 						event.preventDefault();
 
-						$translate( 'Sie sind zum Aufruf dieser Seite nicht berechtigt!' ).then( ( msg ) =>
-						{
-							ToastService.error( msg );
-						} );
-
-						$state.go( 'app.start' );
+						ToastService.error( 'Sie sind zum Aufruf dieser Seite nicht berechtigt!' );
+						$state.go( 'main.landing' );
 					}
 				}
 			}
@@ -59,12 +55,12 @@ export function RoutesRun( $rootScope,
 			}
 
 			//
-			if( $mdComponentRegistry.get( 'filter' ) )
-				$mdSidenav( 'filter' ).close();
+			// if( $mdComponentRegistry.get( 'filter' ) )
+			// 	$mdSidenav( 'filter' ).close();
 
 			//
-			if( $mdComponentRegistry.get( 'main-menu' ) )
-				$mdSidenav( 'main-menu' ).close();
+			if( $mdComponentRegistry.get( 'side-menu' ) )
+				$mdSidenav( 'side-menu' ).close();
 
 			//
 			if( $mdComponentRegistry.get( 'left' ) )

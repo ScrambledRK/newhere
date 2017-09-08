@@ -1,12 +1,12 @@
-class AppCategoriesContentController
+class ContentController
 {
 	/**
 	 *
-	 * @param {CategoryService} CategoryService
+	 * @param {ContentService} ContentService
 	 * @param {MapService} MapService
 	 * @param $rootScope
 	 */
-	constructor( CategoryService,
+	constructor( ContentService,
 	             MapService,
 	             $rootScope )
 	{
@@ -16,7 +16,7 @@ class AppCategoriesContentController
 		this.categories = null;
 
 		//
-		this.CategoryService = CategoryService;
+		this.ContentService = ContentService;
 		this.MapService = MapService;
 		this.MapService.markers = {};
 
@@ -25,7 +25,7 @@ class AppCategoriesContentController
 
 	$onInit()
 	{
-		this.categories = this.CategoryService.all();
+		this.categories = this.ContentService.all();
 	}
 
 	//
@@ -37,11 +37,11 @@ class AppCategoriesContentController
 
 /**
  *
- * @type {{templateUrl: string, controller: AppCategoriesContentController, controllerAs: string, bindings: {}}}
+ * @type {{templateUrl: string, controller: ContentController, controllerAs: string, bindings: {}}}
  */
-export const AppCategoriesContentComponent = {
-	templateUrl: './views/app/main/start/categories/categories-content.component.html',
-	controller: AppCategoriesContentController,
+export const ContentComponent = {
+	templateUrl: './views/app/main/content/content.component.html',
+	controller: ContentController,
 	controllerAs: 'vm',
 	bindings: {}
 };

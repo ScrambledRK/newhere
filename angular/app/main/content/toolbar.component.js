@@ -1,4 +1,4 @@
-class AppCategoriesToolbarController
+class ToolbarController
 {
 	/**
 	 *
@@ -34,8 +34,8 @@ class AppCategoriesToolbarController
 	//
 	showFilter()
 	{
-		this.$mdSidenav( 'main-menu' ).close();
-		this.$mdSidenav( 'filter' ).toggle();
+		this.$mdSidenav( 'side-menu' ).close();
+		//this.$mdSidenav( 'filter' ).toggle();
 	}
 
 	//
@@ -47,11 +47,11 @@ class AppCategoriesToolbarController
 
 /**
  *
- * @type {{templateUrl: string, controller: AppCategoriesToolbarController, controllerAs: string, bindings: {hideFilterBtn: string}}}
+ * @type {{templateUrl: string, controller: ToolbarController, controllerAs: string, bindings: {hideFilterBtn: string}}}
  */
-export const AppCategoriesToolbarComponent = {
-	templateUrl: './views/app/main/start/categories/categories-toolbar.component.html',
-	controller: AppCategoriesToolbarController,
+export const ToolbarComponent = {
+	templateUrl: './views/app/main/content/toolbar.component.html',
+	controller: ToolbarController,
 	controllerAs: 'vm',
 	bindings: {
 		hideFilterBtn: '='
