@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Main;
 
 use Illuminate\Http\Request;
 use App;
@@ -82,14 +82,28 @@ class CategoryController extends Controller
         $result = $result->where('slug', $slug );
 
         //
+        if( $request->get( 'withOffers', false ) )
+            $result = $result->with( ['offers'] );
+
+        //
         if( $request->get( 'withParents', false ) )
-            $result = $result->with( ['parent'] );
+            $result = $result->with( ['parents'] );
 
         //
         if( $request->get( 'withChildren', false ) )
             $result = $result->with( ['children'] );
 
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        $result = $this->paginate( $request, $result );
+
+        //
         $result = $result->get();
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
 
         return response()->json($result);
     }

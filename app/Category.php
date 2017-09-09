@@ -9,11 +9,13 @@ class Category extends Model
 {
     use Translatable;
 
+    //
     public $translatedAttributes = [
         'title',
         'description'
     ];
 
+    //
     protected $fillable = [
         'image_id',
         'disabled',
@@ -26,17 +28,22 @@ class Category extends Model
      */
     public function children()
     {
-        return $this->hasMany( 'App\Category', 'parent_id', 'id' )
-                    ->with( 'image' );
+        $result = $this->hasMany( 'App\Category', 'parent_id', 'id' )
+                       ->where( 'enabled', true )
+                       ->orderBy( 'sortindex', 'ASC' )
+                       ->with( 'image' );
+
+        return $result;
     }
 
     /**
      * @return mixed
      */
-    public function parent()
+    public function parents()
     {
         return $this->hasOne( 'App\Category', 'id', 'parent_id' )
-                    ->with( 'parent' );
+                    ->where( 'enabled', true )
+                    ->with( 'parents' );
     }
 
     /**
@@ -45,6 +52,7 @@ class Category extends Model
     public function offers()
     {
         return $this->belongsToMany( 'App\Offer', 'offer_categories', 'category_id', 'offer_id' )
+                    ->where( 'enabled', true )
                     ->with( [ 'ngo', 'filters', 'categories', 'image' ] );
     }
 

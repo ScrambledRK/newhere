@@ -102,7 +102,8 @@ export class ContentService
 		//
 		let query = {
 			withChildren: true,
-			withParents: true
+			withParents: true,
+			withOffers: true
 		};
 
 		//

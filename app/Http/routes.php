@@ -63,7 +63,7 @@ function groupAdministration( $api, $callback )
 */
 groupEveryone( $api, function( $api )
 {
-    $api->get( 'offers', 'OfferController@index' );
+    $api->get( 'offers', 'Main\OfferController@index' );
 } );
 
 groupAuthenticated( $api, function( $api )
@@ -79,8 +79,8 @@ groupAuthenticated( $api, function( $api )
 */
 groupEveryone( $api, function( $api )
 {
-    $api->get( 'categories', 'CategoryController@index' );
-    $api->get( 'categories/{slug}', 'CategoryController@bySlug' );
+    $api->get( 'categories', 'Main\CategoryController@index' );
+    $api->get( 'categories/{slug}', 'Main\CategoryController@bySlug' );
 } );
 
 //
@@ -148,8 +148,7 @@ groupAuthenticated( $api, function( $api )
 */
 groupEveryone( $api, function( $api )
 {
-    $api->get( 'categories', 'CategoryController@index' );
-    $api->get( 'categories/{id}', [ 'uses' => 'Cms\CategoryController@show' ] )->where( 'id', '[0-9]+' );
+
 } );
 
 //

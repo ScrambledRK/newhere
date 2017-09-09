@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App;
-use App\Http\Controllers\Cms\AbstractTranslationController;
 use App\Language;
 use App\Ngo;
 use App\Offer;
