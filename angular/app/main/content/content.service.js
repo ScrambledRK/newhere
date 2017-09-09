@@ -83,28 +83,25 @@ export class ContentService
 		//
 		this.categories.length = 0;     // keep instance for controllers
 
-		//
 		if( this.slug === '' )
-		{
-			let query = {parent_id:0};
+			this.slug = 'start';
 
-			this.queryCategories = this.API.all("categories").getList(query)
-				.then( (response) =>
-				{
-					this.categories.push.apply(this.categories, response);
-					this.queryCategories = null;
-				});
-		}
-		else
-		{
-			this.queryCategories = this.API.one( "categories", this.slug ).one('children').get()
-				.then( (response) =>
-				{
-					if(response[0].children)
-						this.categories.push.apply(this.categories, response[0].children);
+		//
+		let query = {
+			withChildren:true,
+			withParents:true
+		};
 
-					this.queryCategories = null;
-				});
-		}
+		//
+		this.queryCategories = this.API.one( "categories", this.slug ).get(query)
+			.then( (response) =>
+			{
+				console.log("!\n",response);
+
+				if(response[0].children)
+					this.categories.push.apply(this.categories, response[0].children);
+
+				this.queryCategories = null;
+			});
 	}
 }

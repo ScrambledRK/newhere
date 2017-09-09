@@ -27,7 +27,7 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany( 'App\Category', 'parent_id', 'id' )
-                    ->with( 'children' );
+                    ->with( 'image' );
     }
 
     /**
@@ -36,7 +36,7 @@ class Category extends Model
     public function parent()
     {
         return $this->hasOne( 'App\Category', 'id', 'parent_id' )
-                    ->with( [ 'image', 'parent' ] );
+                    ->with( 'parent' );
     }
 
     /**

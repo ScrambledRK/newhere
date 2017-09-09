@@ -80,8 +80,7 @@ groupAuthenticated( $api, function( $api )
 groupEveryone( $api, function( $api )
 {
     $api->get( 'categories', 'CategoryController@index' );
-    $api->get( 'categories/{slug}/{children?}', 'CategoryController@bySlug' )
-        ->where('children', 'children');
+    $api->get( 'categories/{slug}', 'CategoryController@bySlug' );
 } );
 
 //

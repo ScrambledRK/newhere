@@ -73,16 +73,21 @@ class CategoryController extends Controller
      * @param $children
      * @return \Illuminate\Http\JsonResponse
      */
-    public function bySlug( $slug, $children = null )
+    public function bySlug( Request $request, $slug )
     {
         $result = Category::with( ['image'] );
-
-        if( $children != null )
-            $result = $result->with( ['children'] );
 
         //
         $result = $result->where('enabled', true );
         $result = $result->where('slug', $slug );
+
+        //
+        if( $request->get( 'withParents', false ) )
+            $result = $result->with( ['parent'] );
+
+        //
+        if( $request->get( 'withChildren', false ) )
+            $result = $result->with( ['children'] );
 
         $result = $result->get();
 
