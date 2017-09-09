@@ -7,12 +7,14 @@ export class ContentService
 	 * @param {*} $state
 	 * @param {*} $translate
 	 * @param {*} $rootScope
+	 * @param {*} $q
 	 */
 	constructor( API,
 	             LanguageService,
 	             $state,
 	             $translate,
-	             $rootScope)
+	             $rootScope,
+	             $q )
 	{
 		'ngInject';
 
@@ -23,29 +25,34 @@ export class ContentService
 		this.$state = $state;
 		this.$translate = $translate;
 		this.$rootScope = $rootScope;
+		this.$q = $q;
 
 		// --------------------------- //
 
 		//
-		this.$rootScope.$on( "languageChanged", (event, data) =>
+		this.$rootScope.$on( "languageChanged", ( event, data ) =>
 		{
 			this.onLanguageChanged();
-		});
+		} );
 
 		//
-		this.$rootScope.$on( "$stateChangeStart", (event, toState, toParams, fromState, fromParams) =>
+		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
 		{
 			this.onStateChanged( toParams );
-		});
+		} );
 
 		// --------------------------- //
 
 		//
-		this.categories = [];
-		this.queryCategories = null;
+		this.category = {
+			children:[],
+			offers:[]
+		};
 
-		this.slug = this.$state.params.slug;
-		this.fetchCategories();
+		this.slug = null;
+		this.defer = null;
+
+		this.fetchContent( this.$state.params.slug, false );
 	}
 
 	/**
@@ -53,55 +60,70 @@ export class ContentService
 	 */
 	onLanguageChanged()
 	{
-		if( this.categories.length === 0 )
-			return;
-
-		this.fetchCategories();
+		this.fetchContent( this.slug, true );
 	}
 
 	/**
 	 *
 	 * @param toParams
 	 */
-	onStateChanged( toParams)
+	onStateChanged( toParams )
 	{
-		if( this.slug === toParams.slug )
-			return;
-
-		this.slug = toParams.slug;
-		this.fetchCategories();
+		this.fetchContent( toParams.slug, false );
 	}
 
 	/**
 	 *
+	 * @param {string} slug
+	 * @param {boolean} force
 	 */
-	fetchCategories()
+	fetchContent( slug, force )
 	{
-		if( this.queryCategories !== null )
+		if( slug === '' )
+			slug = 'start';
+
+		if( !force && slug === this.slug )
 			return;
 
-		//
-		this.categories.length = 0;     // keep instance for controllers
-
-		if( this.slug === '' )
-			this.slug = 'start';
+		this.slug = slug;
 
 		//
-		let query = {
-			withChildren:true,
-			withParents:true
+		if( this.defer !== null )
+			this.defer.resolve();
+
+		// ------------- //
+
+		this.defer = this.$q.defer();
+
+		let config = {
+			timeout:this.defer.promise
 		};
 
 		//
-		this.queryCategories = this.API.one( "categories", this.slug ).get(query)
-			.then( (response) =>
+		let query = {
+			withChildren: true,
+			withParents: true
+		};
+
+		//
+		this.API.one( "categories", this.slug ).withHttpConfig( config ).get( query )
+			.then( ( response ) =>
 			{
-				console.log("!\n",response);
+				if( !response.length )
+					return;
 
-				if(response[0].children)
-					this.categories.push.apply(this.categories, response[0].children);
+				//
+				this.category = response[0];
+				this.defer = null;
 
-				this.queryCategories = null;
-			});
+				//
+				for( let j = 1; j < response.length; j++ )
+				{
+					if( response[j].children )
+						this.category.children.push.apply( this.category.children, response[j].children );
+				}
+
+				this.$rootScope.$broadcast( 'contentChanged', this.category );
+			} );
 	}
 }

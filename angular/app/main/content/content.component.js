@@ -10,29 +10,45 @@ class ContentController
 	constructor( ContentService,
 	             MapService,
 	             $rootScope,
+	             $scope,
 	             $state )
 	{
 		'ngInject';
 
 		//
-		this.categories = null;
-
-		//
-		this.$state = $state;
-
 		this.ContentService = ContentService;
 		this.MapService = MapService;
-		this.MapService.markers = {};
 
-		$rootScope.showMap = false;
-	}
-
-	$onInit()
-	{
-		this.categories = this.ContentService.categories;
+		this.$state = $state;
+		this.$rootScope = $rootScope;
+		this.$scope = $scope;
 	}
 
 	//
+	$onInit()
+	{
+		this.categories = this.ContentService.category.children;
+
+		this.MapService.markers = {};
+		this.$rootScope.showMap = false;
+
+		// ------------- //
+
+		let onCategoryChanged = this.$rootScope.$on( "contentChanged", ( event, category ) =>
+		{
+			this.categories = category.children;
+		} );
+
+		this.$scope.$on('$destroy', () =>
+		{
+			onCategoryChanged();
+		});
+	}
+
+	/**
+	 *
+	 * @param category
+	 */
 	changeCategory( category )
 	{
 		this.$state.go('main.content', {slug:category}, {reload:true} );
