@@ -22,16 +22,16 @@
               content="yes">
         <title>new here : welcome</title>
 
+    <script src="{!! elixir('js/vendor.js') !!}"></script>
+	<script src="{!! elixir('js/partials.js') !!}"></script>
+	<script src="{!! elixir('js/app.js') !!}"></script>
+
         <!--[if lte IE 10]>
         <script type="text/javascript">document.location.href = '/unsupported-browser'</script>
         <![endif]-->
     </head>
     <body>
         <div ui-view="front"></div>
-
-        <script src="{!! elixir('js/vendor.js') !!}"></script>
-        <script src="{!! elixir('js/partials.js') !!}"></script>
-        <script src="{!! elixir('js/app.js') !!}"></script>
 
         {{--livereload--}}
         @if ( env('APP_ENV') === 'local' )

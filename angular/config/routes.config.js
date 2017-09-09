@@ -16,7 +16,6 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main',
 			{
 				abstract: true,
-				data: {},
 
 				views:
 					{
@@ -38,7 +37,6 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.landing',
 			{
 				url: '/',
-				data: {},
 
 				views:
 					{
@@ -52,7 +50,15 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.content',
 			{
 				url: '/content/:slug',
-				data: {},
+
+				params:
+					{
+						slug: {
+							type: 'string',
+							value: 'start',
+							dynamic: true   // prevents the controller to be recreated
+						}                   // see content.component/service
+					},
 
 				views:
 					{

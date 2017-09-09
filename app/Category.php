@@ -39,11 +39,11 @@ class Category extends Model
     /**
      * @return mixed
      */
-    public function parents()
+    public function parent()
     {
         return $this->hasOne( 'App\Category', 'id', 'parent_id' )
                     ->where( 'enabled', true )
-                    ->with( 'parents' );
+                    ->with( 'parent' );
     }
 
     /**
@@ -51,22 +51,18 @@ class Category extends Model
      */
     public function offers()
     {
-        return $this->belongsToMany( 'App\Offer', 'offer_categories', 'category_id', 'offer_id' )
+        return $this->belongsToMany( 'App\Offer', 'offer_categories',
+                                     'category_id', 'offer_id' )
                     ->where( 'enabled', true )
-                    ->with( [ 'ngo', 'filters', 'categories', 'image' ] );
-    }
-
-    /**
-     * @return mixed
-     */
-    public function public_offers()
-    {
-        return $this->belongsToMany( 'App\Offer', 'offer_categories', 'category_id', 'offer_id' )
-                    ->with( [ 'ngo', 'filters', 'categories', 'image' ] )
-                    ->whereHas( 'ngo', function( $query )
-                    {
-                        $query->where( 'id', 5 ); // TODO:  $query->where( 'id', 5 );  cannot be right ...
-                    } );
+                    ->with(
+                        [
+                            'ngo' => function( $q )
+                            {
+                                $q->where( 'published', true );
+                            },
+                            'filters',
+                            'image'
+                        ] );
     }
 
     /**

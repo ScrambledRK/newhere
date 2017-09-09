@@ -83,7 +83,7 @@ class Offer extends Model
             'category_id'
         )->with(
             [
-                'parent',
+                'parents',
                 'image'
             ]
         );

@@ -27,7 +27,11 @@ class ContentController
 	//
 	$onInit()
 	{
+		console.log("makes sense ...");
+		console.log( this.categories );
+
 		this.categories = this.ContentService.category.children;
+	 	this.offers = this.ContentService.category.offers;
 
 		this.MapService.markers = {};
 		this.$rootScope.showMap = false;
@@ -36,7 +40,10 @@ class ContentController
 
 		let onCategoryChanged = this.$rootScope.$on( "contentChanged", ( event, category ) =>
 		{
+			console.log("does it? ...");
+
 			this.categories = category.children;
+			this.offers = category.offers;
 		} );
 
 		this.$scope.$on('$destroy', () =>
@@ -51,7 +58,16 @@ class ContentController
 	 */
 	changeCategory( category )
 	{
-		this.$state.go('main.content', {slug:category}, {reload:true} );
+		this.$state.go('main.content', {slug:category.slug}, {reload:false} );
+	}
+
+	/**
+	 *
+	 * @param offer
+	 */
+	showOffer( offer )
+	{
+		console.log( offer );
 	}
 }
 

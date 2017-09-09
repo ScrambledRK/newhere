@@ -87,7 +87,7 @@ class CategoryController extends Controller
 
         //
         if( $request->get( 'withParents', false ) )
-            $result = $result->with( ['parents'] );
+            $result = $result->with( ['parent'] );
 
         //
         if( $request->get( 'withChildren', false ) )
