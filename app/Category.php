@@ -32,9 +32,18 @@ class Category extends Model
                        ->where( 'enabled', true )
                        ->orderBy( 'sortindex', 'ASC' )
                        ->with( 'image' );
+                     //  ->has( 'offers' )
+                    //   ->orHas( '_children' );
 
         return $result;
     }
+
+    //
+    public function _children()
+    {
+        return $this->hasMany( 'App\Category', 'parent_id', 'id' );
+    }
+
 
     /**
      * @return mixed
@@ -43,7 +52,7 @@ class Category extends Model
     {
         return $this->hasOne( 'App\Category', 'id', 'parent_id' )
                     ->where( 'enabled', true )
-                    ->with( ['parent','image'] );
+                    ->with( [ 'parent', 'image' ] );
     }
 
     /**

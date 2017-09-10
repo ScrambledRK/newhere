@@ -3,11 +3,13 @@ class ToolbarController
 	/**
 	 *
 	 * @param {ContentService} ContentService
+	 * @param {RoutingService} RoutingService
 	 * @param $rootScope
 	 * @param $scope
 	 * @param $state
 	 */
 	constructor( ContentService,
+	             RoutingService,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -16,6 +18,7 @@ class ToolbarController
 
 		//
 		this.ContentService = ContentService;
+		this.RoutingService = RoutingService;
 
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
@@ -57,19 +60,9 @@ class ToolbarController
 	/**
 	 * @param category
 	 */
-	changeCategory( category )
+	goCategory( category )
 	{
-		let params = {
-			category:category.slug,
-			offer:null
-		};
-
-		let config = {
-			reload:false,
-			inherit:false
-		};
-
-		this.$state.go('main.content', params, config );
+		this.RoutingService.goContent( category.slug, null );
 	}
 
 }

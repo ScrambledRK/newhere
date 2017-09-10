@@ -5,11 +5,13 @@ class HeaderController
 {
 	/**
 	 *
+	 * @param {RoutingService} RoutingService
 	 * @param {*} $mdSidenav
 	 * @param {*} $state
 	 * @param {*} $scope
 	 */
-	constructor( $mdSidenav,
+	constructor( RoutingService,
+	             $mdSidenav,
 	             $state,
 	             $scope )
 	{
@@ -17,6 +19,7 @@ class HeaderController
 
 		let vm = this;
 
+		this.RoutingService = RoutingService;
 		this.$mdSidenav = $mdSidenav;
 		this.$state = $state;
 
@@ -41,16 +44,11 @@ class HeaderController
 	}
 
 	//
-	gotoStart()
+	goContent()
 	{
-		this.$state.go('main.content', {category:'start'} );
+		this.RoutingService.goContent( null, null );
 	}
 
-	//
-	gotoNgoLanding()
-	{
-		this.gotoStart();
-	}
 }
 
 /**

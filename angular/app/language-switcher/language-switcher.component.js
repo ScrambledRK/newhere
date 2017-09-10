@@ -4,6 +4,7 @@ class AppLanguageSwitcherController
 	 * @param {LanguageService} LanguageService
 	 */
 	constructor( LanguageService,
+	             RoutingService,
 	             $state )
 	{
 		'ngInject';
@@ -11,9 +12,10 @@ class AppLanguageSwitcherController
 		let vm = this;
 
 		this.LanguageService = LanguageService;
-		this.languages = [];
-
+		this.RoutingService = RoutingService;
 		this.$state = $state;
+
+		this.languages = [];
 	}
 
 	//
@@ -29,7 +31,7 @@ class AppLanguageSwitcherController
 	switchLanguage( language )
 	{
 		if (this.$state.current.name === "main.landing" )
-			this.$state.go('main.content');
+			this.RoutingService( null, null );
 
 		this.LanguageService.changeLanguage( language );
 	}

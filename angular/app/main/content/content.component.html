@@ -3,7 +3,7 @@
 	 layout="row"
 	 layout-wrap
 	 ng-if="vm.categories.length">
-	<md-button ng-click="vm.changeCategory(category)"
+	<md-button ng-click="vm.goCategory(category)"
 			   class="big-thumb animate-repeat"
 			   ng-repeat="category in vm.categories track by category.id"
 			   flex-gt-xs="33"
@@ -28,7 +28,7 @@
 		<md-grid-tile layout="column"
 					  class="offer-container animate-repeat"
 					  ng-repeat="offer in vm.offers track by offer.id"
-					  ng-click="vm.showOffer(offer)">
+					  ng-click="vm.goOffer(offer)">
 			<md-grid-tile-header class="offer-header">
 				<h4>
 					<md-icon ng-if="offer.street">location_on</md-icon>
@@ -36,12 +36,16 @@
 					<div style="margin-top:10px">{{offer.title}}</div>
 				</h4>
 				<div class="offer-content"
-					 flex ng-cloak>
-					<p class="offer-ngo-title"
-					   translate="Anbieter">:<a class="offer-ngo"
-												ui-sref="main.provider({id:offer.ngo.id})">
-						{{offer.ngo.organisation}}</a>
+					 flex
+					 ng-cloak>
+					<p class="offer-ngo-title">
+						<span translate="Anbieter"></span>:
+						<a class="offer-ngo"
+						   ui-sref="main.provider({id:offer.ngo.id})">
+							{{offer.ngo.organisation}}
+						</a>
 					</p>
+
 					<div class="offer-description">
 						{{offer.description | limitTo:100}}
 						<span ng-if="offer.description.length > 100">...</span>

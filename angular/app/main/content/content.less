@@ -4,9 +4,11 @@
 }
 
 .split-screen {
+  overflow: auto;
+
   md-content[ui-view="content"] {
     @media screen and (max-width: 959px) {
-      height: 30%;
+      height: 40%;
       top: auto;
       bottom: 0;
       overflow: hidden;
@@ -19,7 +21,7 @@
 
   md-content.map-container {
     @media screen and (max-width: 959px) {
-      height: 70%;
+      height: 60%;
       top: 0;
       transform: translateY(0) !important;
       display: flex !important;
@@ -27,7 +29,7 @@
   }
 
   &.show-details {
-    md-content#list-container {
+    md-content#list-container[ui-view="content"] {
       @media screen and (max-width: 959px) {
         transform: translateY(0) !important;
         height: 100%;
@@ -40,7 +42,7 @@
   }
 }
 
-md-content#list-container {
+md-content#list-container[ui-view="content"] {
   @media screen and (min-width: 960px) {
     transform: translateY(0) !important;
     display: block !important;

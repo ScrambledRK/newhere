@@ -3,12 +3,14 @@ class ContentController
 	/**
 	 *
 	 * @param {ContentService} ContentService
+	 * @param {RoutingService} RoutingService
 	 * @param {MapService} MapService
 	 * @param $rootScope
 	 * @param $scope
 	 * @param $state
 	 */
 	constructor( ContentService,
+	             RoutingService,
 	             MapService,
 	             $rootScope,
 	             $scope,
@@ -18,6 +20,7 @@ class ContentController
 
 		//
 		this.ContentService = ContentService;
+		this.RoutingService = RoutingService;
 		this.MapService = MapService;
 
 		this.$rootScope = $rootScope;
@@ -46,6 +49,7 @@ class ContentController
 		});
 	}
 
+	//
 	getCurrentCategory()
 	{
 		return this.ContentService.category;
@@ -65,37 +69,17 @@ class ContentController
 	/**
 	 * @param category
 	 */
-	changeCategory( category )
+	goCategory( category )
 	{
-		let params = {
-			category:category.slug,
-			offer:null
-		};
-
-		let config = {
-			reload:false,
-			inherit:false
-		};
-
-		this.$state.go('main.content', params, config );
+		this.RoutingService.goContent( category.slug, null );
 	}
 
 	/**
 	 * @param offer
 	 */
-	showOffer( offer )
+	goOffer( offer )
 	{
-		let params = {
-			category:this.getCurrentCategory().slug,
-			offer:offer.id
-		};
-
-		let config = {
-			reload:false,
-			inherit:false
-		};
-
-		this.$state.go('main.content', params, config );
+		this.RoutingService.goContent( this.getCurrentCategory().slug, offer.id );
 	}
 }
 

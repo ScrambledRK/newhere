@@ -45,26 +45,8 @@ export function RoutesRun( $rootScope,
 			}
 
 			//
-			if( angular.isDefined( toState.splitScreen ) )
-			{
-				$rootScope.isSplit = toState.splitScreen;
-			}
-			else
-			{
-				$rootScope.isSplit = false;
-			}
-
-			//
-			// if( $mdComponentRegistry.get( 'filter' ) )
-			// 	$mdSidenav( 'filter' ).close();
-
-			//
 			if( $mdComponentRegistry.get( 'side-menu' ) )
 				$mdSidenav( 'side-menu' ).close();
-
-			//
-			if( $mdComponentRegistry.get( 'left' ) )
-				$mdSidenav( 'left' ).close();
 
 		} );
 

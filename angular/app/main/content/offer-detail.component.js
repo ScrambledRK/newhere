@@ -52,11 +52,24 @@ class OfferDetailController
 
 		if( this.offer )
 		{
+			this.$rootScope.isSplit = true;
+			this.$rootScope.showMap = true;
+			this.$rootScope.showDetails = false;
+
 			this.MapService.highlightMarker( this.offer );
 			this.MapService.zoomTo( this.offer );
 		}
+		else
+		{
+
+		}
 	}
 
+	toggleMap()
+	{
+		this.$rootScope.showMap = !this.$rootScope.showMap;
+		this.$rootScope.showDetails = !this.$rootScope.showDetails;
+	}
 }
 
 export const OfferDetailComponent = {
