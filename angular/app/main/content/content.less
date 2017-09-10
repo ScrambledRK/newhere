@@ -27,7 +27,7 @@
   }
 
   &.show-details {
-    md-content#list-container[ui-view="content"] {
+    md-content#list-container {
       @media screen and (max-width: 959px) {
         transform: translateY(0) !important;
         height: 100%;
@@ -40,7 +40,7 @@
   }
 }
 
-md-content#list-container[ui-view="content"] {
+md-content#list-container {
   @media screen and (min-width: 960px) {
     transform: translateY(0) !important;
     display: block !important;

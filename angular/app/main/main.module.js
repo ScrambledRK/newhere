@@ -17,6 +17,7 @@ angular.module('app.main' )
 import {HeaderComponent} from './header/header.component';
 import {SideMenuComponent} from './side-menu/side-menu.component';
 import {ContentComponent} from './content/content.component';
+import {OfferDetailComponent} from './content/offer-detail.component';
 import {ToolbarComponent} from './content/toolbar.component';
 import {MapComponent} from './content/map.component';
 
@@ -26,6 +27,7 @@ angular.module( 'app.main' )
 	.component( 'mainContent', ContentComponent )
 	.component( 'mainToolbar', ToolbarComponent )
 	.component( 'mainMap', MapComponent )
+	.component( 'mainOfferDetail', OfferDetailComponent )
 ;
 
 // ------------------------------- //

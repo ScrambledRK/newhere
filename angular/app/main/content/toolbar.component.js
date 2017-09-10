@@ -59,7 +59,17 @@ class ToolbarController
 	 */
 	changeCategory( category )
 	{
-		this.$state.go('main.content', {slug:category.slug}, {reload:false} );
+		let params = {
+			category:category.slug,
+			offer:null
+		};
+
+		let config = {
+			reload:false,
+			inherit:false
+		};
+
+		this.$state.go('main.content', params, config );
 	}
 
 }

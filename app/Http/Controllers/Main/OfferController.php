@@ -89,7 +89,7 @@ class OfferController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show( $id )
+    public function byId( $id )
     {
         $offer = Offer::where( 'id', $id )->with(
             [

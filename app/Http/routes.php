@@ -64,6 +64,7 @@ function groupAdministration( $api, $callback )
 groupEveryone( $api, function( $api )
 {
     $api->get( 'offers', 'Main\OfferController@index' );
+    $api->get( 'offers/{id}', 'Main\OfferController@byId' );
 } );
 
 groupAuthenticated( $api, function( $api )

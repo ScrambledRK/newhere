@@ -43,13 +43,13 @@ class HeaderController
 	//
 	gotoStart()
 	{
-		this.$state.go('main.content', {slug:'start'} );
+		this.$state.go('main.content', {category:'start'} );
 	}
 
 	//
 	gotoNgoLanding()
 	{
-		this.$state.go('main.content');
+		this.gotoStart();
 	}
 }
 

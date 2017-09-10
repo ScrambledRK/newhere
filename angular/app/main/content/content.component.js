@@ -31,19 +31,24 @@ class ContentController
 		this.MapService.markers = {};
 		this.$rootScope.showMap = false;
 
-		this.setContent( this.ContentService.category );
+		this.setContent( this.getCurrentCategory() );
 
 		// ------------- //
 
-		let onCategoryChanged = this.$rootScope.$on( "contentChanged", ( event, category ) =>
+		let onContentChanged = this.$rootScope.$on( "contentChanged", ( event, category, offer ) =>
 		{
 			this.setContent( category );
 		} );
 
 		this.$scope.$on('$destroy', () =>
 		{
-			onCategoryChanged();
+			onContentChanged();
 		});
+	}
+
+	getCurrentCategory()
+	{
+		return this.ContentService.category;
 	}
 
 	/**
@@ -62,7 +67,17 @@ class ContentController
 	 */
 	changeCategory( category )
 	{
-		this.$state.go('main.content', {slug:category.slug}, {reload:false} );
+		let params = {
+			category:category.slug,
+			offer:null
+		};
+
+		let config = {
+			reload:false,
+			inherit:false
+		};
+
+		this.$state.go('main.content', params, config );
 	}
 
 	/**
@@ -70,7 +85,17 @@ class ContentController
 	 */
 	showOffer( offer )
 	{
-		console.log( offer );
+		let params = {
+			category:this.getCurrentCategory().slug,
+			offer:offer.id
+		};
+
+		let config = {
+			reload:false,
+			inherit:false
+		};
+
+		this.$state.go('main.content', params, config );
 	}
 }
 

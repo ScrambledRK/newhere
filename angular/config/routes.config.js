@@ -49,15 +49,18 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'main.content',
 			{
-				url: '/content/:slug',
+				url: '/{category:[a-zA-Z0-9\-]+}/{offer:[0-9]*}',
 
 				params:
 					{
-						slug: {
-							type: 'string',
+						category: {
 							value: 'start',
-							dynamic: true   // prevents the controller to be recreated
-						}                   // see content.component/service
+							dynamic: true,  // prevents re-instantiating of controllers
+						},
+
+						offer: {
+							value: null,
+						}
 					},
 
 				views:
@@ -71,9 +74,14 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 						},
 
 						'content@main.content': {
-							template: "<main-content></main-content>"
+							templateProvider: function($stateParams)
+							{
+								if( $stateParams.offer )
+									return "<main-offer-detail></main-offer-detail>";
+
+								return "<main-content></main-content>";
+							}
 						}
 					}
 			} )
-
 }

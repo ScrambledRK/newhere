@@ -44,15 +44,26 @@ export class ContentService
 		// --------------------------- //
 
 		//
+		this.offer = {};
+
 		this.category = {
-			children:[],
-			offers:[]
+			children: [],
+			offers: []
 		};
 
-		this.slug = null;
+		//
+		this.slugCategory = null;
+		this.slugOffer = null;
 		this.defer = null;
 
-		this.fetchContent( this.$state.params.slug, false );
+		console.log( $state );
+
+		//
+		this.fetchContent(
+			this.$state.params.category,
+			this.$state.params.offer,
+			false
+		);
 	}
 
 	/**
@@ -60,7 +71,7 @@ export class ContentService
 	 */
 	onLanguageChanged()
 	{
-		this.fetchContent( this.slug, true );
+		this.fetchContent( this.slugCategory, this.slugOffer, true );
 	}
 
 	/**
@@ -69,35 +80,60 @@ export class ContentService
 	 */
 	onStateChanged( toParams )
 	{
-		this.fetchContent( toParams.slug, false );
+		this.fetchContent( toParams.category, toParams.offer, false );
 	}
 
 	/**
 	 *
-	 * @param {string} slug
+	 * @param {string} slugCategory
+	 * @param {string} slugOffer
 	 * @param {boolean} force
 	 */
-	fetchContent( slug, force )
+	fetchContent( slugCategory, slugOffer, force )
 	{
-		if( slug === '' )
-			slug = 'start';
-
-		if( !force && slug === this.slug )
-			return;
-
-		this.slug = slug;
-
-		//
 		if( this.defer !== null )
 			this.defer.resolve();
 
-		// ------------- //
-
+		//
 		this.defer = this.$q.defer();
 
 		let config = {
-			timeout:this.defer.promise
+			timeout: this.defer.promise
 		};
+
+		// ------------- //
+
+		let categoryPromise = this.fetchCategories( slugCategory, config, force );
+		let offerPromise = this.fetchOffer( slugOffer, config, force );
+
+		this.$q.all( [categoryPromise, offerPromise] ).then( () =>
+		{
+			this.defer = null;
+			this.$rootScope.$broadcast( 'contentChanged', this.category, this.offer );
+		} );
+	}
+
+	/**
+	 *
+	 * @param {string} slugCategory
+	 * @param {*} config
+	 * @param {boolean} force
+	 *
+	 * @return {promise}
+	 */
+	fetchCategories( slugCategory, config, force )
+	{
+		console.log("fetching categories: ", slugCategory );
+
+		if( !slugCategory || slugCategory === '' )
+			slugCategory = 'start';
+
+		if( !force && slugCategory === this.slugCategory )
+			return this.$q.when();
+
+		this.slugCategory = slugCategory;
+
+		// ---------- //
 
 		//
 		let query = {
@@ -107,7 +143,7 @@ export class ContentService
 		};
 
 		//
-		this.API.one( "categories", this.slug ).withHttpConfig( config ).get( query )
+		return this.API.one( "categories", this.slugCategory ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 			{
 				if( !response.length )
@@ -115,7 +151,6 @@ export class ContentService
 
 				//
 				this.category = response[0];
-				this.defer = null;
 
 				//
 				for( let j = 1; j < response.length; j++ )
@@ -123,8 +158,37 @@ export class ContentService
 					if( response[j].children )
 						this.category.children.push.apply( this.category.children, response[j].children );
 				}
-
-				this.$rootScope.$broadcast( 'contentChanged', this.category );
 			} );
 	}
+
+	/**
+	 *
+	 * @param {string} slugOffer
+	 * @param {*} config
+	 * @param {boolean} force
+	 *
+	 * @return {promise}
+	 */
+	fetchOffer( slugOffer, config, force )
+	{
+		console.log("fetching offer: ", slugOffer );
+
+		if( !slugOffer || slugOffer === '' )
+			return this.$q.when();
+
+		if( !force && slugOffer === this.slugOffer )
+			return this.$q.when();
+
+		this.slugOffer = slugOffer;
+
+		// ---------- //
+
+		//
+		return this.API.one( "offers", this.slugOffer ).withHttpConfig( config ).get()
+			.then( ( response ) =>
+			{
+				this.offer = response;
+			} );
+	}
+
 }
