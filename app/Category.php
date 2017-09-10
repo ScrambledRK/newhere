@@ -43,7 +43,7 @@ class Category extends Model
     {
         return $this->hasOne( 'App\Category', 'id', 'parent_id' )
                     ->where( 'enabled', true )
-                    ->with( 'parent' );
+                    ->with( ['parent','image'] );
     }
 
     /**

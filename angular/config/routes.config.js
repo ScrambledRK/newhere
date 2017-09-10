@@ -66,6 +66,10 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 							templateUrl: getView( 'main/content/content' )
 						},
 
+						'toolbar@main.content': {
+							template: "<main-toolbar></main-toolbar>"
+						},
+
 						'content@main.content': {
 							template: "<main-content></main-content>"
 						}

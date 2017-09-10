@@ -5,6 +5,7 @@ class ContentController
 	 * @param {ContentService} ContentService
 	 * @param {MapService} MapService
 	 * @param $rootScope
+	 * @param $scope
 	 * @param $state
 	 */
 	constructor( ContentService,
@@ -19,9 +20,9 @@ class ContentController
 		this.ContentService = ContentService;
 		this.MapService = MapService;
 
-		this.$state = $state;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
+		this.$state = $state;
 	}
 
 	//

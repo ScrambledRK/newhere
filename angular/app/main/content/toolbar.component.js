@@ -2,47 +2,66 @@ class ToolbarController
 {
 	/**
 	 *
-	 * @param {CategoryService} CategoryService
+	 * @param {ContentService} ContentService
+	 * @param $rootScope
+	 * @param $scope
 	 * @param $state
-	 * @param $mdSidenav
 	 */
-	constructor( CategoryService,
-	             $state,
-	             $mdSidenav)
+	constructor( ContentService,
+	             $rootScope,
+	             $scope,
+	             $state )
 	{
 		'ngInject';
 
 		//
+		this.ContentService = ContentService;
+
+		this.$rootScope = $rootScope;
+		this.$scope = $scope;
 		this.$state = $state;
-		this.CategoryService = CategoryService;
-		this.$mdSidenav = $mdSidenav;
-
-		this.hideFilter = false;
-		if( $state.current.data.hideFilter )
-		{
-			this.hideFilter = $state.current.data.hideFilter;
-		}
-
-		this.category = {};
 	}
 
 	//
 	$onInit()
 	{
+		this.setContent( this.ContentService.category );
+
+		// ------------- //
+
+		let onCategoryChanged = this.$rootScope.$on( "contentChanged", ( event, category ) =>
+		{
+			this.setContent( category );
+		} );
+
+		this.$scope.$on('$destroy', () =>
+		{
+			onCategoryChanged();
+		});
 	}
 
-	//
-	showFilter()
+	/**
+	 * @param category
+	 */
+	setContent( category )
 	{
-		this.$mdSidenav( 'side-menu' ).close();
-		//this.$mdSidenav( 'filter' ).toggle();
+		this.categories = [];
+
+		while( category && this.categories.length < 3 )
+		{
+			this.categories.unshift( category );
+			category = category.parent;
+		}
 	}
 
-	//
-	goBack()
+	/**
+	 * @param category
+	 */
+	changeCategory( category )
 	{
-		history.back();
+		this.$state.go('main.content', {slug:category.slug}, {reload:false} );
 	}
+
 }
 
 /**
@@ -53,7 +72,5 @@ export const ToolbarComponent = {
 	templateUrl: './views/app/main/content/toolbar.component.html',
 	controller: ToolbarController,
 	controllerAs: 'vm',
-	bindings: {
-		hideFilterBtn: '='
-	}
+	bindings: {}
 }
