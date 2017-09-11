@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Logic\Address\AddressAPI;
 use App\Offer;
 use Illuminate\Http\Request;
@@ -23,88 +24,94 @@ class Search extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function offer( Request $request )
+    public function offers( Request $request )
     {
-        $offers = Offer::with( [ 'ngo', 'categories' ] )
-                       ->whereHas( 'translations',
-                           function( $query ) use ( $request )
-                           {
-                               $query->where(
-                                   'title',
-                                   'ilike',
-                                   '%' . $request->get( 'query' ) . '%'
-                               );
-                           } )
-                       ->orWhereHas( 'translations',
-                           function( $query ) use ( $request )
-                           {
-                               $query->where(
-                                   'description',
-                                   'ilike',
-                                   '%' . $request->get( 'query' ) . '%'
-                               );
-                           } )
-                       ->orWhere(
-                           'street',
-                           'ilike',
-                           '%' . $request->get( 'query' ) . '%'
-                       )
-                       ->orWhere(
-                           'zip',
-                           'ilike',
-                           '%' . $request->get( 'query' ) . '%'
-                       )
-                       ->orWhereHas( 'ngo',
-                           function( $query ) use ( $request )
-                           {
-                               $query->where(
-                                   'organisation',
-                                   'ilike',
-                                   '%' . $request->get( 'query' ) . '%'
-                               );
-                           } )
-                       ->orWhereHas( 'categories',
-                           function( $query ) use ( $request )
-                           {
-                               $query->whereHas( 'translations',
-                                   function( $q ) use ( $request )
-                                   {
-                                       $q->where(
-                                           'title',
-                                           'ilike',
-                                           '%' . $request->get( 'query' ) . '%'
-                                       );
-                                   } );
-                           } )
-                       ->orWhereHas( 'categories.parent',
-                           function( $query ) use ( $request )
-                           {
-                               $query->whereHas( 'translations',
-                                   function( $q ) use ( $request )
-                                   {
-                                       $q->where(
-                                           'title',
-                                           'ilike',
-                                           '%' . $request->get( 'query' ) . '%'
-                                       );
-                                   } );
-                           } )
-                       ->orWhereHas( 'categories.parent.parent',
-                           function( $query ) use ( $request )
-                           {
-                               $query->whereHas( 'translations',
-                                   function( $q ) use ( $request )
-                                   {
-                                       $q->where(
-                                           'title',
-                                           'ilike',
-                                           '%' . $request->get( 'query' ) . '%' );
-                                   } );
-                           } )
+        $toSearch = $request->get( 'query' );
+
+        $result = Offer::with( [ 'ngo', 'categories' ] )
+                       ->where( 'enabled', true )
+                       ->where( function( $query ) use ( $toSearch )
+                       {
+                           $query->whereHas( 'translations',
+                               function( $query ) use ( $toSearch )
+                               {
+                                   $query->where(
+                                       'title',
+                                       'ilike',
+                                       '%' . $toSearch . '%'
+                                   );
+                               } )
+                                 ->orWhereHas( 'translations',
+                                     function( $query ) use ( $toSearch )
+                                     {
+                                         $query->where(
+                                             'description',
+                                             'ilike',
+                                             '%' . $toSearch . '%'
+                                         );
+                                     } )
+                                 ->orWhere(
+                                     'street',
+                                     'ilike',
+                                     '%' . $toSearch . '%'
+                                 )
+                                 ->orWhere(
+                                     'zip',
+                                     'ilike',
+                                     '%' . $toSearch . '%'
+                                 )
+                                 ->orWhereHas( 'ngo',
+                                     function( $query ) use ( $toSearch )
+                                     {
+                                         $query->where(
+                                             'organisation',
+                                             'ilike',
+                                             '%' . $toSearch . '%'
+                                         )->where( 'published', true );
+                                     } )
+                                 ->orWhereHas( 'categories',
+                                     function( $query ) use ( $toSearch )
+                                     {
+                                         $query->whereHas( 'translations',
+                                             function( $q ) use ( $toSearch )
+                                             {
+                                                 $q->where(
+                                                     'title',
+                                                     'ilike',
+                                                     '%' . $toSearch . '%'
+                                                 );
+                                             } );
+                                     } )
+                                 ->orWhereHas( 'categories.parent',
+                                     function( $query ) use ( $toSearch )
+                                     {
+                                         $query->whereHas( 'translations',
+                                             function( $q ) use ( $toSearch )
+                                             {
+                                                 $q->where(
+                                                     'title',
+                                                     'ilike',
+                                                     '%' . $toSearch . '%'
+                                                 );
+                                             } );
+                                     } )
+                                 ->orWhereHas( 'categories.parent.parent',
+                                     function( $query ) use ( $toSearch )
+                                     {
+                                         $query->whereHas( 'translations',
+                                             function( $q ) use ( $toSearch )
+                                             {
+                                                 $q->where(
+                                                     'title',
+                                                     'ilike',
+                                                     '%' . $toSearch . '%' );
+                                             } );
+                                     } );
+                       } )
                        ->get();
 
-        $count = $offers->count();
+        $count = $result->count();
 
-        return response()->success( compact( 'offers', 'count' ) );
+        return response()->success( compact( 'result', 'count' ) );
     }
 }

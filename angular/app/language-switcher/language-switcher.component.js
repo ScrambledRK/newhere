@@ -1,7 +1,9 @@
-class AppLanguageSwitcherController
+class LanguageSwitcherController
 {
 	/**
 	 * @param {LanguageService} LanguageService
+	 * @param {RoutingService} RoutingService
+	 * @param {$state} $state
 	 */
 	constructor( LanguageService,
 	             RoutingService,
@@ -31,7 +33,7 @@ class AppLanguageSwitcherController
 	switchLanguage( language )
 	{
 		if (this.$state.current.name === "main.landing" )
-			this.RoutingService( null, null );
+			this.RoutingService.goContent( null, null );
 
 		this.LanguageService.changeLanguage( language );
 	}
@@ -41,9 +43,9 @@ class AppLanguageSwitcherController
  *
  * @type {{templateUrl: string, controller: AppLanguageSwitcherController, controllerAs: string, bindings: {}}}
  */
-export const AppLanguageSwitcherComponent = {
+export const LanguageSwitcherComponent = {
 	templateUrl: './views/app/language-switcher/language-switcher.component.html',
-	controller: AppLanguageSwitcherController,
+	controller: LanguageSwitcherController,
 	controllerAs: 'vm',
 	bindings: {}
 }

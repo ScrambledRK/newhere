@@ -3,24 +3,23 @@ export class LanguageService
 	/**
 	 *
 	 * @param {*} API
-	 * @param {*} $window
 	 * @param {*} $translate
 	 * @param {*} $rootScope
 	 */
 	constructor( API,
-	             $window,
 	             $translate,
-	             $rootScope )
+	             $rootScope,
+	             $log )
 	{
 		'ngInject';
 
 		this.API = API;
 		this.$translate = $translate;
-		this.$window = $window;
 		this.$rootScope = $rootScope;
+		this.$log = $log;
 
 		this.publishedLanguages = null;
-		this.selectedLanguage = this.$window.localStorage.language;
+		this.log();
 	}
 
 	/**
@@ -41,15 +40,38 @@ export class LanguageService
 	 */
 	changeLanguage( language )
 	{
-		if( language === this.selectedLanguage )
+		this.log( language );
+
+		if( language === this.$rootScope.language )
 			return language;
 
-		this.selectedLanguage = this.$window.localStorage.language = language;
+		//
+		this.$translate.use( language ).then( (lang) =>
+		{
+			this.$rootScope.language = lang;
+			this.$rootScope.$broadcast( 'languageChanged', this.$rootScope.language );
 
-		this.$translate.use( language );
-		this.$rootScope.$broadcast( 'languageChanged' );
+			this.log( lang );
 
-		return this.selectedLanguage;
+			return lang;
+		} );
+
+
+		return this.$rootScope.language = language;
 	}
 
+	/**
+	 *
+	 * @param language
+	 */
+	log( language )
+	{
+		console.log( "language.uses", this.$translate.use() );
+		console.log( "language.proposed", this.$translate.proposedLanguage() );
+		console.log( "language.preferred", this.$translate.preferredLanguage() );
+		console.log( 'language.current', this.$rootScope.language );
+
+		if( language )
+			console.log( 'language.select', language );
+	}
 }

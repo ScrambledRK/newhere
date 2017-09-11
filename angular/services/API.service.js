@@ -1,6 +1,9 @@
 export class APIService
 {
-	constructor( Restangular, ToastService, $window )
+	constructor( Restangular,
+	             ToastService,
+	             $rootScope,
+	             $window )
 	{
 		'ngInject';
 
@@ -31,7 +34,7 @@ export class APIService
 					if( token )
 						headers.Authorization = 'Bearer ' + token;
 
-					headers.Language = $window.localStorage.language || 'de';
+					headers.Language = $rootScope.language || 'en';
 				} )
 				.addResponseInterceptor( function( data, operation, what, url )
 				{
@@ -39,18 +42,7 @@ export class APIService
 
 					if( operation === "getList" )
 					{
-						let type = what;
-
-						if( type === 'search' )
-						{
-							type = url.substring( 5, url.indexOf( '/search', 5 ) );
-						}
-						else if( type.indexOf( '?' ) > -1 )
-						{
-							type = what.substring( 0, what.indexOf( '?' ) );
-						}
-
-						console.log( type, what, url );
+						console.log( what, url );
 						extractedData = data.data["result"];
 
 						if( data.data['count'] )

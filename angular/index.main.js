@@ -97,7 +97,7 @@ angular.module('app')
 // DIRECTIVES
 // --------------------------------------------------- //
 
-import {CompareToDirective} from './directives/compareTo/compareTo.directive';
+import {CompareToDirective} from './directives/compareTo.directive';
 import {TreeviewDirective} from './directives/treeview/treeview.directive';
 
 angular.module( 'app' )
@@ -110,11 +110,13 @@ angular.module( 'app' )
 // --------------------------------------------------- //
 
 import {LoaderComponent} from './app/loader/loader.component';
-import {AppLanguageSwitcherComponent} from './app/language-switcher/language-switcher.component';
+import {LocatorComponent} from './app/locator/locator.component';
+import {LanguageSwitcherComponent} from './app/language-switcher/language-switcher.component';
 
 angular.module('app')
 	.component('loader', LoaderComponent)
-	.component('languageSwitcher', AppLanguageSwitcherComponent)
+	.component('locator', LocatorComponent)
+	.component('languageSwitcher', LanguageSwitcherComponent)
 ;
 
 // --------------------------------------------------- //
@@ -128,6 +130,7 @@ import {RoutesConfig} from './config/routes.config';
 import {LoadingBarConfig} from './config/loading_bar.config';
 import {ThemeConfig} from './config/theme.config';
 import {SatellizerConfig} from './config/satellizer.config';
+import {MaterialPlaceHolderDirective} from './config/placeholder.config';
 
 angular.module('app')
 	.config(MaterialConfig)
@@ -137,11 +140,19 @@ angular.module('app')
 	.config(LoadingBarConfig)
 	.config(ThemeConfig)
 	.config(SatellizerConfig)
+	.config(MaterialPlaceHolderDirective)
 ;
 
 // --------------------------------------------------- //
 // ETC
 // --------------------------------------------------- //
 
-
+angular.module('app').factory('missingTranslationHandler', function ()
+{
+	return function (translationID, uses)
+	{
+		console.warn("missing translation:", translationID, "| language-key:", uses );
+		return translationID;
+	};
+});
 

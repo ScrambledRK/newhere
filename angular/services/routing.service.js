@@ -11,6 +11,38 @@ export class RoutingService
 
 		this.$state = $state;
 		this.$rootScope = $rootScope;
+
+		//
+		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
+		{
+			this.onStateChanged( toParams );
+		} );
+
+		console.log( this.$state );
+
+		this.onStateChanged( this.$state.params );  // .current.params is always ui-router object, not parsed
+	}
+
+	//
+	onStateChanged( toParams )
+	{
+		console.log( "state change start: ", toParams );
+
+		//
+		let offer = toParams.offer;
+
+		if( offer && offer !== '' )
+		{
+			this.$rootScope.isSplit = true;
+			this.$rootScope.showMap = true;
+			this.$rootScope.showDetails = false;
+		}
+		else
+		{
+			this.$rootScope.isSplit = false;
+			this.$rootScope.showMap = false;
+			this.$rootScope.showDetails = false;
+		}
 	}
 
 	/**
@@ -20,10 +52,6 @@ export class RoutingService
 	 */
 	goContent( category, offer )
 	{
-		this.$rootScope.isSplit = false;
-		this.$rootScope.showMap = false;
-		this.$rootScope.showDetails = false;
-
 		//
 		let params = {
 			category:category,
@@ -35,6 +63,7 @@ export class RoutingService
 			inherit:false
 		};
 
+		//
 		this.$state.go('main.content', params, config );
 	}
 

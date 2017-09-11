@@ -3,24 +3,21 @@ export class ContentService
 	/**
 	 *
 	 * @param {Restangular} API
-	 * @param {LanguageService} LanguageService
 	 * @param {*} $state
 	 * @param {*} $translate
 	 * @param {*} $rootScope
 	 * @param {*} $q
 	 */
 	constructor( API,
-	             LanguageService,
 	             $state,
 	             $translate,
 	             $rootScope,
-	             $q )
+	             $q, )
 	{
 		'ngInject';
 
 		//
 		this.API = API;
-		this.LanguageService = LanguageService;
 
 		this.$state = $state;
 		this.$translate = $translate;
@@ -44,7 +41,7 @@ export class ContentService
 		// --------------------------- //
 
 		//
-		this.offer = {};
+		this.offer = null;  // must be null, not just empty
 
 		this.category = {
 			children: [],
@@ -55,8 +52,6 @@ export class ContentService
 		this.slugCategory = null;
 		this.slugOffer = null;
 		this.defer = null;
-
-		console.log( $state );
 
 		//
 		this.fetchContent(
@@ -110,6 +105,9 @@ export class ContentService
 		{
 			this.defer = null;
 			this.$rootScope.$broadcast( 'contentChanged', this.category, this.offer );
+		}, (msg) =>
+		{
+			console.log( "fetch content canceled/error", msg );
 		} );
 	}
 
@@ -123,7 +121,7 @@ export class ContentService
 	 */
 	fetchCategories( slugCategory, config, force )
 	{
-		console.log("fetching categories: ", slugCategory );
+		console.log( "fetching categories: ", slugCategory );
 
 		if( !slugCategory || slugCategory === '' )
 			slugCategory = 'start';
@@ -158,6 +156,9 @@ export class ContentService
 					if( response[j].children )
 						this.category.children.push.apply( this.category.children, response[j].children );
 				}
+			}, (msg) =>
+			{
+				console.log( "fetch categories canceled/error", msg );
 			} );
 	}
 
@@ -171,7 +172,7 @@ export class ContentService
 	 */
 	fetchOffer( slugOffer, config, force )
 	{
-		console.log("fetching offer: ", slugOffer );
+		console.log( "fetching offer: ", slugOffer );
 
 		if( !slugOffer || slugOffer === '' )
 			return this.$q.when();
@@ -188,6 +189,9 @@ export class ContentService
 			.then( ( response ) =>
 			{
 				this.offer = response;
+			}, (msg) =>
+			{
+				console.log( "fetch offer canceled/error", msg );
 			} );
 	}
 

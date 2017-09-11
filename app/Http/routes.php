@@ -65,6 +65,8 @@ groupEveryone( $api, function( $api )
 {
     $api->get( 'offers', 'Main\OfferController@index' );
     $api->get( 'offers/{id}', 'Main\OfferController@byId' );
+
+    $api->get( 'search/offers', 'Search@offers');
 } );
 
 groupAuthenticated( $api, function( $api )

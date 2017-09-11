@@ -1,12 +1,14 @@
 export class SearchService
 {
-	constructor( $http, $q )
+	constructor( API, $http, $q )
 	{
 		'ngInject';
 
 		this.$q = $q;
 		this.aborter = $q.defer();
 		this.$http = $http;
+
+		this.API = API;
 	}
 
 	/**
@@ -29,5 +31,19 @@ export class SearchService
 			{
 				return response.data;
 			} );
+	}
+
+	/**
+	 *
+	 * @param {string} value
+	 * @returns {promise}
+	 */
+	searchOffers( value )
+	{
+		let query = {
+			query: value
+		};
+
+		return this.API.one( 'search' ).getList('offers',query );
 	}
 }
