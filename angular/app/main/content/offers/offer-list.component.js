@@ -70,6 +70,12 @@ class OfferListController
 	{
 		this.RoutingService.goContent( this.getCurrentCategory().slug, offer.id );
 	}
+
+	//
+	getURL( offer )
+	{
+		return this.RoutingService.getContentURL( this.getCurrentCategory().slug, offer.id );
+	}
 }
 
 /**

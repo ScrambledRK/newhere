@@ -28,6 +28,26 @@ export class RoutingService
 	 *
 	 * @param {string} category
 	 * @param {string} offer
+	 * @return {string}
+	 */
+	getContentURL( category, offer )
+	{
+		let urlCategory = "start";
+		let urlOffer = "";
+
+		if( category && category !== "" )
+			urlCategory = category;
+
+		if( offer && category !== "" )
+			urlOffer = offer;
+
+		return "#!/" + urlCategory + "/" + urlOffer;
+	}
+
+	/**
+	 *
+	 * @param {string} category
+	 * @param {string} offer
 	 */
 	goContent( category, offer )
 	{

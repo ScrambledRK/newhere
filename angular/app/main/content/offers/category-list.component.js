@@ -64,6 +64,12 @@ class CategoryListController
 	{
 		this.RoutingService.goContent( category.slug, null );
 	}
+
+	//
+	getURL( category )
+	{
+		return this.RoutingService.getContentURL( category.slug, null );
+	}
 }
 
 /**

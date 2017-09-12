@@ -13,7 +13,7 @@
 					  ng-click="vm.goOffer(offer)"
 
 		>
-			<a href="#!/{{vm.getCurrentCategory().slug}}/{{offer.id}}">
+			<a href="{{vm.getURL(offer)}}">
 				<md-grid-tile-header class="offer-header">
 					<h4>
 						<md-icon ng-if="offer.street">location_on</md-icon>

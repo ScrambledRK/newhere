@@ -49,6 +49,12 @@ class HeaderController
 		this.RoutingService.goContent( null, null );
 	}
 
+	//
+	getURL()
+	{
+		return this.RoutingService.getContentURL( null, null );
+	}
+
 }
 
 /**
