@@ -75,7 +75,24 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'main.content',
 			{
-				url: '/{category:[a-zA-Z0-9\-]+}/{offer:[0-9]*}',
+				abstract:true,
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'main/content/content' )
+						},
+
+						'toolbar@main.content': {
+							template: "<main-toolbar></main-toolbar>"
+						}
+					}
+			} )
+
+		//
+		.state( 'main.content.offers',
+			{
+				url: '/offers/{category:[a-zA-Z0-9\-]+}/{offer:[0-9]*}',
 
 				params:
 					{
@@ -91,14 +108,6 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 
 				views:
 					{
-						'body@main': {
-							templateUrl: getView( 'main/content/content' )
-						},
-
-						'toolbar@main.content': {
-							template: "<main-toolbar></main-toolbar>"
-						},
-
 						'content@main.content': {
 							templateProvider: function($stateParams)
 							{

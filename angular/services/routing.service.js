@@ -41,7 +41,7 @@ export class RoutingService
 		if( offer && category !== "" )
 			urlOffer = offer;
 
-		return "#!/" + urlCategory + "/" + urlOffer;
+		return "#!/offers/" + urlCategory + "/" + urlOffer;
 	}
 
 	/**
@@ -65,7 +65,7 @@ export class RoutingService
 		};
 
 		//
-		this.$state.go('main.content', params, config );
+		this.$state.go('main.content.offers', params, config );
 		this.resetViewVariables( offer );                   // in case state does not change, reset still
 	}
 
