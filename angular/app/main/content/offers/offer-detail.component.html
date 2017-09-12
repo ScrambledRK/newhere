@@ -63,6 +63,13 @@
 		<md-icon>info</md-icon>
 		{{vm.offer.description}}
 	</p>
+	<p class="offer-ngo-title">
+		<span translate="Anbieter"></span>:
+		<a class="offer-ngo"
+		   ui-sref="main.provider({id:vm.offer.ngo.id})">
+			{{vm.offer.ngo.organisation}}
+		</a>
+	</p>
 	<br>
 	<div ng-if="vm.offer.image">
 		<img class="offer-detail-image"

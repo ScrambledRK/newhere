@@ -4,6 +4,7 @@
 	 layout-wrap
 	 ng-if="vm.categories.length">
 	<md-button ng-click="vm.goCategory(category)"
+			   href="#!/{{category.slug}}/"
 			   class="big-thumb animate-repeat"
 			   ng-repeat="category in vm.categories track by category.id"
 			   flex-gt-xs="33"

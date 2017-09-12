@@ -10,36 +10,36 @@
 		<md-grid-tile layout="column"
 					  class="offer-container animate-repeat"
 					  ng-repeat="offer in vm.offers track by offer.id"
-					  ng-click="vm.goOffer(offer)">
-			<md-grid-tile-header class="offer-header">
-				<h4>
-					<md-icon ng-if="offer.street">location_on</md-icon>
-					<md-icon ng-if="!offer.street">insert_link</md-icon>
-					<div style="margin-top:10px">{{offer.title}}</div>
-				</h4>
-				<div class="offer-content"
-					 flex
-					 ng-cloak>
-					<p class="offer-ngo-title">
-						<span translate="Anbieter"></span>:
-						<a class="offer-ngo"
-						   ui-sref="main.provider({id:offer.ngo.id})">
-							{{offer.ngo.organisation}}
-						</a>
-					</p>
+					  ng-click="vm.goOffer(offer)"
 
-					<div class="offer-description">
-						{{offer.description}}
+		>
+			<a href="#!/{{vm.getCurrentCategory().slug}}/{{offer.id}}">
+				<md-grid-tile-header class="offer-header">
+					<h4>
+						<md-icon ng-if="offer.street">location_on</md-icon>
+						<md-icon ng-if="!offer.street">insert_link</md-icon>
+						<div style="margin-top:10px">{{offer.title}}</div>
+					</h4>
+					<div class="offer-content"
+						 flex
+						 ng-cloak>
+						<p class="offer-ngo-title">
+							<span translate="Anbieter"></span>: {{offer.ngo.organisation}}
+						</p>
+						<div class="offer-description">
+							{{offer.description}}
+						</div>
+						<div class="offer-address"
+							 ng-if="offer.street || offer.city"
+							 flex>
+							<span ng-if="offer.street!=null">{{offer.street}} {{offer.streetnumber}}</br></span>
+							<span ng-if="offer.streetnumberadditional==null">{{offer.zip}}</span>
+							<span ng-if="offer.street!=null">{{offer.city}}</span>
+						</div>
 					</div>
-					<div class="offer-address"
-						 ng-if="offer.street || offer.city"
-						 flex>
-						<span ng-if="offer.street!=null">{{offer.street}} {{offer.streetnumber}}</br></span>
-						<span ng-if="offer.streetnumberadditional==null">{{offer.zip}}</span>
-						<span ng-if="offer.street!=null">{{offer.city}}</span>
-					</div>
-				</div>
-			</md-grid-tile-header>
+				</md-grid-tile-header>
+			</a>
+
 		</md-grid-tile>
 	</md-grid-list>
 </div>

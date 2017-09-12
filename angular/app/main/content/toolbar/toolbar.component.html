@@ -6,7 +6,8 @@
 		<!-- -->
 		<div ng-repeat="category in vm.categories track by category.id">
 			<md-button aria-label="{{category.title}}"
-					   ng-click="vm.goCategory(category)">
+					   ng-click="vm.goCategory(category)"
+					   href="#!/{{category.slug}}/" >
 				<md-icon class="big-icon"
 						 ng-if="category.image"
 						 md-svg-src="{{ category.image.src }}">
