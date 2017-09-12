@@ -13,16 +13,16 @@
 		<md-list>
 			<md-list-item ng-if="!$root.$auth.isAuthenticated()">
 				<md-button class=""
-						   ui-sref="app.login"
+						   ui-sref="main.contribute"
 						   aria-label="login"
 						   translate="Anmelden">
 				</md-button>
 			</md-list-item>
 			<md-list-item>
 				<md-button class=""
-						   ui-sref="app.ngoRegister"
+						   ui-sref="main.contribute"
 						   aria-label="register"
-						   translate="Als NGO registrieren">
+						   translate="Als Service-Provider registrieren">
 				</md-button>
 			</md-list-item>
 		</md-list>
@@ -45,10 +45,6 @@
 				</md-button>
 			</md-list-item>
 		</md-list>
-
-		<!-- -->
-
-
 
 		<!-- -->
 		<md-list class="bottom-nav">

@@ -4,31 +4,27 @@
 			 class="nHeader-container">
 			<div layout="row"
 				 layout-align="space-between center">
-				<md-button class="md-icon-button"
-						   ng-click="vm.openSideMenu()"
-						   aria-label="menu">
-					<md-icon>menu</md-icon>
-				</md-button>
-				<md-button class="md-icon-button"
-						   ng-click="vm.goContent()"
-						   aria-label="start"
-						   hide-xs>
-					<md-icon md-svg-src="/img/newhere-logo_white.svg"
-							 class="newHere-logo"
-							 aria-label="newhere-logo">
-					</md-icon>
-				</md-button>
+				<div>
+					<md-button class="md-icon-button"
+							   ng-click="vm.openSideMenu()"
+							   aria-label="menu">
+						<md-icon>menu</md-icon>
+					</md-button>
+					<md-button class="md-icon-button"
+							   ng-click="vm.goContent()"
+							   aria-label="start">
+						<md-icon md-svg-src="/img/newhere-logo_white.svg"
+								 class="newHere-logo"
+								 aria-label="newhere-logo">
+						</md-icon>
+					</md-button>
+				</div>
 				<span flex
 					  hide-xs></span>
 				<locator flex
 						 flex-gt-md="25"
 						 ng-if="vm.showLocator">
 				</locator>
-				<!--<md-button ng-if="vm.showNgoLink"-->
-						   <!--ng-click="vm.gotoNgoLanding()"-->
-						   <!--translate="Anmelden"-->
-						   <!--aria-label="login">-->
-				<!--</md-button>-->
 			</div>
 		</div>
 	</div>

@@ -47,6 +47,32 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 			} )
 
 		//
+		.state( 'main.impressum',
+			{
+				url: '/impressum-agbs',
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'main/impressum/impressum' )
+						}
+					}
+			} )
+
+		//
+		.state( 'main.contribute',
+			{
+				url: '/contribute',
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'main/contribute/contribute' )
+						}
+					}
+			} )
+
+		//
 		.state( 'main.content',
 			{
 				url: '/{category:[a-zA-Z0-9\-]+}/{offer:[0-9]*}',
