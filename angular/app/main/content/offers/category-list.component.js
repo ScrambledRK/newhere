@@ -70,6 +70,15 @@ class CategoryListController
 	{
 		return this.RoutingService.getContentURL( category.slug, null );
 	}
+
+	//
+	isLoading()
+	{
+		let hasCategories = this.categories && this.categories.length > 0;
+		let hasOffers = this.getCurrentCategory().offers.length > 0;
+
+		return this.$rootScope.isLoading && !hasCategories && !hasOffers;
+	}
 }
 
 /**
