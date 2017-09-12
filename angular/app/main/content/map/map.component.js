@@ -49,7 +49,7 @@ class MapController
  * @type {{templateUrl: string, controller: MapController, controllerAs: string, bindings: {}}}
  */
 export const MapComponent = {
-	templateUrl: './views/app/main/content/map.component.html',
+	templateUrl: './views/app/main/content/map/map.component.html',
 	controller: MapController,
 	controllerAs: 'vm',
 	bindings: {}

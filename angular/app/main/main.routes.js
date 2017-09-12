@@ -105,7 +105,9 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 								if( $stateParams.offer )
 									return "<main-offer-detail></main-offer-detail>";
 
-								return "<main-content></main-content>";
+								return "" +
+									"<main-category-list></main-category-list>" +
+									"<main-offer-list></main-offer-list>";
 							}
 						}
 					}

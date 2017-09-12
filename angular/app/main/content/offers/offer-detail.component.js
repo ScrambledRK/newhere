@@ -65,7 +65,7 @@ class OfferDetailController
 }
 
 export const OfferDetailComponent = {
-	templateUrl: './views/app/main/content/offer-detail.component.html',
+	templateUrl: './views/app/main/content/offers/offer-detail.component.html',
 	controller: OfferDetailController,
 	controllerAs: 'vm',
 	bindings: {}

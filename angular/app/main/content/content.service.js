@@ -86,6 +86,9 @@ export class ContentService
 	 */
 	fetchContent( slugCategory, slugOffer, force )
 	{
+		this.$rootScope.isLoading = true;
+
+		//
 		if( this.defer !== null )
 			this.defer.resolve();
 
@@ -102,13 +105,16 @@ export class ContentService
 		let offerPromise = this.fetchOffer( slugOffer, config, force );
 
 		this.$q.all( [categoryPromise, offerPromise] ).then( () =>
-		{
-			this.defer = null;
-			this.$rootScope.$broadcast( 'contentChanged', this.category, this.offer );
-		}, (msg) =>
-		{
-			console.log( "fetch content canceled/error", msg );
-		} );
+			{
+				this.defer = null;
+
+				this.$rootScope.isLoading = false;
+				this.$rootScope.$broadcast( 'contentChanged', this.category, this.offer );
+			},
+			( msg ) =>
+			{
+				console.log( "fetch content canceled/error", msg );
+			} );
 	}
 
 	/**
@@ -143,23 +149,24 @@ export class ContentService
 		//
 		return this.API.one( "categories", this.slugCategory ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
-			{
-				if( !response.length )
-					return;
-
-				//
-				this.category = response[0];
-
-				//
-				for( let j = 1; j < response.length; j++ )
 				{
-					if( response[j].children )
-						this.category.children.push.apply( this.category.children, response[j].children );
-				}
-			}, (msg) =>
-			{
-				console.log( "fetch categories canceled/error", msg );
-			} );
+					if( !response.length )
+						return;
+
+					//
+					this.category = response[0];
+
+					//
+					for( let j = 1; j < response.length; j++ )
+					{
+						if( response[j].children )
+							this.category.children.push.apply( this.category.children, response[j].children );
+					}
+				},
+				( msg ) =>
+				{
+					console.log( "fetch categories canceled/error", msg );
+				} );
 	}
 
 	/**
@@ -187,12 +194,13 @@ export class ContentService
 		//
 		return this.API.one( "offers", this.slugOffer ).withHttpConfig( config ).get()
 			.then( ( response ) =>
-			{
-				this.offer = response;
-			}, (msg) =>
-			{
-				console.log( "fetch offer canceled/error", msg );
-			} );
+				{
+					this.offer = response;
+				},
+				( msg ) =>
+				{
+					console.log( "fetch offer canceled/error", msg );
+				} );
 	}
 
 }

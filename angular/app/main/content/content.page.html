@@ -8,6 +8,7 @@
 				layout="column"
 				flex
 				layout-fill
+				md-scroll-y
 				ng-class="{'split-screen': $root.isSplit, 'show-details': $root.showDetails}">
 
 		<!-- UI-VIEW content/map -->
@@ -17,7 +18,6 @@
 					flex-order="2"
 					flex-order-gt-sm="1"
 					ui-view="content"
-					md-scroll-y
 					class="anim-show">
 		</md-content>
 

@@ -78,7 +78,7 @@ class LocatorController
  * @type {{templateUrl: string, controller: LocatorController, controllerAs: string, bindings: {}}}
  */
 export const LocatorComponent = {
-	templateUrl: './views/app/locator/locator.component.html',
+	templateUrl: './views/app/main/header/locator.component.html',
 	controller: LocatorController,
 	controllerAs: 'vm',
 	bindings: {}

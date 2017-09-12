@@ -72,7 +72,7 @@ class ToolbarController
  * @type {{templateUrl: string, controller: ToolbarController, controllerAs: string, bindings: {hideFilterBtn: string}}}
  */
 export const ToolbarComponent = {
-	templateUrl: './views/app/main/content/toolbar.component.html',
+	templateUrl: './views/app/main/content/toolbar/toolbar.component.html',
 	controller: ToolbarController,
 	controllerAs: 'vm',
 	bindings: {}

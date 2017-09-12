@@ -41,10 +41,10 @@ class LanguageSwitcherController
 
 /**
  *
- * @type {{templateUrl: string, controller: AppLanguageSwitcherController, controllerAs: string, bindings: {}}}
+ * @type {{templateUrl: string, controller: LanguageSwitcherController, controllerAs: string, bindings: {}}}
  */
 export const LanguageSwitcherComponent = {
-	templateUrl: './views/app/language-switcher/language-switcher.component.html',
+	templateUrl: './views/app/main/language-switcher/language-switcher.component.html',
 	controller: LanguageSwitcherController,
 	controllerAs: 'vm',
 	bindings: {}

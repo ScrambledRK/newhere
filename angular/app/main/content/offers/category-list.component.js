@@ -1,17 +1,15 @@
-class ContentController
+class CategoryListController
 {
 	/**
 	 *
 	 * @param {ContentService} ContentService
 	 * @param {RoutingService} RoutingService
-	 * @param {MapService} MapService
 	 * @param $rootScope
 	 * @param $scope
 	 * @param $state
 	 */
 	constructor( ContentService,
 	             RoutingService,
-	             MapService,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -21,7 +19,6 @@ class ContentController
 		//
 		this.ContentService = ContentService;
 		this.RoutingService = RoutingService;
-		this.MapService = MapService;
 
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
@@ -31,9 +28,6 @@ class ContentController
 	//
 	$onInit()
 	{
-		this.MapService.markers = {};
-		this.$rootScope.showMap = false;
-
 		this.setContent( this.getCurrentCategory() );
 
 		// ------------- //
@@ -61,9 +55,6 @@ class ContentController
 	setContent( category )
 	{
 		this.categories = category.children;
-		this.offers = category.offers;
-
-		this.MapService.setMarkers( this.offers );
 	}
 
 	/**
@@ -73,23 +64,15 @@ class ContentController
 	{
 		this.RoutingService.goContent( category.slug, null );
 	}
-
-	/**
-	 * @param offer
-	 */
-	goOffer( offer )
-	{
-		this.RoutingService.goContent( this.getCurrentCategory().slug, offer.id );
-	}
 }
 
 /**
  *
- * @type {{templateUrl: string, controller: ContentController, controllerAs: string, bindings: {}}}
+ * @type {{templateUrl: string, controller: CategoryListController, controllerAs: string, bindings: {}}}
  */
-export const ContentComponent = {
-	templateUrl: './views/app/main/content/content.component.html',
-	controller: ContentController,
+export const CategoryListComponent = {
+	templateUrl: './views/app/main/content/offers/category-list.component.html',
+	controller: CategoryListController,
 	controllerAs: 'vm',
 	bindings: {}
 };

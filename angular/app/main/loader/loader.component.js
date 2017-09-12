@@ -9,7 +9,7 @@ class LoaderController {
 }
 
 export const LoaderComponent = {
-    templateUrl: './views/app/loader/loader.component.html',
+    templateUrl: './views/app/main/loader/loader.component.html',
     controller: LoaderController,
     controllerAs: 'vm',
     bindings: {

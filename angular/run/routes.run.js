@@ -13,6 +13,9 @@ export function RoutesRun( $rootScope,
 			if( !$rootScope.language )
 				$rootScope.language = $translate.preferredLanguage();
 
+			if( !$rootScope.isLoading )
+				$rootScope.isLoading = true;
+
 			if( $mdComponentRegistry.get( 'side-menu' ) )
 				$mdSidenav( 'side-menu' ).close();
 		} );

@@ -26,7 +26,6 @@ angular.module( 'app',
 		'mgo-angular-wizard',
 		'bw.paging',
 		'pascalprecht.translate',
-		'ui-leaflet',
 		'nemLogging',
 		'ngCookies',
 
@@ -109,15 +108,6 @@ angular.module( 'app' )
 // COMPONENTS
 // --------------------------------------------------- //
 
-import {LoaderComponent} from './app/loader/loader.component';
-import {LocatorComponent} from './app/locator/locator.component';
-import {LanguageSwitcherComponent} from './app/language-switcher/language-switcher.component';
-
-angular.module('app')
-	.component('loader', LoaderComponent)
-	.component('locator', LocatorComponent)
-	.component('languageSwitcher', LanguageSwitcherComponent)
-;
 
 // --------------------------------------------------- //
 // CONFIG
@@ -126,7 +116,6 @@ angular.module('app')
 import {MaterialConfig} from './config/material.config';
 import {TranslateConfig} from './config/translate.config';
 import {FlowConfig} from './config/flow.config';
-import {RoutesConfig} from './config/routes.config';
 import {LoadingBarConfig} from './config/loading_bar.config';
 import {ThemeConfig} from './config/theme.config';
 import {SatellizerConfig} from './config/satellizer.config';
@@ -136,7 +125,6 @@ angular.module('app')
 	.config(MaterialConfig)
 	.config(TranslateConfig)
 	.config(FlowConfig)
-	.config(RoutesConfig)
 	.config(LoadingBarConfig)
 	.config(ThemeConfig)
 	.config(SatellizerConfig)

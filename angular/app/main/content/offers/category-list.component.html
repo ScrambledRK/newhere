@@ -1,0 +1,26 @@
+<!-- CATEGORIES -->
+<div style="word-break: break-all"
+	 layout="row"
+	 layout-wrap
+	 ng-if="vm.categories.length">
+	<md-button ng-click="vm.goCategory(category)"
+			   class="big-thumb animate-repeat"
+			   ng-repeat="category in vm.categories track by category.id"
+			   flex-gt-xs="33"
+			   flex="50"
+			   layout="column"
+			   layout-align="center center">
+		<md-icon md-svg-src="{{category.image.src }}"></md-icon>
+		{{category.title}}
+	</md-button>
+</div>
+
+<!-- LOADER -->
+<div ng-if="!vm.categories.length"
+	 layout-fill
+	 layout="row"
+	 layout-align="center center">
+	<loader></loader>
+</div>
+
+
