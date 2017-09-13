@@ -28,13 +28,13 @@ class ToolbarController
 	//
 	$onInit()
 	{
-		this.setContent( this.ContentService.category );
+		this.setContent();
 
 		// ------------- //
 
-		let onCategoryChanged = this.$rootScope.$on( "contentChanged", ( event, category ) =>
+		let onCategoryChanged = this.$rootScope.$on( "contentChanged", ( event ) =>
 		{
-			this.setContent( category );
+			this.setContent();
 		} );
 
 		this.$scope.$on('$destroy', () =>
@@ -43,11 +43,11 @@ class ToolbarController
 		});
 	}
 
-	/**
-	 * @param category
-	 */
-	setContent( category )
+	//
+	setContent( )
 	{
+		let category = this.ContentService.category;
+
 		this.categories = [];
 
 		while( category && this.categories.length < 3 )
@@ -57,9 +57,7 @@ class ToolbarController
 		}
 	}
 
-	/**
-	 * @param category
-	 */
+	//
 	goCategory( category )
 	{
 		this.RoutingService.goContent( category.slug, null );
@@ -74,11 +72,11 @@ class ToolbarController
 
 /**
  *
- * @type {{templateUrl: string, controller: ToolbarController, controllerAs: string, bindings: {hideFilterBtn: string}}}
+ * @type {{templateUrl: string, controller: ToolbarController, controllerAs: string, bindings: {}}}
  */
 export const ToolbarComponent = {
 	templateUrl: './views/app/main/content/toolbar/toolbar.component.html',
 	controller: ToolbarController,
 	controllerAs: 'vm',
 	bindings: {}
-}
+};

@@ -35,30 +35,30 @@ export class ContentService
 		//
 		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
 		{
-			this.onStateChanged( toParams );
+			this.onStateChanged( fromState, toState, toParams );
 		} );
 
 		// --------------------------- //
 
 		//
-		this.offer = null;  // must be null, not just empty
-
-		this.category = {
-			children: [],
-			offers: []
-		};
-
-		//
-		this.slugCategory = null;
-		this.slugOffer = null;
 		this.defer = null;
 
 		//
-		this.fetchContent(
-			this.$state.params.category,
-			this.$state.params.offer,
-			false
-		);
+		this.category = {slug:"start"};
+		this.provider = null;
+		this.offer = null;
+
+		this.categoryList = null;
+		this.providerList = null;
+		this.offerList = null;
+
+		//
+		this.slugCategory = null;
+		this.slugProvider = null;
+		this.slugOffer = null;
+
+		//
+		this.onStateChanged( this.$state, this.$state, this.$state.params );
 	}
 
 	/**
@@ -66,25 +66,68 @@ export class ContentService
 	 */
 	onLanguageChanged()
 	{
-		this.fetchContent( this.slugCategory, this.slugOffer, true );
+		this.fetchContent(
+			this.slugCategory,
+			this.slugProvider,
+			this.slugOffer,
+			true
+		);
 	}
 
 	/**
 	 *
+	 * @param toState
 	 * @param toParams
 	 */
-	onStateChanged( toParams )
+	onStateChanged( fromState, toState, toParams )
 	{
-		this.fetchContent( toParams.category, toParams.offer, false );
+		let paramCategory = toParams.category;
+		let paramProvider = toParams.provider;
+		let paramOffer = toParams.offer;
+
+		if( toState.name === "main.content.offers" )
+		{
+			if( toState.name !== fromState.name )
+				this.slugProvider = null;
+
+			paramProvider = null;
+
+			if( !paramCategory || paramCategory === "" )
+				console.error( "content.toState requires category parameter to be set" );
+		}
+
+		if( toState.name === "main.content.providers" )
+		{
+			if( toState.name !== fromState.name )
+				this.slugCategory = this.slugOffer = null;
+
+			paramCategory = null;
+			paramOffer = null;
+
+			if( !paramProvider )
+				console.error( "content.toState requires provider parameter to be set" );
+		}
+
+		//
+		this.fetchContent(
+			paramCategory,
+			paramProvider,
+			paramOffer,
+			true
+		);
 	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
 
 	/**
 	 *
 	 * @param {string} slugCategory
+	 * @param {string} slugProvider
 	 * @param {string} slugOffer
 	 * @param {boolean} force
 	 */
-	fetchContent( slugCategory, slugOffer, force )
+	fetchContent( slugCategory, slugProvider, slugOffer, force )
 	{
 		this.$rootScope.isLoading = true;
 
@@ -101,21 +144,29 @@ export class ContentService
 
 		// ------------- //
 
-		let categoryPromise = this.fetchCategories( slugCategory, config, force );
+		let categoryPromise = this.fetchCategory( slugCategory, config, force );
+		let providerPromise = this.fetchProvider( slugProvider, config, force );
 		let offerPromise = this.fetchOffer( slugOffer, config, force );
 
-		this.$q.all( [categoryPromise, offerPromise] ).then( () =>
-			{
-				this.defer = null;
+		this.$q.all( [categoryPromise, providerPromise, offerPromise] )
+			.then( () =>
+				{
+					console.log("fetch content complete");
 
-				this.$rootScope.isLoading = false;
-				this.$rootScope.$broadcast( 'contentChanged', this.category, this.offer );
-			},
-			( msg ) =>
-			{
-				console.log( "fetch content canceled/error", msg );
-			} );
+					this.defer = null;
+
+					this.$rootScope.isLoading = false;
+					this.$rootScope.$broadcast( 'contentChanged', this );
+				},
+				( msg ) =>
+				{
+					console.log( "fetch content canceled/error", msg );
+				} );
 	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
+	// CATEGORY
 
 	/**
 	 *
@@ -125,12 +176,12 @@ export class ContentService
 	 *
 	 * @return {promise}
 	 */
-	fetchCategories( slugCategory, config, force )
+	fetchCategory( slugCategory, config, force )
 	{
 		console.log( "fetching categories: ", slugCategory );
 
-		if( !slugCategory || slugCategory === '' )
-			slugCategory = 'start';
+		if( !slugCategory )
+			return this.$q.when();
 
 		if( !force && slugCategory === this.slugCategory )
 			return this.$q.when();
@@ -155,12 +206,14 @@ export class ContentService
 
 					//
 					this.category = response[0];
+					this.categoryList = this.category.children;
+					this.offerList = this.category.offers;
 
 					//
 					for( let j = 1; j < response.length; j++ )
 					{
 						if( response[j].children )
-							this.category.children.push.apply( this.category.children, response[j].children );
+							this.categoryList.push.apply( this.categoryList, response[j].children );
 					}
 				},
 				( msg ) =>
@@ -168,6 +221,80 @@ export class ContentService
 					console.log( "fetch categories canceled/error", msg );
 				} );
 	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
+	// PROVIDERS
+
+	/**
+	 *
+	 * @param {string} slugProvider
+	 * @param {*} config
+	 * @param {boolean} force
+	 *
+	 * @return {promise}
+	 */
+	fetchProvider( slugProvider, config, force )
+	{
+		console.log( "fetching providers: ", slugProvider );
+
+		if( !slugProvider )
+			return this.$q.when();
+
+		if( !force && slugProvider === this.slugProvider )
+			return this.$q.when();
+
+		this.slugProvider = slugProvider;
+
+		// ---------- //
+
+		if( slugProvider === 'all' )
+			return this.fetchProviderList( config );
+
+		return this.fetchProviderDetail( config );
+	}
+
+	//
+	fetchProviderList( config )
+	{
+		return this.API.one( "providers" ).withHttpConfig( config ).getList()
+			.then( ( response ) =>
+				{
+					if( !response.length )
+						return;
+
+					//
+					this.providerList = response;
+				},
+				( msg ) =>
+				{
+					console.log( "fetch provider.list canceled/error", msg );
+				} );
+	}
+
+	//
+	fetchProviderDetail( config )
+	{
+		//
+		let query = {
+			withOffers: true
+		};
+
+		return this.API.one( "providers", this.slugProvider ).withHttpConfig( config ).get( query )
+			.then( ( response ) =>
+				{
+					this.provider = response;
+					this.offerList = this.provider.offers;
+				},
+				( msg ) =>
+				{
+					console.log( "fetch provider.detail canceled/error", msg );
+				} );
+	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
+	// OFFERS
 
 	/**
 	 *
@@ -181,7 +308,7 @@ export class ContentService
 	{
 		console.log( "fetching offer: ", slugOffer );
 
-		if( !slugOffer || slugOffer === '' )
+		if( !slugOffer )
 			return this.$q.when();
 
 		if( !force && slugOffer === this.slugOffer )

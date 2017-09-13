@@ -97,11 +97,13 @@ angular.module('app')
 // --------------------------------------------------- //
 
 import {CompareToDirective} from './directives/compareTo.directive';
+//import {ScrollDirective} from './directives/scroll.directive';
 import {TreeviewDirective} from './directives/treeview/treeview.directive';
 
 angular.module( 'app' )
 	.directive( 'compareTo', CompareToDirective )
-	.directive( 'treeview', TreeviewDirective )
+//	.directive( 'onScroll', ScrollDirective )
+	.directive( 'treeView', TreeviewDirective )
 ;
 
 // --------------------------------------------------- //

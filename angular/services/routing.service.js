@@ -69,10 +69,43 @@ export class RoutingService
 		this.resetViewVariables( offer );                   // in case state does not change, reset still
 	}
 
-	//
-	resetViewVariables( offer )
+	/**
+	 *
+	 * @param {string} provider
+	 * @return {string}
+	 */
+	getProviderURL( provider )
 	{
-		if( offer && offer !== '' )
+		return "#!/providers/" + provider;
+	}
+
+	/**
+	 *
+	 * @param {string} provider
+	 */
+	goProvider( provider )
+	{
+		console.log( "routing.go.provider: ", provider );
+
+		//
+		let params = {
+			provider: provider
+		};
+
+		let config = {
+			reload:false,
+			inherit:false
+		};
+
+		//
+		this.$state.go('main.content.providers', params, config );
+		this.resetViewVariables( provider );                   // in case state does not change, reset still
+	}
+
+	//
+	resetViewVariables( detail )
+	{
+		if( detail && detail !== '' )
 		{
 			this.$rootScope.isSplit = true;
 			this.$rootScope.showMap = true;

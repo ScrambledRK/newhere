@@ -81,10 +81,6 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 					{
 						'body@main': {
 							templateUrl: getView( 'main/content/content' )
-						},
-
-						'toolbar@main.content': {
-							template: "<main-toolbar></main-toolbar>"
 						}
 					}
 			} )
@@ -108,6 +104,10 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 
 				views:
 					{
+						'toolbar@main.content': {
+							template: "<main-toolbar></main-toolbar>"
+						},
+
 						'content@main.content': {
 							templateProvider: function($stateParams)
 							{
@@ -117,6 +117,37 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 								return "" +
 									"<main-category-list></main-category-list>" +
 									"<main-offer-list></main-offer-list>";
+							}
+						}
+					}
+			} )
+
+		//
+		.state( 'main.content.providers',
+			{
+				url: '/providers/{provider:[a-zA-Z0-9-]+}',
+
+				params:
+					{
+						provider: {
+							value: "all"
+						}
+					},
+
+				views:
+					{
+						'toolbar@main.content': {
+							template: ""
+						},
+
+						'content@main.content': {
+							templateProvider: function($stateParams)
+							{
+								if( $stateParams.provider !== 'all' )
+									return "<main-provider-detail></main-provider-detail>";
+
+								return "" +
+									"<main-provider-list></main-provider-list>";
 							}
 						}
 					}

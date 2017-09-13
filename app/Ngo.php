@@ -39,7 +39,7 @@ class Ngo extends Model
             'App\Offer',
             'ngo_id',
             'id'
-        );
+        )->where( 'enabled', true );
     }
 
     /**

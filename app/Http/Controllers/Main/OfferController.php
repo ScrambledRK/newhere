@@ -37,19 +37,6 @@ class OfferController extends Controller
         $count = $result->count();
 
         //
-        if( $request->has( 'user_id' ) )
-        {
-            $user = User::findOrFail( $request->get( 'user_id' ) )
-                        ->load( ['ngos'] );
-
-            foreach ($user->ngos as $ngo)
-            {
-                $result = $result->where( 'ngo_id', $ngo->id );
-                $count = $result->count();
-            }
-        }
-
-        //
         if( $request->has( 'ngo_id' ) )
         {
             $result = $result->where( 'ngo_id', $request->get( 'ngo_id' ) );

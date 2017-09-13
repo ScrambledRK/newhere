@@ -69,8 +69,8 @@ class CategoryController extends Controller
     }
 
     /**
+     * @param $request
      * @param $slug
-     * @param $children
      * @return \Illuminate\Http\JsonResponse
      */
     public function bySlug( Request $request, $slug )

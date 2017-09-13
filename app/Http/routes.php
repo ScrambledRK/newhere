@@ -100,7 +100,8 @@ groupAuthenticated( $api, function( $api )
 */
 groupEveryone( $api, function( $api )
 {
-
+    $api->get( 'providers', 'Main\ProviderController@index' );
+    $api->get( 'providers/{id}', 'Main\ProviderController@byId' );
 } );
 
 //

@@ -28,13 +28,13 @@ class CategoryListController
 	//
 	$onInit()
 	{
-		this.setContent( this.getCurrentCategory() );
+		this.setContent( this.ContentService.categoryList );
 
 		// ------------- //
 
-		let onContentChanged = this.$rootScope.$on( "contentChanged", ( event, category, offer ) =>
+		let onContentChanged = this.$rootScope.$on( "contentChanged", ( event ) =>
 		{
-			this.setContent( category );
+			this.setContent( this.ContentService.categoryList );
 		} );
 
 		this.$scope.$on('$destroy', () =>
@@ -44,22 +44,12 @@ class CategoryListController
 	}
 
 	//
-	getCurrentCategory()
+	setContent( categoryList )
 	{
-		return this.ContentService.category;
+		this.categories = categoryList;
 	}
 
-	/**
-	 * @param category
-	 */
-	setContent( category )
-	{
-		this.categories = category.children;
-	}
-
-	/**
-	 * @param category
-	 */
+	//
 	goCategory( category )
 	{
 		this.RoutingService.goContent( category.slug, null );
@@ -74,8 +64,10 @@ class CategoryListController
 	//
 	isLoading()
 	{
+		let offerList = this.ContentService.offerList;
+
 		let hasCategories = this.categories && this.categories.length > 0;
-		let hasOffers = this.getCurrentCategory().offers.length > 0;
+		let hasOffers = offerList && offerList.length > 0;
 
 		return this.$rootScope.isLoading && !hasCategories && !hasOffers;
 	}

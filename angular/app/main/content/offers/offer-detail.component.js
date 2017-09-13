@@ -3,13 +3,17 @@ class OfferDetailController
 	/**
 	 *
 	 * @param {ContentService} ContentService
+	 * @param {RoutingService} RoutingService
 	 * @param {MapService} MapService
+	 * @param $element
 	 * @param $rootScope
 	 * @param $scope
 	 * @param $state
 	 */
 	constructor( ContentService,
+	             RoutingService,
 	             MapService,
+	             $element,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -18,8 +22,10 @@ class OfferDetailController
 
 		//
 		this.ContentService = ContentService;
+		this.RoutingService = RoutingService;
 		this.MapService = MapService;
 
+		this.$window = $element;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 		this.$state = $state;
@@ -32,9 +38,9 @@ class OfferDetailController
 
 		// ------------- //
 
-		let onContentChanged = this.$rootScope.$on( "contentChanged", ( event, category, offer ) =>
+		let onContentChanged = this.$rootScope.$on( "contentChanged", ( event ) =>
 		{
-			this.setContent( offer );
+			this.setContent( this.ContentService.offer );
 		} );
 
 		this.$scope.$on('$destroy', () =>
@@ -43,9 +49,7 @@ class OfferDetailController
 		});
 	}
 
-	/**
-	 * @param offer
-	 */
+	//
 	setContent( offer )
 	{
 		this.offer = offer;
@@ -57,10 +61,36 @@ class OfferDetailController
 		}
 	}
 
+	//
 	toggleMap()
 	{
 		this.$rootScope.showMap = !this.$rootScope.showMap;
 		this.$rootScope.showDetails = !this.$rootScope.showDetails;
+	}
+
+	//
+	goProvider()
+	{
+		this.RoutingService.goProvider( this.offer.ngo.id );
+	}
+
+	//
+	getURL()
+	{
+		return this.RoutingService.getProviderURL( this.offer.ngo.id );
+	}
+
+	// ----------------- //
+	// ----------------- //
+
+	onSwipeUp()
+	{
+		console.log("swipe-up");
+	}
+
+	onSwipeDown()
+	{
+		console.log("swipe-down");
 	}
 }
 

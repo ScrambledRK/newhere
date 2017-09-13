@@ -3,27 +3,33 @@ class MapController
 	/**
 	 *
 	 * @param {MapService} MapService
+	 * @param {ContentService} ContentService
+	 * @param {RoutingService} RoutingService
 	 * @param {*} $scope
 	 * @param {*} $state
 	 */
 	constructor( MapService,
+	             ContentService,
+	             RoutingService,
 	             $scope,
 	             $state )
 	{
 		'ngInject';
 
-		var vm = this;
+		let vm = this;
 
 		this.MapService = MapService;
+		this.ContentService = ContentService;
+		this.RoutingService = RoutingService;
 		this.$state = $state;
+
+		//
 		this.orgLatLng = {};
 
 		//
 		$scope.$on( "leafletDirectiveMarker.nhMap.click", function( event, args )
 		{
-			vm.$state.go( 'main.content.detail', {
-				id: args.model.offer_id
-			} );
+			vm.goOffer( args.model );
 		} );
 
 		//
@@ -36,11 +42,24 @@ class MapController
 		$scope.$on( 'leafletDirectiveMarker.nhMap.dragend', function( e, args )
 		{
 			args.leafletObject.setLatLng( vm.orgLatLng );
-			vm.$state.go( 'main.content.detail', {
-				id: args.model.offer_id
-			} );
+			vm.goOffer( args.model );
 		} );
 	}
+
+	//
+	getCurrentCategory()
+	{
+		return this.ContentService.category;
+	}
+
+	/**
+	 * @param offer
+	 */
+	goOffer( offer )
+	{
+		this.RoutingService.goContent( this.getCurrentCategory().slug, offer.offer_id );
+	}
+
 
 }
 

@@ -31,13 +31,13 @@ class OfferListController
 	//
 	$onInit()
 	{
-		this.setContent( this.getCurrentCategory() );
+		this.setContent( this.ContentService.offerList );
 
 		// ------------- //
 
-		let onContentChanged = this.$rootScope.$on( "contentChanged", ( event, category, offer ) =>
+		let onContentChanged = this.$rootScope.$on( "contentChanged", ( event ) =>
 		{
-			this.setContent( category );
+			this.setContent( this.ContentService.offerList );
 		} );
 
 		this.$scope.$on('$destroy', () =>
@@ -47,34 +47,24 @@ class OfferListController
 	}
 
 	//
-	getCurrentCategory()
+	setContent( offers )
 	{
-		return this.ContentService.category;
-	}
-
-	/**
-	 * @param category
-	 */
-	setContent( category )
-	{
-		this.offers = category.offers;
+		this.offers = offers;
 
 		this.MapService.markers = {};
 		this.MapService.setMarkers( this.offers );
 	}
 
-	/**
-	 * @param offer
-	 */
+	//
 	goOffer( offer )
 	{
-		this.RoutingService.goContent( this.getCurrentCategory().slug, offer.id );
+		this.RoutingService.goContent( this.ContentService.category.slug, offer.id );
 	}
 
 	//
 	getURL( offer )
 	{
-		return this.RoutingService.getContentURL( this.getCurrentCategory().slug, offer.id );
+		return this.RoutingService.getContentURL( this.ContentService.category.slug, offer.id );
 	}
 }
 

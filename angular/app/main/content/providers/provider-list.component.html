@@ -1,0 +1,27 @@
+<!-- CATEGORIES -->
+<div style="word-break: break-all"
+	 layout="row"
+	 layout-wrap
+	 ng-if="vm.providers.length">
+	<md-button ng-click="vm.goProvider(provider)"
+			   href="{{vm.getURL(provider)}}"
+			   class="big-thumb animate-repeat"
+			   ng-repeat="provider in vm.providers track by provider.id"
+			   flex-gt-xs="33"
+			   flex="50"
+			   layout="column"
+			   layout-align="center center">
+		<md-icon md-svg-src="{{provider.image.src }}"></md-icon>
+		{{provider.organisation}}
+	</md-button>
+</div>
+
+<!-- LOADER -->
+<div ng-if="vm.isLoading()"
+	 layout-fill
+	 layout="row"
+	 layout-align="center center">
+	<loader></loader>
+</div>
+
+

@@ -6,7 +6,10 @@
 
 <!-- offer -->
 <div class="offer-detail"
-	 ng-if="vm.offer">
+	 ng-if="vm.offer"
+	 md-swipe-up="vm.onSwipeUp()"
+	 md-swipe-down="vm.onSwipeDown()"
+>
 
 	<h2>{{vm.offer.title}}</h2>
 
@@ -66,7 +69,8 @@
 	<p class="offer-ngo-title">
 		<span translate="Anbieter"></span>:
 		<a class="offer-ngo"
-		   ui-sref="main.provider({id:vm.offer.ngo.id})">
+		   ng-click="vm.goProvider()"
+		   href="{{vm.getURL()}}">
 			{{vm.offer.ngo.organisation}}
 		</a>
 	</p>
@@ -77,19 +81,17 @@
 	</div>
 
 	<!-- raise button -->
-	<md-content flex
-				hide-gt-sm>
-		<md-button ng-if="vm.offer !=null"
-				   style="float: right;position:fixed;bottom:1em;right:1em"
-				   class="md-raised md-icon-button md-primary"
-				   ng-click="vm.toggleMap()"
-				   layout-align="center center">
-			<i class="material-icons"
-			   ng-if="!$root.showMap">map</i>
-			<i class="material-icons"
-			   ng-if="$root.showMap">info</i>
-		</md-button>
-	</md-content>
+	<md-button ng-if="vm.offer !=null"
+			   style="float: right;position:fixed;bottom:1em;right:1em"
+			   class="md-raised md-icon-button md-primary"
+
+			   ng-click="vm.toggleMap()"
+			   layout-align="center center">
+		<i class="material-icons"
+		   ng-if="!$root.showMap">map</i>
+		<i class="material-icons"
+		   ng-if="$root.showMap">info</i>
+	</md-button>
 
 </div>
 

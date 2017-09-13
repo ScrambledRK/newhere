@@ -38,15 +38,19 @@ angular.module( 'app.main' )
 import {CategoryListComponent} from './content/offers/category-list.component';
 import {OfferListComponent} from './content/offers/offer-list.component';
 import {OfferDetailComponent} from './content/offers/offer-detail.component';
+import {ProviderListComponent} from './content/providers/provider-list.component';
+import {ProviderDetailComponent} from './content/providers/provider-detail.component';
 import {ToolbarComponent} from './content/toolbar/toolbar.component';
 import {MapComponent} from './content/map/map.component';
 
 angular.module( 'app.main' )
 	.component( 'mainCategoryList', CategoryListComponent )
 	.component( 'mainOfferList', OfferListComponent )
+	.component( 'mainOfferDetail', OfferDetailComponent )
+	.component( 'mainProviderList', ProviderListComponent )
+	.component( 'mainProviderDetail', ProviderDetailComponent )
 	.component( 'mainToolbar', ToolbarComponent )
 	.component( 'mainMap', MapComponent )
-	.component( 'mainOfferDetail', OfferDetailComponent )
 ;
 
 // ------------------------------- //
