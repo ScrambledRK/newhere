@@ -1,5 +1,6 @@
 <md-sidenav
-	class="md-sidenav-left md-whiteframe-4dp"
+	class="md-whiteframe-4dp"
+	ng-class="{'md-sidenav-left':$root.isTextAlignmentLeft,'md-sidenav-right':!$root.isTextAlignmentLeft}"
 	md-component-id="side-menu"
 >
 	<md-toolbar>
@@ -67,3 +68,5 @@
 
 	</md-content>
 </md-sidenav>
+
+

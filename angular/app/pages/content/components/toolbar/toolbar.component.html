@@ -1,12 +1,16 @@
 <md-toolbar md-theme="whitey">
+
+	<!-- left to right -->
 	<div
+		ng-if="$root.isTextAlignmentLeft"
 		class="md-toolbar-tools"
 		layout="row"
 		layout-align="start center"
 	>
 
-		<!-- -->
-		<div ng-repeat="category in vm.categories track by category.id">
+		<div
+			ng-repeat="category in vm.categories track by category.id"
+		>
 			<md-button
 				aria-label="{{category.title}}"
 				ng-click="vm.goCategory(category)"
@@ -23,6 +27,34 @@
 			</md-button>
 			<md-icon ng-if="$index < vm.categories.length-1">chevron_right</md-icon>
 		</div>
-
 	</div>
+
+	<!-- right to left -->
+	<div
+		ng-if="!$root.isTextAlignmentLeft"
+		class="md-toolbar-tools"
+		layout="row"
+		layout-align="end center"
+	>
+		<div
+			ng-repeat="category in vm.categories track by category.id"
+		>
+			<md-button
+				aria-label="{{category.title}}"
+				ng-click="vm.goCategory(category)"
+				href="{{vm.getURL(category)}}"
+			>
+				<span ng-if="category.title.length > 20">...</span>
+				{{category.title | limitTo:20 }}
+				<md-icon
+					class="big-icon"
+					ng-if="category.image"
+					md-svg-src="{{ category.image.src }}"
+				>
+				</md-icon>
+			</md-button>
+			<md-icon ng-if="$index < vm.categories.length-1">chevron_left</md-icon>
+		</div>
+	</div>
+
 </md-toolbar>

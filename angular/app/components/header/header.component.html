@@ -1,5 +1,9 @@
 <md-content class="nHeader">
-	<div layout="row">
+	<!-- left to right -->
+	<div
+		ng-if="$root.isTextAlignmentLeft"
+		layout="row"
+	>
 		<div
 			flex
 			class="nHeader-container"
@@ -40,6 +44,55 @@
 					ng-if="vm.showLocator"
 				>
 				</locator>
+			</div>
+		</div>
+	</div>
+
+	<!-- right to left -->
+	<div
+		ng-if="!$root.isTextAlignmentLeft"
+		layout="row"
+	>
+		<div
+			flex
+			class="nHeader-container"
+		>
+			<div
+				layout="row"
+				layout-align="space-between center"
+			>
+				<locator
+					flex
+					flex-gt-md="25"
+					ng-if="vm.showLocator"
+				>
+				</locator>
+				<span
+					flex
+					hide-xs
+				></span>
+				<div>
+					<md-button
+						class="md-icon-button"
+						ng-click="vm.goContent()"
+						href="{{vm.getURL()}}"
+						aria-label="start"
+					>
+						<md-icon
+							md-svg-src="/img/newhere-logo_white.svg"
+							class="newHere-logo"
+							aria-label="newhere-logo"
+						>
+						</md-icon>
+					</md-button>
+					<md-button
+						class="md-icon-button"
+						ng-click="vm.openSideMenu()"
+						aria-label="menu"
+					>
+						<md-icon>menu</md-icon>
+					</md-button>
+				</div>
 			</div>
 		</div>
 	</div>

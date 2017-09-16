@@ -52,7 +52,15 @@ class ToolbarController
 
 		while( category && this.categories.length < 3 )
 		{
-			this.categories.unshift( category );
+			if( this.$rootScope.isTextAlignmentLeft )
+			{
+				this.categories.unshift( category );
+			}
+			else
+			{
+				this.categories.push( category );
+			}
+
 			category = category.parent;
 		}
 	}

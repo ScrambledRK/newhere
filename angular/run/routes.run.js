@@ -13,6 +13,9 @@ export function RoutesRun( $rootScope,
 			if( !$rootScope.language )
 				$rootScope.language = $translate.preferredLanguage();
 
+			if( $rootScope.isTextAlignmentLeft == null ) // == undefined/null
+				$rootScope.isTextAlignmentLeft = true;
+
 			if( !$rootScope.isLoading )
 				$rootScope.isLoading = true;
 

@@ -1,14 +1,18 @@
 <div
 	ui-view="header"
 	layout="column"
+	class="main-header"
+	ng-class="{'text-align-left':$root.isTextAlignmentLeft,'text-align-right':!$root.isTextAlignmentLeft}"
 ></div>
 <div
 	ui-view="body"
 	class="main"
 	layout="column"
 	layout-fill
+	ng-class="{'text-align-left':$root.isTextAlignmentLeft,'text-align-right':!$root.isTextAlignmentLeft}"
 ></div>
 <div
 	ui-view="footer"
 	layout="column"
+	ng-class="{'text-align-left':$root.isTextAlignmentLeft,'text-align-right':!$root.isTextAlignmentLeft}"
 ></div>

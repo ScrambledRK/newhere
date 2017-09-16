@@ -1,14 +1,18 @@
-<md-button
-	ng-click="vm.toggleMap()"
-	class="map-toggler-circle md-raised md-icon-button md-primary"
-	layout-align="center center"
+<div
+	ng-class="{'toggler-align-left':!$root.isTextAlignmentLeft,'toggler-align-right':$root.isTextAlignmentLeft}"
 >
-	<i
-		ng-if="!vm.isMapFocused()"
-		class="material-icons"
-	>map</i>
-	<i
-		ng-if="vm.isMapFocused()"
-		class="material-icons"
-	>info</i>
-</md-button>
+	<md-button
+		ng-click="vm.toggleMap()"
+		class="map-toggler-circle md-raised md-icon-button md-primary"
+		layout-align="center center"
+	>
+		<i
+			ng-if="!vm.isMapFocused()"
+			class="material-icons"
+		>map</i>
+		<i
+			ng-if="vm.isMapFocused()"
+			class="material-icons"
+		>info</i>
+	</md-button>
+</div>

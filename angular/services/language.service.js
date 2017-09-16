@@ -46,6 +46,18 @@ export class LanguageService
 			return language;
 
 		//
+		switch( language )
+		{
+			case "ar":
+			case "fa":
+				this.$rootScope.isTextAlignmentLeft = false;
+				break;
+
+			default:
+				this.$rootScope.isTextAlignmentLeft = true;
+		}
+
+		//
 		this.$translate.use( language ).then( (lang) =>
 		{
 			this.$rootScope.language = lang;

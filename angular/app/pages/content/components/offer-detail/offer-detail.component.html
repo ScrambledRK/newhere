@@ -6,87 +6,265 @@
 >
 	<h2>{{vm.offer.title}}</h2>
 
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 	<!-- contact -->
-	<p ng-if="vm.offer.phone">
-		<md-icon>phone</md-icon>
-		<a href="tel:{{vm.offer.phone}}">{{vm.offer.phone}}</a></p>
-	<p
-		style="word-break: break-all"
-		ng-if="vm.offer.website"
-	>
-		<md-icon>insert_link</md-icon>
-		<a
-			href="{{vm.offer.website}}"
-			target="_blank"
-		>{{vm.offer.website}}</a>
-	</p>
-	<p
-		style="word-break: break-all"
-		ng-if="vm.offer.facebook_url"
-	>
-		<md-icon
-			md-svg-src="/img/icons/facebook.svg"
-			class="normal"
-		>
-		</md-icon>
-		<a
-			href="{{vm.offer.facebook_url}}"
-			target="_blank"
-		>{{vm.offer.facebook_url}}
-		</a>
-	</p>
-	<p ng-if="vm.offer.email">
-		<md-icon>mail</md-icon>
-		<a href="mailto:{{vm.offer.email}}">{{vm.offer.email}}</a>
-	</p>
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 
+	<!-- phone -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.phone"
+		>
+			<md-icon>phone</md-icon>
+			<a href="tel:{{vm.offer.phone}}">{{vm.offer.phone}}</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.phone"
+		>
+			<a href="tel:{{vm.offer.phone}}">{{vm.offer.phone}}</a>
+			<md-icon>phone</md-icon>
+		</div>
+	</div>
+
+	<!-- website -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.offer.website"
+		>
+			<md-icon>insert_link</md-icon>
+			<a
+				href="{{vm.offer.website}}"
+				target="_blank"
+			>{{vm.offer.website}}</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.offer.website"
+		>
+			<a
+				href="{{vm.offer.website}}"
+				target="_blank"
+			>{{vm.offer.website}}</a>
+			<md-icon>insert_link</md-icon>
+		</div>
+	</div>
+
+	<!--facebook -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.offer.facebook_url"
+		>
+			<md-icon
+				md-svg-src="/img/icons/facebook.svg"
+				class="normal"
+			>
+			</md-icon>
+			<a
+				href="{{vm.offer.facebook_url}}"
+				target="_blank"
+			>{{vm.offer.facebook_url}}
+			</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.offer.facebook_url"
+		>
+			<a
+				href="{{vm.offer.facebook_url}}"
+				target="_blank"
+			>{{vm.offer.facebook_url}}
+			</a>
+			<md-icon
+				md-svg-src="/img/icons/facebook.svg"
+				class="normal"
+			>
+			</md-icon>
+		</div>
+	</div>
+
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.email"
+		>
+			<md-icon>mail</md-icon>
+			<a href="mailto:{{vm.offer.email}}">{{vm.offer.email}}</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.email"
+		>
+			<a href="mailto:{{vm.offer.email}}">{{vm.offer.email}}</a>
+			<md-icon>mail</md-icon>
+		</div>
+	</div>
+
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 	<!-- address -->
-	<p ng-if="vm.offer.street">
-		<md-icon>place</md-icon>
-		{{vm.offer.street}} {{vm.offer.streetnumber}}</br>
-		<span
-			ng-if="vm.offer.streetnumberadditional"
-			class="offer-detail-address"
-		>{{vm.offer.streetnumberadditional}} {{vm.offer.zip}}</br>
-			</span>
-		<span
-			ng-if="!vm.offer.streetnumberadditional"
-			class="offer-detail-address"
-		>{{vm.offer.zip}}</br>
-			</span>
-		<span
-			ng-if="vm.offer.street"
-			class="offer-detail-address"
-		>{{vm.offer.city}}</span>
-	</p>
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 
-	<!-- data -->
-	<p ng-if="vm.offer.opening_hours">
-		<md-icon>schedule</md-icon>
-		{{vm.offer.opening_hours}}
-	</p>
-	<p ng-if="vm.offer.age_from && vm.offer.age_to">
-		<md-icon>people</md-icon>
-		<span translate="Geeignetes Alter: %s - %s Jahre  | sprintf: vm.offer.age_from:vm.offer.age_to }}">
-			</span>
-	</p>
-	<p
-		ng-if="vm.offer.description"
-		class="offer-detail-description"
-	>
-		<md-icon>info</md-icon>
-		{{vm.offer.description}}
-	</p>
-	<p class="offer-ngo-title">
-		<span translate="Anbieter"></span>:
-		<a
-			class="offer-ngo"
-			ng-click="vm.goProvider()"
-			href="{{vm.getURL()}}"
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.street"
 		>
-			{{vm.offer.ngo.organisation}}
-		</a>
-	</p>
+			<md-icon>place</md-icon>
+			<span>
+				<span>{{vm.offer.street}} {{vm.offer.streetnumber}}</br></span>
+				<span
+					ng-if="vm.offer.streetnumberadditional"
+					class="offer-detail-address"
+				>{{vm.offer.streetnumberadditional}} {{vm.offer.zip}}</br>
+				</span>
+				<span
+					ng-if="!vm.offer.streetnumberadditional"
+					class="offer-detail-address"
+				>{{vm.offer.zip}}</br>
+				</span>
+				<span
+					class="offer-detail-address"
+				>{{vm.offer.city}}
+				</span>
+			</span>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.street"
+		>
+			<span>
+				<span>{{vm.offer.street}} {{vm.offer.streetnumber}}</span>
+				<md-icon>place</md-icon>
+				<span
+					ng-if="vm.offer.streetnumberadditional"
+					class="offer-detail-address"
+				></br>{{vm.offer.streetnumberadditional}} {{vm.offer.zip}}
+				</span>
+				<span
+					ng-if="!vm.offer.streetnumberadditional"
+					class="offer-detail-address"
+				></br>{{vm.offer.zip}}
+				</span>
+				<span
+					class="offer-detail-address"
+				></br>{{vm.offer.city}}
+				</span>
+			</span>
+		</div>
+	</div>
+
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- data -->
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+	<!-- opening hours -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.opening_hours"
+		>
+			<md-icon>schedule</md-icon>
+			{{vm.offer.opening_hours}}
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.opening_hours"
+		>
+			{{vm.offer.opening_hours}}
+			<md-icon>schedule</md-icon>
+		</div>
+	</div>
+
+	<!-- age from/to -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.age_from && vm.offer.age_to"
+		>
+			<md-icon>people</md-icon>
+			<span translate="Geeignetes Alter: %s - %s Jahre  | sprintf: vm.offer.age_from:vm.offer.age_to }}">
+			</span>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.offer.age_from && vm.offer.age_to"
+		>
+			<span translate="Geeignetes Alter: %s - %s Jahre  | sprintf: vm.offer.age_from:vm.offer.age_to }}">
+			</span>
+			<md-icon>people</md-icon>
+		</div>
+	</div>
+
+	<!-- description -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			ng-if="vm.offer.description"
+			class="point offer-detail-description"
+		>
+			<md-icon>info</md-icon>
+			{{vm.offer.description}}
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			ng-if="vm.offer.description"
+			class="point offer-detail-description"
+		>
+			{{vm.offer.description}}
+			<md-icon>info</md-icon>
+		</div>
+	</div>
+
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point offer-ngo-title"
+		>
+			<span translate="Anbieter"></span>:
+			<a
+				class="offer-ngo"
+				ng-click="vm.goProvider()"
+				href="{{vm.getURL()}}"
+			>
+				{{vm.offer.ngo.organisation}}
+			</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point offer-ngo-title"
+		>
+			<a
+				class="offer-ngo"
+				ng-click="vm.goProvider()"
+				href="{{vm.getURL()}}"
+			>
+				{{vm.offer.ngo.organisation}}
+			</a>
+			:<span translate="Anbieter"></span>
+		</div>
+	</div>
+
 	<br>
 	<div ng-if="vm.offer.image">
 		<img
