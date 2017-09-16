@@ -1,11 +1,9 @@
-import './app/main/main.module';
-import './app/cms/cms.module';
+import './app/main.module';
 
 //
 angular.module( 'app',
 	[
 		'app.main',
-		'app.cms',
 
 		'ui-leaflet',
 		'ui.router',
@@ -97,12 +95,10 @@ angular.module('app')
 // --------------------------------------------------- //
 
 import {CompareToDirective} from './directives/compareTo.directive';
-//import {ScrollDirective} from './directives/scroll.directive';
 import {TreeviewDirective} from './directives/treeview/treeview.directive';
 
 angular.module( 'app' )
 	.directive( 'compareTo', CompareToDirective )
-//	.directive( 'onScroll', ScrollDirective )
 	.directive( 'treeView', TreeviewDirective )
 ;
 
@@ -110,6 +106,19 @@ angular.module( 'app' )
 // COMPONENTS
 // --------------------------------------------------- //
 
+import {HeaderComponent} from './app/components/header/header.component';
+import {LocatorComponent} from './app/components/header/locator.component';
+import {SideMenuComponent} from './app/components/side-menu/side-menu.component';
+import {LoaderComponent} from './app/components/loader/loader.component';
+import {LanguageSwitcherComponent} from './app/components/language-switcher/language-switcher.component';
+
+angular.module( 'app.main' )
+	.component( 'appHeader', HeaderComponent )
+	.component( 'locator', LocatorComponent )
+	.component( 'sideMenu', SideMenuComponent )
+	.component( 'loader', LoaderComponent )
+	.component( 'languageSwitcher', LanguageSwitcherComponent )
+;
 
 // --------------------------------------------------- //
 // CONFIG

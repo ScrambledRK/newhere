@@ -15,14 +15,14 @@ export class RoutingService
 		//
 		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
 		{
-			console.log( "routing.state.change.start: ", toParams );
-
-			//
-			this.resetViewVariables( toParams.offer );
+			this.updateState( toParams.offer );
 		} );
 
-		this.resetViewVariables( this.$state.params.offer );  // .current.params is always ui-router object, not parsed
+		this.updateState( this.$state.params.offer );  // .current.params is always ui-router object, not parsed
 	}
+
+	// ------------------------------------- //
+	// ------------------------------------- //
 
 	/**
 	 *
@@ -55,18 +55,18 @@ export class RoutingService
 
 		//
 		let params = {
-			category:category,
-			offer:offer
+			category: category,
+			offer: offer
 		};
 
 		let config = {
-			reload:false,
-			inherit:false
+			reload: false,
+			inherit: false
 		};
 
 		//
-		this.$state.go('main.content.offers', params, config );
-		this.resetViewVariables( offer );                   // in case state does not change, reset still
+		this.$state.go( 'main.content.offers', params, config );
+		this.updateState( offer );                   // in case state does not change, reset still
 	}
 
 	/**
@@ -93,29 +93,54 @@ export class RoutingService
 		};
 
 		let config = {
-			reload:false,
-			inherit:false
+			reload: false,
+			inherit: false
 		};
 
 		//
-		this.$state.go('main.content.providers', params, config );
-		this.resetViewVariables( provider );                   // in case state does not change, reset still
+		this.$state.go( 'main.content.providers', params, config );
+		this.updateState( provider ); // in case state does not change, reset still
+	}
+
+	// ------------------------------------- //
+	// ------------------------------------- //
+
+	//
+	updateState( detail )
+	{
+		let previous = this.isDetailState;
+		this.isDetailState = Boolean(detail && detail !== '');
+
+		//
+		if( previous !== this.isDetailState )
+			this.viewStateChanged = true;
+
+		//
+		this.setMapFocus( this.isDetailState );
 	}
 
 	//
-	resetViewVariables( detail )
+	setMapFocus( isFocused )
 	{
-		if( detail && detail !== '' )
+		let previous = this.isMapFocused;
+		this.isMapFocused = isFocused;
+
+		//
+		if( previous !== this.isMapFocused )
+			this.viewStateChanged = true;
+
+		this.broadcastChange();
+	}
+
+	//
+	broadcastChange()
+	{
+		if( this.viewStateChanged )
 		{
-			this.$rootScope.isSplit = true;
-			this.$rootScope.showMap = true;
-			this.$rootScope.showDetails = false;
-		}
-		else
-		{
-			this.$rootScope.isSplit = false;
-			this.$rootScope.showMap = false;
-			this.$rootScope.showDetails = false;
+			console.log("viewStateChanged", this.isMapFocused, this.isDetailState );
+
+			this.$rootScope.$broadcast( 'viewStateChanged', this.isMapFocused, this.isDetailState );
+			this.viewStateChanged = false;
 		}
 	}
 }

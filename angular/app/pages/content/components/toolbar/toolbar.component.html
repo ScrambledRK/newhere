@@ -1,0 +1,28 @@
+<md-toolbar md-theme="whitey">
+	<div
+		class="md-toolbar-tools"
+		layout="row"
+		layout-align="start center"
+	>
+
+		<!-- -->
+		<div ng-repeat="category in vm.categories track by category.id">
+			<md-button
+				aria-label="{{category.title}}"
+				ng-click="vm.goCategory(category)"
+				href="{{vm.getURL(category)}}"
+			>
+				<md-icon
+					class="big-icon"
+					ng-if="category.image"
+					md-svg-src="{{ category.image.src }}"
+				>
+				</md-icon>
+				<small>{{category.title | limitTo:20 }}</small>
+				<span ng-if="category.title.length > 20">...</span>
+			</md-button>
+			<md-icon ng-if="$index < vm.categories.length-1">chevron_right</md-icon>
+		</div>
+
+	</div>
+</md-toolbar>

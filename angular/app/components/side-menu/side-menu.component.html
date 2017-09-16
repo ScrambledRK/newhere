@@ -1,0 +1,69 @@
+<md-sidenav
+	class="md-sidenav-left md-whiteframe-4dp"
+	md-component-id="side-menu"
+>
+	<md-toolbar>
+		<md-button ng-click="vm.close()">
+			<md-icon>close</md-icon>
+		</md-button>
+	</md-toolbar>
+
+	<md-content layout-padding>
+
+		<!-- -->
+		<md-list>
+			<md-list-item ng-if="!$root.$auth.isAuthenticated()">
+				<md-button
+					class=""
+					ui-sref="main.contribute"
+					aria-label="login"
+					translate="Anmelden"
+				>
+				</md-button>
+			</md-list-item>
+			<md-list-item>
+				<md-button
+					class=""
+					ui-sref="main.contribute"
+					aria-label="register"
+					translate="Als Service-Provider registrieren"
+				>
+				</md-button>
+			</md-list-item>
+			<md-list-item>
+				<md-button
+					class=""
+					ui-sref="main.content.providers"
+					aria-label="providers"
+					translate="Alle Service-Provider"
+				>
+				</md-button>
+			</md-list-item>
+			<md-list-item>
+				<md-button
+					class=""
+					ui-sref="main.content.offers"
+					aria-label="providers"
+					translate="Alle Angebote"
+				>
+				</md-button>
+			</md-list-item>
+		</md-list>
+
+		<!-- -->
+		<md-list class="bottom-nav">
+			<md-divider></md-divider>
+			<language-switcher></language-switcher>
+			<md-divider></md-divider>
+			<md-list-item>
+				<md-button
+					ui-sref="main.impressum"
+					aria-label="impressum"
+				>
+					Impressum &amp; Nutzungsbedingungen
+				</md-button>
+			</md-list-item>
+		</md-list>
+
+	</md-content>
+</md-sidenav>

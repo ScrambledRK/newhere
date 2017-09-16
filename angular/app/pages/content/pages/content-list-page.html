@@ -1,0 +1,25 @@
+<!-- LOADER -->
+<div
+	ng-if="vm.isLoading()"
+	layout-align="center center"
+	layout-fill
+	layout="row"
+>
+	<loader></loader>
+</div>
+
+<!-- MAP TOGGLER -->
+<map-toggler-wide
+	hide-gt-sm
+></map-toggler-wide>
+
+<!-- CATEGORY/OFFER LIST -->
+<md-content
+	class="list-container"
+	layout-fill
+	layout="column"
+	md-scroll-y
+>
+	<category-list></category-list>
+	<offer-list></offer-list>
+</md-content>

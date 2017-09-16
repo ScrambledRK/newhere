@@ -1,0 +1,21 @@
+<!-- CATEGORIES -->
+<div
+	ng-if="vm.categories.length"
+	style="word-break: break-all"
+	layout="row"
+	layout-wrap
+>
+	<md-button
+		ng-repeat="category in vm.categories track by category.id"
+		ng-click="vm.goCategory(category)"
+		href="{{vm.getURL(category)}}"
+		class="big-thumb animate-repeat"
+		flex-gt-xs="33"
+		flex="50"
+		layout="column"
+		layout-align="center center"
+	>
+		<md-icon md-svg-src="{{category.image.src }}"></md-icon>
+		{{category.title}}
+	</md-button>
+</div>

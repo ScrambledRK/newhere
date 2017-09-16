@@ -1,0 +1,46 @@
+<div
+	layout="column"
+	layout-fill
+>
+
+	<div
+		id="navigation-container"
+		ui-view="navigation"
+		flex="none"
+	></div>
+
+	<div
+		id="body-container"
+		layout="column"
+		layout-gt-sm="row"
+		layout-fill=""
+		flex
+	>
+
+		<div
+			id="content-container"
+			md-whiteframe="3"
+			flex-order="2"
+			flex-order-gt-sm="1"
+			flex="100"
+			class="anim-show"
+		>
+			<div
+				ui-view="content"
+				layout-fill
+			></div>
+		</div>
+
+		<div
+			id="map-container"
+			flex-order="1"
+			flex-order-gt-sm="2"
+			flex="0"
+			class="anim-show"
+		>
+			<map></map>
+		</div>
+
+	</div>
+
+</div>
