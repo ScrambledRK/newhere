@@ -38,13 +38,14 @@ class HeaderController
 	//
 	goContent()
 	{
-		this.RoutingService.goContent( null, null );
+	//	this.RoutingService.goContent( null, null );
+		this.$state.go("main.landing");
 	}
 
 	//
 	getURL()
 	{
-		return this.RoutingService.getContentURL( null, null );
+		return "#!/"; //this.RoutingService.getContentURL( null, null );
 	}
 }
 
