@@ -14,6 +14,7 @@ import {MapService} from "./pages/content/services/map.service";
 import {ContentService} from "./pages/content/services/content.service";
 import {ProviderListPageComponent} from "./pages/content/pages/provider-list-page";
 import {ProviderDetailPageComponent} from "./pages/content/pages/provider-detail-page";
+import {OfferTitleDirective} from "./pages/content/directives/offer-title.directive";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -34,6 +35,11 @@ angular.module( 'app.main' )
 //
 angular.module( 'app.main' )
 	.config( RoutesConfig )
+;
+
+//
+angular.module( 'app.main' )
+	.directive( "offerTitle", OfferTitleDirective )
 ;
 
 // ------------------------------- //

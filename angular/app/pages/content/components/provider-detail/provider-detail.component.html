@@ -1,72 +1,196 @@
 <div
 	class="provider-detail"
 	ng-if="vm.provider"
+	md-swipe-up="vm.onSwipeUp()"
+	md-swipe-down="vm.onSwipeDown()"
 >
-
 	<h2>{{vm.provider.organisation}}</h2>
 
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 	<!-- contact -->
-	<p ng-if="vm.provider.contact_phone">
-		<md-icon>phone</md-icon>
-		<a href="tel:{{vm.provider.contact_phone}}">{{vm.provider.contact_phone}}</a></p>
-	<p
-		style="word-break: break-all"
-		ng-if="vm.provider.website"
-	>
-		<md-icon>insert_link</md-icon>
-		<a
-			href="{{vm.provider.website}}"
-			target="_blank"
-		>{{vm.provider.website}}</a>
-	</p>
-	<p
-		style="word-break: break-all"
-		ng-if="vm.provider.facebook_url"
-	>
-		<md-icon
-			md-svg-src="/img/icons/facebook.svg"
-			class="normal"
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+	<!-- phone -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.provider.phone"
 		>
-		</md-icon>
-		<a
-			href="{{vm.provider.facebook_url}}"
-			target="_blank"
-		>{{vm.provider.facebook_url}}
-		</a>
-	</p>
-	<p ng-if="vm.provider.contact_email">
-		<md-icon>mail</md-icon>
-		<a href="mailto:{{vm.provider.contact_email}}">{{vm.provider.contact_email}}</a>
-	</p>
+			<md-icon>phone</md-icon>
+			<a href="tel:{{vm.provider.phone}}">{{vm.provider.phone}}</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.provider.phone"
+		>
+			<a href="tel:{{vm.provider.phone}}">{{vm.provider.phone}}</a>
+			<md-icon>phone</md-icon>
+		</div>
+	</div>
 
+	<!-- website -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.provider.website"
+		>
+			<md-icon>insert_link</md-icon>
+			<a
+				href="{{vm.provider.website}}"
+				target="_blank"
+			>{{vm.provider.website}}</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.provider.website"
+		>
+			<a
+				href="{{vm.provider.website}}"
+				target="_blank"
+			>{{vm.provider.website}}</a>
+			<md-icon>insert_link</md-icon>
+		</div>
+	</div>
+
+	<!--facebook -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.provider.facebook_url"
+		>
+			<md-icon
+				md-svg-src="/img/icons/facebook.svg"
+				class="normal"
+			>
+			</md-icon>
+			<a
+				href="{{vm.provider.facebook_url}}"
+				target="_blank"
+			>{{vm.provider.facebook_url}}
+			</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			style="word-break: break-all"
+			ng-if="vm.provider.facebook_url"
+		>
+			<a
+				href="{{vm.provider.facebook_url}}"
+				target="_blank"
+			>{{vm.provider.facebook_url}}
+			</a>
+			<md-icon
+				md-svg-src="/img/icons/facebook.svg"
+				class="normal"
+			>
+			</md-icon>
+		</div>
+	</div>
+
+	<!-- email-->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.provider.contact_email"
+		>
+			<md-icon>mail</md-icon>
+			<a href="mailto:{{vm.provider.contact_email}}">{{vm.provider.contact_email}}</a>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.provider.contact_email"
+		>
+			<a href="mailto:{{vm.provider.contact_email}}">{{vm.provider.contact_email}}</a>
+			<md-icon>mail</md-icon>
+		</div>
+	</div>
+
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 	<!-- address -->
-	<p ng-if="vm.provider.street">
-		<md-icon>place</md-icon>
-		{{vm.provider.street}} {{vm.provider.street_number}}</br>
-		<span
-			ng-if="vm.provider.streetnumberadditional"
-			class="provider-detail-address"
-		>{{vm.provider.streetnumberadditional}} {{vm.provider.zip}}</br>
-			</span>
-		<span
-			ng-if="!vm.provider.streetnumberadditional"
-			class="provider-detail-address"
-		>{{vm.provider.zip}}</br>
-			</span>
-		<span
-			ng-if="vm.provider.street"
-			class="provider-detail-address"
-		>{{vm.provider.city}}</span>
-	</p>
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 
-	<!-- data -->
-	<p
-		ng-if="vm.provider.description"
-		class="provider-detail-description"
-	>
-		<md-icon>info</md-icon>
-		{{vm.provider.description}}
-	</p>
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.provider.street"
+		>
+			<md-icon>place</md-icon>
+			<span>
+				<span>{{vm.provider.street}} {{vm.provider.street_number}}</br></span>
+				<span
+					ng-if="vm.provider.streetnumberadditional"
+					class="provider-detail-address"
+				>{{vm.provider.streetnumberadditional}} {{vm.provider.zip}}</br>
+				</span>
+				<span
+					ng-if="!vm.provider.streetnumberadditional"
+					class="provider-detail-address"
+				>{{vm.provider.zip}}</br>
+				</span>
+				<span
+					class="provider-detail-address"
+				>{{vm.provider.city}}
+				</span>
+			</span>
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			class="point"
+			ng-if="vm.provider.street"
+		>
+			<span>
+				<span>{{vm.provider.street}} {{vm.provider.street_number}}</span>
+				<md-icon>place</md-icon>
+				<span
+					ng-if="vm.provider.streetnumberadditional"
+					class="provider-detail-address"
+				></br>{{vm.provider.streetnumberadditional}} {{vm.provider.zip}}
+				</span>
+				<span
+					ng-if="!vm.provider.streetnumberadditional"
+					class="provider-detail-address"
+				></br>{{vm.provider.zip}}
+				</span>
+				<span
+					class="provider-detail-address"
+				></br>{{vm.provider.city}}
+				</span>
+			</span>
+		</div>
+	</div>
+
+	<!-- description -->
+	<div ng-if="$root.isTextAlignmentLeft">
+		<div
+			ng-if="vm.provider.description"
+			class="point provider-detail-description"
+		>
+			<md-icon>info</md-icon>
+			{{vm.provider.description}}
+		</div>
+	</div>
+	<div ng-if="!$root.isTextAlignmentLeft">
+		<div
+			ng-if="vm.provider.description"
+			class="point provider-detail-description"
+		>
+			{{vm.provider.description}}
+			<md-icon>info</md-icon>
+		</div>
+	</div>
+
 	<br>
 	<div ng-if="vm.provider.image">
 		<img
@@ -74,7 +198,6 @@
 			ng-src="{{vm.provider.image.src}}"
 		>
 	</div>
-
 </div>
 
 

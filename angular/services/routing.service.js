@@ -15,10 +15,10 @@ export class RoutingService
 		//
 		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
 		{
-			this.updateState( toParams.offer );
+			this.updateStateParams( toParams );
 		} );
 
-		this.updateState( this.$state.params.offer );  // .current.params is always ui-router object, not parsed
+		this.updateStateParams( this.$state.params );  // .current.params is always ui-router object, not parsed
 	}
 
 	// ------------------------------------- //
@@ -104,6 +104,22 @@ export class RoutingService
 
 	// ------------------------------------- //
 	// ------------------------------------- //
+
+	//
+	updateStateParams( params )
+	{
+		let hasOffer = Boolean(params.offer && params.offer !== '');
+		let hasProvider = Boolean(params.provider && params.provider !== '');
+
+		if( !hasOffer && !hasProvider )
+			this.updateState( null );
+
+		if( hasOffer )
+			this.updateState( params.offer );
+
+		if( hasProvider )
+			this.updateState( params.provider );
+	}
 
 	//
 	updateState( detail )

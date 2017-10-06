@@ -16,12 +16,15 @@
 
 <!-- CATEGORY/OFFER LIST -->
 <md-content
-	id="list-container"
+	class="content-padding"
 	md-scroll-y
 	layout-fill
 	flex
 >
 	<provider-detail></provider-detail>
+	<offer-title
+		ng-if="vm.hasOffers()"
+	></offer-title>
 	<offer-list></offer-list>
 </md-content>
 

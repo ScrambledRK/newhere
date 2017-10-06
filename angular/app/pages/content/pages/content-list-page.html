@@ -15,11 +15,14 @@
 
 <!-- CATEGORY/OFFER LIST -->
 <md-content
-	class="list-container"
+	class="content-padding"
 	layout-fill
 	layout="column"
 	md-scroll-y
 >
 	<category-list></category-list>
+	<offer-title
+		ng-if="vm.hasOffers() && vm.hasCategories()"
+	></offer-title>
 	<offer-list></offer-list>
 </md-content>

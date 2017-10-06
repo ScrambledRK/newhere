@@ -14,15 +14,17 @@ class ProviderDetailPageController
 		this.$rootScope = $rootScope;
 	}
 
+	hasOffers()
+	{
+		let offerList = this.ContentService.offerList;
+		return Boolean(offerList && offerList.length > 0);
+	}
+
 	//
 	isLoading()
 	{
-		let offerList = this.ContentService.offerList;
-
 		let hasProvider = Boolean(this.ContentService.provider);
-		let hasOffers = Boolean(offerList && offerList.length > 0);
-
-		return this.$rootScope.isLoading && !hasProvider && !hasOffers;
+		return this.$rootScope.isLoading && !hasProvider && !this.hasOffers();
 	}
 }
 

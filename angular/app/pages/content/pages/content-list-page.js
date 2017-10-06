@@ -14,16 +14,22 @@ class ContentListPageController
 		this.$rootScope = $rootScope;
 	}
 
+	hasOffers()
+	{
+		let offerList = this.ContentService.offerList;
+		return Boolean(offerList && offerList.length > 0);
+	}
+
+	hasCategories()
+	{
+		let categoryList = this.ContentService.categoryList;
+		return Boolean(categoryList && categoryList.length > 0);
+	}
+
 	//
 	isLoading()
 	{
-		let offerList = this.ContentService.offerList;
-		let categoryList = this.ContentService.categoryList;
-
-		let hasCategories = Boolean(categoryList && categoryList.length > 0);
-		let hasOffers = Boolean(offerList && offerList.length > 0);
-
-		return this.$rootScope.isLoading && !hasCategories && !hasOffers;
+		return this.$rootScope.isLoading && !this.hasCategories() && !this.hasOffers();
 	}
 }
 
