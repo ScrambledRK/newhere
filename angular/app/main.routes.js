@@ -147,4 +147,17 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 						}
 					}
 			} )
+
+		//
+		.state( 'main.login',
+			{
+				url: '/login',
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'login/login' )
+						}
+					}
+			} )
 }

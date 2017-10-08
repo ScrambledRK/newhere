@@ -15,6 +15,7 @@ import {ContentService} from "./pages/content/services/content.service";
 import {ProviderListPageComponent} from "./pages/content/pages/provider-list-page";
 import {ProviderDetailPageComponent} from "./pages/content/pages/provider-detail-page";
 import {OfferTitleDirective} from "./pages/content/directives/offer-title.directive";
+import {LoginFormComponent} from "./pages/login/login-form.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -60,4 +61,5 @@ angular.module( 'app.main' )
 	.component( 'providerDetailPage', ProviderDetailPageComponent )
 	.component( 'mapTogglerWide', MapTogglerWide )
 	.component( 'mapTogglerCircle', MapTogglerCircle )
+	.component( 'loginForm', LoginFormComponent )
 ;

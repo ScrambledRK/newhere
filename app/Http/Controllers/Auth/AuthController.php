@@ -17,33 +17,47 @@ use App\Logic\User\UserRepository;
 class AuthController extends Controller
 {
     protected $userRepository;
-    public function __construct(UserRepository $userRepository){
-      $this->userRepository = $userRepository;
-    }
-    public function postLogin(Request $request)
+
+    public function __construct( UserRepository $userRepository )
     {
-        $this->validate($request, [
-            'email' => 'required|email',
+        $this->userRepository = $userRepository;
+    }
+
+    public function postLogin( Request $request )
+    {
+        $this->validate( $request, [
+            'email'    => 'required|email',
             'password' => 'required|min:5',
-        ]);
+        ] );
 
-        $credentials = $request->only('email', 'password');
+        //
+        $credentials = $request->only( 'email', 'password' );
 
-        try {
+        try
+        {
             // verify the credentials and create a token for the user
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->error('Invalid credentials', 401);
+            if( !$token = JWTAuth::attempt( $credentials ) )
+            {
+                return response()->error( 'Invalid credentials', 401 );
             }
-        } catch (\JWTException $e) {
-            return response()->error('Could not create token', 500);
+        }
+        catch( \JWTException $e )
+        {
+            return response()->error( 'Could not create token', 500 );
         }
 
+        //
         $user = Auth::user();
-        if ($user->confirmed != 1) {
-            return response()->error('Your account has not been verified. Did you get mail?', 401);
+
+        if( $user->confirmed != 1 )
+        {
+            return response()->error( 'Your account has not been verified. Did you get mail?', 401 );
         }
-        $user->load('roles');
-        return response()->success(compact('user', 'token'));
+
+        $user->load( 'roles' );
+
+        //
+        return response()->success( compact( 'user', 'token' ) );
     }
 
     /**
@@ -51,24 +65,25 @@ class AuthController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function postRegister(Request $request)
+    public function postRegister( Request $request )
     {
-        if ($request->has('organisation')) {
+        if( $request->has( 'organisation' ) )
+        {
             //redirect to NGO registration
-            return $this->registerNgo($request);
+            return $this->registerNgo( $request );
         }
 
-        $this->validate($request, [
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users',
+        $this->validate( $request, [
+            'name'     => 'required|min:3',
+            'email'    => 'required|email|unique:users',
             'password' => 'required|min:5',
-        ]);
-        $user = $this->storeAndSendMail($request->name, $request->email, $request->password);
-        $user->attachRole(Role::where('name', 'user')->findOrFail());
+        ] );
+        $user = $this->storeAndSendMail( $request->name, $request->email, $request->password );
+        $user->attachRole( Role::where( 'name', 'user' )->findOrFail() );
 
-        $token = JWTAuth::fromUser($user);
+        $token = JWTAuth::fromUser( $user );
 
-        return response()->success(compact('user', 'token'));
+        return response()->success( compact( 'user', 'token' ) );
     }
 
     /**
@@ -76,96 +91,103 @@ class AuthController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function registerNgo(Request $request)
+    public function registerNgo( Request $request )
     {
-        $this->validate($request, [
+        $this->validate( $request, [
             'organisation' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:5',
-            'description' => 'max:200'
-        ]);
+            'email'        => 'required|email|unique:users',
+            'password'     => 'required|min:5',
+            'description'  => 'max:200'
+        ] );
 
-        if ($request->has('street') && $request->has('street_number') && $request->has('zip')) {
+        if( $request->has( 'street' ) && $request->has( 'street_number' ) && $request->has( 'zip' ) )
+        {
             $addressApi = new AddressAPI();
-            $coordinates = $addressApi->getCoordinates($request->get('street'), $request->get('street_number'), $request->get('zip'));
+            $coordinates = $addressApi->getCoordinates( $request->get( 'street' ), $request->get( 'street_number' ), $request->get( 'zip' ) );
         }
 
         DB::beginTransaction();
 
-        $ngoUser = $this->storeAndSendMail($request->get('organisation'), $request->email, $request->password);
-        $organisationRole = Role::where('name', 'organisation-admin')->firstOrFail();
-        $ngoUser->attachRole($organisationRole);
+        $ngoUser = $this->storeAndSendMail( $request->get( 'organisation' ), $request->email, $request->password );
+        $organisationRole = Role::where( 'name', 'organisation-admin' )->firstOrFail();
+        $ngoUser->attachRole( $organisationRole );
 
         $ngo = new Ngo();
         $ngo->published = false;
-        $ngo->organisation = $request->get('organisation');
-        $ngo->website = $request->get('website');
-        $ngo->contact = $request->get('contact');
-        $ngo->contact_email = $request->get('contact_email');
-        $ngo->contact_phone = $request->get('contact_phone');
-        $ngo->street = $request->get('street');
-        $ngo->street_number = $request->get('street_number');
-        $ngo->zip = $request->get('zip');
-        $ngo->city = $request->get('city');
-        $ngo->image_id = $request->get('image_id');
-        if ($coordinates) {
-            $ngo->latitude = $coordinates[0];
-            $ngo->longitude = $coordinates[1];
+        $ngo->organisation = $request->get( 'organisation' );
+        $ngo->website = $request->get( 'website' );
+        $ngo->contact = $request->get( 'contact' );
+        $ngo->contact_email = $request->get( 'contact_email' );
+        $ngo->contact_phone = $request->get( 'contact_phone' );
+        $ngo->street = $request->get( 'street' );
+        $ngo->street_number = $request->get( 'street_number' );
+        $ngo->zip = $request->get( 'zip' );
+        $ngo->city = $request->get( 'city' );
+        $ngo->image_id = $request->get( 'image_id' );
+        if( $coordinates )
+        {
+            $ngo->latitude = $coordinates[ 0 ];
+            $ngo->longitude = $coordinates[ 1 ];
         }
         //Standard Translation
-        if ($request->has('description')) {
-            $locale = $request->get('language');
-            $ngo->translateOrNew($locale)->description = $request->get('description');
+        if( $request->has( 'description' ) )
+        {
+            $locale = $request->get( 'language' );
+            $ngo->translateOrNew( $locale )->description = $request->get( 'description' );
         }
 
         $ngo->save();
-        $ngo->users()->attach($ngoUser);
+        $ngo->users()->attach( $ngoUser );
 
         DB::commit();
 
         //$token = JWTAuth::fromUser($ngoUser);
-        return response()->success(compact('user', 'token'));
+        return response()->success( compact( 'user', 'token' ) );
     }
 
-    private function storeAndSendMail($name, $email, $password)
+    private function storeAndSendMail( $name, $email, $password )
     {
-        $confirmation_code = str_random(30);
+        $confirmation_code = str_random( 30 );
 
         $user = new User;
-        $user->name = trim($name);
-        $user->email = trim(strtolower($email));
-        $user->password = bcrypt($password);
+        $user->name = trim( $name );
+        $user->email = trim( strtolower( $email ) );
+        $user->password = bcrypt( $password );
         $user->confirmation_code = $confirmation_code;
         $user->save();
 
-        $this->userRepository->verifyMail($user);
+        $this->userRepository->verifyMail( $user );
 
         return $user;
     }
 
-    public function getConfirmation($confirmation_code)
+    public function getConfirmation( $confirmation_code )
     {
-        if (!$confirmation_code) {
+        if( !$confirmation_code )
+        {
             throw new InvalidConfirmationCodeException;
         }
-        $user = User::whereConfirmationCode($confirmation_code)->first();
-        if (!$user) {
+        $user = User::whereConfirmationCode( $confirmation_code )->first();
+        if( !$user )
+        {
             throw new InvalidConfirmationCodeException;
         }
         $user->confirmed = 1;
         $user->confirmation_code = null;
         $user->save();
 
-        return redirect('/#/login');
-        return response()->success(compact('user'));
+        return redirect( '/#/login' );
+
+        return response()->success( compact( 'user' ) );
     }
 
-    public function getVerify(){
-        $user = User::find(3);
-        $user->confirmation_code = str_random(30);
+    public function getVerify()
+    {
+        $user = User::find( 3 );
+        $user->confirmation_code = str_random( 30 );
         $user->save();
 
-        $this->userRepository->verifyMail($user);
+        $this->userRepository->verifyMail( $user );
 
         return true;//
     }

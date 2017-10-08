@@ -152,7 +152,7 @@ groupAuthenticated( $api, function( $api )
 */
 groupEveryone( $api, function( $api )
 {
-
+    $api->controller('auth', 'Auth\AuthController');
 } );
 
 //
