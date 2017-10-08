@@ -1,9 +1,11 @@
-import './app/main.module';
+import './app/main/main.module';
+import './app/cms/cms.module';
 
 //
 angular.module( 'app',
 	[
 		'app.main',
+		'app.cms',
 
 		'ui-leaflet',
 		'ui.router',
@@ -79,7 +81,6 @@ import {APIService} from './services/API.service';
 import {ToastService} from './services/toast.service';
 import {SearchService} from './services/search.service';
 import {LanguageService} from './services/language.service';
-import {RoutingService} from './services/routing.service';
 
 //
 angular.module('app')
@@ -87,7 +88,6 @@ angular.module('app')
 	.service('SearchService', SearchService)
 	.service('ToastService', ToastService)
 	.service('LanguageService', LanguageService)
-	.service('RoutingService', RoutingService)
 ;
 
 // --------------------------------------------------- //
@@ -106,19 +106,7 @@ angular.module( 'app' )
 // COMPONENTS
 // --------------------------------------------------- //
 
-import {HeaderComponent} from './app/components/header/header.component';
-import {LocatorComponent} from './app/components/header/locator.component';
-import {SideMenuComponent} from './app/components/side-menu/side-menu.component';
-import {LoaderComponent} from './app/components/loader/loader.component';
-import {LanguageSwitcherComponent} from './app/components/language-switcher/language-switcher.component';
 
-angular.module( 'app.main' )
-	.component( 'appHeader', HeaderComponent )
-	.component( 'locator', LocatorComponent )
-	.component( 'sideMenu', SideMenuComponent )
-	.component( 'loader', LoaderComponent )
-	.component( 'languageSwitcher', LanguageSwitcherComponent )
-;
 
 // --------------------------------------------------- //
 // CONFIG

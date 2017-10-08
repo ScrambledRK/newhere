@@ -1,10 +1,10 @@
-export function RoutesConfig( $stateProvider, $urlRouterProvider )
+export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 {
 	'ngInject';
 
 	let getView = ( viewName ) =>
 	{
-		return `./views/app/pages/${viewName}.page.html`;
+		return `./views/app/main/pages/${viewName}.page.html`;
 	};
 
 	$urlRouterProvider.otherwise( '/' );
@@ -69,10 +69,13 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 					}
 			} )
 
+		// ------------------------------------------------------- //
+		// ------------------------------------------------------- //
+
 		//
 		.state( 'main.content',
 			{
-				abstract:true,
+				abstract: true,
 
 				views:
 					{
@@ -106,7 +109,7 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 						},
 
 						'content@main.content': {
-							templateProvider: function($stateParams)
+							templateProvider: function( $stateParams )
 							{
 								if( $stateParams.offer )
 									return "<content-detail-page></content-detail-page>";
@@ -136,7 +139,7 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 						},
 
 						'content@main.content': {
-							templateProvider: function($stateParams)
+							templateProvider: function( $stateParams )
 							{
 								if( $stateParams.provider !== 'all' )
 									return "<provider-detail-page></provider-detail-page>";
@@ -147,6 +150,9 @@ export function RoutesConfig( $stateProvider, $urlRouterProvider )
 						}
 					}
 			} )
+
+		// ------------------------------------------------------- //
+		// ------------------------------------------------------- //
 
 		//
 		.state( 'main.login',

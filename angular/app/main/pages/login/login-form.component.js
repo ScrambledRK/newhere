@@ -42,13 +42,13 @@ class LoginFormController
 				this.$window.localStorage.roles = JSON.stringify( roles );
 				this.ToastService.show( 'Sie haben sich erfolgreich angemeldet.' );
 
-				this.gotoCMS();
+				this.gotoCMS( roles );
 			} )
 			.catch( this.failedLogin.bind( this ) );
 	}
 
 	//
-	gotoCMS()
+	gotoCMS( roles )
 	{
 		if( this.isModerator( roles ) )
 		{
@@ -82,15 +82,22 @@ class LoginFormController
 
 	failedLogin( response )
 	{
-		if( response.data.errors && response.data.errors.message )
+		if( response.data )
 		{
-			response.data.errors.message.forEach( function( element )
-			{
-				this.ToastService.error( element );
-			}, this );
-		}
+			this.ToastService.error( response.statusText );
 
-		this.ToastService.error( response.statusText );
+			if( response.data.errors && response.data.errors.message )
+			{
+				response.data.errors.message.forEach( function( element )
+				{
+					this.ToastService.error( element );
+				}, this );
+			}
+		}
+		else
+		{
+			this.ToastService.error( response.message );
+		}
 	}
 }
 

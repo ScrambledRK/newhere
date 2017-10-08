@@ -1,4 +1,4 @@
-import {RoutesConfig} from './main.routes';
+import {MainRoutesConfig} from './main.routes';
 import {ContentPageComponent} from "./pages/content/content-page";
 import {CategoryListComponent} from "./pages/content/components/category-list/category-list.component";
 import {OfferListComponent} from "./pages/content/components/offer-list/offer-list.component";
@@ -10,12 +10,18 @@ import {MapComponent} from "./pages/content/components/map/map.component";
 import {ContentDetailPageComponent} from "./pages/content/pages/content-detail-page";
 import {ContentListPageComponent} from "./pages/content/pages/content-list-page";
 import {MapTogglerCircle, MapTogglerWide} from "./pages/content/components/map-toggler/map-toggler.component";
-import {MapService} from "./pages/content/services/map.service";
-import {ContentService} from "./pages/content/services/content.service";
 import {ProviderListPageComponent} from "./pages/content/pages/provider-list-page";
 import {ProviderDetailPageComponent} from "./pages/content/pages/provider-detail-page";
-import {OfferTitleDirective} from "./pages/content/directives/offer-title.directive";
 import {LoginFormComponent} from "./pages/login/login-form.component";
+import {HeaderComponent} from "./components/header/header.component";
+import {LocatorComponent} from "./components/header/locator.component";
+import {SideMenuComponent} from "./components/side-menu/side-menu.component";
+import {LanguageSwitcherComponent} from "./components/language-switcher/language-switcher.component";
+import {LoaderComponent} from "./components/loader/loader.component";
+import {MapService} from "./services/map.service";
+import {ContentService} from "./services/content.service";
+import {OfferTitleDirective} from "./directives/offer-title.directive";
+import {RoutingService} from "./services/routing.service";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -31,11 +37,12 @@ angular.module( 'app.main',
 angular.module( 'app.main' )
 	.service( 'MapService', MapService )
 	.service( 'ContentService', ContentService )
+	.service( 'RoutingService', RoutingService )
 ;
 
 //
 angular.module( 'app.main' )
-	.config( RoutesConfig )
+	.config( MainRoutesConfig )
 ;
 
 //
@@ -45,6 +52,14 @@ angular.module( 'app.main' )
 
 // ------------------------------- //
 // ------------------------------- //
+
+angular.module( 'app.main' )
+	.component( 'appHeader', HeaderComponent )
+	.component( 'locator', LocatorComponent )
+	.component( 'sideMenu', SideMenuComponent )
+	.component( 'loader', LoaderComponent )
+	.component( 'languageSwitcher', LanguageSwitcherComponent )
+;
 
 angular.module( 'app.main' )
 	.component( 'categoryList', CategoryListComponent )
