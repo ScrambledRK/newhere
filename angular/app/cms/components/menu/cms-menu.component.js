@@ -5,23 +5,24 @@ class CmsMenuController
 		'ngInject';
 		this.$window = $window;
 		//
-		this.items = [{
-			sref: 'cms.dashboard',
-			icon: 'dashboard',
-			title: 'Dashboard',
-			roles: ['admin', 'superadmin', 'organisation-admin']
-		},
+		this.items = [
+			{
+				sref: 'cms.dashboard',
+				icon: 'dashboard',
+				title: 'Dashboard',
+				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user', 'moderator']
+			},
 			{
 				sref: 'cms.offers',
 				icon: 'local_offer',
 				title: 'Offers',
-				roles: ['admin', 'superadmin', 'organisation-admin']
+				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user']
 			},
 			{
-				sref: 'cms.ngos',
+				sref: 'cms.providers',
 				icon: 'business',
-				title: 'NGOs',
-				roles: ['admin', 'superadmin', 'organisation-admin']
+				title: 'Providers',
+				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user']
 			},
 			{
 				sref: 'cms.translations',

@@ -1,0 +1,119 @@
+<md-table-container>
+	<table
+		md-table
+		md-row-select
+		multiple
+		ng-model="vm.selectedItems"
+		md-progress="vm.promise"
+	>
+
+		<!-- head -->
+		<thead
+			md-head
+			md-order="vm.query.order"
+			md-on-reorder="vm.onQueryUpdate"
+		>
+			<tr md-row>
+				<th
+					md-column
+					class="icon"
+				></th>
+				<th
+					md-column
+					md-order-by="id"
+				>{{ 'Angebot' | translate }}
+				</th>
+				<th
+					md-column
+					md-order-by="enabled"
+				>{{ 'Veröffentlicht' | translate }}
+				</th>
+				<th md-column>{{ 'Adresse' | translate }}</th>
+				<th
+					md-column
+					md-order-by="ngo_id"
+				>{{ 'NGO' | translate }}
+				</th>
+				<th
+					md-column
+					class="icon"
+				>{{ 'Telefon' | translate }}
+				</th>
+				<th
+					md-column
+					class="icon"
+				>{{ 'Email' | translate }}
+				</th>
+				<th
+					md-column
+					class="icon"
+				>{{ 'Webseite' | translate }}
+				</th>
+			</tr>
+		</thead>
+
+		<!-- body -->
+		<tbody md-body>
+			<tr
+				md-row
+				md-select="item"
+				ng-repeat="item in vm.items"
+			>
+				<td md-cell>
+					<md-button
+						ng-click="vm.editItem(offer.id)"
+						class="md-icon-button md-accent md-hue-2"
+					>
+						<md-icon>edit</md-icon>
+					</md-button>
+				</td>
+				<td md-cell>
+					<strong>{{item.title}}</strong>
+				</td>
+				<td md-cell>
+					<md-switch
+						ng-model="item.enabled"
+						class="md-primary"
+						ng-disabled="!vm.isNgoPublished"
+						ng-change="vm.toggleEnabled(item)"
+					></md-switch>
+				</td>
+				<td md-cell>{{item.street}} {{item.streetnumber}}
+				            {{item.streetnumberadditional}}, {{item.zip}}
+				            {{item.city}}
+				</td>
+
+				<td
+					md-cell
+				>
+					{{ item.ngo.organisation}}
+				</td>
+				<td md-cell>
+					<div ng-if="item.phone">
+						<md-tooltip>{{item.phone}}</md-tooltip>
+						<a href="tel:{{item.phone}}">
+							<md-icon>phone</md-icon>
+						</a>
+					</div>
+				</td>
+				<td md-cell>
+					<div ng-if="item.email">
+						<md-tooltip md-direction="left">{{item.email}}</md-tooltip>
+						<a href="mailto:{{item.email}}">
+							<md-icon>mail</md-icon>
+						</a></div>
+				</td>
+				<td md-cell>
+					<div ng-if="item.website">
+						<md-tooltip md-direction="left">{{item.website}}</md-tooltip>
+						<a
+							href="{{item.website}}"
+							target="_blank"
+						>
+							<md-icon>insert_link</md-icon>
+						</a></div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</md-table-container>

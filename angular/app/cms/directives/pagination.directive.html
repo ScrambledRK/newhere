@@ -1,0 +1,8 @@
+<md-table-pagination
+	md-limit="vm.query.limit"
+	md-limit-options="[5,10,15,25,50,100]"
+	md-page="vm.query.page"
+	md-total="{{vm.numItems}}"
+	md-on-paginate="vm.onQueryUpdate"
+	md-page-select
+></md-table-pagination>

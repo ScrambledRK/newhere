@@ -13,6 +13,10 @@ export function MaterialPlaceHolderDirective($provide){
 
 		directive.compile = function () {
 			return function (scope, element, attr, inputContainer) {
+
+				if(!inputContainer)
+					return;
+
 				link.apply(this, arguments);
 
 				setTranslation();

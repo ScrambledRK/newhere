@@ -1,0 +1,39 @@
+<md-toolbar
+	class="md-table-toolbar md-default"
+	layout-align="space-between start"
+	layout-padding
+	layout="row"
+>
+	<!-- searchbar -->
+	<md-input-container
+		class="md-icon-float md-block no-error"
+	>
+		<label>{{ 'Suchen' | translate }}</label>
+		<md-icon class="material-icons">search</md-icon>
+		<input
+			ng-model="vm.query.title"
+			ng-change="vm.onQueryUpdate()"
+			type="text"
+		>
+	</md-input-container>
+
+	<!-- activated? -->
+	<md-input-container
+		class="md-block no-error"
+		style="font-size:16px;"
+	>
+		<label>{{ 'Aktiviert' | translate }}</label>
+		<md-select
+			ng-model="vm.query.enabled"
+			ng-change="vm.onQueryUpdate()"
+		>
+			<md-option ng-value="">{{ 'Alle' | translate }}</md-option>
+			<md-option ng-value="true">{{ 'Ja' | translate }}</md-option>
+			<md-option ng-value="false">{{ 'Nein' | translate }}</md-option>
+		</md-select>
+	</md-input-container>
+
+	<span flex></span>
+
+</md-toolbar>
+

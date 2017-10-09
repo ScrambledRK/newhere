@@ -2,8 +2,9 @@
 	layout="row"
 	layout-fill
 >
+
+	<!-- side menu -->
 	<md-sidenav
-		ng-if="!vm.allowed('moderator')"
 		md-is-locked-open="$mdMedia('gt-sm')"
 		md-component-id="left"
 		class="md-whiteframe-z1 md-sidenav-left main"
@@ -31,15 +32,19 @@
 					<md-icon>close</md-icon>
 				</md-button>
 			</md-button>
-
 		</md-toolbar>
+
+		<!-- cms menu -->
 		<cms-menu></cms-menu>
 	</md-sidenav>
 
+	<!-- main -->
 	<div
 		layout="column"
 		flex
 	>
+
+		<!-- header -->
 		<md-toolbar
 			md-theme="custom"
 			layout="row"
@@ -51,32 +56,21 @@
 				class="md-icon-button"
 				layout="column"
 				layout-align="center center"
-				hide-gt-sm
 				ng-click="vm.toggleItemsList()"
 				aria-label="Menu"
-				ng-if="!vm.allowed('moderator')"
+				hide-gt-sm
 			>
 				<i class="material-icons">apps</i>
 			</md-button>
-			<md-button
-				ng-if="vm.allowed('moderator')"
-				layout="row"
-				layout-align="space-between center"
-				layout-align-gt-sm="center center"
-				class="md-toolbar-tools"
-				ui-sref="cms.dashboard"
-			>
-				<h1>
-					<md-icon
-						md-svg-src="/img/newhere-logo_white.svg"
-						class="newHere-logo"
-					></md-icon>
-				</h1>
-			</md-button>
+
+			<span translate="{{$scope.title}}"></span>
 			<span flex></span>
+
+			<!-- user menu -->
 			<user-menu></user-menu>
 		</md-toolbar>
 
+		<!-- body -->
 		<md-content
 			flex
 			class="md-padding page-content"
