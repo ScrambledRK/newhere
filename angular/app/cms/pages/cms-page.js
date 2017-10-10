@@ -1,12 +1,12 @@
 class CmsPageController
 {
-	constructor( $mdSidenav, $window )
+	constructor( $mdSidenav, UserService )
 	{
 		'ngInject';
 
 		//
 		this.mdSidenav = $mdSidenav;
-		this.$window = $window;
+		this.UserService = UserService;
 	}
 
 	toggleItemsList()
@@ -14,16 +14,11 @@ class CmsPageController
 		this.mdSidenav( 'left' ).toggle();
 	}
 
-	$onInit()
-	{
-		this.roles = angular.fromJson( this.$window.localStorage.roles );
-	}
-
 	allowed( role )
 	{
 		let allowed = false;
 
-		if( this.roles.indexOf( role ) > -1 )
+		if( this.UserService.roles.indexOf( role ) > -1 )
 		{
 			allowed = true;
 		}

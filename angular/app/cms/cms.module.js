@@ -7,6 +7,7 @@ import {PaginationDirective} from "./directives/pagination.directive";
 import {UnpublishedDirective} from "./directives/unpublished.directive";
 import {OfferTableDirective} from "./pages/offers/offer-table.directive";
 import {OfferListComponent} from "./pages/offers/offer-list.component";
+import {UserService} from "./services/user.service";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -20,7 +21,7 @@ angular.module( 'app.cms',
 
 // service
 angular.module( 'app.cms' )
-
+	.service("UserService",UserService)
 ;
 
 // config

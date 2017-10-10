@@ -50,6 +50,23 @@ class OfferListController
 
 		this.onQueryUpdate();
 	}
+
+	//
+	isColumnVisible( name )
+	{
+		if(name === "edit")
+			return false;
+
+		return true;
+	}
+
+	isColumnEnabled( name )
+	{
+		if(name === "enabled")
+			return false;
+
+		return true;
+	}
 }
 
 export const OfferListComponent = {

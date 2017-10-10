@@ -1,21 +1,17 @@
 class LoginFormController
 {
 	/**
-	 * @param {*} $auth
-	 * @param {*} $state
-	 * @param {*} $window
-	 * @param {*} $translate
+	 * @param {UserService} UserService
 	 * @param {ToastService} ToastService
+	 * * @param {*} $state
 	 */
-	constructor( $auth, $state, $window, $translate, ToastService )
+	constructor( UserService, ToastService, $state )
 	{
 		'ngInject';
 
-		this.$window = $window;
-		this.$auth = $auth;
-		this.$state = $state;
-		this.$translate = $translate;
+		this.UserService = UserService;
 		this.ToastService = ToastService;
+		this.$state = $state;
 
 		this.email = '';
 		this.password = '';
@@ -28,29 +24,20 @@ class LoginFormController
 			password: this.password
 		};
 
-		this.$auth.login( user )
+		//
+		this.UserService.login( user )
 			.then( ( response ) =>
 			{
-				let roles = [];
-				this.$auth.setToken( response.data );
-
-				angular.forEach( response.data.data.user.roles, function( role )
-				{
-					roles.push( role.name );
-				} );
-
-				this.$window.localStorage.roles = JSON.stringify( roles );
 				this.ToastService.show( 'Sie haben sich erfolgreich angemeldet.' );
-
-				this.gotoCMS( roles );
+				this.gotoCMS();
 			} )
 			.catch( this.failedLogin.bind( this ) );
 	}
 
 	//
-	gotoCMS( roles )
+	gotoCMS()
 	{
-		if( this.isModerator( roles ) )
+		if( this.isModerator( this.UserService.roles ) )
 		{
 			this.$state.go( 'cms.translations' );
 		}
@@ -75,11 +62,13 @@ class LoginFormController
 		return (isOrgAdmin || isOrgUser && !isSuperAdmin && !isAdmin);
 	}
 
+	//
 	isModerator( roles )
 	{
 		return (roles.indexOf( 'moderator' ) > -1);
 	}
 
+	//
 	failedLogin( response )
 	{
 		if( response.data )
