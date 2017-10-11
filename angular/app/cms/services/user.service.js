@@ -74,7 +74,15 @@ export class UserService
 			.then( ( response ) =>
 				{
 					this.user = response;
-					this.roles = this.user.roles;
+
+					this.roles.push.apply( this.roles, this.user.roles );
+					console.log("roles:", this.roles );
+
+					//
+					this.user.roles = [];
+
+					for( let j = 0; j < this.roles.length; j++ )
+						this.user.roles.push( this.roles[j].name );
 				},
 				( error ) =>
 				{
@@ -88,7 +96,8 @@ export class UserService
 		return this.API.all( 'cms/providers' ).getList()
 			.then( ( response ) =>
 				{
-					this.providers = response;
+					this.providers.push.apply( this.providers, response );
+					console.log("providers:", this.providers );
 				},
 				( error ) =>
 				{
@@ -102,13 +111,13 @@ export class UserService
 	 */
 	isNgoUser()
 	{
-		if( !this.roles )
+		if( !this.user )
 			return false;
 
-		let isOrgAdmin = Boolean( this.roles.indexOf( "organisation-admin" ) > -1);
-		let isOrgUser = Boolean( this.roles.indexOf( "organisation-user" ) > -1);
-		let isSuperAdmin = Boolean( this.roles.indexOf( "superadmin" ) > -1);
-		let isAdmin = this.roles.indexOf( "admin" ) > -1;
+		let isOrgAdmin = Boolean( this.user.roles.indexOf( "organisation-admin" ) > -1);
+		let isOrgUser = Boolean( this.user.roles.indexOf( "organisation-user" ) > -1);
+		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1);
+		let isAdmin = this.user.roles.indexOf( "admin" ) > -1;
 
 		return (isOrgAdmin || isOrgUser && !isSuperAdmin && !isAdmin);
 	}
@@ -116,9 +125,9 @@ export class UserService
 	//
 	isModerator()
 	{
-		if( !this.roles || this.roles.length === 0 )
+		if( !this.user )
 			return false;
 
-		return ( this.roles.indexOf( 'moderator' ) > -1);
+		return ( this.user.roles.indexOf( 'moderator' ) > -1);
 	}
 }
