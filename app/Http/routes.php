@@ -71,7 +71,7 @@ groupEveryone( $api, function( $api )
 
 groupAuthenticated( $api, function( $api )
 {
-
+    $api->get( 'cms/offers', 'Cms\OfferController@index' );
 } );
 
 /*
@@ -107,7 +107,7 @@ groupEveryone( $api, function( $api )
 //
 groupAuthenticated( $api, function( $api )
 {
-
+    $api->get( 'cms/providers', 'Cms\ProviderController@index' );
 } );
 
 /*
@@ -141,7 +141,7 @@ groupEveryone( $api, function( $api )
 //
 groupAuthenticated( $api, function( $api )
 {
-
+    $api->get('cms/users/me', 'Cms\UserController@me');
 } );
 
 /*

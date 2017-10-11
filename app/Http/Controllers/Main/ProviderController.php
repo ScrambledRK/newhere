@@ -26,7 +26,7 @@ class ProviderController extends Controller
         $result = Ngo::with( ['image'] );
 
         //
-        $result = $result->where('published', true );
+        $result = $result->where( 'published', true );
         $count = $result->count();
 
         // ------------------------------------------- //

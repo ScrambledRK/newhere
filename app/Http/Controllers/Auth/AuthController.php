@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Logic\Address\AddressAPI;
+use App\Logic\User\UserRepository;
 use App\Ngo;
 use App\Role;
+use App\User;
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
-use App\User;
-use Mail;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Logic\User\UserRepository;
 
 class AuthController extends Controller
 {
@@ -23,6 +22,10 @@ class AuthController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function postLogin( Request $request )
     {
         $this->validate( $request, [
@@ -54,7 +57,12 @@ class AuthController extends Controller
             return response()->error( 'Your account has not been verified. Did you get mail?', 401 );
         }
 
+        // ----------------------------- //
+
         $user->load( 'roles' );
+        $user->load( 'ngos' );
+
+        // ----------------------------- //
 
         //
         return response()->success( compact( 'user', 'token' ) );
@@ -78,6 +86,7 @@ class AuthController extends Controller
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:5',
         ] );
+
         $user = $this->storeAndSendMail( $request->name, $request->email, $request->password );
         $user->attachRole( Role::where( 'name', 'user' )->findOrFail() );
 
@@ -124,11 +133,14 @@ class AuthController extends Controller
         $ngo->zip = $request->get( 'zip' );
         $ngo->city = $request->get( 'city' );
         $ngo->image_id = $request->get( 'image_id' );
+
+        //
         if( $coordinates )
         {
             $ngo->latitude = $coordinates[ 0 ];
             $ngo->longitude = $coordinates[ 1 ];
         }
+
         //Standard Translation
         if( $request->has( 'description' ) )
         {
@@ -145,6 +157,12 @@ class AuthController extends Controller
         return response()->success( compact( 'user', 'token' ) );
     }
 
+    /**
+     * @param $name
+     * @param $email
+     * @param $password
+     * @return User
+     */
     private function storeAndSendMail( $name, $email, $password )
     {
         $confirmation_code = str_random( 30 );
@@ -161,24 +179,29 @@ class AuthController extends Controller
         return $user;
     }
 
+    /**
+     * @param $confirmation_code
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function getConfirmation( $confirmation_code )
     {
         if( !$confirmation_code )
         {
             throw new InvalidConfirmationCodeException;
         }
+
         $user = User::whereConfirmationCode( $confirmation_code )->first();
+
         if( !$user )
         {
             throw new InvalidConfirmationCodeException;
         }
+
         $user->confirmed = 1;
         $user->confirmation_code = null;
         $user->save();
 
         return redirect( '/#/login' );
-
-        return response()->success( compact( 'user' ) );
     }
 
     public function getVerify()

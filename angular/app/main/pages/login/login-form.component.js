@@ -26,7 +26,7 @@ class LoginFormController
 
 		//
 		this.UserService.login( user )
-			.then( ( response ) =>
+			.then( () =>
 			{
 				this.ToastService.show( 'Sie haben sich erfolgreich angemeldet.' );
 				this.gotoCMS();
@@ -37,7 +37,7 @@ class LoginFormController
 	//
 	gotoCMS()
 	{
-		if( this.isModerator( this.UserService.roles ) )
+		if( this.UserService.isModerator() )
 		{
 			this.$state.go( 'cms.translations' );
 		}
@@ -45,27 +45,6 @@ class LoginFormController
 		{
 			this.$state.go( 'cms.dashboard' );
 		}
-	}
-
-	/**
-	 * Check whether user holds organisation role (but no superadmin/admin roles)
-	 * @param roles
-	 * @returns {boolean}
-	 */
-	isNgoUser( roles )
-	{
-		let isOrgAdmin = Boolean(roles.indexOf( "organisation-admin" ) > -1);
-		let isOrgUser = Boolean(roles.indexOf( "organisation-user" ) > -1);
-		let isSuperAdmin = Boolean(roles.indexOf( "superadmin" ) > -1);
-		let isAdmin = roles.indexOf( "admin" ) > -1;
-
-		return (isOrgAdmin || isOrgUser && !isSuperAdmin && !isAdmin);
-	}
-
-	//
-	isModerator( roles )
-	{
-		return (roles.indexOf( 'moderator' ) > -1);
 	}
 
 	//

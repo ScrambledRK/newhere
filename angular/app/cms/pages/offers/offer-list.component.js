@@ -1,6 +1,6 @@
 class OfferListController
 {
-	constructor( $sessionStorage, $rootScope, API )
+	constructor( $sessionStorage, $rootScope, API, UserService )
 	{
 		'ngInject';
 
@@ -11,6 +11,7 @@ class OfferListController
 		this.$sessionStorage = $sessionStorage;
 		this.$rootScope = $rootScope;
 		this.API = API;
+		this.UserService = UserService;
 
 		//
 		this.selectedItems = [];
@@ -38,7 +39,7 @@ class OfferListController
 		{
 			console.log("q", vm.query );
 
-			vm.promise = this.API.all( 'offers' ).getList( vm.query )
+			vm.promise = this.API.all( 'cms/offers' ).getList( vm.query )
 				.then( (response) =>
 				{
 					vm.items = response;
@@ -54,8 +55,11 @@ class OfferListController
 	//
 	isColumnVisible( name )
 	{
-		if(name === "edit")
-			return false;
+		if(name === "provider")
+		{
+			if( this.UserService.providers.length <= 1 )
+				return false;
+		}
 
 		return true;
 	}
@@ -63,7 +67,7 @@ class OfferListController
 	isColumnEnabled( name )
 	{
 		if(name === "enabled")
-			return false;
+			return this.UserService.isNgoUser();
 
 		return true;
 	}

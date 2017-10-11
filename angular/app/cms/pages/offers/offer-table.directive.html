@@ -34,12 +34,14 @@
 			<th
 				md-column
 				md-order-by="street"
+				style="min-width: 200px"
 			>{{ 'Adresse' | translate }}
 			</th>
 			<th
 				md-column
 				md-order-by="ngo_id"
 				ng-if="vm.isColumnVisible('provider')"
+				style="min-width: 200px"
 			>{{ 'Anbieter' | translate }}
 			</th>
 			<th
@@ -99,7 +101,7 @@
 
 			<td
 				md-cell
-				ng-if="vm.isColumnVisible('ngo')"
+				ng-if="vm.isColumnVisible('provider')"
 			>
 				{{ item.ngo.organisation}}
 			</td>

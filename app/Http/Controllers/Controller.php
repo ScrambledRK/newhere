@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Ngo;
+use Auth;
 use Dingo\Api\Exception\ValidationHttpException;
 use Dingo\Api\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -46,22 +49,66 @@ class Controller extends BaseController
                 $order = substr( $order, 1 );
             }
 
-            $result = $result->orderBy( $order, $dir );
+            if( $result instanceof Collection )
+            {
+                if( $dir === 'DESC')
+                {
+                    $result = $result->sortByDesc( $order );
+                }
+                else
+                {
+                    $result = $result->sortBy( $order );
+                }
+            }
+            else
+            {
+                $result = $result->orderBy( $order, $dir );
+            }
+
         }
 
         //
-        if( $request->has( 'limit' ) )
+        if( $request->has( 'limit' ) && $request->has( 'page' ) )
         {
-            $result = $result->take( $request->get( 'limit' ) );
-        }
+            $numElements = $request->get( 'limit' );
+            $startElement = ( $request->get( 'page' ) - 1 ) * $numElements;
 
-        //
-        if( $request->has( 'page' ) )
-        {
-            $result = $result->skip( ( $request->get( 'page' ) - 1 ) * $request->get( 'limit' ) );
+            if( $result instanceof Collection )
+            {
+
+                $result = $result->splice( $startElement, $numElements );
+            }
+            else
+            {
+                $result = $result->take( $numElements );
+                $result = $result->skip( $startElement );
+            }
         }
 
         return $result;
+    }
+
+    /**
+     * ngos the user is part of; except admins who are "part of" all ngos
+     * @return mixed
+     */
+    public function isUserAdmin( $user )
+    {
+        if( $user == null )
+            $user = Auth::user();
+
+        $user->load( 'roles' );
+
+        //
+        foreach ($user->getRelations()["roles"] as $role)
+        {
+            $name = $role->getAttribute("name");
+
+            if( $name === "admin" || $name === "superadmin" )
+                return true;
+        }
+
+        return false;
     }
 
 }
