@@ -123,6 +123,18 @@ export class UserService
 	}
 
 	//
+	isAdministrator()
+	{
+		if( !this.user )
+			return false;
+
+		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1);
+		let isAdmin = this.user.roles.indexOf( "admin" ) > -1;
+
+		return isSuperAdmin || isAdmin;
+	}
+
+	//
 	isModerator()
 	{
 		if( !this.user )

@@ -52,6 +52,36 @@ md-input-container
   }
 }
 
+md-toolbar.md-table-toolbar.md-default
+{
+  md-input-container
+  {
+    label
+    {
+      font-size: 14px;
+    }
+    md-icon
+    {
+      color: @grey;
+      fill:  @grey;
+    }
+    &.md-input-focused
+    {
+      md-icon
+      {
+        color: @blue;
+        fill:  @blue;
+      }
+    }
+  }
+  md-checkbox
+  {
+    margin-top: 16px;
+    font-size:  14px;
+  }
+
+}
+
 md-checkbox.md-default-theme.md-checked ._md-icon, md-checkbox.md-checked ._md-icon
 {
   background-color: @blue;
@@ -156,6 +186,19 @@ md-content.md-default-theme, md-content
   }
 }
 
+md-toolbar
+{
+  &.md-custom-theme
+  {
+    min-height: 48px;
+    .md-toolbar-tools
+    {
+      min-height: 48px;
+      height:     48px;
+    }
+  }
+}
+
 .steps-indicator
 {
   padding-top:      30px;
@@ -219,6 +262,18 @@ md-content.md-default-theme, md-content
   color: @blue;
 }
 
+md-toolbar.md-whitey-theme:not(.md-menu-toolbar)
+{
+  color:         @blue;
+  border-bottom: 1px solid @blue;
+}
+
+md-toolbar.md-whitey-theme:not(.md-menu-toolbar) md-icon
+{
+  color: @blue;
+  fill:  @blue;
+}
+
 .md-button
 {
   &.md-full
@@ -267,9 +322,8 @@ md-content.md-default-theme, md-content
     white-space:   normal;
     line-height:   1.4em;
     min-height:    175px;
-
     overflow-wrap: break-word;
-    word-break: normal;
+    word-break:    normal;
 
     &:nth-child(odd)
     {
@@ -422,4 +476,10 @@ md-toolbar.md-table-toolbar:not(.md-menu-toolbar).md-default .md-button
   {
     color: #FFFFFF;
   }
+}
+
+md-switch
+{
+  margin: 0;
+  height: inherit;
 }

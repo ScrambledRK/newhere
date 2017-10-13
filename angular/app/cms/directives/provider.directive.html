@@ -1,0 +1,17 @@
+<md-input-container
+	class="md-block no-error"
+	style="font-size:16px;"
+>
+	<label>NGO</label>
+	<md-select
+		ng-model="vm.query.ngo_id"
+		ng-change="vm.onQueryUpdate()"
+	>
+		<md-option ng-value="">{{ 'Alle' | translate }}</md-option>
+		<md-option
+			ng-repeat="ngo in vm.providers | orderBy: 'organisation'"
+			ng-value="ngo.id"
+		>{{ngo.organisation}}
+		</md-option>
+	</md-select>
+</md-input-container>

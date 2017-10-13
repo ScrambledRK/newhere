@@ -72,7 +72,15 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/offers', 'Cms\OfferController@index' );
+
+    groupOrganisation( $api, function( $api )
+    {
+        $api->put( 'cms/offers/{id}', 'Cms\OfferController@update' );
+    } );
 } );
+
+
+
 
 /*
 |--------------------------------------------------------------------------

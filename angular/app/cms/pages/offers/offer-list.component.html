@@ -1,14 +1,26 @@
 <div>
-	<!-- toolbar -->
-	<md-card>
+	<md-card ng-if="!vm.isNgoPublished && !vm.loading && false">
 		<unpublished></unpublished>
-		<filter></filter>
 	</md-card>
 
-	<!-- content -->
 	<md-card>
-		<div ui-view="content"></div>
-		<pagination></pagination>
+		<md-toolbar
+			class="md-table-toolbar md-default"
+			layout-align="space-between start"
+			layout-padding
+			layout="row"
+		>
+			<search></search>
+			<enabled></enabled>
+			<provider ng-if="vm.isElementVisible('provider')"></provider>
+			<span flex></span>
+			<create ng-if="vm.isElementVisible('create')"></create>
+		</md-toolbar>
+
+		<md-content flex>
+			<div ui-view="content"></div>
+			<pagination></pagination>
+		</md-content>
 	</md-card>
 </div>
 

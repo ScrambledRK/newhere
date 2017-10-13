@@ -17,7 +17,7 @@
 			<th
 				md-column
 				class="icon"
-				ng-if="vm.isColumnVisible('edit')"
+				ng-if="vm.isElementVisible('edit')"
 			></th>
 			<th
 				md-column
@@ -28,7 +28,7 @@
 			<th
 				md-column
 				md-order-by="enabled"
-				ng-if="vm.isColumnVisible('enabled')"
+				ng-if="vm.isElementVisible('enabled')"
 			>{{ 'Veröffentlicht' | translate }}
 			</th>
 			<th
@@ -40,7 +40,7 @@
 			<th
 				md-column
 				md-order-by="ngo_id"
-				ng-if="vm.isColumnVisible('provider')"
+				ng-if="vm.isElementVisible('provider')"
 				style="min-width: 200px"
 			>{{ 'Anbieter' | translate }}
 			</th>
@@ -71,7 +71,7 @@
 		>
 			<td
 				md-cell
-				ng-if="vm.isColumnVisible('edit')"
+				ng-if="vm.isElementVisible('edit')"
 			>
 				<md-button
 					ng-click="vm.editItem(offer.id)"
@@ -85,12 +85,12 @@
 			</td>
 			<td
 				md-cell
-				ng-if="vm.isColumnVisible('enabled')"
+				ng-if="vm.isElementVisible('enabled')"
 			    >
 					<md-switch
 						ng-model="item.enabled"
-						class="md-primary"
-						ng-disabled="!vm.isColumnEnabled('enabled')"
+						ng-class="{'md-primary': vm.isElementEnabled('enabled')}"
+						ng-disabled="!vm.isElementEnabled('enabled')"
 						ng-change="vm.toggleEnabled(item)"
 					></md-switch>
 			</td>
@@ -101,7 +101,7 @@
 
 			<td
 				md-cell
-				ng-if="vm.isColumnVisible('provider')"
+				ng-if="vm.isElementVisible('provider')"
 			>
 				{{ item.ngo.organisation}}
 			</td>

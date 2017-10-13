@@ -1,6 +1,10 @@
 class OfferListController
 {
-	constructor( $sessionStorage, $rootScope, API, UserService )
+	constructor( $sessionStorage,
+	             $rootScope,
+	             API,
+	             UserService,
+	             ToastService )
 	{
 		'ngInject';
 
@@ -12,8 +16,10 @@ class OfferListController
 		this.$rootScope = $rootScope;
 		this.API = API;
 		this.UserService = UserService;
+		this.ToastService = ToastService;
 
 		//
+		this.providers = this.UserService.providers;
 		this.selectedItems = [];
 		this.loading = true;
 
@@ -37,10 +43,10 @@ class OfferListController
 		 */
 		this.onQueryUpdate = () =>
 		{
-			console.log("q", vm.query );
+			console.log( "q", vm.query );
 
 			vm.promise = this.API.all( 'cms/offers' ).getList( vm.query )
-				.then( (response) =>
+				.then( ( response ) =>
 				{
 					vm.items = response;
 					vm.numItems = response.count;
@@ -53,21 +59,46 @@ class OfferListController
 	}
 
 	//
-	isColumnVisible( name )
+	toggleEnabled( item )
 	{
-		if(name === "provider")
+		this.API.one( 'cms/offers', item.id ).customPUT( item )
+			.then( ( success ) =>
+				{
+					this.ToastService.show( 'Angebot aktualisiert.' );
+				},
+				( error ) =>
+				{
+					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					item.enabled = !item.enabled;
+				}
+			);
+	}
+
+	//
+	isElementVisible( name )
+	{
+		if( name === "provider" )
 		{
 			if( this.UserService.providers.length <= 1 )
+				return false;
+		}
+
+		if( name === "create" )
+		{
+			if( this.UserService.isModerator() )
 				return false;
 		}
 
 		return true;
 	}
 
-	isColumnEnabled( name )
+	isElementEnabled( name )
 	{
-		if(name === "enabled")
-			return this.UserService.isNgoUser();
+		if( name === "enabled" )
+		{
+			if( this.UserService.isAdministrator() )
+				return false;
+		}
 
 		return true;
 	}
