@@ -1,0 +1,27 @@
+<md-card>
+	<md-card-title>
+		<md-card-title-text>
+			<span class="md-headline">{{ 'Angebot gültig' | translate }}</span>
+		</md-card-title-text>
+	</md-card-title>
+	<md-content
+		layout-padding
+		layout="column"
+		layout-align="space-between center"
+	>
+                    <span>{{ 'von' | translate }}
+                        <md-datepicker
+	                        ng-model="vm.valid_from"
+	                        md-placeholder="{{ 'Datum eingeben' | translate }}"
+                        ></md-datepicker>
+                    </span>
+		<span>
+                        {{ 'bis' | translate }}
+                        <md-datepicker
+	                        ng-model="vm.valid_until"
+	                        md-min-date="vm.valid_from"
+	                        md-placeholder="{{ 'Datum eingeben' | translate }}"
+                        ></md-datepicker>
+                    </span>
+	</md-content>
+</md-card>

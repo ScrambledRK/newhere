@@ -1,0 +1,11 @@
+<md-card>
+	<md-card-title>
+		<md-card-title-text>
+			<span class="md-headline">Filter</span>
+			<span class="md-subhead">{{ '%d ausgewählt' | translate | sprintf: vm.offer.filters.length }}</span>
+		</md-card-title-text>
+	</md-card-title>
+	<md-content layout-padding>
+		<filter-selector ng-model="vm.offer.filters"></filter-selector>
+	</md-content>
+</md-card>

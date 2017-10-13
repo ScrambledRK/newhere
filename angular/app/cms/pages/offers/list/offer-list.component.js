@@ -2,6 +2,7 @@ class OfferListController
 {
 	constructor( $sessionStorage,
 	             $rootScope,
+	             $state,
 	             API,
 	             UserService,
 	             ToastService )
@@ -14,6 +15,8 @@ class OfferListController
 		//
 		this.$sessionStorage = $sessionStorage;
 		this.$rootScope = $rootScope;
+		this.$state = $state;
+
 		this.API = API;
 		this.UserService = UserService;
 		this.ToastService = ToastService;
@@ -56,6 +59,12 @@ class OfferListController
 		};
 
 		this.onQueryUpdate();
+	}
+
+	//
+	createItem()
+	{
+		this.$state.go( 'cms.offers.new' );
 	}
 
 	//

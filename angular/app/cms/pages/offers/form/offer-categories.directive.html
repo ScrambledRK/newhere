@@ -1,0 +1,13 @@
+<md-card>
+	<md-card-title>
+		<md-card-title-text>
+			<span class="md-headline">{{ 'Kategorien' | translate }}</span>
+			<span class="md-subhead">{{ '%d ausgewählt' | translate | sprintf: vm.offer.categories.length }}</span>
+		</md-card-title-text>
+	</md-card-title>
+	<treeview
+		items="vm.categories"
+		selection="vm.offer.categories"
+		options="vm.categoriesOptions"
+	></treeview>
+</md-card>

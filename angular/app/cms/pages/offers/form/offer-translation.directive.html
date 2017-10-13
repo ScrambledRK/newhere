@@ -1,0 +1,37 @@
+<md-card>
+	<md-card-title>
+		<md-card-title-text>
+			<span class="md-headline">{{ 'Übersetzungen' | translate }}</span>
+			<span class="md-subhead">{{ '%d vorhanden' | translate | sprintf: vm.offer.translations.length }}</span>
+		</md-card-title-text>
+	</md-card-title>
+	<md-table-container>
+		<table md-table>
+			<tbody
+				md-body
+				ng-repeat="untranslatedOffer in vm.untranslatedOffers"
+			>
+			<tr
+				ng-repeat="trans in untranslatedOffer.translations"
+				ng-init="sourceTranslation = (vm.offer.translations| filter : {locale: vm.defaultLanguage.language})[0]"
+				ng-if="untranslatedOffer.id == vm.offer.id"
+			>
+				<td
+					md-cell
+					ng-repeat="language in vm.enabledLanguages | filter: {language: trans.locale}"
+				>
+					<cms-offer-translation-item
+						translation="trans"
+						source-translation="sourceTranslation"
+						language="language"
+						source-language="vm.defaultLanguage"
+						offer="untranslatedOffer"
+					>
+					</cms-offer-translation-item>
+				</td>
+				<td class="md-cell">{{trans.locale}}</td>
+			</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+</md-card>

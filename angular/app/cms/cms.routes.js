@@ -16,6 +16,7 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'cms',
 			{
 				abstract: true,
+				url: '/cms',
 
 				views:
 					{
@@ -39,7 +40,7 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'cms.dashboard',
 			{
-				url: '/cms/dashboard',
+				url: '/dashboard',
 
 				data: {
 					auth: true,
@@ -57,7 +58,7 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'cms.offers',
 			{
-				url: '/cms/offers',
+				url: '/offers',
 
 				data: {
 					auth: true,
@@ -72,6 +73,25 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 
 					'content@cms.offers': {
 						template: "<offer-table></offer-table>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.offers.new',
+			{
+				url: '/new',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ],
+					title: "Angebote",
+					create: true
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-offer-form></cms-offer-form>"
 					}
 				}
 			} )

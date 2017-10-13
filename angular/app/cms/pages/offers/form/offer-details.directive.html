@@ -1,0 +1,68 @@
+<md-card>
+	<md-card-title>
+		<md-card-title-text>
+			<span class="md-headline">{{ 'Details' | translate }}</span>
+		</md-card-title-text>
+	</md-card-title>
+
+	<md-content layout-padding>
+		<md-input-container class="md-block">
+			<label>{{ 'Titel' | translate }}</label>
+			<input
+				ng-model="vm.offer.title"
+				md-maxlength="200"
+				required
+			>
+		</md-input-container>
+
+		<md-input-container class="md-block">
+			<label>{{ 'Beschreibung' | translate }}</label>
+			<textarea
+				ng-model="vm.offer.description"
+				md-maxlength="200"
+				rows="3"
+				required
+			></textarea>
+		</md-input-container>
+
+		<md-input-container class="md-block">
+			<label>{{ 'Email' | translate }}</label>
+			<input
+				ng-model="vm.offer.email"
+				type="email"
+				placeholder="email@offer.com"
+			>
+		</md-input-container>
+		<md-input-container class="md-block">
+			<label>{{ 'Telefon' | translate }}</label>
+			<input
+				ng-model="vm.offer.phone"
+				placeholder="+43 660 12345678"
+			>
+		</md-input-container>
+		<md-input-container class="md-block">
+			<label>{{ 'Webseite' | translate }}</label>
+			<input
+				ng-model="vm.offer.website"
+				type="url"
+				placeholder="http://www.your-offer.com"
+			>
+		</md-input-container>
+		<md-input-container class="md-block">
+			<label>Facebook URL</label>
+			<input
+				ng-model="vm.offer.facebook_url"
+				type="url"
+				placeholder="http://www.facebook.com/link"
+			>
+		</md-input-container>
+		<md-input-container class="md-block">
+			<label>{{ 'Öffnungszeiten' | translate }}</label>
+			<textarea
+				ng-model="vm.offer.opening_hours"
+				md-maxlength="200"
+				rows="5"
+			></textarea>
+		</md-input-container>
+	</md-content>
+</md-card>
