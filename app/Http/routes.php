@@ -72,9 +72,11 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/offers', 'Cms\OfferController@index' );
+    $api->get( 'cms/offers/{id}', 'Cms\OfferController@byId' );
 
     groupOrganisation( $api, function( $api )
     {
+        $api->post('cms/offers', 'Cms\OfferController@create');
         $api->put( 'cms/offers/{id}', 'Cms\OfferController@update' );
     } );
 } );
@@ -166,7 +168,10 @@ groupEveryone( $api, function( $api )
 //
 groupAuthenticated( $api, function( $api )
 {
-
+    groupOrganisation( $api, function( $api )
+    {
+        $api->post('images/upload', 'ImageController@uploadImage');
+    } );
 } );
 
 

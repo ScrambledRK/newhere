@@ -84,9 +84,24 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 
 				data: {
 					auth: true,
-					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ],
-					title: "Angebote",
-					create: true
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ]
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-offer-form></cms-offer-form>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.offers.edit',
+			{
+				url: '/{id:[0-9]+}',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ]
 				},
 
 				views: {

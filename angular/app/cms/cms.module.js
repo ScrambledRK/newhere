@@ -21,6 +21,7 @@ import {OfferTranslationDirective} from "./pages/offers/form/offer-translation.d
 import {SaveDirective} from "./directives/save.directive";
 import {CancelDirective} from "./directives/cancel.directive";
 import {OfferFormComponent} from "./pages/offers/form/offer-form.component";
+import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -72,4 +73,5 @@ angular.module( 'app.cms' )
 	.component( 'cmsMenu', CmsMenuComponent )
 	.component( 'cmsOfferList', OfferListComponent )
 	.component( 'cmsOfferForm', OfferFormComponent )
+	.component( 'imageUploader', ImageUploaderComponent )
 ;

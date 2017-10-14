@@ -89,6 +89,58 @@ class OfferController extends Controller
     }
 
     /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function byId( $id )
+    {
+        $offer = Offer::where( 'id', $id )->with(
+            [
+                'ngo',
+                'filters',
+                'categories',
+                'countries',
+                'image',
+                'translations'
+            ]
+        )->firstOrFail();
+
+        if( !$this->isUserOffer( $offer ) )
+            throw new AccessDeniedHttpException();
+
+        return response()->json( $offer );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function create( Request $request )
+    {
+        DB::beginTransaction();
+
+        $offer = new Offer();
+        $offer = $this->populateFromRequest( $request, $offer );
+        $offer->save();
+
+        //
+        if( $request->has( 'translations' ) )
+        {
+            foreach( $request->get( 'translations' ) as $key => $translation )
+            {
+                $offer->translateOrNew( $key )->title = $translation[ 'title' ];
+                $offer->translateOrNew( $key )->description = $translation[ 'description' ];
+                $offer->translateOrNew( $key )->opening_hours = $translation[ 'opening_hours' ];
+                $offer->save();
+            }
+        }
+
+        DB::commit();
+
+        return response()->success( compact( 'offer' ) );
+    }
+
+    /**
      * @param Request $request
      */
     public function update( Request $request, $id )

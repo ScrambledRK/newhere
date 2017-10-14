@@ -68,6 +68,12 @@ class OfferListController
 	}
 
 	//
+	editItem( item )
+	{
+		this.$state.go( 'cms.offers.edit', {id:item.id} );
+	}
+
+	//
 	toggleEnabled( item )
 	{
 		this.API.one( 'cms/offers', item.id ).customPUT( item )

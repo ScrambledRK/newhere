@@ -36,16 +36,17 @@
 				</md-not-found>
 			</md-autocomplete>
 
+			<md-input-container class="md-block">
+				<label>{{ 'Adresszusatz' | translate }}</label>
+				<input ng-model="vm.offer.streetnumberadditional">
+			</md-input-container>
+
 			<p ng-if="vm.offer.street">
 				{{vm.offer.street}} {{vm.offer.streetnumber}}
 				<br/> {{vm.offer.zip}} {{vm.offer.city}}
 				<br/>
 			</p>
 
-			<md-input-container class="md-block">
-				<label>{{ 'Adresszusatz' | translate }}</label>
-				<input ng-model="vm.offer.streetnumberadditional">
-			</md-input-container>
 		</div>
 	</md-content>
 </md-card>

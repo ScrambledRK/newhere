@@ -11,7 +11,7 @@
       <label>{{ 'NGO' | translate }}</label>
       <md-select ng-model="vm.offer.ngo_id">
         <md-option
-	        ng-repeat="ngo in vm.ngos"
+	        ng-repeat="ngo in vm.providers"
 	        ng-value="ngo.id"
         >{{ ngo.organisation }}</md-option>
       </md-select>
@@ -99,7 +99,9 @@
 		layout="row"
 		layout-align="end center"
 	>
-		<save></save>
+		<save
+			ng-disabled="offerForm.$invalid || Form.$pristine"
+		></save>
 		<cancel></cancel>
 	</div>
 </form>
