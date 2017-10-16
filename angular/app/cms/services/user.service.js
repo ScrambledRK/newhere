@@ -27,7 +27,7 @@ export class UserService
 		this.providers = [];
 
 		//
-		if( this.$auth.getToken() )
+		if( this.$auth.isAuthenticated() )
 		{
 			this.fetchUser();
 			this.fetchProviders();
@@ -70,6 +70,8 @@ export class UserService
 	//
 	fetchUser()
 	{
+		this.roles.length = 0;
+
 		return this.API.one( 'cms/users/me' ).get()
 			.then( ( response ) =>
 				{
@@ -93,6 +95,8 @@ export class UserService
 	//
 	fetchProviders()
 	{
+		this.providers.length = 0;
+
 		return this.API.all( 'cms/providers' ).getList()
 			.then( ( response ) =>
 				{

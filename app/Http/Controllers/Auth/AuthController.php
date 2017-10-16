@@ -12,6 +12,9 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
@@ -66,6 +69,27 @@ class AuthController extends Controller
 
         //
         return response()->success( compact( 'user', 'token' ) );
+    }
+
+    //
+    public function refreshAuthToken()
+    {
+        $token = JWTAuth::getToken();
+
+        if(!$token)
+            throw new BadRequestHttpException('Token not provided');
+
+        try
+        {
+            $token = JWTAuth::refresh( $token );
+        }
+        catch(TokenInvalidException $e )
+        {
+            throw new AccessDeniedHttpException('The token is invalid');
+        }
+
+        //
+        return response()->success( compact(  'token' ) );
     }
 
     /**

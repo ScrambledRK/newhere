@@ -1,15 +1,32 @@
 export function RoutesRun( $rootScope,
                            $translate,
                            $mdComponentRegistry,
-                           $mdSidenav )
+                           $mdSidenav,
+                           ToastService,
+                           $auth,
+                           $state )
 {
 	'ngInject';
 
-
 	//
 	let onStateChangeStart = $rootScope.$on( "$stateChangeStart",
-		function( event, toState, toParams, fromState, fromParams )
+		( event, toState, toParams, fromState, fromParams ) =>
 		{
+			if( toState.data && toState.data.auth )
+			{
+				if( !$auth.isAuthenticated() )
+				{
+					event.preventDefault();
+
+					ToastService.error( 'Session expired!' );
+
+					return $state.go( 'main.login' );
+				}
+			}
+
+			// ------------------------------- //
+			// ------------------------------- //
+
 			if( !$rootScope.language )
 				$rootScope.language = $translate.preferredLanguage();
 

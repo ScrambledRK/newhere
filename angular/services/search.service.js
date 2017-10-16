@@ -23,14 +23,18 @@ export class SearchService
 			this.aborter = this.$q.defer();
 		}
 
-		return this.$http
-			.get( '/api/search/address/' + query, {
+		return this.$http.get( '/api/search/address/' + query,
+			{
 				timeout: this.aborter.promise
 			} )
 			.then( function( response )
-			{
-				return response.data;
-			} );
+				{
+					return response.data;
+				},
+				( error ) =>
+				{
+					throw error;
+				} );
 	}
 
 	/**
@@ -44,6 +48,6 @@ export class SearchService
 			query: value
 		};
 
-		return this.API.one( 'search' ).getList('offers',query );
+		return this.API.one( 'search' ).getList( 'offers', query );
 	}
 }

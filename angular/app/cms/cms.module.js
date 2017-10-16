@@ -22,6 +22,7 @@ import {SaveDirective} from "./directives/save.directive";
 import {CancelDirective} from "./directives/cancel.directive";
 import {OfferFormComponent} from "./pages/offers/form/offer-form.component";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
+import {OfferService} from "./services/offer.service";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -36,6 +37,7 @@ angular.module( 'app.cms',
 // service
 angular.module( 'app.cms' )
 	.service( "UserService", UserService )
+	.service( "OfferService", OfferService )
 ;
 
 // config

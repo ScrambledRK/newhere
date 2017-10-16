@@ -78,6 +78,14 @@ groupAuthenticated( $api, function( $api )
     {
         $api->post('cms/offers', 'Cms\OfferController@create');
         $api->put( 'cms/offers/{id}', 'Cms\OfferController@update' );
+        $api->delete( 'cms/offers/{id}', 'Cms\OfferController@delete' );
+    } );
+
+    groupAdministration( $api, function( $api )
+    {
+        $api->post('cms/offers', 'Cms\OfferController@create');
+        $api->put( 'cms/offers/{id}', 'Cms\OfferController@update' );
+        $api->delete( 'cms/offers/{id}', 'Cms\OfferController@delete' );
     } );
 } );
 
@@ -163,6 +171,7 @@ groupAuthenticated( $api, function( $api )
 groupEveryone( $api, function( $api )
 {
     $api->controller('auth', 'Auth\AuthController');
+    $api->get( 'search/address/{search}', 'Search@address');
 } );
 
 //

@@ -23,7 +23,7 @@
 		<!-- delete -->
 		<md-button
 			class="md-raised md-fab md-warn md-hue-2 md-mini"
-			ng-click="vm.deleteItem()"
+			ng-click="vm.deleteSelectedItems()"
 			layout="row"
 			layout-align="center center"
 		>
@@ -38,7 +38,7 @@
 		<!-- disable -->
 		<md-button
 			class="md-raised md-fab  md-warn md-mini"
-			ng-click="vm.setItemEnabled(false)"
+			ng-click="vm.enableSelectedItems(false)"
 			layout="row"
 			layout-align="center center"
 		>
@@ -53,7 +53,7 @@
 		<!-- enable -->
 		<md-button
 			class="md-raised md-fab  md-accent md-mini"
-			ng-click="vm.setItemEnabled(true)"
+			ng-click="vm.enableSelectedItems(true)"
 			layout="row"
 			layout-align="center center"
 		>
@@ -63,6 +63,22 @@
 			>{{ 'aktivieren' | translate }}
 			</md-tooltip>
 			<i class="material-icons">lock_open</i>
+		</md-button>
+
+		<!-- ngo -->
+		<md-button
+			ng-if="vm.isElementVisible('provider')"
+			class="md-raised md-fab  md-default  md-mini"
+			ng-click="vm.assignSelectedItems()"
+			layout="row"
+			layout-align="center center"
+		>
+			<md-tooltip
+				md-direction="left"
+				md-delay="250"
+			>{{ 'NGO zuweisen' | translate }}
+			</md-tooltip>
+			<i class="material-icons">business</i>
 		</md-button>
 
 	</md-fab-actions>

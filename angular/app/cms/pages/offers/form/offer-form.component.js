@@ -3,19 +3,23 @@ class OfferFormController
 	constructor( $state,
 	             API,
 	             UserService,
-	             ToastService )
+	             ToastService,
+	             SearchService )
 	{
 		'ngInject';
 
 		this.API = API;
 		this.UserService = UserService;
 		this.ToastService = ToastService;
+		this.SearchService = SearchService;
 
 		//
 		this.providers = this.UserService.providers;
+		this.searchAddress = "";
 
 		//
 		this.offer = {
+			isWithoutAddress: true,
 			categories: [],
 			filters: [],
 			translations: []
@@ -32,7 +36,7 @@ class OfferFormController
 		this.API.one( 'cms/offers', id ).get()
 			.then( ( item ) =>
 				{
-					this.offer = item;
+					this.setOffer( item );
 				},
 				( error ) =>
 				{
@@ -41,10 +45,47 @@ class OfferFormController
 			);
 	}
 
+	/**
+	 *
+	 * @param item
+	 */
+	setOffer( item )
+	{
+		this.offer = item;
+
+		if( this.offer.valid_from )
+			this.valid_from = new Date( this.offer.valid_from );
+
+		if( this.offer.valid_until )
+			this.valid_until = new Date( this.offer.valid_until );
+
+		if( !this.offer.street )
+			this.offer.isWithoutAddress = true;
+
+		if( !this.offer.categories )
+			this.offer.categories = [];
+
+		if( !this.offer.translations )
+			this.offer.translations = [];
+
+		if( !this.offer.filters )
+			this.offer.filters = [];
+	}
+
+	/**
+	 *
+	 */
 	save()
 	{
-		console.log("save:", this.offer );
+		if( this.offer.isWithoutAddress )
+		{
+			this.offer.street = null;
+			this.offer.streetnumber = null;
+			this.offer.zip = null;
+			this.offer.city = null;
+		}
 
+		//
 		if( this.validateForm() )
 		{
 			if( this.offer.id )
@@ -58,9 +99,10 @@ class OfferFormController
 		}
 	}
 
+	//
 	updateItem()
 	{
-		this.API.one( 'cms/offers', this.offer .id ).customPUT( this.offer )
+		this.API.one( 'cms/offers', this.offer.id ).customPUT( this.offer )
 			.then( ( response ) =>
 				{
 					this.ToastService.show( 'Erfolgreich gespeichert.' );
@@ -72,12 +114,16 @@ class OfferFormController
 			);
 	}
 
+	//
 	createItem()
 	{
 		this.API.all( 'cms/offers' ).post( this.offer )
 			.then( ( response ) =>
 				{
 					this.ToastService.show( 'Erfolgreich gespeichert.' );
+					console.log( "res:", response.data.offer );
+
+					this.setOffer( response.data.offer );
 				},
 				( error ) =>
 				{
@@ -100,10 +146,53 @@ class OfferFormController
 
 		return true;
 	}
+
+	// ------------------------------------------------------- //
+	// ------------------------------------------------------- //
+	// address
+
+	queryAddress( query )
+	{
+		return this.SearchService.searchAddress( query )
+			.catch( this.failedQueryAddress.bind( this ) );
+	}
+
+	selectedAddressChanged( item )
+	{
+		if( !item )
+			return;
+
+		this.offer.street = item.street;
+		this.offer.streetnumber = item.number;
+		this.offer.city = item.city;
+		this.offer.zip = item.zip;
+	}
+
+	//
+	failedQueryAddress( response )
+	{
+		if( response.data )
+		{
+			if( response.statusText )
+				this.ToastService.error( response.statusText );
+
+			if( response.data.errors && response.data.errors.message )
+			{
+				response.data.errors.message.forEach( function( element )
+				{
+					this.ToastService.error( element );
+				}, this );
+			}
+		}
+		else if( response.message )
+		{
+			this.ToastService.error( response.message );
+		}
+	}
 }
 
 export const OfferFormComponent = {
-	template: require('./offer-form.component.html'),
+	template: require( './offer-form.component.html' ),
 	controller: OfferFormController,
 	controllerAs: 'vm'
 };

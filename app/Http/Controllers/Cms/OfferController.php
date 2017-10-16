@@ -158,15 +158,28 @@ class OfferController extends Controller
 
     /**
      * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function delete( Request $request, $id )
+    {
+        $offer = Offer::findOrFail($id);
+
+        if( !$this->isUserOffer( $offer ) )
+            throw new AccessDeniedHttpException();
+
+        $offer->delete();
+
+        return response()->success( compact( 'offer' ) );
+    }
+
+    /**
+     * @param Request $request
      * @param Offer $offer
      * @return Offer
      */
     private function populateFromRequest( Request $request, Offer $offer )
     {
-        if( !$this->isUserOffer( $offer ) )
-            throw new AccessDeniedHttpException();
-
-        //
         $this->validate( $request, [
             'title'       => 'required|max:255',
             'description' => 'required',
@@ -202,6 +215,13 @@ class OfferController extends Controller
         $offer->ngo_id          = $ngo->id;
         $offer->enabled         = $ngo->published;
 
+        //
+        if( !$this->isUserOffer( $offer ) )
+            throw new AccessDeniedHttpException();
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
         if( $request->has( 'enabled' ) )
             $offer->enabled = $request->get( 'enabled' );
 
@@ -225,6 +245,16 @@ class OfferController extends Controller
             $offer->city                    = $request->get( 'city' );
             $offer->latitude                = $coordinates[ 0 ];
             $offer->longitude               = $coordinates[ 1 ];
+        }
+        else
+        {
+            $offer->street                  = null;
+            $offer->streetnumber            = null;
+            $offer->streetnumberadditional  = null;
+            $offer->zip                     = null;
+            $offer->city                    = null;
+            $offer->latitude                = null;
+            $offer->longitude               = null;
         }
 
         // ---------------------------------- //

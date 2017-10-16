@@ -91,7 +91,7 @@
 						ng-model="item.enabled"
 						ng-class="{'md-primary': vm.isElementEnabled('enabled')}"
 						ng-disabled="!vm.isElementEnabled('enabled')"
-						ng-change="vm.toggleEnabled(item)"
+						ng-change="vm.toggleItem(item)"
 					></md-switch>
 			</td>
 			<td md-cell>{{item.street}} {{item.streetnumber}}
