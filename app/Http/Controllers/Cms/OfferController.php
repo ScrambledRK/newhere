@@ -212,8 +212,8 @@ class OfferController extends Controller
         $offer->valid_from      = $request->get( 'valid_from' );
         $offer->valid_until     = $request->get( 'valid_until' );
         $offer->image_id        = $request->get( 'image_id' );
+        $offer->enabled         = $request->get( 'enabled' );
         $offer->ngo_id          = $ngo->id;
-        $offer->enabled         = $ngo->published;
 
         //
         if( !$this->isUserOffer( $offer ) )
@@ -222,9 +222,6 @@ class OfferController extends Controller
         // ---------------------------------- //
         // ---------------------------------- //
 
-        if( $request->has( 'enabled' ) )
-            $offer->enabled = $request->get( 'enabled' );
-
         //
         $hasAddress = $request->has( 'street' )
             && $request->has( 'streetnumber' )
@@ -232,11 +229,23 @@ class OfferController extends Controller
 
         if( $hasAddress )
         {
-            $addressApi = new AddressAPI();
-            $coordinates = $addressApi->getCoordinates(
-                $request->get( 'street' ),
-                $request->get( 'streetnumber' ),
-                $request->get( 'zip' ) );
+            $hasCoordinates = $request->has( 'latitude' )
+                && $request->has( 'longitude' );
+
+            if( $hasCoordinates )
+            {
+                $coordinates = array( $request->get( 'latitude' ),
+                                      $request->get( 'longitude' ) );
+            }
+            else
+            {
+                $addressApi = new AddressAPI();
+
+                $coordinates = $addressApi->getCoordinates(
+                    $request->get( 'street' ),
+                    $request->get( 'streetnumber' ),
+                    $request->get( 'zip' ) );
+            }
 
             $offer->street                  = $request->get( 'street' );
             $offer->streetnumber            = $request->get( 'streetnumber' );

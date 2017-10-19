@@ -23,6 +23,7 @@ import {CancelDirective} from "./directives/cancel.directive";
 import {OfferFormComponent} from "./pages/offers/form/offer-form.component";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
 import {OfferService} from "./services/offer.service";
+import {MapService} from "../main/services/map.service";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -38,6 +39,7 @@ angular.module( 'app.cms',
 angular.module( 'app.cms' )
 	.service( "UserService", UserService )
 	.service( "OfferService", OfferService )
+	.service( "MapService", MapService )
 ;
 
 // config

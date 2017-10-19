@@ -1,9 +1,17 @@
 class CmsMenuController
 {
-	constructor( $window )
+	constructor( UserService, $rootScope, $scope )
 	{
 		'ngInject';
-		this.$window = $window;
+
+		//
+		this.UserService = UserService;
+		this.$rootScope = $rootScope;
+		this.$scope = $scope;
+
+		//
+		this.roles = this.UserService.roles;
+
 		//
 		this.items = [
 			{
@@ -55,30 +63,42 @@ class CmsMenuController
 				roles: ['superadmin']
 			}
 		];
-	}
-
-	$onInit()
-	{
-		this.roles = angular.fromJson( this.$window.localStorage.roles );
-	}
-
-	allowed( item )
-	{
-		let allowed = false;
 
 		//
-		angular.forEach( item.roles, ( role ) =>
+		let onUserChanged = this.$rootScope.$on( "userChanged", ( event ) =>
 		{
-			angular.forEach( this.roles, ( userRole ) =>
-			{
-				if( role === userRole )
-				{
-					allowed = true;
-				}
-			} );
+			this.setAllowed();
 		} );
 
-		return allowed;
+		this.$scope.$on( '$destroy', () =>
+		{
+			onUserChanged();
+		} );
+
+		this.setAllowed();
+	}
+
+	//
+	setAllowed()
+	{
+		angular.forEach( this.items, ( item ) =>
+		{
+			var allowed = false;
+
+			//
+			angular.forEach( item.roles, ( role ) =>
+			{
+				angular.forEach( this.roles, ( userRole ) =>
+				{
+					if( role === userRole.name )
+					{
+						allowed = true;
+					}
+				} );
+			} );
+
+			item.allowed = allowed;
+		} );
 	}
 }
 

@@ -55,8 +55,6 @@ export class MapService
 		this.$rootScope = $rootScope;
 
 		this.defaults = {
-			//tap: false,
-			//dragging: false,
 			tapTolerance: 150
 		};
 
@@ -81,9 +79,10 @@ export class MapService
 					layerOptions: {
 						noWrap: true,
 						continuousWorld: false,
-						detectRetina: true,
+						detectRetina: false,
 						showOnSelector: false,
 						reuseTiles: true,
+						maxZoom: 18,
 						attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
 					}
 				}
@@ -120,7 +119,7 @@ export class MapService
 				{
 					var marker = {
 						offer_id: offer.id,
-						lng: parseFloat( offer.latitude ),
+						lng: parseFloat( offer.latitude ), // jupp, we have them all wrong
 						lat: parseFloat( offer.longitude ),
 						icon: this.blueIcon,
 						layer: 'offers',
@@ -134,14 +133,6 @@ export class MapService
 
 			this.markers = markers;
 		};
-
-		$rootScope.$on( "leafletDirectiveMarker.nhMap.click", function( event, args )
-		{
-			// vm.$state.go('app.start.detail', {
-			//     id: args.model.offer_id
-			// });
-			console.log( 'click' )
-		} );
 	}
 
 	invalidateSize()
@@ -162,58 +153,60 @@ export class MapService
 
 		var marker = {
 			offer_id: offer.id,
+			lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
 			lng: parseFloat( offer.latitude ),
-			lat: parseFloat( offer.longitude ),
 			icon: this.whiteIcon,
 			riseOnHover: true,
 			zIndexOffset: 9999999
 		};
+
 		this.markers[offer.id] = marker;
 	}
 
 	zoomTo( offer )
 	{
 		this.center = {
-			lat: parseFloat( offer.longitude ),
+			lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
 			lng: parseFloat( offer.latitude ),
-			zoom: 14
+			zoom: 16
 		};
 	}
 
-
+	/**
+	 *
+	 * @param success
+	 * @param error
+	 */
 	getLocation( success, error )
 	{
-
 		if( navigator.geolocation )
 		{
 			navigator.geolocation.getCurrentPosition( ( position ) =>
 			{
-
 				console.log( position.coords.latitude + ' ' + position.coords.longitude );
+
 				this.center.lat = position.coords.latitude;
 				this.center.lng = position.coords.longitude;
 				this.center.zoom = 12;
-				this.$rootScope.$apply();
-				if( typeof success == "function" )
-				{
-					success( position );
-				}
 
+				this.$rootScope.$apply();
+
+				if( typeof success == "function" )
+					success( position );
 			} );
 		}
 		else
 		{
-			this.$translate( 'Standort kann auf Grund fehlender Browserunterstützung nicht abgerufen werden.' ).then( ( msg ) =>
-			{
-				this.ToastService.error( msg );
-			} );
+			this.ToastService.error( 'Standort kann auf Grund fehlender Browserunterstützung nicht abgerufen werden.' );
+
 			if( typeof error == "function" )
-			{
 				error();
-			}
 		}
 	}
 
+	/**
+	 *
+	 */
 	locate()
 	{
 		this.leafletData.getMap( 'nhMap' ).then( ( map ) =>
@@ -222,18 +215,14 @@ export class MapService
 				setView: true,
 				maxZoom: 14
 			} );
+
 			map.on( 'locationfound', ( e ) =>
 			{
-
 				var pulsingIcon = L.icon.pulse( {
 					iconSize: [10, 10],
 					color: '#357DBA'
 				} );
-				// L.circleMarker(e.latlng, {
-				//     fillColor: '#357DBA',
-				//     color: '#357DBA',
-				//     weight: 0
-				// }).addTo(map);
+
 				this.meMarker = L.marker( e.latlng, {
 					icon: pulsingIcon
 				} );

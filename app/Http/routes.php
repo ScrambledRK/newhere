@@ -43,7 +43,7 @@ function groupAuthenticated( $api, $callback )
  */
 function groupOrganisation( $api, $callback )
 {
-    $api->group( [ 'middleware' => [ 'role:organisation-admin|organisation-user' ] ], $callback );
+    $api->group( [ 'middleware' => [ 'role:organisation-admin|organisation-user|superadmin|admin' ] ], $callback );
 }
 
 /**
@@ -75,13 +75,6 @@ groupAuthenticated( $api, function( $api )
     $api->get( 'cms/offers/{id}', 'Cms\OfferController@byId' );
 
     groupOrganisation( $api, function( $api )
-    {
-        $api->post('cms/offers', 'Cms\OfferController@create');
-        $api->put( 'cms/offers/{id}', 'Cms\OfferController@update' );
-        $api->delete( 'cms/offers/{id}', 'Cms\OfferController@delete' );
-    } );
-
-    groupAdministration( $api, function( $api )
     {
         $api->post('cms/offers', 'Cms\OfferController@create');
         $api->put( 'cms/offers/{id}', 'Cms\OfferController@update' );

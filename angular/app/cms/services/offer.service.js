@@ -3,32 +3,41 @@ export class OfferService
 	/**
 	 */
 	constructor( API,
+	             $rootScope,
 	             $q, )
 	{
 		'ngInject';
 
 		//
 		this.API = API;
+		this.$rootScope = $rootScope;
 		this.$q = $q;
 
 		// --------------------------- //
 
 		//
 		this.offers = [];
-
+		this.numItems = 0;
 	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
 
 	//
 	fetchList( query )
 	{
-		this.offers.length = 0;
+		let config = this.prepareQuery();
 
 		//
-		return this.API.all( 'cms/offers' ).getList( query )
+		return this.API.all( 'cms/offers' ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 			{
+				this.numItems = response.count;
+
 				this.offers.length = 0;
 				this.offers.push.apply( this.offers, response );
+
+				this.resolveQuery();
 			} )
 		;
 	}
@@ -39,12 +48,13 @@ export class OfferService
 	 */
 	deleteList( offerList )
 	{
+		let config = this.prepareQuery();
 		let promises = [];
 
 		//
 		angular.forEach( offerList, ( item ) =>
 		{
-			let promise = this.API.one( 'cms/offers', item.id ).remove()
+			let promise = this.API.one( 'cms/offers', item.id ).withHttpConfig( config ).remove()
 				.then( ( response ) =>
 					{
 						if( response.data && response.data.offer )
@@ -65,7 +75,11 @@ export class OfferService
 		} );
 
 		//
-		return this.$q.all( promises );
+		return this.$q.all( promises )
+			.then( () =>
+			{
+				this.resolveQuery();
+			});
 	}
 
 	/**
@@ -74,12 +88,13 @@ export class OfferService
 	 */
 	updateList( offerList )
 	{
+		let config = this.prepareQuery();
 		let promises = [];
 
 		//
 		angular.forEach( offerList, ( item ) =>
 		{
-			let promise = this.API.one( 'cms/offers', item.id ).customPUT( item )
+			let promise = this.API.one( 'cms/offers', item.id ).withHttpConfig( config ).customPUT( item )
 				.then( ( response ) =>
 					{
 						return response;
@@ -94,8 +109,15 @@ export class OfferService
 		} );
 
 		//
-		return this.$q.all( promises );
+		return this.$q.all( promises )
+			.then( () =>
+			{
+				this.resolveQuery();
+			});
 	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
 
 	//
 	indexOf( offerID )
@@ -109,5 +131,26 @@ export class OfferService
 		} );
 
 		return result;
+	}
+
+	prepareQuery()
+	{
+		if( this.$rootScope.isLoading )
+			console.log("query already in process");
+
+		this.$rootScope.isLoading = true;
+
+		//
+		let defer = this.$q.defer();
+
+		return {
+			timeout: defer.promise
+		};
+	}
+
+	resolveQuery()
+	{
+		this.$rootScope.isLoading = false;
+		this.$rootScope.$broadcast( 'offersChanged', this );
 	}
 }

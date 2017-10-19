@@ -38,7 +38,7 @@ class OfferListController
 		this.promise = null;
 
 		this.items = this.OfferService.offers;
-		this.numItems = 0;
+		this.numItems = this.OfferService.numItems;
 
 		//
 		this.query =
@@ -62,8 +62,10 @@ class OfferListController
 			vm.promise = this.OfferService.fetchList( vm.query )
 				.then( () =>
 				{
-					vm.numItems = this.items.length;
 					vm.loading = false;
+					vm.promise = null;
+
+					vm.numItems = vm.OfferService.numItems;
 				} )
 			;
 		};
@@ -84,9 +86,9 @@ class OfferListController
 	}
 
 	//
-	toggleItem( item )
+	toggleItem( item, isEnabled )
 	{
-		item.enabled = !item.enabled;
+		item.enabled = isEnabled;
 
 		this.OfferService.updateList( [item] )
 			.then( ( success ) =>

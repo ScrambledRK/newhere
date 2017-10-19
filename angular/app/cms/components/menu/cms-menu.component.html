@@ -3,7 +3,7 @@
 		ng-repeat="item in vm.items"
 		ui-sref-active="md-warn"
 		ui-sref="{{item.sref}}"
-		ng-if="vm.allowed(item)"
+		ng-if="item.allowed"
 	>
 		<md-icon>{{item.icon}}</md-icon>
 		<p>{{ item.title }}</p>

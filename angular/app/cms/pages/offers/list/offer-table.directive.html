@@ -29,7 +29,10 @@
 				md-column
 				md-order-by="enabled"
 				ng-if="vm.isElementVisible('enabled')"
-			>{{ 'Veröffentlicht' | translate }}
+			><i
+				class="material-icons"
+				style="padding-left: 14px;"
+			>lock_open</i>
 			</th>
 			<th
 				md-column
@@ -46,16 +49,19 @@
 			</th>
 			<th
 				md-column
+				md-order-by="phone"
 				class="icon"
 			>{{ 'Telefon' | translate }}
 			</th>
 			<th
 				md-column
+				md-order-by="email"
 				class="icon"
 			>{{ 'Email' | translate }}
 			</th>
 			<th
 				md-column
+				md-order-by="website"
 				class="icon"
 			>{{ 'Webseite' | translate }}
 			</th>
@@ -86,13 +92,24 @@
 			<td
 				md-cell
 				ng-if="vm.isElementVisible('enabled')"
-			    >
-					<md-switch
-						ng-model="item.enabled"
-						ng-class="{'md-primary': vm.isElementEnabled('enabled')}"
-						ng-disabled="!vm.isElementEnabled('enabled')"
-						ng-change="vm.toggleItem(item)"
-					></md-switch>
+			>
+				<md-button
+					ng-click="vm.toggleItem(item,true)"
+					ng-disabled="!vm.isElementEnabled('enabled')"
+					ng-if="!item.enabled"
+					class="md-icon-button md-accent md-hue-2"
+				>
+					<md-icon>lock</md-icon>
+				</md-button>
+				<md-button
+					ng-click="vm.toggleItem(item,false)"
+					ng-disabled="!vm.isElementEnabled('enabled')"
+					ng-if="item.enabled"
+					class="md-icon-button md-accent md-hue-2"
+				>
+					<md-icon>lock_open</md-icon>
+				</md-button>
+
 			</td>
 			<td md-cell>{{item.street}} {{item.streetnumber}}
 			            {{item.streetnumberadditional}}, {{item.zip}}

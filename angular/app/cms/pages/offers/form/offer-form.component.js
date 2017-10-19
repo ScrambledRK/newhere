@@ -1,10 +1,12 @@
 class OfferFormController
 {
 	constructor( $state,
+	             $timeout,
 	             API,
 	             UserService,
 	             ToastService,
-	             SearchService )
+	             SearchService,
+	             MapService )
 	{
 		'ngInject';
 
@@ -12,6 +14,8 @@ class OfferFormController
 		this.UserService = UserService;
 		this.ToastService = ToastService;
 		this.SearchService = SearchService;
+		this.MapService = MapService;
+		this.$timeout = $timeout;
 
 		//
 		this.providers = this.UserService.providers;
@@ -70,6 +74,9 @@ class OfferFormController
 
 		if( !this.offer.filters )
 			this.offer.filters = [];
+
+		//
+		this.updateMap();
 	}
 
 	/**
@@ -166,6 +173,23 @@ class OfferFormController
 		this.offer.streetnumber = item.number;
 		this.offer.city = item.city;
 		this.offer.zip = item.zip;
+		this.offer.latitude = item.coordinates[0];
+		this.offer.longitude = item.coordinates[1];
+
+		this.updateMap();
+	}
+
+	updateMap()
+	{
+		console.log("update map:", this.offer );
+
+		this.MapService.markers = {};
+		this.MapService.setMarkers( [ this.offer ] );
+		this.MapService.zoomTo( this.offer );
+		this.MapService.invalidateSize();
+
+		//
+		this.$timeout( () => { this.MapService.invalidateSize(); }, 150, false );
 	}
 
 	//

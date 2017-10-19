@@ -3,12 +3,13 @@ export class UserService
 	/**
 	 *
 	 * @param {Restangular} API
-	 * @param {ToastService} ToastService
 	 * @param {AuthProvider} $auth
+	 * @param {*} $rootScope
 	 * @param {*} $q
 	 */
 	constructor( API,
 	             $auth,
+	             $rootScope,
 	             $q, )
 	{
 		'ngInject';
@@ -16,6 +17,7 @@ export class UserService
 		//
 		this.API = API;
 		this.$auth = $auth;
+		this.$rootScope = $rootScope;
 		this.$q = $q;
 
 		// --------------------------- //
@@ -29,8 +31,18 @@ export class UserService
 		//
 		if( this.$auth.isAuthenticated() )
 		{
-			this.fetchUser();
-			this.fetchProviders();
+			this.$rootScope.isLoading = true;
+
+			let userPromise = this.fetchUser();
+			let providerPromise = this.fetchProviders();
+
+			this.$q.all( [userPromise, providerPromise] )
+				.then( () =>
+					{
+						this.$rootScope.isLoading = false;
+						this.$rootScope.$broadcast( 'userChanged', this );
+					}
+				);
 		}
 	}
 
@@ -39,6 +51,8 @@ export class UserService
 	 */
 	login( user )
 	{
+		this.$rootScope.isLoading = true;
+
 		return this.$auth.login( user )
 			.then( ( response ) =>
 				{
@@ -64,6 +78,15 @@ export class UserService
 				{
 					throw error;
 				} )
+			.then( () =>
+				{
+					this.$rootScope.isLoading = false;
+					this.$rootScope.$broadcast( 'userChanged', this );
+				},
+				( error ) =>
+				{
+					throw error;
+				} )
 			;
 	}
 
@@ -78,7 +101,7 @@ export class UserService
 					this.user = response;
 
 					this.roles.push.apply( this.roles, this.user.roles );
-					console.log("roles:", this.roles );
+					console.log( "roles:", this.roles );
 
 					//
 					this.user.roles = [];
@@ -101,7 +124,7 @@ export class UserService
 			.then( ( response ) =>
 				{
 					this.providers.push.apply( this.providers, response );
-					console.log("providers:", this.providers );
+					console.log( "providers:", this.providers );
 				},
 				( error ) =>
 				{
@@ -118,9 +141,9 @@ export class UserService
 		if( !this.user )
 			return false;
 
-		let isOrgAdmin = Boolean( this.user.roles.indexOf( "organisation-admin" ) > -1);
-		let isOrgUser = Boolean( this.user.roles.indexOf( "organisation-user" ) > -1);
-		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1);
+		let isOrgAdmin = Boolean( this.user.roles.indexOf( "organisation-admin" ) > -1 );
+		let isOrgUser = Boolean( this.user.roles.indexOf( "organisation-user" ) > -1 );
+		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1 );
 		let isAdmin = this.user.roles.indexOf( "admin" ) > -1;
 
 		return (isOrgAdmin || isOrgUser && !isSuperAdmin && !isAdmin);
@@ -132,7 +155,7 @@ export class UserService
 		if( !this.user )
 			return false;
 
-		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1);
+		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1 );
 		let isAdmin = this.user.roles.indexOf( "admin" ) > -1;
 
 		return isSuperAdmin || isAdmin;
