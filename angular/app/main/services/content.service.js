@@ -262,7 +262,7 @@ export class ContentService
 			published: true,
 		};
 
-		return this.API.one( "providers" ).withHttpConfig( config ).getList( query )
+		return this.API.all( "providers" ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 				{
 					if( !response.length )
