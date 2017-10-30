@@ -1,8 +1,11 @@
-export function SaveDirective() {
+export function SaveDirective()
+{
 	'ngInject';
 
 	return {
-		scope: false,
+		scope: {
+			isDisabled: '=' //use 2-way binding instead.
+		},
 		restrict: 'E',
 		template: require( './save.directive.html' )
 	};

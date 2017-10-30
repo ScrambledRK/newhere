@@ -22,7 +22,6 @@
 <form
 	name="offerForm"
 	ng-submit="vm.save()"
-	ng-invalid
 	class="blank"
 >
 	<md-content
@@ -100,8 +99,9 @@
 		layout-align="end center"
 	>
 		<save
-			ng-disabled="offerForm.$invalid || Form.$pristine"
+			is-disabled="offerForm.$invalid || offerForm.$pristine"
 		></save>
+
 		<cancel></cancel>
 	</div>
 </form>

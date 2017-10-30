@@ -1,4 +1,6 @@
-<md-card>
+<md-card
+	ng-form="offerDetails"
+>
 	<md-card-title>
 		<md-card-title-text>
 			<span class="md-headline">{{ 'Details' | translate }}</span>
@@ -10,7 +12,7 @@
 			<label>{{ 'Titel' | translate }}</label>
 			<input
 				ng-model="vm.offer.title"
-				md-maxlength="200"
+				md-maxlength="100"
 				required
 			>
 		</md-input-container>
@@ -25,22 +27,49 @@
 			></textarea>
 		</md-input-container>
 
+		<!-- email -->
 		<md-input-container class="md-block">
 			<label>{{ 'Email' | translate }}</label>
 			<input
 				ng-model="vm.offer.email"
 				type="email"
+				name="email"
 				placeholder="email@offer.com"
+				ng-pattern="/^.+@.+\..+$/"
 			>
+			<div
+				ng-messages="offerDetails.email.$error"
+				role="alert"
+			>
+				<div ng-message-exp="['pattern']">
+					{{ 'the given email address should at least look valid' | translate }}
+				</div>
+			</div>
 		</md-input-container>
+
+		<!-- phone -->
 		<md-input-container class="md-block">
 			<label>{{ 'Telefon' | translate }}</label>
 			<input
 				ng-model="vm.offer.phone"
 				placeholder="+43 660 12345678"
 				type="tel"
+				name="phone"
+				ng-pattern="/^\+?[0-9]+[\s0-9]*$/"
+				minlength="6"
+				maxlength="24"
 			>
+			<div
+				ng-messages="offerDetails.phone.$error"
+				role="alert"
+			>
+				<div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+					{{ 'the given phone number should at least look valid' | translate }}
+				</div>
+			</div>
 		</md-input-container>
+
+		<!-- website -->
 		<md-input-container class="md-block">
 			<label>{{ 'Webseite' | translate }}</label>
 			<input
@@ -49,6 +78,8 @@
 				placeholder="http://www.your-offer.com"
 			>
 		</md-input-container>
+
+		<!-- facebook -->
 		<md-input-container class="md-block">
 			<label>Facebook URL</label>
 			<input
