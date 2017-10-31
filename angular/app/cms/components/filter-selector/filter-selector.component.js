@@ -5,114 +5,86 @@ class FilterSelectorController
 	{
 		'ngInject';
 
-		//
-		let vm = this;
-
 		this.FilterService = FilterService;
 		this.$rootScope = $rootScope;
 
 		//
-		this.selectedFilter = [];   // customized user filter; list of set filters ...
-		this.dropdownFilters = {};
-		this.filters = [];
+		this.filters = this.FilterService.filters;
 
-		this.$rootScope.$on( 'languageChanged', () =>
+		this.selected = [];
+		this.dropFilter = [];
+
+		//
+		this.$rootScope.$on( "filterChanged", ( event, data ) =>
 		{
-			console.log( 'language changed' );
-			vm.fetchFilters();
+			if( !this.item )
+				console.error("no filter item available! oh-nose");
+
+			this.selected = this.item;
+			this.onFilterChanged();
 		} );
-
-		this.fetchFilters();
-	}
-
-	fetchFilters()
-	{
-		this.FilterService.all( ( list ) =>
-		{
-			this.filters = list;
-			if( this.item )
-			{
-				this.selectedFilter = angular.copy( this.item );
-
-				angular.forEach( this.selectedFilter, ( filter, key ) =>
-				{
-					if( filter.parent_id )
-					{
-						this.dropdownFilters[filter.slug] = filter;
-					}
-				} );
-			}
-		}, () =>
-		{
-		}, true );
-	}
-
-	toggleFilter( filter )
-	{
-		if( filter.parent_id )
-		{
-
-			angular.forEach( this.selectedFilter, ( f, key ) =>
-			{
-				if( f.parent_id == filter.parent_id )
-				{
-					this.selectedFilter.splice( key, 1 );
-				}
-			} );
-			this.selectedFilter.push( filter );
-		}
-		else
-		{
-			let idx = null;
-			angular.forEach( this.selectedFilter, ( f, key ) =>
-			{
-				if( f.id == filter.id )
-				{
-					idx = key;
-				}
-			} );
-			if( idx === parseInt( idx, 10 ) )
-			{
-				this.selectedFilter.splice( idx, 1 );
-			}
-			else
-			{
-				this.selectedFilter.push( filter );
-			}
-
-		}
-		this.item = this.selectedFilter;
-	}
-
-	inSelection( filter )
-	{
-		let found = false;
-		angular.forEach( this.selectedFilter, ( f, key ) =>
-		{
-			if( f.id == filter.id )
-			{
-				found = true;
-			}
-		} );
-		return found;
 	}
 
 	$onInit()
 	{
-
+		//;
 	}
 
-	$onChanges()
+	//
+	onFilterChanged()
 	{
-		console.log( 'filter changed' );
+		this.FilterService.selectFilters( this.selected );
+
+		//
+		this.dropFilter.length = 0;
+
+		angular.forEach( this.selected, ( filter, key ) =>
+		{
+			if( filter.parent_id )
+			{
+				let idx = filter.parent_id;
+
+				if( !this.dropFilter[idx] )
+					this.dropFilter[idx] = [];
+
+				this.dropFilter[idx].push( filter );
+			}
+		} );
 	}
+
+	//
+	toggleFilter( filter )
+	{
+		filter.selected = !filter.selected;
+
+		//
+		this.selected.length = 0;
+		this.selected.push.apply( this.selected, this.FilterService.getSelectedFilters() );
+
+		//
+		angular.forEach( this.selected, ( filter, key ) =>
+		{
+			console.log( "selected:", filter.slug, filter );
+		} );
+	}
+
+	//
+	inSelection( filter )
+	{
+		return filter.selected;
+	}
+
 }
 
+/**
+ *
+ * @type {{template: *, controller: FilterSelectorController, controllerAs: string, bindings: {item: string}}}
+ */
 export const FilterSelectorComponent = {
-	templateUrl: './views/app/components/filter-selector/filter-selector.component.html',
+	template: require('./filter-selector.component.html'),
 	controller: FilterSelectorController,
 	controllerAs: 'vm',
 	bindings: {
 		item: '=ngModel'
 	}
-}
+};

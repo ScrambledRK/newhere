@@ -170,6 +170,8 @@ groupEveryone( $api, function( $api )
 //
 groupAuthenticated( $api, function( $api )
 {
+    $api->get( 'cms/filters', 'Cms\FilterController@index' );
+
     groupOrganisation( $api, function( $api )
     {
         $api->post('images/upload', 'ImageController@uploadImage');
