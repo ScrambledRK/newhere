@@ -100,7 +100,7 @@ groupEveryone( $api, function( $api )
 //
 groupAuthenticated( $api, function( $api )
 {
-
+    $api->get( 'cms/categories/{slug}', 'Cms\CategoryController@bySlug' );
 } );
 
 /*

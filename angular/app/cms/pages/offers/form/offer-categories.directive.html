@@ -5,9 +5,7 @@
 			<span class="md-subhead">{{ '%d ausgewählt' | translate | sprintf: vm.offer.categories.length }}</span>
 		</md-card-title-text>
 	</md-card-title>
-	<treeview
-		items="vm.categories"
-		selection="vm.offer.categories"
-		options="vm.categoriesOptions"
-	></treeview>
+
+	<category-selector ng-model="vm.offer.categories"></category-selector>
+
 </md-card>

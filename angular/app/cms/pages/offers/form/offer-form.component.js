@@ -2,6 +2,7 @@ class OfferFormController
 {
 	constructor( $state,
 	             $timeout,
+	             $scope,
 	             API,
 	             UserService,
 	             ToastService,
@@ -16,10 +17,12 @@ class OfferFormController
 		this.SearchService = SearchService;
 		this.MapService = MapService;
 		this.$timeout = $timeout;
+		this.$scope = $scope;
 
 		//
 		this.providers = this.UserService.providers;
 		this.searchAddress = "";
+		this.category = {};
 
 		//
 		this.offer = {
@@ -153,6 +156,7 @@ class OfferFormController
 
 		return true;
 	}
+
 
 	// ------------------------------------------------------- //
 	// ------------------------------------------------------- //

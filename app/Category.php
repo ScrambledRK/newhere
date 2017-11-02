@@ -39,6 +39,13 @@ class Category extends Model
     }
 
     //
+    public function allChildren()
+    {
+        return $this->hasMany('App\Category', 'parent_id', 'id')
+                    ->with('allChildren');
+    }
+
+    //
 //    public function _children()
 //    {
 //        return $this->hasMany( 'App\Category', 'parent_id', 'id' );

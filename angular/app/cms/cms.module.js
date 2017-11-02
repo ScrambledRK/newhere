@@ -26,6 +26,8 @@ import {OfferService} from "./services/offer.service";
 import {MapService} from "../main/services/map.service";
 import {FilterService} from "../../services/filter.service";
 import {FilterSelectorComponent} from "./components/filter-selector/filter-selector.component";
+import {CategoryService} from "./services/category.service";
+import {CategorySelectorComponent} from "./components/category-selector/category-selector.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -43,6 +45,7 @@ angular.module( 'app.cms' )
 	.service( "OfferService", OfferService )
 	.service( "MapService", MapService )
 	.service( "FilterService", FilterService )
+	.service( "CategoryService", CategoryService )
 ;
 
 // config
@@ -82,4 +85,5 @@ angular.module( 'app.cms' )
 	.component( 'cmsOfferForm', OfferFormComponent )
 	.component( 'imageUploader', ImageUploaderComponent )
 	.component( 'filterSelector', FilterSelectorComponent )
+	.component( 'categorySelector', CategorySelectorComponent )
 ;

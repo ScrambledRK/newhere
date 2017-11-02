@@ -1,0 +1,58 @@
+<!-- Nested node template -->
+<script
+	type="text/ng-template"
+	id="tree-categories.html"
+>
+	<div ui-tree-handle class="angular-ui-tree-handle">
+		<md-icon>
+			<i
+				class="material-icons"
+				ng-if="category.all_children.length"
+				ng-click="vm.toggleExpansion(category,this)"
+			>
+				{{ category.isExpanded ? 'expand_less' : 'expand_more' }}
+			</i>
+		</md-icon>
+
+		<md-checkbox
+			ng-model="category.isSelected"
+			ng-true-value="true"
+			ng-false-value="false"
+			ng-click="vm.toggleSelection(category)"
+		>
+			{{category.title}}
+			<md-tooltip md-direction="right">{{category.description}}</md-tooltip>
+		</md-checkbox>
+	</div>
+
+	<ol
+		ui-tree-nodes=""
+		ng-model="category.all_children"
+		ng-class="{hidden: !category.isExpanded}"
+	>
+		<li
+			ng-repeat="category in category.all_children"
+			ui-tree-node
+			ng-include="'tree-categories.html'"
+		>
+		</li>
+	</ol>
+</script>
+
+<!-- tree -->
+<div
+	ui-tree
+	data-drag-enabled="false"
+>
+	<ol
+		ui-tree-nodes=""
+		ng-model="category"
+		id="tree-root"
+	>
+		<li
+			ng-repeat="category in category.all_children"
+			ui-tree-node
+			ng-include="'tree-categories.html'"
+		></li>
+	</ol>
+</div>
