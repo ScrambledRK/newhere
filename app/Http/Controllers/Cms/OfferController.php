@@ -94,6 +94,8 @@ class OfferController extends Controller
      */
     public function byId( $id )
     {
+        sleep ( 8 );
+
         $offer = Offer::where( 'id', $id )->with(
             [
                 'ngo',

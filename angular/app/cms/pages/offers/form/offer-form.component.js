@@ -3,6 +3,7 @@ class OfferFormController
 	constructor( $state,
 	             $timeout,
 	             $scope,
+	             $rootScope,
 	             API,
 	             UserService,
 	             ToastService,
@@ -18,6 +19,7 @@ class OfferFormController
 		this.MapService = MapService;
 		this.$timeout = $timeout;
 		this.$scope = $scope;
+		this.$rootScope = $rootScope;
 
 		//
 		this.providers = this.UserService.providers;
@@ -53,13 +55,59 @@ class OfferFormController
 	}
 
 	/**
+	 * I am sorry for the code below; I do not seem to understand
+	 * how angular watches references, so I do whatever it takes
+	 * to keep the same object instance (this.offer) and its arrays
 	 *
 	 * @param item
 	 */
 	setOffer( item )
 	{
-		this.offer = item;
+		console.log("set offer:", item );
 
+		//
+		for(let k in item)
+		{
+			switch( k )
+			{
+				case "translations":
+				case "categories":
+				case "filters":
+				{
+					this.offer[k].length = 0;
+					break;
+				}
+
+				default:
+				{
+					delete this.offer[k];
+					break;
+				}
+			}
+		}
+
+		//
+		for(let k in item)
+		{
+			switch( k )
+			{
+				case "translations":
+				case "categories":
+				case "filters":
+				{
+					this.offer[k].push.apply( this.offer[k], item[k] );
+					break;
+				}
+
+				default:
+				{
+					this.offer[k] = item[k];
+					break;
+				}
+			}
+		}
+
+		//
 		if( this.offer.valid_from )
 			this.valid_from = new Date( this.offer.valid_from );
 
@@ -80,6 +128,10 @@ class OfferFormController
 
 		//
 		this.updateMap();
+
+		//
+		this.$rootScope.$broadcast( 'categoriesChanged', this );
+		this.$rootScope.$broadcast( 'filterChanged', this );
 	}
 
 	/**
@@ -87,6 +139,8 @@ class OfferFormController
 	 */
 	save()
 	{
+		console.log("save offer:", this.offer );
+
 		if( this.offer.isWithoutAddress )
 		{
 			this.offer.street = null;
