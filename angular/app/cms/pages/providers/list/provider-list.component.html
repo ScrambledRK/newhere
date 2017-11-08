@@ -1,0 +1,32 @@
+<div>
+	<md-card ng-if="!vm.isNgoPublished && !vm.loading && false">
+		<unpublished></unpublished>
+	</md-card>
+
+	<md-card>
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline">{{ 'Anbieter' | translate }}</span>
+			</md-card-title-text>
+		</md-card-title>
+
+		<md-toolbar
+			class="md-table-toolbar md-default"
+			layout-align="space-between start"
+			layout-padding
+			layout="row"
+		>
+			<search></search>
+			<enabled></enabled>
+			<span flex></span>
+			<create ng-if="vm.isElementVisible('create')"></create>
+		</md-toolbar>
+
+		<md-content flex>
+			<div ui-view="content"></div>
+			<pagination></pagination>
+		</md-content>
+	</md-card>
+</div>
+
+<dial></dial>

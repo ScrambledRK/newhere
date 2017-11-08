@@ -21,16 +21,15 @@
 			></th>
 			<th
 				md-column
-			>
-				<i
-					class="material-icons"
-				>exit_to_app</i>
+			><i
+				class="material-icons"
+			>exit_to_app</i>
 			</th>
 			<th
 				md-column
 				md-order-by="id"
 				style="min-width: 300px"
-			>{{ 'Angebot' | translate }}
+			>{{ 'Anbieter' | translate }}
 			</th>
 			<th
 				md-column
@@ -41,6 +40,22 @@
 				style="padding-left: 14px;"
 			>lock_open</i>
 			</th>
+
+			<th
+				md-column
+				md-order-by="offers_count"
+			><i
+				class="material-icons"
+			>local_offer</i>
+			</th>
+			<th
+				md-column
+				md-order-by="users_count"
+			><i
+				class="material-icons"
+			>group</i>
+			</th>
+
 			<th
 				md-column
 				md-order-by="street"
@@ -49,20 +64,13 @@
 			</th>
 			<th
 				md-column
-				md-order-by="ngo_id"
-				ng-if="vm.isElementVisible('provider')"
-				style="min-width: 200px"
-			>{{ 'Anbieter' | translate }}
-			</th>
-			<th
-				md-column
-				md-order-by="phone"
+				md-order-by="contact_phone"
 				class="icon"
 			>{{ 'Telefon' | translate }}
 			</th>
 			<th
 				md-column
-				md-order-by="email"
+				md-order-by="contact_email"
 				class="icon"
 			>{{ 'Email' | translate }}
 			</th>
@@ -82,7 +90,6 @@
 			md-select="item"
 			ng-repeat="item in vm.items"
 		>
-
 			<!-- edit -->
 			<td
 				md-cell
@@ -121,7 +128,7 @@
 					>
 						<small>{{item.description}}</small>
 					</md-tooltip>
-					<strong>{{item.title}}</strong>
+					<strong>{{item.organisation}}</strong>
 				</div>
 			</td>
 
@@ -133,58 +140,58 @@
 				<md-button
 					ng-click="vm.toggleItem(item,true)"
 					ng-disabled="!vm.isElementEnabled('enabled')"
-					ng-if="!item.enabled"
+					ng-if="!item.published"
 					class="md-icon-button md-accent md-hue-2"
 				>
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>offer is not enabled
+					>provider is not enabled
 					</md-tooltip>
 					<md-icon>lock</md-icon>
 				</md-button>
 				<md-button
 					ng-click="vm.toggleItem(item,false)"
 					ng-disabled="!vm.isElementEnabled('enabled')"
-					ng-if="item.enabled"
+					ng-if="item.published"
 					class="md-icon-button md-accent md-hue-2"
 				>
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>offer is enabled
+					>provider is enabled
 					</md-tooltip>
 					<md-icon>lock_open</md-icon>
 				</md-button>
 			</td>
 
-			<!-- street -->
-			<td md-cell>{{item.street}} {{item.streetnumber}}
-			            {{item.streetnumberadditional}}, {{item.zip}}
-			            {{item.city}}
+			<!-- counts -->
+			<td md-cell>
+				<a href="{{vm.getURL(item,'offer')}}">{{item.offers_count}}</a>
+			</td>
+			<td md-cell>
+				<a href="{{vm.getURL(item,'user')}}">{{item.users_count}}</a>
 			</td>
 
-			<!-- provider -->
-			<td
-				md-cell
-				ng-if="vm.isElementVisible('provider')"
-			>
-				<a href="{{vm.getURL(item,'provider')}}">{{ item.ngo.organisation}}</a>
+			<!-- address -->
+			<td md-cell>{{item.street}} {{item.street_number}}
+			            , {{item.zip}}
+			            {{item.city}}
 			</td>
 
 			<!-- contact -->
 			<td md-cell>
-				<div ng-if="item.phone">
-					<md-tooltip>{{item.phone}}</md-tooltip>
-					<a href="tel:{{item.phone}}">
+				<div ng-if="item.contact_phone">
+					<md-tooltip>{{item.contact_phone}}</md-tooltip>
+					<a href="tel:{{item.contact_phone}}">
 						<md-icon>phone</md-icon>
 					</a>
 				</div>
 			</td>
 			<td md-cell>
-				<div ng-if="item.email">
-					<md-tooltip md-direction="left">{{item.email}}</md-tooltip>
-					<a href="mailto:{{item.email}}">
+				<div ng-if="item.contact_email">
+					<md-tooltip md-direction="left">{{item.contact_email}}</md-tooltip>
+					<a href="mailto:{{item.contact_email}}">
 						<md-icon>mail</md-icon>
 					</a></div>
 			</td>

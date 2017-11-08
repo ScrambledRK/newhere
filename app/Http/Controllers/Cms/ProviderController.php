@@ -24,19 +24,58 @@ class ProviderController extends Controller
     public function index( Request $request )
     {
         $user = Auth::user();
-        $user->load( 'ngos' );
+        $result = null;
 
         if( $this->isUserAdmin( $user ) )
-            $user->setRelation("ngos", Ngo::all() );
-
-        $result = $user->getRelation("ngos");
-        $count = $result->count();
+        {
+            $result = Ngo::with([]); // only thing I found that returns a builder and not a collection
+        }
+        else
+        {
+            $result = Ngo::whereHas( 'users', function( $q ) use ( $user )
+            {
+                $q->where( 'user_id', $user->id );
+            } );
+        }
 
         // ------------------------------------------- //
         // ------------------------------------------- //
 
         //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'published',
+                                      $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            $result = $result->where( function( $query ) use ( $toSearch )
+            {
+                $query->where(
+                    'organisation',
+                    'ilike',
+                    '%' . $toSearch . '%'
+                );
+            } );
+        }
+
+        //
+        if( $request->has( 'withCounts' ) )
+        {
+            $result->withCount("offers");
+            $result->withCount("users");
+        }
+
+        //
+        $count = $result->count();
         $result = $this->paginate( $request, $result );
+
+        //
+        $result = $result->get();
 
         // ------------------------------------------- //
         // ------------------------------------------- //

@@ -149,6 +149,18 @@ export class UserService
 		return (isOrgAdmin || isOrgUser && !isSuperAdmin && !isAdmin);
 	}
 
+	isNgoAdministrator()
+	{
+		if( !this.user )
+			return false;
+
+		let isOrgAdmin = Boolean( this.user.roles.indexOf( "organisation-admin" ) > -1 );
+		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1 );
+		let isAdmin = this.user.roles.indexOf( "admin" ) > -1;
+
+		return (isOrgAdmin && !isSuperAdmin && !isAdmin);
+	}
+
 	//
 	isAdministrator()
 	{

@@ -1,4 +1,4 @@
-class OfferListController
+class ProviderListController
 {
 	constructor( $sessionStorage,
 	             $rootScope,
@@ -8,7 +8,7 @@ class OfferListController
 	             UserService,
 	             ToastService,
 	             DialogService,
-	             OfferService )
+	             ProviderService )
 	{
 		'ngInject';
 
@@ -25,34 +25,26 @@ class OfferListController
 		this.UserService = UserService;
 		this.ToastService = ToastService;
 		this.DialogService = DialogService;
-		this.OfferService = OfferService;
+		this.ProviderService = ProviderService;
 
 		//
-		this.providers = this.UserService.providers;
-		this.assignProvider = this.providers[0];
-
 		this.selectedItems = [];
 		this.loading = true;
 
 		//
 		this.promise = null;
 
-		this.items = this.OfferService.offers;
-		this.numItems = this.OfferService.numItems;
+		this.items = this.ProviderService.providers;
+		this.numItems = this.ProviderService.numItems;
 
 		//
 		this.query =
 			{
+				withCounts: true,
 				order: '-id',
 				limit: 10,
 				page: 1
 			};
-
-		// pre-filter
-		if( this.$state.params.ngo )
-		{
-			this.query.ngo_id = this.$state.params.ngo;
-		}
 
 		// --------------- //
 		// --------------- //
@@ -65,13 +57,13 @@ class OfferListController
 		{
 			this.selectedItems = [];
 
-			vm.promise = this.OfferService.fetchList( vm.query )
+			vm.promise = this.ProviderService.fetchList( vm.query )
 				.then( () =>
 				{
 					vm.loading = false;
 					vm.promise = null;
 
-					vm.numItems = vm.OfferService.numItems;
+					vm.numItems = vm.ProviderService.numItems;
 				} )
 			;
 		};
@@ -84,11 +76,11 @@ class OfferListController
 	{
 		switch( type )
 		{
-			case "provider":
-				return "#!/cms/providers/" + item.ngo.id;
+			case "offer":
+				return "#!/cms/offers/" + item.id;
 
 			case "frontend":
-				return "#!/offers/start/" + item.id;
+				return "#!/providers/" + item.id;
 		}
 
 		return "";
@@ -97,24 +89,24 @@ class OfferListController
 	//
 	createItem()
 	{
-		this.$state.go( 'cms.offers.new' );
+		this.$state.go( 'cms.providers.new' );
 	}
 
 	//
 	editItem( item )
 	{
-		this.$state.go( 'cms.offers.edit', { id: item.id } );
+		this.$state.go( 'cms.providers.edit', { id: item.id } );
 	}
 
 	//
 	toggleItem( item, isEnabled )
 	{
-		item.enabled = isEnabled;
+		item.published = isEnabled;
 
-		this.OfferService.updateList( [item] )
+		this.ProviderService.updateList( [item] )
 			.then( ( success ) =>
 				{
-					this.ToastService.show( 'Angebot aktualisiert.' );
+					this.ToastService.show( 'Anbieter aktualisiert.' );
 				},
 				( error ) =>
 				{
@@ -127,8 +119,8 @@ class OfferListController
 	//
 	deleteSelectedItems()
 	{
-		this.DialogService.prompt( 'Deleting Offers?',
-			'You are about to delete offer(s). Type in DELETE and confirm?',
+		this.DialogService.prompt( 'Deleting Providers?',
+			'You are about to delete providers(s). Type in DELETE and confirm?',
 			'Delete Secret' )
 			.then( ( response ) =>
 			{
@@ -139,11 +131,11 @@ class OfferListController
 				}
 				else
 				{
-					this.OfferService.deleteList( this.selectedItems )
+					this.ProviderService.deleteList( this.selectedItems )
 						.then( ( response ) =>
 						{
 							this.ToastService.show(
-								sprintf( '%d Angebote gelöscht.', this.selectedItems.length )
+								sprintf( '%d Anbieter gelöscht.', this.selectedItems.length )
 							);
 						},
 						( error ) =>
@@ -157,56 +149,15 @@ class OfferListController
 	}
 
 	//
-	assignSelectedItems(){
-		this.DialogService.fromTemplate('assignToNgo', {
-			controller: () => this,
-			controllerAs: 'vm'
-		});
-	}
-
-	//
-	assignSave()
-	{
-		angular.forEach( this.selectedItems, ( item ) =>
-		{
-			item.ngo_id = this.assignProvider.id;
-			item.ngo = this.assignProvider;
-		} );
-
-		//
-		this.OfferService.updateList( this.selectedItems )
-			.then( ( success ) =>
-				{
-					this.ToastService.show(
-						sprintf( '%d Angebote aktualisiert.', this.selectedItems.length )
-					);
-				},
-				( error ) =>
-				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
-					this.onQueryUpdate();
-				}
-			);
-
-		this.DialogService.hide();
-	}
-
-	//
-	assignCancel()
-	{
-		this.DialogService.hide();
-	}
-
-	//
 	enableSelectedItems( isEnabled )
 	{
 		angular.forEach( this.selectedItems, ( item ) =>
 		{
-			item.enabled = isEnabled;
+			item.published = isEnabled;
 		} );
 
 		//
-		this.OfferService.updateList( this.selectedItems )
+		this.ProviderService.updateList( this.selectedItems )
 			.then( ( response ) =>
 				{
 					this.ToastService.show(
@@ -226,25 +177,32 @@ class OfferListController
 	//
 	isElementVisible( name )
 	{
+		if( name === "edit" )
+		{
+			return this.UserService.isAdministrator() ||
+				this.UserService.isNgoAdministrator();
+		}
+
+		if( name === "delete" )
+			return this.UserService.isAdministrator();
+
 		if( name === "enable-dial" )
 			return this.UserService.isAdministrator();
 
 		if( name === "provider" )
-		{
-			if( this.UserService.isAdministrator() )
-				return true;
-
-			if( this.UserService.providers.length <= 1 )
-				return false;
-		}
+			return false;
 
 		if( name === "create" )
 		{
-			if( this.UserService.isModerator() )
-				return false;
+			if( this.UserService.isAdministrator() )
+				return true;
 		}
 
-		return true;
+		if( name === "enabled" )
+			return true;
+
+		//
+		return false;
 	}
 
 	//
@@ -253,15 +211,15 @@ class OfferListController
 		if( name === "enabled" )
 		{
 			if( this.UserService.isAdministrator() )
-				return false;
+				return true;
 		}
 
-		return true;
+		return false;
 	}
 }
 
-export const OfferListComponent = {
-	template: require( './offer-list.component.html' ),
-	controller: OfferListController,
+export const ProviderListComponent = {
+	template: require( './provider-list.component.html' ),
+	controller: ProviderListController,
 	controllerAs: 'vm'
 };

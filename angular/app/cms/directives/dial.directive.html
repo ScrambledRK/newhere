@@ -22,6 +22,7 @@
 
 		<!-- delete -->
 		<md-button
+			ng-if="vm.isElementVisible('delete')"
 			class="md-raised md-fab md-warn md-hue-2 md-mini"
 			ng-click="vm.deleteSelectedItems()"
 			layout="row"
@@ -37,6 +38,7 @@
 
 		<!-- disable -->
 		<md-button
+			ng-if="vm.isElementVisible('enable-dial')"
 			class="md-raised md-fab  md-warn md-mini"
 			ng-click="vm.enableSelectedItems(false)"
 			layout="row"
@@ -52,6 +54,7 @@
 
 		<!-- enable -->
 		<md-button
+			ng-if="vm.isElementVisible('enable-dial')"
 			class="md-raised md-fab  md-accent md-mini"
 			ng-click="vm.enableSelectedItems(true)"
 			layout="row"

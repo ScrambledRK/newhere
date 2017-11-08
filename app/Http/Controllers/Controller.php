@@ -111,4 +111,18 @@ class Controller extends BaseController
         return false;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
+    protected function getBoolean($value)
+    {
+        if($value === 'true' || $value === 'TRUE')
+            return true;
+
+        if($value === 'false' || $value === 'FALSE')
+            return false;
+
+        return $value;
+    }
 }

@@ -58,7 +58,14 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'cms.offers',
 			{
-				url: '/offers',
+				url: '/offers/{ngo:[0-9]*}',
+
+				params:
+					{
+						ngo: {
+							value: null,
+						}
+					},
 
 				data: {
 					auth: true,
@@ -114,7 +121,7 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'cms.providers',
 			{
-				url: '/cms/providers',
+				url: '/providers',
 
 				data: {
 					auth: true,
@@ -124,7 +131,11 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 
 				views: {
 					'body@cms': {
-						templateUrl: getView( 'pages/providers/providers' )
+						template: "<cms-provider-list></cms-provider-list>"
+					},
+
+					'content@cms.providers': {
+						template: "<provider-table></provider-table>"
 					}
 				}
 			} )
