@@ -181,4 +181,18 @@ export class UserService
 
 		return ( this.user.roles.indexOf( 'moderator' ) > -1);
 	}
+
+	//
+	getProviderByID(id)
+	{
+		let result = null;
+
+		angular.forEach( this.providers, ( item ) =>
+		{
+			if( item.id === id )
+				result = item;
+		} );
+
+		return result;
+	}
 }

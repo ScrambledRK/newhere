@@ -114,8 +114,8 @@ class OfferFormController
 		if( this.offer.valid_until )
 			this.valid_until = new Date( this.offer.valid_until );
 
-		if( !this.offer.street )
-			this.offer.isWithoutAddress = true;
+		//
+		this.offer.isWithoutAddress = !this.offer.street;
 
 		if( !this.offer.categories )
 			this.offer.categories = [];
@@ -132,6 +132,9 @@ class OfferFormController
 		//
 		this.$rootScope.$broadcast( 'categoriesChanged', this );
 		this.$rootScope.$broadcast( 'filterChanged', this );
+
+		//
+		console.log("got offer:", this.offer );
 	}
 
 	/**

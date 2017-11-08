@@ -111,7 +111,8 @@
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					><small>link to frontend (ID: {{item.id}})</small>
+					>
+						<small>link to frontend (ID: {{item.id}})</small>
 					</md-tooltip>
 					<a href="{{vm.getURL(item,'frontend')}}">
 						<md-icon>insert_link</md-icon>
@@ -174,9 +175,12 @@
 			</td>
 
 			<!-- address -->
-			<td md-cell>{{item.street}} {{item.street_number}}
-			            , {{item.zip}}
-			            {{item.city}}
+			<td md-cell>
+				<div ng-if="item.street">
+					{{item.street}} {{item.streetnumber}}
+					, {{item.zip}}
+					{{item.city}}
+				</div>
 			</td>
 
 			<!-- contact -->

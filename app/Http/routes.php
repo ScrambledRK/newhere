@@ -119,6 +119,14 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/providers', 'Cms\ProviderController@index' );
+    $api->get( 'cms/providers/{id}', 'Cms\ProviderController@byId' );
+
+    groupOrganisation( $api, function( $api )
+    {
+        $api->post('cms/providers', 'Cms\ProviderController@create');
+        $api->put( 'cms/providers/{id}', 'Cms\ProviderController@update' );
+        $api->delete( 'cms/providers/{id}', 'Cms\ProviderController@delete' );
+    } );
 } );
 
 /*

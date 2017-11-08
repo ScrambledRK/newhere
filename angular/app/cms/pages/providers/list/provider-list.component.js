@@ -46,6 +46,15 @@ class ProviderListController
 				page: 1
 			};
 
+		// pre-filter
+		if( this.$state.params.ngo )
+		{
+			let ngo = this.UserService.getProviderByID( parseInt(this.$state.params.ngo) );
+
+			if( ngo )
+				this.query.title = ngo.organisation;
+		}
+
 		// --------------- //
 		// --------------- //
 
@@ -161,7 +170,7 @@ class ProviderListController
 			.then( ( response ) =>
 				{
 					this.ToastService.show(
-						sprintf( '%d Angebote aktualisiert.', this.selectedItems.length )
+						sprintf( '%d Anbieter aktualisiert.', this.selectedItems.length )
 					);
 				},
 				( error ) =>

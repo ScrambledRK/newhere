@@ -121,7 +121,14 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'cms.providers',
 			{
-				url: '/providers',
+				url: '/providers/{ngo:[0-9]*}',
+
+				params:
+				{
+					ngo: {
+						value: null,
+					}
+				},
 
 				data: {
 					auth: true,
