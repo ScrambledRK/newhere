@@ -33,6 +33,9 @@ import {ProviderService} from "./services/provider.service";
 import {ProviderTableDirective} from "./pages/providers/list/provider-table.directive";
 import {UserListComponent} from "./pages/users/list/user-list.component";
 import {UserTableDirective} from "./pages/users/list/user-table.directive";
+import {TranslationTableDirective} from "./pages/translations/list/translation-table.directive";
+import {TranslationService} from "./services/translation.service";
+import {TranslationListComponent} from "./pages/translations/list/translation-list.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -52,6 +55,7 @@ angular.module( 'app.cms' )
 	.service( "FilterService", FilterService )
 	.service( "CategoryService", CategoryService )
 	.service( "ProviderService", ProviderService )
+	.service( "TranslationService", TranslationService )
 ;
 
 // config
@@ -69,6 +73,7 @@ angular.module( 'app.cms' )
 	.directive( "unpublished", UnpublishedDirective )
 	.directive( "offerTable", OfferTableDirective )
 	.directive( "providerTable", ProviderTableDirective )
+	.directive( "translationTable", TranslationTableDirective )
 	.directive( "userTable", UserTableDirective )
 	.directive( "cancel", CancelDirective )
 	.directive( "create", CreateDirective )
@@ -93,6 +98,7 @@ angular.module( 'app.cms' )
 	.component( 'cmsOfferForm', OfferFormComponent )
 	.component( 'cmsProviderList', ProviderListComponent )
 	.component( 'cmsUserList', UserListComponent )
+	.component( 'cmsTranslationList', TranslationListComponent )
 	.component( 'imageUploader', ImageUploaderComponent )
 	.component( 'filterSelector', FilterSelectorComponent )
 	.component( 'categorySelector', CategorySelectorComponent )

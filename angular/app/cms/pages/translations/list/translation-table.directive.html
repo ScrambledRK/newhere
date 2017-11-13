@@ -1,0 +1,142 @@
+<md-table-container>
+	<table
+		md-table
+		md-row-select
+		multiple
+		ng-model="vm.selectedItems"
+		md-progress="vm.promise"
+	>
+
+		<!-- head -->
+		<thead
+			md-head
+			md-order="vm.query.order"
+			md-on-reorder="vm.onQueryUpdate"
+		>
+		<tr md-row>
+			<th
+				md-column
+				class="icon"
+				ng-if="vm.isElementVisible('edit')"
+			></th>
+			<th
+				md-column
+				md-order-by="id"
+				style="min-width: 300px"
+			>{{ 'Name' | translate }}
+			</th>
+			<th
+				md-column
+				md-order-by="enabled"
+				ng-if="vm.isElementVisible('enabled')"
+			><i
+				class="material-icons"
+				style="padding-left: 14px;"
+			>lock_open</i>
+			</th>
+
+			<!-- languages -->
+			<th
+				ng-repeat="lang in vm.languages"
+				md-column
+				md-order-by="translations[lang].version"
+			>{{lang}}
+			</th>
+		</tr>
+		</thead>
+
+		<!-- body -->
+		<tbody md-body>
+		<tr
+			md-row
+			md-select="item"
+			ng-repeat="item in vm.items"
+		>
+			<!-- edit -->
+			<td
+				md-cell
+				ng-if="vm.isElementVisible('edit')"
+			>
+				<md-button
+					ng-click="vm.editItem(item)"
+					class="md-icon-button md-accent md-hue-2"
+				>
+					<md-icon>edit</md-icon>
+				</md-button>
+			</td>
+
+			<!-- title -->
+			<td md-cell>
+				<md-tooltip
+					md-direction="bottom"
+					md-delay="600"
+				>
+					<small>{{item.tooltip}}</small>
+				</md-tooltip>
+				<strong>{{item.title}}</strong>
+			</td>
+
+			<!-- enabled lock -->
+			<td
+				md-cell
+				ng-if="vm.isElementVisible('enabled')"
+			>
+				<md-button
+					ng-click="vm.toggleItem(item,true)"
+					ng-disabled="!vm.isElementEnabled('enabled')"
+					ng-if="!item.enabled"
+					class="md-icon-button md-accent md-hue-2"
+				>
+					<md-tooltip
+						md-direction="right"
+						md-delay="800"
+					>translation is not public
+					</md-tooltip>
+					<md-icon>lock</md-icon>
+				</md-button>
+				<md-button
+					ng-click="vm.toggleItem(item,false)"
+					ng-disabled="!vm.isElementEnabled('enabled')"
+					ng-if="item.enabled"
+					class="md-icon-button md-accent md-hue-2"
+				>
+					<md-tooltip
+						md-direction="right"
+						md-delay="800"
+					>translation is public
+					</md-tooltip>
+					<md-icon>lock_open</md-icon>
+				</md-button>
+			</td>
+
+			<!-- languages -->
+			<td
+				md-cell
+				ng-repeat="lang in vm.languages"
+			>
+
+				<md-tooltip
+					md-direction="bottom"
+					md-delay="600"
+				>
+					<small>{{item.translations[lang].tooltip}}</small>
+				</md-tooltip>
+
+				<md-icon
+					style="cursor: pointer"
+					ng-if="item.translations[lang].version == 1"
+				>
+					done
+				</md-icon>
+				<md-icon
+					style="cursor: pointer"
+					ng-if="item.translations[lang].version == 0"
+				>
+					highlight_off
+				</md-icon>
+			</td>
+
+		</tr>
+		</tbody>
+	</table>
+</md-table-container>

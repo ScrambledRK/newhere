@@ -175,4 +175,26 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 					}
 				}
 			} )
+
+		//
+		.state( 'cms.translations',
+			{
+				url: '/translations',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ],
+					title: "Übersetzungen"
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-translation-list></cms-translation-list>"
+					},
+
+					'content@cms.translations': {
+						template: "<translation-table></translation-table>"
+					}
+				}
+			} )
 }

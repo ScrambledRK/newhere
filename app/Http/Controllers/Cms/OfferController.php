@@ -41,11 +41,11 @@ class OfferController extends Controller
         if( !$this->isUserAdmin( $user ) )
         {
             $user->load( 'ngos' );
-            $ngos = $user->getRelations()["ngos"];
+            $ngos = $user->getRelations()[ "ngos" ];
 
-            foreach ($ngos as $ngo)
+            foreach( $ngos as $ngo )
             {
-                $result = $result->orWhere( 'ngo_id', $ngo->getAttribute("id") );
+                $result = $result->orWhere( 'ngo_id', $ngo->getAttribute( "id" ) );
                 $count = $result->count();
             }
         }
@@ -147,7 +147,7 @@ class OfferController extends Controller
     {
         DB::beginTransaction();
 
-        $offer = Offer::findOrFail($id);
+        $offer = Offer::findOrFail( $id );
         $offer = $this->populateFromRequest( $request, $offer );
         $offer->save();
 
@@ -163,7 +163,7 @@ class OfferController extends Controller
      */
     public function delete( Request $request, $id )
     {
-        $offer = Offer::findOrFail($id);
+        $offer = Offer::findOrFail( $id );
 
         if( !$this->isUserOffer( $offer ) )
             throw new AccessDeniedHttpException();
@@ -193,7 +193,7 @@ class OfferController extends Controller
         //
         if( $request->has( 'ngo_id' ) )
         {
-            $ngo = Ngo::find( (int)$request->get( 'ngo_id' ));
+            $ngo = Ngo::find( (int)$request->get( 'ngo_id' ) );
         }
         else
         {
@@ -201,19 +201,32 @@ class OfferController extends Controller
             $ngo = $ngoUser->ngos()->firstOrFail();
         }
 
+        // ---------------------------------- //
+        // ---------------------------------- //
+
         //
-        $offer->title           = $request->get( 'title' );
-        $offer->description     = $request->get( 'description' );
-        $offer->opening_hours   = $request->get( 'opening_hours' );
-        $offer->website         = $request->get( 'website' );
-        $offer->facebook_url    = $request->get( 'facebook_url' );
-        $offer->email           = $request->get( 'email' );
-        $offer->phone           = $request->get( 'phone' );
-        $offer->valid_from      = $request->get( 'valid_from' );
-        $offer->valid_until     = $request->get( 'valid_until' );
-        $offer->image_id        = $request->get( 'image_id' );
-        $offer->enabled         = $request->get( 'enabled' );
-        $offer->ngo_id          = $ngo->id;
+        if( $offer->title != $request->get( 'title' ) )
+        {
+            $offer->translations()
+                  ->update( [ 'version' => 0 ] );
+        }
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+        $offer->title = $request->get( 'title' );
+        $offer->description = $request->get( 'description' );
+        $offer->opening_hours = $request->get( 'opening_hours' );
+        $offer->website = $request->get( 'website' );
+        $offer->facebook_url = $request->get( 'facebook_url' );
+        $offer->email = $request->get( 'email' );
+        $offer->phone = $request->get( 'phone' );
+        $offer->valid_from = $request->get( 'valid_from' );
+        $offer->valid_until = $request->get( 'valid_until' );
+        $offer->image_id = $request->get( 'image_id' );
+        $offer->enabled = $request->get( 'enabled' );
+        $offer->ngo_id = $ngo->id;
 
         //
         if( !$this->isUserOffer( $offer ) )
@@ -234,8 +247,10 @@ class OfferController extends Controller
 
             if( $hasCoordinates )
             {
-                $coordinates = array( $request->get( 'latitude' ),
-                                      $request->get( 'longitude' ) );
+                $coordinates = [
+                    $request->get( 'latitude' ),
+                    $request->get( 'longitude' )
+                ];
             }
             else
             {
@@ -247,23 +262,23 @@ class OfferController extends Controller
                     $request->get( 'zip' ) );
             }
 
-            $offer->street                  = $request->get( 'street' );
-            $offer->streetnumber            = $request->get( 'streetnumber' );
-            $offer->streetnumberadditional  = $request->get( 'streetnumberadditional' );
-            $offer->zip                     = $request->get( 'zip' );
-            $offer->city                    = $request->get( 'city' );
-            $offer->latitude                = $coordinates[ 0 ];
-            $offer->longitude               = $coordinates[ 1 ];
+            $offer->street = $request->get( 'street' );
+            $offer->streetnumber = $request->get( 'streetnumber' );
+            $offer->streetnumberadditional = $request->get( 'streetnumberadditional' );
+            $offer->zip = $request->get( 'zip' );
+            $offer->city = $request->get( 'city' );
+            $offer->latitude = $coordinates[ 0 ];
+            $offer->longitude = $coordinates[ 1 ];
         }
         else
         {
-            $offer->street                  = null;
-            $offer->streetnumber            = null;
-            $offer->streetnumberadditional  = null;
-            $offer->zip                     = null;
-            $offer->city                    = null;
-            $offer->latitude                = null;
-            $offer->longitude               = null;
+            $offer->street = null;
+            $offer->streetnumber = null;
+            $offer->streetnumberadditional = null;
+            $offer->zip = null;
+            $offer->city = null;
+            $offer->latitude = null;
+            $offer->longitude = null;
         }
 
         // ---------------------------------- //
@@ -312,11 +327,11 @@ class OfferController extends Controller
 
         //
         $user->load( 'ngos' );
-        $ngos = $user->getRelations()["ngos"];
+        $ngos = $user->getRelations()[ "ngos" ];
 
-        foreach($ngos as $ngo)
+        foreach( $ngos as $ngo )
         {
-            if( $ngo->getAttribute("id") === $offer->getAttribute("ngo_id") )
+            if( $ngo->getAttribute( "id" ) === $offer->getAttribute( "ngo_id" ) )
                 return true;
         }
 
