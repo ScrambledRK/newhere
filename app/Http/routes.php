@@ -161,6 +161,14 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get('cms/users/me', 'Cms\UserController@me');
+    $api->get( 'cms/users', 'Cms\UserController@index' );
+
+    groupAdministration($api, function ($api)
+    {
+        $api->post('cms/users', 'Cms\UserController@create');
+        $api->put( 'cms/users/{id}', 'Cms\UserController@update' );
+        $api->delete( 'cms/users/{id}', 'Cms\UserController@delete' );
+    } );
 } );
 
 /*

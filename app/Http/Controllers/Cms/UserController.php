@@ -20,9 +20,227 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $user->load("roles");
-        $user->load("ngos");
+        $user->load( "roles" );
+        $user->load( "ngos" );
 
         return response()->json( $user );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function index( Request $request )
+    {
+        $user = Auth::user();
+        $result = null;
+
+        if( $this->isUserAdmin( $user ) )
+        {
+            $result = User::with( [ "ngos" ] ); // only thing I found that returns a builder and not a collection
+        }
+        else
+        {
+            $result = User::with( [ "ngos" ] )
+                          ->whereHas( "ngos.users",
+                              function( $query ) use ( $user )
+                              {
+                                  $query->where( "user_id", $user->id );
+                              } );
+        }
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        if( $request->has( 'ngo_id' ) )
+        {
+            $result = $result->whereHas( "ngos",
+                function( $query ) use ( $request )
+                {
+                    $query->where( "ngo_id", $request->get( 'ngo_id' ) );
+                } );
+        }
+
+        //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'confirmed',
+                                      $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            $result = $result->where( function( $query ) use ( $toSearch )
+            {
+                $query->where(
+                    'name',
+                    'ilike',
+                    '%' . $toSearch . '%'
+                )->orWhere( function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'email',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    );
+                } );
+            } );
+        }
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        $count = $result->count();
+        $result = $this->paginate( $request, $result );
+
+        //
+        $result = $result->get();
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        return response()->success( compact( 'result', 'count' ) );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function create( Request $request )
+    {
+        DB::beginTransaction();
+
+        $user = new User;
+        $user = $this->populateFromRequest( $request, $user );
+        $user = $this->passwordFromRequest( $request, $user );
+        $user->save();
+
+        DB::commit();
+
+        return response()->success( compact( 'user' ) );
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function update( Request $request, $id )
+    {
+        DB::beginTransaction();
+
+        $user = User::findOrFail( $id );
+        $user = $this->populateFromRequest( $request, $user );
+        $user->save();
+
+        DB::commit();
+
+        return response()->success( compact( [ 'user' ] ) );
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function delete( Request $request, $id )
+    {
+        $user = User::findOrFail( $id );
+        $user->delete();
+
+        return response()->success( compact( 'user' ) );
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return User
+     */
+    private function populateFromRequest( Request $request, User $user )
+    {
+        $this->validate( $request, [
+            'email'     => 'required|email',
+            'name'      => 'required|min:3|max:255',
+            'confirmed' => 'required'
+        ] );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        $user->name = trim( $request->get( 'name' ) );
+        $user->email = trim( strtolower( $request->get( 'email' ) ) );
+        $user->confirmed = $request->get( 'confirmed' );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+        $user->roles()->detach();
+
+        foreach( $request->get( 'roles' ) as $role )
+        {
+            $role = Role::findOrFail( $role[ 'id' ] );
+            $user->roles()->attach( $role );
+        }
+
+        //
+        $user->ngos()->detach();
+
+        foreach( $request->get( 'ngos' ) as $ngo )
+        {
+            $ngo = Ngo::findOrFail( $ngo[ 'id' ] );
+            $user->ngos()->attach( $ngo );
+        }
+
+        //
+        $user->languages()->detach();
+
+        foreach( $request->get( 'languages' ) as $language )
+        {
+            $language = Language::where( 'language', $language[ 'language' ] )->firstOrFail();
+            $user->languages()->attach( $language );
+        }
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+        return $user;
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return User
+     */
+    private function passwordFromRequest( Request $request, User $user )
+    {
+        $this->validate( $request, [
+            'confirmed'   => 'required',
+            'password'    => 'required|min:5',
+            're_password' => 'required|min:5',
+            'roles'       => 'required'
+        ] );
+
+        //
+        if( $request->get( 'password' ) != $request->get( 're_password' ) )
+            return response()->error( 'Passwords do not match!', 422 );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+        $user->password = bcrypt( $request->get( 'password' ) );
+
+        if( !$request->get( 'confirmed' ) )
+            $user->confirmation_code = str_random( 30 );
+
+        return $user;
     }
 }

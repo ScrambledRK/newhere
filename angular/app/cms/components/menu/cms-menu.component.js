@@ -60,7 +60,7 @@ class CmsMenuController
 				sref: 'cms.users',
 				icon: 'group',
 				title: 'Users',
-				roles: ['superadmin']
+				roles: ['admin','superadmin', 'organisation-admin' ]
 			}
 		];
 

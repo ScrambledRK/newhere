@@ -124,11 +124,11 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 				url: '/providers/{ngo:[0-9]*}',
 
 				params:
-				{
-					ngo: {
-						value: null,
-					}
-				},
+					{
+						ngo: {
+							value: null,
+						}
+					},
 
 				data: {
 					auth: true,
@@ -143,6 +143,35 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 
 					'content@cms.providers': {
 						template: "<provider-table></provider-table>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.users',
+			{
+				url: '/users/{ngo:[0-9]*}',
+
+				params:
+					{
+						ngo: {
+							value: null,
+						}
+					},
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ],
+					title: "Users"
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-user-list></cms-user-list>"
+					},
+
+					'content@cms.users': {
+						template: "<user-table></user-table>"
 					}
 				}
 			} )

@@ -31,6 +31,8 @@ import {CategorySelectorComponent} from "./components/category-selector/category
 import {ProviderListComponent} from "./pages/providers/list/provider-list.component";
 import {ProviderService} from "./services/provider.service";
 import {ProviderTableDirective} from "./pages/providers/list/provider-table.directive";
+import {UserListComponent} from "./pages/users/list/user-list.component";
+import {UserTableDirective} from "./pages/users/list/user-table.directive";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -67,6 +69,7 @@ angular.module( 'app.cms' )
 	.directive( "unpublished", UnpublishedDirective )
 	.directive( "offerTable", OfferTableDirective )
 	.directive( "providerTable", ProviderTableDirective )
+	.directive( "userTable", UserTableDirective )
 	.directive( "cancel", CancelDirective )
 	.directive( "create", CreateDirective )
 	.directive( "save", SaveDirective )
@@ -89,6 +92,7 @@ angular.module( 'app.cms' )
 	.component( 'cmsOfferList', OfferListComponent )
 	.component( 'cmsOfferForm', OfferFormComponent )
 	.component( 'cmsProviderList', ProviderListComponent )
+	.component( 'cmsUserList', UserListComponent )
 	.component( 'imageUploader', ImageUploaderComponent )
 	.component( 'filterSelector', FilterSelectorComponent )
 	.component( 'categorySelector', CategorySelectorComponent )

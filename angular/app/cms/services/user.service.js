@@ -29,6 +29,10 @@ export class UserService
 		this.providers = [];
 
 		//
+		this.users = [];
+		this.numItems = 0;
+
+		//
 		if( this.$auth.isAuthenticated() )
 		{
 			this.$rootScope.isLoading = true;
@@ -132,6 +136,143 @@ export class UserService
 				} );
 	}
 
+	// ------------------------------------------------------ //
+	// ------------------------------------------------------ //
+
+	//
+	fetchList( query )
+	{
+		let config = this.prepareQuery();
+
+		//
+		return this.API.all( 'cms/users' ).withHttpConfig( config ).getList( query )
+			.then( ( response ) =>
+			{
+				this.numItems = response.count;
+
+				this.users.length = 0;
+				this.users.push.apply( this.users, response );
+
+				this.resolveQuery();
+			} )
+			;
+	}
+
+	/**
+	 *
+	 * @param userList
+	 */
+	deleteList( userList )
+	{
+		let config = this.prepareQuery();
+		let promises = [];
+
+		//
+		angular.forEach( userList, ( item ) =>
+		{
+			let promise = this.API.one( 'cms/users', item.id ).withHttpConfig( config ).remove()
+				.then( ( response ) =>
+					{
+						if( response.data && response.data.user )
+						{
+							let index = this.indexOf( response.data.user.id );
+
+							if( index !== -1 )
+								this.users.splice( index, 1 );
+						}
+					},
+					( error ) =>
+					{
+						throw error;
+					}
+				);
+
+			promises.push( promise );
+		} );
+
+		//
+		return this.$q.all( promises )
+			.then( () =>
+			{
+				this.resolveQuery();
+			} );
+	}
+
+	/**
+	 *
+	 * @param userList
+	 */
+	updateList( userList )
+	{
+		let config = this.prepareQuery();
+		let promises = [];
+
+		//
+		angular.forEach( userList, ( item ) =>
+		{
+			let promise = this.API.one( 'cms/users', item.id ).withHttpConfig( config ).customPUT( item )
+				.then( ( response ) =>
+					{
+						return response;
+					},
+					( error ) =>
+					{
+						throw error;
+					}
+				);
+
+			promises.push( promise );
+		} );
+
+		//
+		return this.$q.all( promises )
+			.then( () =>
+			{
+				this.resolveQuery();
+			} );
+	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
+
+	//
+	indexOf( userID )
+	{
+		let result = -1;
+
+		angular.forEach( this.users, ( user, index ) =>
+		{
+			if( user.id === userID )
+				result = index;
+		} );
+
+		return result;
+	}
+
+	prepareQuery()
+	{
+		if( this.$rootScope.isLoading )
+			console.log( "query already in process" );
+
+		this.$rootScope.isLoading = true;
+
+		//
+		let defer = this.$q.defer();
+
+		return {
+			timeout: defer.promise
+		};
+	}
+
+	resolveQuery()
+	{
+		this.$rootScope.isLoading = false;
+		this.$rootScope.$broadcast( 'usersChanged', this );
+	}
+
+	// ------------------------------------------------------ //
+	// ------------------------------------------------------ //
+
 	/**
 	 * Check whether user holds organisation role (but no superadmin/admin roles)
 	 * @returns {boolean}
@@ -183,7 +324,7 @@ export class UserService
 	}
 
 	//
-	getProviderByID(id)
+	getProviderByID( id )
 	{
 		let result = null;
 
