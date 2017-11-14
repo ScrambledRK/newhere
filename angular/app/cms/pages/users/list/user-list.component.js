@@ -49,7 +49,7 @@ class UserListController
 		// pre-filter
 		if( this.$state.params.ngo )
 		{
-			//
+			this.query.ngo_id = this.$state.params.ngo;
 		}
 
 		// --------------- //
@@ -80,6 +80,15 @@ class UserListController
 	//
 	getURL( item, type )
 	{
+		switch( type )
+		{
+			case "provider":
+				return "#!/cms/providers/" + item.id;
+
+			case "frontend":
+				return "#!/offers/start/" + item.id;
+		}
+
 		return "";
 	}
 

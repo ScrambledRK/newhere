@@ -24,6 +24,7 @@ export class UserService
 
 		//
 		this.user = null;
+		this.defer = null;
 
 		this.roles = [];
 		this.providers = [];
@@ -252,20 +253,26 @@ export class UserService
 	prepareQuery()
 	{
 		if( this.$rootScope.isLoading )
-			console.log( "query already in process" );
+			console.log("query already in process");
 
 		this.$rootScope.isLoading = true;
 
 		//
-		let defer = this.$q.defer();
+		if( this.defer !== null )
+			this.defer.resolve();
+
+		//
+		this.defer = this.$q.defer();
 
 		return {
-			timeout: defer.promise
+			timeout: this.defer.promise
 		};
 	}
 
 	resolveQuery()
 	{
+		this.defer = null;
+
 		this.$rootScope.isLoading = false;
 		this.$rootScope.$broadcast( 'usersChanged', this );
 	}

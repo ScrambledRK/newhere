@@ -29,7 +29,7 @@ class ProviderController extends Controller
 
         if( $this->isUserAdmin( $user ) )
         {
-            $result = Ngo::with([]); // only thing I found that returns a builder and not a collection
+            $result = Ngo::with( [] ); // only thing I found that returns a builder and not a collection
         }
         else
         {
@@ -60,15 +60,20 @@ class ProviderController extends Controller
                     'organisation',
                     'ilike',
                     '%' . $toSearch . '%'
-                );
+                )
+                      ->orWhere(
+                          'street',
+                          'ilike',
+                          '%' . $toSearch . '%'
+                      );
             } );
         }
 
         //
         if( $request->has( 'withCounts' ) )
         {
-            $result->withCount("offers");
-            $result->withCount("users");
+            $result->withCount( "offers" );
+            $result->withCount( "users" );
         }
 
         //
@@ -133,7 +138,7 @@ class ProviderController extends Controller
     {
         DB::beginTransaction();
 
-        $provider = Ngo::findOrFail($id);
+        $provider = Ngo::findOrFail( $id );
         $provider = $this->populateFromRequest( $request, $provider );
         $provider->save();
 
@@ -149,7 +154,7 @@ class ProviderController extends Controller
      */
     public function delete( Request $request, $id )
     {
-        $provider = Ngo::findOrFail($id);
+        $provider = Ngo::findOrFail( $id );
 
         if( !$this->isUserProvider( $provider ) )
             throw new AccessDeniedHttpException();
@@ -179,17 +184,17 @@ class ProviderController extends Controller
         // ---------------------------------- //
 
         //
-        $provider->organisation  = $request->get( 'organisation' );
-        $provider->website       = $request->get( 'website' );
-        $provider->street        = $request->get( 'street' );
+        $provider->organisation = $request->get( 'organisation' );
+        $provider->website = $request->get( 'website' );
+        $provider->street = $request->get( 'street' );
         $provider->street_number = $request->get( 'street_number' );
-        $provider->zip           = $request->get( 'zip' );
-        $provider->city          = $request->get( 'city' );
-        $provider->image_id      = $request->get( 'image_id' );
-        $provider->contact       = $request->get( 'contact' );
+        $provider->zip = $request->get( 'zip' );
+        $provider->city = $request->get( 'city' );
+        $provider->image_id = $request->get( 'image_id' );
+        $provider->contact = $request->get( 'contact' );
         $provider->contact_email = $request->get( 'contact_email' );
         $provider->contact_phone = $request->get( 'contact_phone' );
-        $provider->published     = $request->get( 'published' );
+        $provider->published = $request->get( 'published' );
 
         // ---------------------------------- //
         // ---------------------------------- //
@@ -206,8 +211,10 @@ class ProviderController extends Controller
 
             if( $hasCoordinates )
             {
-                $coordinates = array( $request->get( 'latitude' ),
-                                      $request->get( 'longitude' ) );
+                $coordinates = [
+                    $request->get( 'latitude' ),
+                    $request->get( 'longitude' )
+                ];
             }
             else
             {
@@ -219,21 +226,21 @@ class ProviderController extends Controller
                     $request->get( 'zip' ) );
             }
 
-            $provider->street                  = $request->get( 'street' );
-            $provider->street_number           = $request->get( 'street_number' );
-            $provider->zip                     = $request->get( 'zip' );
-            $provider->city                    = $request->get( 'city' );
-            $provider->latitude                = $coordinates[ 0 ];
-            $provider->longitude               = $coordinates[ 1 ];
+            $provider->street = $request->get( 'street' );
+            $provider->street_number = $request->get( 'street_number' );
+            $provider->zip = $request->get( 'zip' );
+            $provider->city = $request->get( 'city' );
+            $provider->latitude = $coordinates[ 0 ];
+            $provider->longitude = $coordinates[ 1 ];
         }
         else
         {
-            $provider->street                  = null;
-            $provider->street_number           = null;
-            $provider->zip                     = null;
-            $provider->city                    = null;
-            $provider->latitude                = null;
-            $provider->longitude               = null;
+            $provider->street = null;
+            $provider->street_number = null;
+            $provider->zip = null;
+            $provider->city = null;
+            $provider->latitude = null;
+            $provider->longitude = null;
         }
 
         // ---------------------------------- //
@@ -262,11 +269,11 @@ class ProviderController extends Controller
 
         //
         $user->load( 'ngos' );
-        $ngos = $user->getRelations()["ngos"];
+        $ngos = $user->getRelations()[ "ngos" ];
 
-        foreach($ngos as $ngo)
+        foreach( $ngos as $ngo )
         {
-            if( $ngo->getAttribute("id") === $provider->getAttribute("id") )
+            if( $ngo->getAttribute( "id" ) === $provider->getAttribute( "id" ) )
                 return true;
         }
 

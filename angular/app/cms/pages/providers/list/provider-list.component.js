@@ -88,6 +88,9 @@ class ProviderListController
 			case "offer":
 				return "#!/cms/offers/" + item.id;
 
+			case "user":
+				return "#!/cms/users/" + item.id;
+
 			case "frontend":
 				return "#!/providers/" + item.id;
 		}

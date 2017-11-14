@@ -69,7 +69,27 @@ class OfferController extends Controller
         //
         if( $request->has( 'title' ) )
         {
-            $result = $result->whereTranslationLike( 'title', '%' . $request->get( 'title' ) . '%' );
+            $toSearch = $request->get( 'title' );
+
+            //
+            $result = $result->where( function( $query ) use ( $toSearch )
+            {
+                $query->whereHas( 'translations',
+                    function( $query ) use ( $toSearch )
+                    {
+                        $query->where(
+                            'title',
+                            'ilike',
+                            '%' . $toSearch . '%'
+                        );
+                    } )
+                      ->orWhere(
+                          'street',
+                          'ilike',
+                          '%' . $toSearch . '%'
+                      );
+            } );
+
             $count = $result->count();
         }
 

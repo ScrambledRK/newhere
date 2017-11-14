@@ -13,6 +13,8 @@ export class OfferService
 		this.$rootScope = $rootScope;
 		this.$q = $q;
 
+		this.defer = null;
+
 		// --------------------------- //
 
 		//
@@ -141,15 +143,21 @@ export class OfferService
 		this.$rootScope.isLoading = true;
 
 		//
-		let defer = this.$q.defer();
+		if( this.defer !== null )
+			this.defer.resolve();
+
+		//
+		this.defer = this.$q.defer();
 
 		return {
-			timeout: defer.promise
+			timeout: this.defer.promise
 		};
 	}
 
 	resolveQuery()
 	{
+		this.defer = null;
+
 		this.$rootScope.isLoading = false;
 		this.$rootScope.$broadcast( 'offersChanged', this );
 	}
