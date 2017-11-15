@@ -37,6 +37,7 @@ import {TranslationTableDirective} from "./pages/translations/list/translation-t
 import {TranslationService} from "./services/translation.service";
 import {TranslationListComponent} from "./pages/translations/list/translation-list.component";
 import {TranslationTypeDirective} from "./pages/translations/list/translation-type.directive";
+import {TranslationStatusDirective} from "./pages/translations/list/translation-status.directive";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -87,6 +88,7 @@ angular.module( 'app.cms' )
 	.directive( "offerAddress", OfferAddressDirective )
 	.directive( "offerTranslation", OfferTranslationDirective )
 	.directive( "translationType", TranslationTypeDirective )
+	.directive( "translationStatus", TranslationStatusDirective )
 ;
 
 // ------------------------------- //

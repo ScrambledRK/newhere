@@ -39,7 +39,7 @@
 			<th
 				ng-repeat="lang in vm.languages"
 				md-column
-				md-order-by="translations[lang].version"
+				md-order-by="{{lang}}"
 			>{{lang}}
 			</th>
 		</tr>

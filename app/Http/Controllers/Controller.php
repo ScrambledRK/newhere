@@ -38,7 +38,20 @@ class Controller extends BaseController
     public function paginate( \Illuminate\Http\Request $request, $result )
     {
         //
-        if( $request->has( 'order' ) )
+        $result = $this->order( $request, $result );
+        $result = $this->limit( $request, $result );
+
+        return $result;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param $result
+     * @return static
+     */
+    public function order( \Illuminate\Http\Request $request, $result )
+    {
+        if( $request->has( 'order' ) && $request->get( 'order' ) != null)
         {
             $order = $request->get( 'order' );
             $dir = 'DESC';
@@ -64,10 +77,18 @@ class Controller extends BaseController
             {
                 $result = $result->orderBy( $order, $dir );
             }
-
         }
 
-        //
+        return $result;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param $result
+     * @return static
+     */
+    public function limit( \Illuminate\Http\Request $request, $result )
+    {
         if( $request->has( 'limit' ) && $request->has( 'page' ) )
         {
             $numElements = $request->get( 'limit' );

@@ -31,20 +31,83 @@ class TranslationController extends Controller
         switch( $type )
         {
             case "offer":
+            {
                 $result = $this->indexOffer( $request );
+
+                $table_translation = 'offer_translations';
+                $table_data = 'offers';
+                $join_field = 'offer_id';
+
                 break;
+            }
 
             case "provider":
+            {
                 $result = $this->indexProvider( $request );
+
+                $table_translation = 'ngo_translations';
+                $table_data = 'ngos';
+                $join_field = 'ngo_id';
+
                 break;
+            }
 
             case "filter":
+            {
                 $result = $this->indexFilter( $request );
+
+                $table_translation = 'filter_translations';
+                $table_data = 'filters';
+                $join_field = 'filter_id';
+
                 break;
+            }
 
             case "category":
+            {
                 $result = $this->indexCategory( $request );
+
+                $table_translation = 'category_translations';
+                $table_data = 'categories';
+                $join_field = 'category_id';
+
                 break;
+            }
+        }
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        if( $request->has( 'order' ) )
+        {
+            $order = $request->get( 'order' );
+            $dir = 'DESC';
+
+            if( substr( $order, 0, 1 ) == '-' )
+            {
+                $dir = 'ASC';
+                $order = substr( $order, 1 );
+            }
+
+            //
+            if( $this->isActiveLanguage( $order ) )
+            {
+                $result = $result->join( $table_translation,
+                    function( $join ) use ( $order, $table_translation, $table_data, $join_field )
+                    {
+                        $join->on( $table_data . '.id', '=', $table_translation . '.' . $join_field )
+                             ->where( $table_translation . '.locale', '=', $order );
+                    } )
+                                 ->select( $table_data . '.*', $table_translation . '.version' )
+                                 ->groupBy( [ $table_data . '.id', 'version' ] )
+                                 ->orderBy( 'version', $dir );
+            }
+            else
+            {
+                $result = $result->groupBy( [ $table_data . '.id' ] );
+                $result = $this->order( $request, $result );
+            }
         }
 
         // ------------------------------------------- //
@@ -52,9 +115,8 @@ class TranslationController extends Controller
 
         //
         $count = $result->count();
-        $result = $this->paginate( $request, $result );
+        $result = $this->limit( $request, $result );
 
-        //
         $result = $result->get();
 
         // ------------------------------------------- //
@@ -246,5 +308,22 @@ class TranslationController extends Controller
             $languages,
             $languages->count() - $decreaseCount
         ];
+    }
+
+    /**
+     * @param $lang
+     * @return bool
+     */
+    private function isActiveLanguage( $lang )
+    {
+        list( $activeLanguages, $activeLanguageCount ) = $this->loadLanguages();
+
+        foreach( $activeLanguages as $language )
+        {
+            if( $language->language == $lang )
+                return true;
+        }
+
+        return false;
     }
 }

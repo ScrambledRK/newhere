@@ -44,7 +44,7 @@ class TranslationListController
 		this.query =
 			{
 				type: 'offer',
-				order: '-id',
+				order: '-de',
 				limit: 10,
 				page: 1
 			};
