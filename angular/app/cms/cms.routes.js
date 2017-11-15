@@ -179,7 +179,14 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'cms.translations',
 			{
-				url: '/translations',
+				url: '/translations/{type:[a-z]*}',
+
+				params:
+					{
+						type: {
+							value: "offer",
+						}
+					},
 
 				data: {
 					auth: true,

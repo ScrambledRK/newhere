@@ -28,6 +28,7 @@ export class UserService
 
 		this.roles = [];
 		this.providers = [];
+		this.languages = ["de","en","ar","fa","fr"];
 
 		//
 		this.users = [];
@@ -105,14 +106,18 @@ export class UserService
 				{
 					this.user = response;
 
-					this.roles.push.apply( this.roles, this.user.roles );
-					console.log( "roles:", this.roles );
-
 					//
+					this.roles.push.apply( this.roles, this.user.roles );
 					this.user.roles = [];
 
 					for( let j = 0; j < this.roles.length; j++ )
 						this.user.roles.push( this.roles[j].name );
+
+					//
+					this.languages.length = 0;
+
+					for( let j = 0; j < this.user.languages.length; j++ )
+						this.languages.push( this.user.languages[j].language );
 				},
 				( error ) =>
 				{

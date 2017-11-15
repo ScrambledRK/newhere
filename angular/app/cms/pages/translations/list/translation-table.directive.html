@@ -32,7 +32,7 @@
 			><i
 				class="material-icons"
 				style="padding-left: 14px;"
-			>lock_open</i>
+			>visibility</i>
 			</th>
 
 			<!-- languages -->
@@ -92,7 +92,7 @@
 						md-delay="800"
 					>translation is not public
 					</md-tooltip>
-					<md-icon>lock</md-icon>
+					<md-icon>visibility_off</md-icon>
 				</md-button>
 				<md-button
 					ng-click="vm.toggleItem(item,false)"
@@ -105,7 +105,7 @@
 						md-delay="800"
 					>translation is public
 					</md-tooltip>
-					<md-icon>lock_open</md-icon>
+					<md-icon>visibility</md-icon>
 				</md-button>
 			</td>
 
@@ -122,6 +122,12 @@
 					<small>{{item.translations[lang].tooltip}}</small>
 				</md-tooltip>
 
+				<md-icon
+					style="cursor: pointer"
+					ng-if="item.translations[lang].version == 2"
+				>
+					done_all
+				</md-icon>
 				<md-icon
 					style="cursor: pointer"
 					ng-if="item.translations[lang].version == 1"

@@ -36,6 +36,7 @@ import {UserTableDirective} from "./pages/users/list/user-table.directive";
 import {TranslationTableDirective} from "./pages/translations/list/translation-table.directive";
 import {TranslationService} from "./services/translation.service";
 import {TranslationListComponent} from "./pages/translations/list/translation-list.component";
+import {TranslationTypeDirective} from "./pages/translations/list/translation-type.directive";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -85,6 +86,7 @@ angular.module( 'app.cms' )
 	.directive( "offerDate", OfferDateDirective )
 	.directive( "offerAddress", OfferAddressDirective )
 	.directive( "offerTranslation", OfferTranslationDirective )
+	.directive( "translationType", TranslationTypeDirective )
 ;
 
 // ------------------------------- //

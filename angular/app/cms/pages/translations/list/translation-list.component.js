@@ -43,15 +43,16 @@ class TranslationListController
 		//
 		this.query =
 			{
+				type: 'offer',
 				order: '-id',
 				limit: 10,
 				page: 1
 			};
 
 		// pre-filter
-		if( this.$state.params.ngo )
+		if( this.$state.params.type )
 		{
-			//
+			this.query.type = this.$state.params.type;
 		}
 
 		// --------------- //
@@ -65,7 +66,7 @@ class TranslationListController
 		{
 			this.selectedItems = [];
 
-			vm.promise = this.TranslationService.fetchList( "offers", vm.query )
+			vm.promise = this.TranslationService.fetchList( vm.query.type, vm.query )
 				.then( () =>
 				{
 					vm.loading = false;

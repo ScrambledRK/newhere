@@ -143,7 +143,7 @@ groupEveryone( $api, function( $api )
 //
 groupAuthenticated( $api, function( $api )
 {
-    $api->get( 'cms/translations', 'Cms\TranslationController@index' );
+    $api->get( 'cms/translations/{slug}', 'Cms\TranslationController@index' );
 } );
 
 /*

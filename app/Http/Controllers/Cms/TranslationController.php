@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\Category;
+use App\Filter;
 use App\Offer;
 use App\OfferTranslation;
 use Illuminate\Http\Request;
@@ -22,9 +24,28 @@ class TranslationController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function index( Request $request )
+    public function index( Request $request, $type )
     {
-        $result = Offer::with(["translations"]);
+        $result = null;
+
+        switch( $type )
+        {
+            case "offer":
+                $result = $this->indexOffer( $request );
+                break;
+
+            case "provider":
+                $result = $this->indexProvider( $request );
+                break;
+
+            case "filter":
+                $result = $this->indexFilter( $request );
+                break;
+
+            case "category":
+                $result = $this->indexCategory( $request );
+                break;
+        }
 
         // ------------------------------------------- //
         // ------------------------------------------- //
@@ -40,6 +61,142 @@ class TranslationController extends Controller
         // ------------------------------------------- //
 
         return response()->success( compact( 'result', 'count' ) );
+    }
+
+    //
+    private function indexOffer( Request $request )
+    {
+        $result = Offer::with( [ "translations" ] );
+
+        //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'enabled', $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            //
+            $result = $result->whereHas( 'translations',
+                function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'title',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    )->orWhere(
+                        'description',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    );
+                } );
+        }
+
+        return $result;
+    }
+
+    //
+    private function indexProvider( Request $request )
+    {
+        $result = Ngo::with( [ "translations" ] );
+
+        //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'published', $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            //
+            $result = $result->whereHas( 'translations',
+                function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'description',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    );
+                } );
+        }
+
+        return $result;
+    }
+
+    //
+    private function indexFilter( Request $request )
+    {
+        $result = Filter::with( [ "translations" ] );
+
+        //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'enabled', $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            //
+            $result = $result->whereHas( 'translations',
+                function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'title',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    )->orWhere(
+                        'description',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    );
+                } );
+        }
+
+        return $result;
+    }
+
+    //
+    private function indexCategory( Request $request )
+    {
+        $result = Category::with( [ "translations" ] );
+
+        //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'enabled', $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            //
+            $result = $result->whereHas( 'translations',
+                function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'title',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    )->orWhere(
+                        'description',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    );
+                } );
+        }
+
+        return $result;
     }
 
     /**

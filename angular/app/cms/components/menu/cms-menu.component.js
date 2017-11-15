@@ -38,24 +38,24 @@ class CmsMenuController
 				title: 'Translations',
 				roles: ['admin', 'superadmin', 'moderator']
 			},
-			{
-				sref: 'cms.categories',
-				icon: 'list',
-				title: 'Categories',
-				roles: ['admin', 'superadmin']
-			},
-			{
-				sref: 'cms.filters',
-				icon: 'filter_list',
-				title: 'Filters',
-				roles: ['admin', 'superadmin']
-			},
-			{
-				sref: 'cms.languages',
-				icon: 'font_download',
-				title: 'Languages',
-				roles: ['admin', 'superadmin']
-			},
+			// {
+			// 	sref: 'cms.categories',
+			// 	icon: 'list',
+			// 	title: 'Categories',
+			// 	roles: ['admin', 'superadmin']
+			// },
+			// {
+			// 	sref: 'cms.filters',
+			// 	icon: 'filter_list',
+			// 	title: 'Filters',
+			// 	roles: ['admin', 'superadmin']
+			// },
+			// {
+			// 	sref: 'cms.languages',
+			// 	icon: 'font_download',
+			// 	title: 'Languages',
+			// 	roles: ['admin', 'superadmin']
+			// },
 			{
 				sref: 'cms.users',
 				icon: 'group',

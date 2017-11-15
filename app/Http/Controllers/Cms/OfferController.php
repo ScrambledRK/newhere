@@ -225,7 +225,11 @@ class OfferController extends Controller
         // ---------------------------------- //
 
         //
-        if( $offer->title != $request->get( 'title' ) )
+        $hasTitleChanged        = $offer->title         != $request->get( 'title' );
+        $hasDescriptionChanged  = $offer->description   != $request->get( 'description' );
+        $hasHoursChanged        = $offer->opening_hours != $request->get( 'opening_hours' );
+
+        if( $hasTitleChanged || $hasDescriptionChanged || $hasHoursChanged )
         {
             $offer->translations()
                   ->update( [ 'version' => 0 ] );

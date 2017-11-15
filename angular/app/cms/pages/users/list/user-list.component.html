@@ -2,7 +2,10 @@
 	<md-card>
 		<md-card-title>
 			<md-card-title-text>
-				<span class="md-headline">{{ 'User' | translate }}</span>
+				<span class="md-headline">
+					<md-icon>group</md-icon>&nbsp;&nbsp;
+					{{ 'User' | translate }}
+				</span>
 			</md-card-title-text>
 		</md-card-title>
 
@@ -14,7 +17,11 @@
 		>
 			<search></search>
 			<enabled></enabled>
-			<provider ng-if="vm.isElementVisible('provider')"></provider>
+			<provider
+				ng-if="vm.isElementVisible('provider')"
+				vm="vm"
+			>
+			</provider>
 			<span flex></span>
 			<create ng-if="vm.isElementVisible('create')"></create>
 		</md-toolbar>

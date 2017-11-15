@@ -2,7 +2,10 @@
 	<md-card>
 		<md-card-title>
 			<md-card-title-text>
-				<span class="md-headline">{{ 'Übersetzungen' | translate }}</span>
+				<span class="md-headline">
+					<md-icon>translate</md-icon>&nbsp;&nbsp;
+					{{ 'Übersetzungen' | translate }}
+				</span>
 			</md-card-title-text>
 		</md-card-title>
 
@@ -12,7 +15,10 @@
 			layout-padding
 			layout="row"
 		>
+			<translation-type></translation-type>
 			<search></search>
+			<enabled></enabled>
+			<span flex></span>
 		</md-toolbar>
 
 		<md-content flex>

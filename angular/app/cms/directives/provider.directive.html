@@ -1,17 +1,22 @@
 <md-input-container
-	class="md-block no-error"
+	class="md-primary md-block no-error"
 	style="font-size:16px;"
+	md-no-float
 >
-	<label>NGO</label>
-	<md-select
-		ng-model="vm.query.ngo_id"
-		ng-change="vm.onQueryUpdate()"
-	>
-		<md-option ng-value="">{{ 'Alle' | translate }}</md-option>
-		<md-option
-			ng-repeat="ngo in vm.providers | orderBy: 'organisation'"
-			ng-value="ngo.id"
-		>{{ngo.organisation}}
-		</md-option>
-	</md-select>
+	<md-autocomplete
+		class="no-shadow"
+		md-selected-item="ctrl.selectedItem"
+		md-search-text="ctrl.searchText"
+		md-selected-item-change="ctrl.selectedItemChange(ngo)"
+		md-items="ngo in ctrl.querySearch(ctrl.searchText)"
+		md-item-text="ngo.organisation"
+		md-min-length="1"
+		placeholder="Anbieter">
+		<md-item-template>
+			<span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{ngo.organisation}}</span>
+		</md-item-template>
+		<md-not-found>
+			No providers matching "{{ctrl.searchText}}" were found.
+		</md-not-found>
+	</md-autocomplete>
 </md-input-container>

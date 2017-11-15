@@ -22,6 +22,7 @@ class UserController extends Controller
 
         $user->load( "roles" );
         $user->load( "ngos" );
+        $user->load( "languages" );
 
         return response()->json( $user );
     }
