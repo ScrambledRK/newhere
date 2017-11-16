@@ -6,6 +6,7 @@ use App\Category;
 use App\Filter;
 use App\Offer;
 use App\OfferTranslation;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -73,6 +74,28 @@ class TranslationController extends Controller
 
                 break;
             }
+
+            default:
+                throw new Exception('unknown translation type');
+        }
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        if( $request->has( 'status' ) )
+        {
+            $toSearch = (int) $request->get( 'status' );
+
+            //
+            $result = $result->whereHas( 'translations',
+                function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'version',
+                        $toSearch
+                    );
+                } );
         }
 
         // ------------------------------------------- //
@@ -100,12 +123,13 @@ class TranslationController extends Controller
                              ->where( $table_translation . '.locale', '=', $order );
                     } )
                                  ->select( $table_data . '.*', $table_translation . '.version' )
+                                 ->distinct()
                                  ->groupBy( [ $table_data . '.id', 'version' ] )
                                  ->orderBy( 'version', $dir );
             }
             else
             {
-                $result = $result->groupBy( [ $table_data . '.id' ] );
+                $result = $result->distinct();
                 $result = $this->order( $request, $result );
             }
         }
@@ -114,10 +138,11 @@ class TranslationController extends Controller
         // ------------------------------------------- //
 
         //
-        $count = $result->count();
+        $result = $result->get();   // "get" must be before count, because of grouping
+        $count = $result->count( ); // would only count in group for some reason
+
         $result = $this->limit( $request, $result );
 
-        $result = $result->get();
 
         // ------------------------------------------- //
         // ------------------------------------------- //
