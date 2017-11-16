@@ -1,0 +1,147 @@
+<md-dialog class="min-width-dialog">
+	<form ng-submit="vm.save()">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>{{vm.dialog.title}}</h2>
+				<span flex></span>
+				<md-button
+					class="md-icon-button"
+					ng-click="vm.cancel()"
+				>
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+
+		<!-- -->
+		<md-dialog-content>
+
+			<div
+				class="md-dialog-content"
+				layout="column"
+				layout-gt-sm="row"
+			>
+				<!--        -->
+				<!-- source -->
+				<div
+					layout="column"
+					flex-gt-sm="50"
+					layout-margin
+				>
+					<!-- lang switch -->
+					<md-input-container
+						class="md-block no-error"
+						style="font-size:16px;margin-bottom: 35px;"
+					>
+						<label>{{ 'Source' | translate }}</label>
+						<md-select
+							ng-model="vm.dialog.source"
+							ng-change="vm.onSourceChange()"
+						>
+							<md-option
+								ng-repeat="lang in vm.dialog.languages"
+								ng-value="lang"
+							>
+								<md-icon
+									ng-if="lang.version == 2"
+								>
+									done_all
+								</md-icon>
+								<md-icon
+									ng-if="lang.version == 1"
+								>
+									done
+								</md-icon>
+								<md-icon
+									ng-if="lang.version == 0"
+								>
+									highlight_off
+								</md-icon>
+								&nbsp;&nbsp;{{ lang.locale }}
+							</md-option>
+						</md-select>
+					</md-input-container>
+
+					<!-- input -->
+					<md-input-container
+						ng-repeat="field in vm.dialog.source.fields"
+						class="md-block"
+					>
+						<label>{{field.label}}</label>
+						<input
+							ng-model="field.value"
+							readonly
+						>
+					</md-input-container>
+				</div>
+
+				<!--        -->
+				<!-- target -->
+				<div
+					layout="column"
+					flex-gt-sm="50"
+					layout-margin
+				>
+					<!-- lang switch -->
+					<md-input-container
+						class="md-block no-error"
+						style="font-size:16px;margin-bottom: 35px;"
+					>
+						<label>{{ 'Target' | translate }}</label>
+						<md-select
+							ng-model="vm.dialog.target"
+							ng-change="vm.onTargetChange()"
+						>
+							<md-option
+								ng-repeat="lang in vm.dialog.languages"
+								ng-value="lang"
+							>
+								<md-icon
+									ng-if="lang.version == 2"
+								>
+									done_all
+								</md-icon>
+								<md-icon
+									ng-if="lang.version == 1"
+								>
+									done
+								</md-icon>
+								<md-icon
+									ng-if="lang.version == 0"
+								>
+									highlight_off
+								</md-icon>
+								&nbsp;&nbsp;{{ lang.locale }}
+							</md-option>
+						</md-select>
+					</md-input-container>
+
+					<!-- input -->
+					<md-input-container
+						ng-repeat="field in vm.dialog.target.fields"
+						class="md-block"
+					>
+						<label>{{field.label}}</label>
+						<input
+							ng-model="field.value"
+						>
+					</md-input-container>
+				</div>
+			</div>
+		</md-dialog-content>
+
+		<!-- -->
+		<md-dialog-actions>
+			<md-button
+				type="button"
+				ng-click="vm.cancel()"
+			>{{ 'Abbrechen' | translate }}
+			</md-button>
+			<md-button
+				class="md-primary md-raised"
+				type="submit"
+			>{{ 'Speichern' | translate }}
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

@@ -101,7 +101,22 @@ export class TranslationService
 			angular.forEach( item.translations, ( translation, index ) =>
 			{
 				entry.translations[translation.locale] = translation;
+
 				translation.tooltip = translation.description;
+				translation.fields = [
+					{
+						label : "title",
+						value : translation.title
+					},
+					{
+						label : "description",
+						value : translation.description
+					},
+					{
+						label : "opening_hours",
+						value : translation.opening_hours
+					}
+				];
 			} );
 
 			console.log( entry );
@@ -128,7 +143,18 @@ export class TranslationService
 			angular.forEach( item.translations, ( translation, index ) =>
 			{
 				entry.translations[translation.locale] = translation;
+
 				translation.tooltip = translation.description;
+				translation.fields = [
+					{
+						label : "title",
+						value : translation.organisation
+					},
+					{
+						label : "description",
+						value : translation.description
+					}
+				];
 			} );
 
 			console.log( entry );
@@ -155,7 +181,18 @@ export class TranslationService
 			angular.forEach( item.translations, ( translation, index ) =>
 			{
 				entry.translations[translation.locale] = translation;
+
 				translation.tooltip = translation.description;
+				translation.fields = [
+					{
+						label : "title",
+						value : translation.title
+					},
+					{
+						label : "description",
+						value : translation.description
+					}
+				];
 			} );
 
 			console.log( entry );
@@ -182,7 +219,18 @@ export class TranslationService
 			angular.forEach( item.translations, ( translation, index ) =>
 			{
 				entry.translations[translation.locale] = translation;
+
 				translation.tooltip = translation.description;
+				translation.fields = [
+					{
+						label : "title",
+						value : translation.title
+					},
+					{
+						label : "description",
+						value : translation.description
+					}
+				];
 			} );
 
 			console.log( entry );

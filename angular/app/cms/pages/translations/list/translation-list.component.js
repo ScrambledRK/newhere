@@ -84,6 +84,41 @@ class TranslationListController
 	// --------------------------------------- //
 
 	//
+	editItem( item )
+	{
+		console.log( "dialog:", item );
+
+		//
+		this.dialog = {
+			title: item.title,
+			languages: item.translations,
+			source: item.translations["de"],
+			target: item.translations["en"]
+		};
+
+		//
+		this.DialogService.fromTemplate( 'translation', {
+			controller: () => this,
+			controllerAs: 'vm'
+		} );
+	}
+
+	cancel()
+	{
+		console.log("cancel");
+		this.DialogService.hide();
+	}
+
+	save()
+	{
+		console.log("save");
+		this.DialogService.hide();
+	}
+
+	// --------------------------------------- //
+	// --------------------------------------- //
+
+	//
 	isElementVisible( name )
 	{
 		return true;
