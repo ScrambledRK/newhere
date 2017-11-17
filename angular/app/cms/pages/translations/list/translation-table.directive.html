@@ -38,6 +38,7 @@
 			<!-- languages -->
 			<th
 				ng-repeat="lang in vm.languages"
+				ng-if="lang != 'de'"
 				md-column
 				md-order-by="{{lang}}"
 			>{{lang}}
@@ -113,6 +114,7 @@
 			<td
 				md-cell
 				ng-repeat="lang in vm.languages"
+				ng-if="lang != 'de'"
 			>
 
 				<md-tooltip

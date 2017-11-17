@@ -94,7 +94,7 @@ class TranslationController extends Controller
                     $query->where(
                         'version',
                         $toSearch
-                    );
+                    )->where('locale', '!=', 'de');
                 } );
         }
 
@@ -285,6 +285,71 @@ class TranslationController extends Controller
 
         return $result;
     }
+
+    // ------------------------------------- //
+    // ------------------------------------- //
+
+    //
+    public function translate( Request $request, $type, $id )
+    {
+        $result = null;
+
+        switch( $type )
+        {
+            case "offer":
+            {
+                $result = Offer::findOrFail( (int)$id );
+                break;
+            }
+
+            case "provider":
+            {
+                $result = Ngo::findOrFail( (int)$id );
+                break;
+            }
+
+            case "filter":
+            {
+                $result = Filter::findOrFail( (int)$id );
+                break;
+            }
+
+            case "category":
+            {
+                $result = Category::findOrFail( (int)$id );
+                break;
+            }
+
+            default:
+                throw new Exception( 'unknown translation type' );
+        }
+
+        // ------------------------------------- //
+        // ------------------------------------- //
+
+        $locale = $request->get("locale");
+
+        //
+        if( $request->has( 'title' ) )
+            $result->translateOrNew( $locale )->title = $request->get( 'title' );
+
+        if( $request->has( 'description' ) )
+            $result->translateOrNew( $locale )->description = $request->get( 'description' );
+
+        if( $request->has( 'opening_hours' ) )
+            $result->translateOrNew( $locale )->opening_hours = $request->get( 'opening_hours' );
+
+        //
+        $result->translateOrNew( $locale )->version = $request->get( 'version' );
+        $result->save();
+
+        return response()->json( $result );
+    }
+
+    // ------------------------------------------- //
+    // ------------------------------------------- //
+
+
 
     /**
      * @return array

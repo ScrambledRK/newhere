@@ -144,6 +144,7 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/translations/{slug}', 'Cms\TranslationController@index' );
+    $api->put( 'cms/translations/{slug}/{id}', 'Cms\TranslationController@translate' );
 } );
 
 /*

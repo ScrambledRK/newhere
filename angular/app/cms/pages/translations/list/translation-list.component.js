@@ -29,6 +29,7 @@ class TranslationListController
 
 		//
 		this.languages = this.TranslationService.languages;
+		this.enabledLanguages = this.TranslationService.enabledLanguages;
 
 		//
 		this.selectedItems = [];
@@ -88,12 +89,22 @@ class TranslationListController
 	{
 		console.log( "dialog:", item );
 
+		let source = item.translations["de"];
+		let target = item.translations["en"];
+
+		//
+		if( this.dialog )
+		{
+			source = item.translations[this.dialog.source.locale];
+			target = item.translations[this.dialog.target.locale];
+		}
+
 		//
 		this.dialog = {
 			title: item.title,
 			languages: item.translations,
-			source: item.translations["de"],
-			target: item.translations["en"]
+			source: source,
+			target: target
 		};
 
 		//
@@ -112,7 +123,18 @@ class TranslationListController
 	save()
 	{
 		console.log("save");
+
+		this.TranslationService.updateList( [this.dialog.target], this.query.type );
 		this.DialogService.hide();
+	}
+
+	// --------------------------------------- //
+	// --------------------------------------- //
+
+	//
+	onSelectedLanguagesChanged()
+	{
+
 	}
 
 	// --------------------------------------- //

@@ -21,6 +21,9 @@ export class TranslationService
 
 		this.languages = this.UserService.languages;
 
+		this.enabledLanguages = ["de","en","ar","fa","fr"];
+		this.defaultLanguage = "de";
+
 		//
 		this.translations = [];
 		this.numItems = 0;
@@ -53,6 +56,30 @@ export class TranslationService
 	{
 		this.translations.length = 0;
 
+		//
+		angular.forEach( response, ( item ) =>
+		{
+			angular.forEach( this.enabledLanguages, ( lang ) =>
+			{
+				let index = this.indexOf( lang, item.translations );
+
+				if( index === -1 )
+				{
+					let dummy = {
+						offer_id : item.id,
+						ngo_id : item.id,
+						filter_id : item.id,
+						category_id : item.id,
+						locale : lang,
+						version : 0
+					};
+
+					item.translations.push( dummy );
+				}
+			} );
+		} );
+
+		//
 		switch( type )
 		{
 			case "offer":
@@ -106,15 +133,18 @@ export class TranslationService
 				translation.fields = [
 					{
 						label : "title",
-						value : translation.title
+						value : "title",
+						rows: 1
 					},
 					{
 						label : "description",
-						value : translation.description
+						value : "description",
+						rows: 3
 					},
 					{
 						label : "opening_hours",
-						value : translation.opening_hours
+						value : "opening_hours",
+						rows: 5
 					}
 				];
 			} );
@@ -147,12 +177,9 @@ export class TranslationService
 				translation.tooltip = translation.description;
 				translation.fields = [
 					{
-						label : "title",
-						value : translation.organisation
-					},
-					{
 						label : "description",
-						value : translation.description
+						value : "description",
+						rows: 3
 					}
 				];
 			} );
@@ -186,11 +213,13 @@ export class TranslationService
 				translation.fields = [
 					{
 						label : "title",
-						value : translation.title
+						value : "title",
+						rows: 1
 					},
 					{
 						label : "description",
-						value : translation.description
+						value : "description",
+						rows: 3
 					}
 				];
 			} );
@@ -224,11 +253,13 @@ export class TranslationService
 				translation.fields = [
 					{
 						label : "title",
-						value : translation.title
+						value : "title",
+						rows: 1
 					},
 					{
 						label : "description",
-						value : translation.description
+						value : "description",
+						rows: 3
 					}
 				];
 			} );
@@ -239,6 +270,93 @@ export class TranslationService
 
 	// -------------------------------------------------------------- //
 	// -------------------------------------------------------------- //
+
+	/**
+	 *
+	 * @param translationList
+	 * @param type
+	 */
+	updateList( translationList, type )
+	{
+		let config = this.prepareQuery();
+		let promises = [];
+
+		//
+		angular.forEach( translationList, ( item ) =>
+		{
+			//
+			let itemID = null;
+
+			switch( type )
+			{
+				case "offer":
+				{
+					itemID = item.offer_id;
+					break;
+				}
+
+				case "provider":
+				{
+					itemID = item.ngo_id;
+					break;
+				}
+
+				case "filter":
+				{
+					itemID = item.filter_id;
+					break;
+				}
+
+				case "category":
+				{
+					itemID = item.category_id;
+					break;
+				}
+			}
+
+			//
+			let promise = this.API.one( 'cms/translations/' + type + "/" + itemID ).withHttpConfig( config ).customPUT( item )
+				.then( ( response ) =>
+					{
+						return response;
+					},
+					( error ) =>
+					{
+						throw error;
+					}
+				);
+
+			promises.push( promise );
+		} );
+
+		//
+		return this.$q.all( promises )
+			.then( () =>
+			{
+				this.resolveQuery();
+			} );
+	}
+
+	// -------------------------------------------------------------- //
+	// -------------------------------------------------------------- //
+
+	//
+	indexOf( languageLocale, targetList )
+	{
+		if( !targetList )
+			targetList = this.languages;
+
+		//
+		let result = -1;
+
+		angular.forEach( targetList, ( filter, index ) =>
+		{
+			if( filter.locale === languageLocale )
+				result = index;
+		} );
+
+		return result;
+	}
 
 	prepareQuery()
 	{

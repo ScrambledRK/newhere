@@ -231,7 +231,7 @@ class OfferController extends Controller
 
         if( $hasTitleChanged || $hasDescriptionChanged || $hasHoursChanged )
         {
-            $offer->translations()
+            $offer->translations()->where("locale","!=","de")
                   ->update( [ 'version' => 0 ] );
         }
 
