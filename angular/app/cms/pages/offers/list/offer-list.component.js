@@ -80,6 +80,28 @@ class OfferListController
 	}
 
 	//
+	onProviderChange( item )
+	{
+		if( this.isAssignNgoDialogOpen )
+		{
+			this.assignProvider = item;
+		}
+		else
+		{
+			if( item )
+			{
+				this.query.ngo_id = item.id;
+				this.onQueryUpdate();
+			}
+			else
+			{
+				delete this.query.ngo_id;
+				this.onQueryUpdate();
+			}
+		}
+	}
+
+	//
 	getURL( item, type )
 	{
 		switch( type )
@@ -157,7 +179,10 @@ class OfferListController
 	}
 
 	//
-	assignSelectedItems(){
+	assignSelectedItems()
+	{
+		this.isAssignNgoDialogOpen = true;
+
 		this.DialogService.fromTemplate('assignToNgo', {
 			controller: () => this,
 			controllerAs: 'vm'
@@ -188,12 +213,14 @@ class OfferListController
 				}
 			);
 
+		this.isAssignNgoDialogOpen = false;
 		this.DialogService.hide();
 	}
 
 	//
 	assignCancel()
 	{
+		this.isAssignNgoDialogOpen = false;
 		this.DialogService.hide();
 	}
 

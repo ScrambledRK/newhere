@@ -336,6 +336,20 @@ export class UserService
 	}
 
 	//
+	isWithoutRole()
+	{
+		if( !this.user )
+			return false;
+
+		let isOrgAdmin = Boolean( this.user.roles.indexOf( "organisation-admin" ) > -1 );
+		let isOrgUser = Boolean( this.user.roles.indexOf( "organisation-user" ) > -1 );
+		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1 );
+		let isAdmin = this.user.roles.indexOf( "admin" ) > -1;
+
+		return (!isOrgAdmin && !isOrgUser && !isSuperAdmin && !isAdmin);
+	}
+
+	//
 	getProviderByID( id )
 	{
 		let result = null;

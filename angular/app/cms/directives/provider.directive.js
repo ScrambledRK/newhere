@@ -38,17 +38,7 @@ export function ProviderDirective()
 		$scope.selectedItemChange = this.selectedItemChange = function( item )
 		{
 			console.log("selected:",item);
-
-			if( item )
-			{
-				$scope.vm.query.ngo_id = item.id;
-				$scope.vm.onQueryUpdate();
-			}
-			else
-			{
-				delete $scope.vm.query.ngo_id;
-				$scope.vm.onQueryUpdate();
-			}
+			$scope.vm.onProviderChange( item );
 		}
 	}];
 

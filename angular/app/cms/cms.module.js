@@ -39,6 +39,8 @@ import {TranslationListComponent} from "./pages/translations/list/translation-li
 import {TranslationTypeDirective} from "./pages/translations/list/translation-type.directive";
 import {TranslationStatusDirective} from "./pages/translations/list/translation-status.directive";
 import {TranslationLanguageDirective} from "./pages/translations/list/translation-lang.directive";
+import {DashboardComponent} from "./pages/dashboard/default/dashboard.component";
+import {RoleAssignmentComponent} from "./pages/dashboard/roles/role-assignment.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -108,4 +110,6 @@ angular.module( 'app.cms' )
 	.component( 'imageUploader', ImageUploaderComponent )
 	.component( 'filterSelector', FilterSelectorComponent )
 	.component( 'categorySelector', CategorySelectorComponent )
+	.component( 'cmsDashboard', DashboardComponent )
+	.component( 'cmsRoleAssignment', RoleAssignmentComponent )
 ;

@@ -9,21 +9,16 @@
 
 		<md-dialog-content>
 			<div class="md-dialog-content">
-				<p>{{ '%d Angebote ausgewählt' | translate | sprintf: vm.selectedItems.length
-				   }}</p>
-				<md-input-container flex>
-					<label>{{ 'NGO auswählen' | translate }}</label>
-					<md-select
-						ng-model="vm.assignProvider"
-						aria-label="{{ 'NGO auswählen' | translate }}"
-					>
-						<md-option
-							ng-repeat="ngo in vm.providers"
-							ng-value="ngo"
-						>{{ngo.organisation}}
-						</md-option>
-					</md-select>
-				</md-input-container>
+				<p>
+					{{ '%d Angebote ausgewählt' | translate | sprintf: vm.selectedItems.length }}
+				</p>
+				<provider
+					vm="vm"
+					action=""
+					model="assignProvider"
+				>
+
+				</provider>
 			</div>
 		</md-dialog-content>
 

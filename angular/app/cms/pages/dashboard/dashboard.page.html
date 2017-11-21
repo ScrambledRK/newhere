@@ -1,1 +1,39 @@
-hello
+<md-card>
+	<md-card-title>
+		<md-card-title-text>
+				<span class="md-headline">
+					<md-icon>dashboard</md-icon>&nbsp;&nbsp;
+					{{ 'Dashboard' | translate }}
+				</span>
+		</md-card-title-text>
+	</md-card-title>
+
+	<md-content
+		flex
+		style="padding: 16px"
+	>
+		<md-tabs md-dynamic-height>
+
+			<!-- infos -->
+			<md-tab
+				label="{{ 'Infos' | translate }}"
+			>
+				<div style="padding-top: 8px">
+					<cms-dashboard></cms-dashboard>
+				</div>
+
+			</md-tab>
+
+			<!-- roles -->
+			<md-tab
+				label="{{ 'Meine Rollen' | translate }}"
+			>
+				<div style="padding-top: 8px">
+					<cms-role-assignment></cms-role-assignment>
+				</div>
+			</md-tab>
+		</md-tabs>
+	</md-content>
+
+</md-card>
+

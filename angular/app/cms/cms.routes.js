@@ -44,7 +44,7 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 
 				data: {
 					auth: true,
-					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user', 'moderator'],
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user', 'moderator', 'user'],
 					title: "Dashboard"
 				},
 
