@@ -1,47 +1,72 @@
-<div ng-if="vm.isElementVisible('request-join')">
-	welcome! you've joined new here as a content creator.<br/>
-	in order to help us out you need to request a role using the form below.
+<div
+	layout-gt-sm="row"
+	layout="column"
+	style="padding-top: 8px"
+>
+	<!-- roles -->
+	<div
+		ng-if="vm.isElementVisible('roles')"
+		style="padding-top: 8px"
+		layout="row"
+		flex="50"
+	>
+		<div flex="20">Rollen:</div>
+		<div
+			layout="column"
+			flex
+		>
+			<div
+				ng-repeat="role in vm.roles"
+				flex
+			>
+				<strong>{{ role.display_name }}</strong>
+				(<em>{{ role.description }}</em>)
+			</div>
+
+			<div
+				ng-if="vm.isElementVisible('request-join')"
+				flex
+			>
+				<a
+					style="cursor: hand"
+					ng-click="vm.requestRole()"
+				>request a role
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- provider -->
+	<div
+		ng-if="vm.isElementVisible('provider-box')"
+		style="padding-top: 8px"
+		layout="row"
+		flex="50"
+	>
+		<div flex="20">Anbieter:</div>
+		<div
+			layout="column"
+			flex
+		>
+				<a
+					ng-repeat="provider in vm.providers"
+					href="{{vm.getURL(provider,'provider')}}"
+					ng-if="vm.isElementVisible('providers')"
+				>
+					{{ provider.organisation }}
+				</a>
+
+				<a
+					style="padding-top: 8px"
+					ng-click="vm.requestRole()"
+				>
+					join/create provider
+				</a>
+
+		</div>
+	</div>
+
 </div>
 
-<div>
-	<div>
-		what do you want to do? do you want to create and manage offers
-		of an existing service provider? do you offer services helping
-		people new in vienna and want to register as a new service provider?
-		or do you want to help us out translating offers?
-	</div>
-
-	<div style="padding-top: 8px">
-		<md-radio-group
-			ng-model="vm.assignGroup"
-			ng-change="vm.onAssignGroup(vm.assignGroup)">
-
-			<md-radio-button value="assign">join an existing service provider</md-radio-button>
-			<md-radio-button value="create">create a new service provider</md-radio-button>
-			<md-radio-button value="translate">become a translator</md-radio-button>
-
-		</md-radio-group>
-	</div>
-
-	<div
-		ng-if="vm.assignGroup == 'assign'"
-	>
-		drop down with ngos to send an invite to ...
-	</div>
-
-	<div
-		ng-if="vm.assignGroup == 'create'"
-	>
-		create a new ngo form ...
-	</div>
-
-	<div
-		ng-if="vm.assignGroup == 'translate'"
-	>
-		just a button ...
-	</div>
-</div>
-
-
-
+<md-divider></md-divider>
 

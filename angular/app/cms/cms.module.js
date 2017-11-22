@@ -41,6 +41,7 @@ import {TranslationStatusDirective} from "./pages/translations/list/translation-
 import {TranslationLanguageDirective} from "./pages/translations/list/translation-lang.directive";
 import {DashboardComponent} from "./pages/dashboard/default/dashboard.component";
 import {RoleAssignmentComponent} from "./pages/dashboard/roles/role-assignment.component";
+import {ProviderFormComponent} from "./pages/providers/form/provider-form.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -105,6 +106,7 @@ angular.module( 'app.cms' )
 	.component( 'cmsOfferList', OfferListComponent )
 	.component( 'cmsOfferForm', OfferFormComponent )
 	.component( 'cmsProviderList', ProviderListComponent )
+	.component( 'cmsProviderForm', ProviderFormComponent )
 	.component( 'cmsUserList', UserListComponent )
 	.component( 'cmsTranslationList', TranslationListComponent )
 	.component( 'imageUploader', ImageUploaderComponent )

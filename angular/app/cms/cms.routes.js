@@ -148,6 +148,40 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 			} )
 
 		//
+		.state( 'cms.providers.new',
+			{
+				url: '/new',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ]
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-provider-form></cms-provider-form>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.providers.edit',
+			{
+				url: '/{id:[0-9]+}',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user' ]
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-provider-form></cms-provider-form>"
+					}
+				}
+			} )
+
+		//
 		.state( 'cms.users',
 			{
 				url: '/users/{ngo:[0-9]*}',

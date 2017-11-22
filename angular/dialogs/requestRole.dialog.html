@@ -1,0 +1,135 @@
+<md-dialog class="min-width-dialog">
+
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>{{ 'Request a role' | translate }}</h2>
+				<span flex></span>
+				<md-button
+					class="md-icon-button"
+					ng-click="vm.requestCancel()"
+				>
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+
+	<md-dialog-content>
+		<wizard
+			on-finish="vm.requestComplete()"
+			hide-indicators="true"
+		>
+
+			<!--             -->
+			<!-- choose role -->
+			<wz-step
+				wz-title="{{ 'Choose Role' | translate }}"
+				canexit="vm.canRequestStepComplete()"
+			>
+
+				<!-- content -->
+				<md-content
+					layout-padding
+					layout="column"
+					layout-align="center center"
+				>
+					<div flex>
+						{{ 'choose how you want to contribute' | translate }}
+					</div>
+
+					<div flex style="padding-top: 8px">
+						<md-radio-group
+							ng-model="vm.requestGroup"
+							ng-change="vm.onRequestGroup(vm.requestGroup)"
+						>
+							<!---->
+							<md-radio-button value="assign">
+								<strong>join an existing service provider</strong>
+								to create and edit offers
+							</md-radio-button>
+
+							<!-- -->
+							<md-radio-button value="create">
+								<strong>create a new service provider</strong>
+								to create and edit offers
+							</md-radio-button>
+
+							<!-- -->
+							<md-radio-button value="translate">
+								<strong>become a translator</strong>
+								and translate offer descriptions
+							</md-radio-button>
+
+						</md-radio-group>
+					</div>
+				</md-content>
+			</wz-step>
+
+			<!--          -->
+			<!-- finalize -->
+			<wz-step wz-title="{{ 'Finalize' | translate }}">
+
+				<!-- content -->
+				<md-content
+					layout-padding
+					layout="row"
+					layout-align="center center"
+				>
+
+					<!-- assign -->
+					<div
+						ng-if="vm.requestGroup == 'assign'"
+					>
+						<provider
+							vm="vm"
+							action=""
+							model="assignProvider"
+						></provider>
+					</div>
+
+					<!-- create -->
+					<cms-provider-form
+						ng-if="vm.requestGroup == 'create'"
+						hide-form-button="true"
+					></cms-provider-form>
+
+					<!-- translate -->
+					<div
+						ng-if="vm.requestGroup == 'translate'"
+					>
+						great! thank you, we will process your request soon™
+					</div>
+				</md-content>
+			</wz-step>
+
+		</wizard>
+	</md-dialog-content>
+
+	<!-- toolbar -->
+	<md-dialog-actions>
+		<div>
+			<md-button
+				ng-click="vm.requestCancel()"
+			>
+				{{ 'Abbrechen' | translate }}
+			</md-button>
+
+			<md-button
+				ng-if="!vm.isLastRequestStep()"
+				class="md-primary md-raised"
+				ng-click="vm.requestNextStep()"
+				ng-disabled="!vm.canRequestStepComplete()"
+			>
+				{{ 'Weiter' | translate }}
+			</md-button>
+
+			<md-button
+				ng-if="vm.isLastRequestStep()"
+				class="md-primary md-raised"
+				ng-click="vm.requestComplete()"
+			>
+				{{ 'Speichern' | translate }}
+			</md-button>
+		</div>
+	</md-dialog-actions>
+
+</md-dialog>

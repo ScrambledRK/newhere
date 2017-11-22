@@ -1,0 +1,120 @@
+<div
+	style="padding:.5em;"
+	layout="row"
+	layout-align="space-between center"
+>
+	<span class="md-title">
+		{{ vm.provider.title || 'Neuer Anbieter' | translate  }}
+	</span>
+</div>
+
+<form
+	name="providerForm"
+	ng-submit="vm.save()"
+	class="blank"
+>
+	<md-content
+		class="blank"
+		layout-xs="column"
+		layout="row"
+	>
+
+		<md-card
+			ng-form="providerDetails"
+		>
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{ 'Details' | translate }}</span>
+				</md-card-title-text>
+			</md-card-title>
+
+			<md-content layout-padding>
+				<md-input-container class="md-block">
+					<label>{{ 'Titel' | translate }}</label>
+					<input
+						ng-model="vm.provider.title"
+						md-maxlength="100"
+						required
+					>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>{{ 'Beschreibung' | translate }}</label>
+					<textarea
+						ng-model="vm.provider.description"
+						md-maxlength="200"
+						rows="3"
+						required
+					></textarea>
+				</md-input-container>
+
+				<!-- email -->
+				<md-input-container class="md-block">
+					<label>{{ 'Email' | translate }}</label>
+					<input
+						ng-model="vm.provider.email"
+						type="email"
+						name="email"
+						placeholder="email@provider.com"
+						ng-pattern="/^.+@.+\..+$/"
+					>
+					<div
+						ng-messages="providerDetails.email.$error"
+						role="alert"
+					>
+						<div ng-message-exp="['pattern']">
+							{{ 'the given email address should at least look valid' | translate }}
+						</div>
+					</div>
+				</md-input-container>
+
+				<!-- phone -->
+				<md-input-container class="md-block">
+					<label>{{ 'Telefon' | translate }}</label>
+					<input
+						ng-model="vm.provider.phone"
+						placeholder="+43 660 12345678"
+						type="tel"
+						name="phone"
+						ng-pattern="/^\+?[0-9]+[\s0-9]*$/"
+						minlength="6"
+						maxlength="24"
+					>
+					<div
+						ng-messages="providerDetails.phone.$error"
+						role="alert"
+					>
+						<div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+							{{ 'the given phone number should at least look valid' | translate }}
+						</div>
+					</div>
+				</md-input-container>
+
+				<!-- website -->
+				<md-input-container class="md-block">
+					<label>{{ 'Webseite' | translate }}</label>
+					<input
+						ng-model="vm.provider.website"
+						type="url"
+						placeholder="http://www.your-provider.com"
+					>
+				</md-input-container>
+
+			</md-content>
+		</md-card>
+
+	</md-content>
+
+	<div
+		flex
+		layout="row"
+		layout-align="end center"
+		ng-if="vm.buttons"
+	>
+		<save
+			is-disabled="providerForm.$invalid || providerForm.$pristine"
+		></save>
+
+		<cancel></cancel>
+	</div>
+</form>
