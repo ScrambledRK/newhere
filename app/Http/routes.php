@@ -119,6 +119,7 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/providers', 'Cms\ProviderController@index' );
+    $api->get( 'cms/providers/all', 'Cms\ProviderController@all' );
     $api->get( 'cms/providers/{id}', 'Cms\ProviderController@byId' );
 
     groupOrganisation( $api, function( $api )
@@ -163,6 +164,8 @@ groupAuthenticated( $api, function( $api )
 {
     $api->get('cms/users/me', 'Cms\UserController@me');
     $api->get( 'cms/users', 'Cms\UserController@index' );
+
+    $api->get( 'cms/users/pending', 'Cms\PendingRequestController@index' );
 
     groupAdministration($api, function ($api)
     {

@@ -1,0 +1,131 @@
+<md-table-container>
+	<table
+		md-table
+	>
+
+		<!-- head -->
+		<thead md-head>
+		<tr md-row>
+
+			<!-- user -->
+			<th
+				md-column
+				ng-if="vm.isElementVisible('user')"
+				style="min-width: 300px"
+			>{{ 'User' | translate }}
+			</th>
+
+			<!-- type -->
+			<th
+				md-column
+			>{{ 'Request' | translate }}
+			</th>
+
+			<!-- role -->
+			<th
+				md-column
+				style="min-width: 200px"
+			>{{ 'Rolle' | translate }}
+			</th>
+
+			<!-- provider -->
+			<th
+				md-column
+				style="min-width: 200px"
+			>{{ 'Anbieter' | translate }}
+			</th>
+
+			<!-- delete -->
+			<th
+				md-column
+				ng-if="vm.isElementVisible('delete')"
+			><i
+				class="material-icons"
+				style="padding-left: 14px;"
+			>delete</i>
+			</th>
+
+		</tr>
+		</thead>
+
+		<!-- body -->
+		<tbody md-body>
+		<tr
+			md-row
+			md-select="item"
+			ng-repeat="item in vm.items"
+		>
+
+
+			<!-- user -->
+			<td
+				md-cell
+				ng-if="vm.isElementVisible('user')"
+			>
+				<a
+					href="{{vm.getURL(item,'user')}}"
+					ng-if="item.user"
+				>{{item.user.name}}</a>
+			</td>
+
+			<!-- type -->
+			<td md-cell>
+				<md-button
+					ng-if="item.type == 1"
+					class="md-icon-button md-accent md-hue-1"
+					style="margin-left: 0px;"
+				>
+					<md-tooltip
+						md-direction="right"
+						md-delay="800"
+					>wants to join role/provider
+					</md-tooltip>
+					<md-icon>redo</md-icon>
+				</md-button>
+				<strong>join</strong>
+
+				<md-button
+					ng-if="item.type == 0"
+					class="md-icon-button md-accent md-hue-3"
+					style="margin-left: 0px;"
+				>
+					<md-tooltip
+						md-direction="right"
+						md-delay="800"
+					>wants to leave role/provider
+					</md-tooltip>
+					<md-icon>undo</md-icon>
+					<strong>leave</strong>
+				</md-button>
+			</td>
+
+			<!-- roles -->
+			<td md-cell>
+				{{ item.role.display_name }}
+			</td>
+
+			<!-- provider -->
+			<td	md-cell>
+					<a
+						href="{{vm.getURL(item,'provider')}}"
+						ng-if="item.ngo"
+					>{{item.ngo.organisation}}</a>
+			</td>
+
+			<!-- delete -->
+			<td
+				md-cell
+				ng-if="vm.isElementVisible('delete')"
+			>
+				<md-button
+					ng-click="vm.deleteItem(item)"
+					class="md-icon-button md-accent md-hue-2"
+				>
+					<md-icon>delete</md-icon>
+				</md-button>
+			</td>
+
+		</tr>
+		</tbody>
+	</table>
+</md-table-container>

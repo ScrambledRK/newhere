@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\PendingRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -23,6 +24,9 @@ class UserController extends Controller
         $user->load( "roles" );
         $user->load( "ngos" );
         $user->load( "languages" );
+        $user->load( ['pendings' => function ($query) {
+            $query->with([ "ngo", "role" ]);
+        }]);
 
         return response()->json( $user );
     }
@@ -38,11 +42,11 @@ class UserController extends Controller
 
         if( $this->isUserAdmin( $user ) )
         {
-            $result = User::with( [ "ngos" ] ); // only thing I found that returns a builder and not a collection
+            $result = User::with( [ "ngos", "pendings", "roles" ] ); // only thing I found that returns a builder and not a collection
         }
         else
         {
-            $result = User::with( [ "ngos" ] )
+            $result = User::with( [ "ngos", "roles" ] )
                           ->whereHas( "ngos.users",
                               function( $query ) use ( $user )
                               {

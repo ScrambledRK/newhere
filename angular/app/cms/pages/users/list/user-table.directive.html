@@ -19,18 +19,24 @@
 				class="icon"
 				ng-if="vm.isElementVisible('edit')"
 			></th>
+
+			<!-- name -->
 			<th
 				md-column
 				md-order-by="id"
 				style="min-width: 300px"
 			>{{ 'Name' | translate }}
 			</th>
+
+			<!-- mail -->
 			<th
 				md-column
 				md-order-by="email"
 				style="min-width: 300px"
 			>{{ 'Email' | translate }}
 			</th>
+
+			<!-- enabled -->
 			<th
 				md-column
 				md-order-by="confirmed"
@@ -40,6 +46,8 @@
 				style="padding-left: 14px;"
 			>lock_open</i>
 			</th>
+
+			<!-- providers -->
 			<th
 				md-column
 				md-order-by="ngo_id"
@@ -47,6 +55,23 @@
 				style="min-width: 200px"
 			>{{ 'Anbieter' | translate }}
 			</th>
+
+			<!-- roles -->
+			<th
+				md-column
+				md-order-by="roles"
+				style="min-width: 200px"
+			>{{ 'Rolle' | translate }}
+			</th>
+
+			<!-- pendings -->
+			<th
+				md-column
+				md-order-by="pendings"
+				ng-if="vm.isElementVisible('pending')"
+			>{{ 'Requests' | translate }}
+			</th>
+
 		</tr>
 		</thead>
 
@@ -72,7 +97,7 @@
 
 			<!-- title -->
 			<td md-cell>
-					<strong>{{item.name}}</strong>
+				<strong>{{item.name}}</strong>
 			</td>
 
 			<!-- email -->
@@ -120,9 +145,35 @@
 			>
 				<div
 					ng-repeat="ngo in item.ngos"
-					>
+				>
 					<a href="{{vm.getURL(ngo,'provider')}}">{{ngo.organisation}}</a>
 				</div>
+			</td>
+
+			<!-- roles -->
+			<td
+				md-cell
+			>
+				<div
+					ng-repeat="role in item.roles"
+				>
+					{{ role.display_name }}
+				</div>
+			</td>
+
+			<!-- pending -->
+			<td
+				md-cell
+				ng-if="vm.isElementVisible('pending')"
+			>
+				<a
+					ng-click="vm.editItem(item)"
+					ng-if="item.open_requests > 0"
+				>
+					{{item.open_requests}}</a>
+
+				<span ng-if="item.open_requests == 0">
+					0</span>
 			</td>
 
 		</tr>

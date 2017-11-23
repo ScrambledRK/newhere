@@ -42,6 +42,7 @@ import {TranslationLanguageDirective} from "./pages/translations/list/translatio
 import {DashboardComponent} from "./pages/dashboard/default/dashboard.component";
 import {RoleAssignmentComponent} from "./pages/dashboard/roles/role-assignment.component";
 import {ProviderFormComponent} from "./pages/providers/form/provider-form.component";
+import {RequestTableComponent} from "./components/request/request-table.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -114,4 +115,5 @@ angular.module( 'app.cms' )
 	.component( 'categorySelector', CategorySelectorComponent )
 	.component( 'cmsDashboard', DashboardComponent )
 	.component( 'cmsRoleAssignment', RoleAssignmentComponent )
+	.component( 'cmsRequestTable', RequestTableComponent )
 ;

@@ -17,6 +17,7 @@
 		>
 			<div
 				ng-repeat="role in vm.roles"
+				ng-if="role.name != 'user'"
 				flex
 			>
 				<strong>{{ role.display_name }}</strong>
@@ -24,21 +25,22 @@
 			</div>
 
 			<div
-				ng-if="vm.isElementVisible('request-join')"
+				ng-if="vm.UserService.isWithoutRole()"
+				ng-cloak
 				flex
 			>
-				<a
-					style="cursor: hand"
-					ng-click="vm.requestRole()"
-				>request a role
-				</a>
+				<strong>none</strong>
+				(<a
+				style="cursor: hand"
+				ng-click="vm.requestRole()"
+			><em>become a translator</em>
+			</a>)
 			</div>
 		</div>
 	</div>
 
 	<!-- provider -->
 	<div
-		ng-if="vm.isElementVisible('provider-box')"
 		style="padding-top: 8px"
 		layout="row"
 		flex="50"
@@ -48,25 +50,62 @@
 			layout="column"
 			flex
 		>
-				<a
-					ng-repeat="provider in vm.providers"
-					href="{{vm.getURL(provider,'provider')}}"
-					ng-if="vm.isElementVisible('providers')"
-				>
-					{{ provider.organisation }}
-				</a>
+			<a
+				ng-repeat="provider in vm.UserService.providers"
+				href="{{vm.getURL(provider,'provider')}}"
+				ng-if="!vm.isAdmin()"
+			>
+				{{ provider.organisation }}
+			</a>
 
-				<a
-					style="padding-top: 8px"
-					ng-click="vm.requestRole()"
-				>
-					join/create provider
-				</a>
+			<span
+				ng-if="vm.UserService.isAdministrator()"
+			>
+					<strong>none</strong> (<em>administrators cannot join providers</em>)
+			</span>
+
+			<span
+				ng-if="!vm.UserService.isAdministrator() && vm.UserService.providers.length == 0"
+				ng-cloak
+			>
+					<strong>none</strong> (<a
+				style="cursor: hand"
+				ng-click="vm.requestRole()"
+			><em>request to join/create provider</em></a>)
+			</span>
 
 		</div>
 	</div>
 
 </div>
 
-<md-divider></md-divider>
+<!-- pending table -->
+<div
+	ng-if="vm.UserService.user.pendings.length > 0"
+	style="margin-top: 24px;"
+>
+	<cms-request-table
+		ng-model="vm.UserService.user.pendings"
+	></cms-request-table>
+</div>
+
+<!-- request change button -->
+<div
+	flex
+	layout="row"
+	layout-align="end center"
+	style="margin-top: 24px;"
+>
+	<md-button
+		ng-click="vm.requestRole()"
+		class="md-primary md-raised"
+	>
+		<md-tooltip
+			md-direction="left"
+		>join,create or leave a service provider; join or resign the translation team
+		</md-tooltip>
+		request a profile change
+	</md-button>
+</div>
+
 

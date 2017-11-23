@@ -2,7 +2,7 @@
 
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>{{ 'Request a role' | translate }}</h2>
+				<h2>{{ 'Request a profile change' | translate }}</h2>
 				<span flex></span>
 				<md-button
 					class="md-icon-button"
@@ -57,6 +57,27 @@
 							<md-radio-button value="translate">
 								<strong>become a translator</strong>
 								and translate offer descriptions
+							</md-radio-button>
+
+							<md-divider
+								style="padding: 8px"
+								ng-if="vm.isElementVisible('leave') || vm.isElementVisible('resign')"
+							></md-divider>
+
+							<!-- -->
+							<md-radio-button
+								value="leave"
+								ng-if="vm.isElementVisible('leave')"
+							>
+								<strong>leave a service provider</strong>
+							</md-radio-button>
+
+							<!-- -->
+							<md-radio-button
+								value="resign"
+								ng-if="vm.isElementVisible('resign')"
+							>
+								<strong>resign from translation</strong>
 							</md-radio-button>
 
 						</md-radio-group>

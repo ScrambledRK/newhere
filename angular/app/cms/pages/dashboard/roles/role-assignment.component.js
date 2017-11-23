@@ -3,6 +3,7 @@ class RoleAssignmentController
 	/**
 	 */
 	constructor( UserService,
+	             ProviderService,
 	             DialogService,
 	             WizardHandler,
 	             $rootScope )
@@ -10,6 +11,7 @@ class RoleAssignmentController
 		'ngInject';
 
 		this.UserService = UserService;
+		this.ProviderService = ProviderService;
 		this.DialogService = DialogService;
 		this.WizardHandler = WizardHandler;
 		this.$rootScope = $rootScope;
@@ -21,6 +23,9 @@ class RoleAssignmentController
 
 		//
 		this.requestGroup = null;
+
+		//
+		this.ProviderService.all();
 	}
 
 	//
@@ -41,6 +46,21 @@ class RoleAssignmentController
 	onRequestGroup( group )
 	{
 		this.requestGroup = group;
+
+		switch( group )
+		{
+			case "assign":
+			{
+				this.providers = this.ProviderService.allProviders;
+				break;
+			}
+
+			case "leave":
+			{
+				this.providers = this.UserService.providers;
+				break;
+			}
+		}
 	}
 
 	//
@@ -118,6 +138,15 @@ class RoleAssignmentController
 		if( name === "roles" )
 			return this.UserService.roles.length > 0;
 
+		if( name === "resign" )
+			return this.UserService.isModerator();
+
+		if( name === "leave" )
+		{
+			return !this.UserService.isAdministrator()
+				&& this.UserService.providers.length > 0;
+		}
+
 		//
 		return false;
 	}
@@ -126,6 +155,12 @@ class RoleAssignmentController
 	isElementEnabled( name )
 	{
 		return false;
+	}
+
+	//
+	isAdmin()
+	{
+		return this.UserService.isAdministrator();
 	}
 }
 

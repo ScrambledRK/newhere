@@ -90,6 +90,19 @@ class ProviderController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function all()
+    {
+        $result = Ngo::with( [] );
+
+        $count = $result->count();
+        $result = $result->get();
+
+        return response()->success( compact( 'result', 'count' ) );
+    }
+
+    /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */

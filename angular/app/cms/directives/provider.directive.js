@@ -12,7 +12,7 @@ export function ProviderDirective()
 		{
 			console.log( "search", text );
 
-			if( !text || text === "" )
+			if( !text || text.trim() === "" )
 				return $scope.vm.providers;
 
 			//

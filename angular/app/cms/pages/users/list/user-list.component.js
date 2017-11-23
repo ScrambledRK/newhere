@@ -181,13 +181,19 @@ class UserListController
 	// --------------------------------------- //
 
 	//
+	editPendingRequests( item )
+	{
+		console.log("pending", item );
+	}
+
+	// --------------------------------------- //
+	// --------------------------------------- //
+
+	//
 	isElementVisible( name )
 	{
 		if( name === "edit" )
-		{
-			return this.UserService.isAdministrator() ||
-				this.UserService.isNgoAdministrator();
-		}
+			return this.UserService.isAdministrator();
 
 		if( name === "delete" )
 			return this.UserService.isAdministrator();
@@ -203,6 +209,9 @@ class UserListController
 
 		if( name === "enabled" )
 			return true;
+
+		if( name === "pending" )
+			return this.UserService.isAdministrator();
 
 		//
 		return false;

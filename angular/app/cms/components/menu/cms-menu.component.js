@@ -18,7 +18,7 @@ class CmsMenuController
 				sref: 'cms.dashboard',
 				icon: 'dashboard',
 				title: 'Dashboard',
-				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user', 'moderator']
+				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user', 'moderator', 'user']
 			},
 			{
 				sref: 'cms.offers',

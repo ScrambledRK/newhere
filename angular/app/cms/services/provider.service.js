@@ -20,12 +20,36 @@ export class ProviderService
 		// --------------------------- //
 
 		//
+		this.allProviders = [];
 		this.providers = [];
 		this.numItems = 0;
 	}
 
 	// -------------------------------------------------------------- //
 	// -------------------------------------------------------------- //
+
+	//
+	all( force )
+	{
+		if( !force && this.allProviders.length > 0 )
+			return;
+
+		//
+		let config = this.prepareQuery();
+
+		//
+		return this.API.all( 'cms/providers/all' ).withHttpConfig( config ).getList()
+			.then( ( response ) =>
+			{
+				this.numItems = response.count;
+
+				this.allProviders.length = 0;
+				this.allProviders.push.apply( this.allProviders, response );
+
+				this.resolveQuery();
+			} )
+			;
+	}
 
 	//
 	fetchList( query )

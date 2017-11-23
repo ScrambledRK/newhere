@@ -114,7 +114,7 @@ class TranslationController extends Controller
             }
 
             //
-            if( $this->isActiveLanguage( $order ) )
+            if( $this->isActiveLanguage( $order, true ) )
             {
                 $result = $result->join( $table_translation,
                     function( $join ) use ( $order, $table_translation, $table_data, $join_field )
@@ -349,12 +349,10 @@ class TranslationController extends Controller
     // ------------------------------------------- //
     // ------------------------------------------- //
 
-
-
     /**
      * @return array
      */
-    private function loadLanguages()
+    private function loadLanguages( $forceAllLanguages = false )
     {
         $user = Auth::user();
         $user->load( 'roles' );
@@ -374,7 +372,7 @@ class TranslationController extends Controller
         //
         $decreaseCount = 0;
 
-        if( $allLanguages )
+        if( $allLanguages || $forceAllLanguages )
         {
             $languages = \App\Language::where( 'enabled', true )->get();
             $decreaseCount = 1;
@@ -404,9 +402,9 @@ class TranslationController extends Controller
      * @param $lang
      * @return bool
      */
-    private function isActiveLanguage( $lang )
+    private function isActiveLanguage( $lang, $forceAllLanguages )
     {
-        list( $activeLanguages, $activeLanguageCount ) = $this->loadLanguages();
+        list( $activeLanguages, $activeLanguageCount ) = $this->loadLanguages( $forceAllLanguages );
 
         foreach( $activeLanguages as $language )
         {

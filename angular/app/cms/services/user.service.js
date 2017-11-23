@@ -159,6 +159,24 @@ export class UserService
 				this.users.length = 0;
 				this.users.push.apply( this.users, response );
 
+				//
+				// for( let j = 0; j < this.users.length; j++ )
+				// {
+				// 	let user = this.users[j];
+				// 		user.open_requests = 0;
+				//
+				// 	if( !user.pendings )
+				// 		continue;
+				//
+				// 	for( let k = 0; k < user.pendings.length; k++ )
+				// 	{
+				// 		let pending = user.pendings[k];
+				//
+				// 		if( pending.status !== 2 )
+				// 			user.open_requests++;
+				// 	}
+				// }
+
 				this.resolveQuery();
 			} )
 			;
@@ -345,8 +363,9 @@ export class UserService
 		let isOrgUser = Boolean( this.user.roles.indexOf( "organisation-user" ) > -1 );
 		let isSuperAdmin = Boolean( this.user.roles.indexOf( "superadmin" ) > -1 );
 		let isAdmin = this.user.roles.indexOf( "admin" ) > -1;
+		let isModerator = ( this.user.roles.indexOf( 'moderator' ) > -1);
 
-		return (!isOrgAdmin && !isOrgUser && !isSuperAdmin && !isAdmin);
+		return (!isOrgAdmin && !isOrgUser && !isSuperAdmin && !isAdmin && !isModerator);
 	}
 
 	//

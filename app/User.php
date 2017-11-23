@@ -23,12 +23,24 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'confirmation_code'
     ];
 
     public function ngos()
     {
         return $this->belongsToMany( 'App\Ngo', 'ngo_users' );
+    }
+
+    public function pendings()
+    {
+        return $this->hasMany( 'App\PendingRequest',
+                                     'user_id', 'id' );
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany( 'App\Role',
+                               'role_user' );
     }
 
     public function languages()
