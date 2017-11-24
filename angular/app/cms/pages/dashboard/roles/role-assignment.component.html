@@ -1,5 +1,4 @@
 <div
-	layout-gt-sm="row"
 	layout="column"
 	style="padding-top: 8px"
 >
@@ -10,7 +9,7 @@
 		layout="row"
 		flex="50"
 	>
-		<div flex="20">Rollen:</div>
+		<div flex="10">Rollen:</div>
 		<div
 			layout="column"
 			flex
@@ -45,7 +44,7 @@
 		layout="row"
 		flex="50"
 	>
-		<div flex="20">Anbieter:</div>
+		<div flex="10">Anbieter:</div>
 		<div
 			layout="column"
 			flex
@@ -95,6 +94,7 @@
 	layout="row"
 	layout-align="end center"
 	style="margin-top: 24px;"
+	ng-if="!vm.UserService.isAdministrator()"
 >
 	<md-button
 		ng-click="vm.requestRole()"

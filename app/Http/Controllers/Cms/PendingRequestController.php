@@ -108,10 +108,14 @@ class PendingRequestController extends Controller
         $pending->user_id = $user->id;
         $pending->role_id = $request->get( 'role_id' );
         $pending->ngo_id  = $request->get( 'ngo_id' );
-        $pending->status  = $request->get( 'status' );
+        $pending->type  = $request->get( 'type' );
 
         // ---------------------------------- //
         // ---------------------------------- //
+
+        $pending->load("ngo" );
+        $pending->load("role" );
+        $pending->load("user" );
 
         //
         return $pending;

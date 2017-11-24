@@ -1,65 +1,85 @@
-<div
-	style="padding:.5em;"
-	layout="row"
-	layout-align="space-between center"
->
-	<span class="md-title">
-		{{ vm.provider.title || 'Neuer Anbieter' | translate  }}
-	</span>
-</div>
-
 <form
-	name="providerForm"
+	name="ngoForm"
 	ng-submit="vm.save()"
 	class="blank"
+	layout-fill
 >
-	<md-content
-		class="blank"
-		layout-xs="column"
-		layout="row"
-	>
+	<!-- horrible hack, I am sorry -->
+	<span style="display:none" >{{ form = ngoForm}}</span>
 
+	<div
+		layout="row"
+		layout-fill
+	>
+		<!-- #1 col: details -->
 		<md-card
-			ng-form="providerDetails"
+			flex-xs
+			flex-gt-md="66"
+			flex-gt-xs="60"
 		>
+
 			<md-card-title>
 				<md-card-title-text>
 					<span class="md-headline">{{ 'Details' | translate }}</span>
 				</md-card-title-text>
 			</md-card-title>
 
-			<md-content layout-padding>
-				<md-input-container class="md-block">
+			<!-- -->
+			<md-content
+				layout-padding
+				layout="column"
+			>
+				<!-- title -->
+				<md-input-container
+					class="md-block"
+					flex
+				>
 					<label>{{ 'Titel' | translate }}</label>
 					<input
-						ng-model="vm.provider.title"
-						md-maxlength="100"
+						ng-model="vm.offer.organisation"
 						required
 					>
 				</md-input-container>
 
-				<md-input-container class="md-block">
-					<label>{{ 'Beschreibung' | translate }}</label>
-					<textarea
-						ng-model="vm.provider.description"
-						md-maxlength="200"
-						rows="3"
-						required
-					></textarea>
+				<!-- website -->
+				<md-input-container
+					class="md-block"
+					flex
+				>
+					<label>{{ 'Webseite' | translate }}</label>
+					<input
+						name="website"
+						ng-model="vm.offer.website"
+						type="url"
+						placeholder="http://www.your-ngo.com"
+					>
+
+				</md-input-container>
+
+				<!-- contact name -->
+				<md-input-container
+					class="md-block"
+					flex-gt-sm
+				>
+					<label>{{ 'Kontakt' | translate }}</label>
+					<input
+						ng-model="vm.offer.contact"
+						placeholder="Max Mustermann"
+					>
 				</md-input-container>
 
 				<!-- email -->
 				<md-input-container class="md-block">
 					<label>{{ 'Email' | translate }}</label>
 					<input
-						ng-model="vm.provider.email"
+						ng-model="vm.offer.contact_email"
 						type="email"
 						name="email"
-						placeholder="email@provider.com"
+						placeholder="email@offer.com"
 						ng-pattern="/^.+@.+\..+$/"
 					>
 					<div
-						ng-messages="providerDetails.email.$error"
+						ng-messages="ngoForm.email.$error"
 						role="alert"
 					>
 						<div ng-message-exp="['pattern']">
@@ -72,7 +92,7 @@
 				<md-input-container class="md-block">
 					<label>{{ 'Telefon' | translate }}</label>
 					<input
-						ng-model="vm.provider.phone"
+						ng-model="vm.offer.contact_phone"
 						placeholder="+43 660 12345678"
 						type="tel"
 						name="phone"
@@ -81,7 +101,7 @@
 						maxlength="24"
 					>
 					<div
-						ng-messages="providerDetails.phone.$error"
+						ng-messages="ngoForm.phone.$error"
 						role="alert"
 					>
 						<div ng-message-exp="['minlength', 'maxlength', 'pattern']">
@@ -90,31 +110,49 @@
 					</div>
 				</md-input-container>
 
-				<!-- website -->
+				<!-- description -->
 				<md-input-container class="md-block">
-					<label>{{ 'Webseite' | translate }}</label>
-					<input
-						ng-model="vm.provider.website"
-						type="url"
-						placeholder="http://www.your-provider.com"
-					>
+					<label>{{ 'Beschreibung' | translate }}</label>
+					<textarea
+						ng-model="vm.offer.description"
+						md-maxlength="200"
+						rows="3"
+					></textarea>
 				</md-input-container>
 
 			</md-content>
 		</md-card>
 
-	</md-content>
+		<!-- #2 col: image/address -->
+		<div flex>
+			<!-- image -->
+			<md-card>
+				<md-content>
+					<image-uploader
+						ng-model="vm.offer"
+						label="Logo oder Bild hochladen"
+					></image-uploader>
+				</md-content>
+			</md-card>
 
+			<!-- address -->
+			<offer-address></offer-address>
+		</div>
+
+	</div>
+
+	<!-- submit -->
 	<div
 		flex
 		layout="row"
 		layout-align="end center"
-		ng-if="vm.buttons"
+		ng-if="!vm.buttons"
 	>
 		<save
-			is-disabled="providerForm.$invalid || providerForm.$pristine"
+			is-disabled="ngoForm.$invalid || ngoForm.$pristine"
 		></save>
 
 		<cancel></cancel>
 	</div>
+
 </form>

@@ -152,6 +152,11 @@ class ProviderController extends Controller
         DB::beginTransaction();
 
         $provider = Ngo::findOrFail( $id );
+
+        //
+        if( !$this->isUserProvider( $provider ) )
+            throw new AccessDeniedHttpException();
+
         $provider = $this->populateFromRequest( $request, $provider );
         $provider->save();
 
@@ -188,10 +193,6 @@ class ProviderController extends Controller
             'organisation' => 'required',
             'description'  => 'max:200'
         ] );
-
-        //
-        if( !$this->isUserProvider( $provider ) )
-            throw new AccessDeniedHttpException();
 
         // ---------------------------------- //
         // ---------------------------------- //

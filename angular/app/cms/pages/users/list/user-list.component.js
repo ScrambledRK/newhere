@@ -177,13 +177,51 @@ class UserListController
 				} );
 	}
 
-	// --------------------------------------- //
-	// --------------------------------------- //
+	//
+	assignSelectedItems()
+	{
+		this.isAssignNgoDialogOpen = true;
+		this.assignProvider = null;
+
+		this.DialogService.fromTemplate('assignToNgo', {
+			controller: () => this,
+			controllerAs: 'vm'
+		});
+	}
 
 	//
-	editPendingRequests( item )
+	assignSave()
 	{
-		console.log("pending", item );
+		angular.forEach( this.selectedItems, ( item ) =>
+		{
+			item.ngo_id = this.assignProvider.id;
+			item.ngo = this.assignProvider;
+		} );
+
+		//
+		this.UserService.updateList( this.selectedItems )
+			.then( ( success ) =>
+				{
+					this.ToastService.show(
+						sprintf( '%d User aktualisiert.', this.selectedItems.length )
+					);
+				},
+				( error ) =>
+				{
+					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.onQueryUpdate();
+				}
+			);
+
+		this.isAssignNgoDialogOpen = false;
+		this.DialogService.hide();
+	}
+
+	//
+	assignCancel()
+	{
+		this.isAssignNgoDialogOpen = false;
+		this.DialogService.hide();
 	}
 
 	// --------------------------------------- //
@@ -212,6 +250,9 @@ class UserListController
 
 		if( name === "pending" )
 			return this.UserService.isAdministrator();
+
+		if( name === "select" )
+			return true; //this.UserService.isAdministrator();
 
 		//
 		return false;

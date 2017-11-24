@@ -43,6 +43,7 @@ import {DashboardComponent} from "./pages/dashboard/default/dashboard.component"
 import {RoleAssignmentComponent} from "./pages/dashboard/roles/role-assignment.component";
 import {ProviderFormComponent} from "./pages/providers/form/provider-form.component";
 import {RequestTableComponent} from "./components/request/request-table.component";
+import {UserFormComponent} from "./pages/users/form/user-form.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -109,6 +110,7 @@ angular.module( 'app.cms' )
 	.component( 'cmsProviderList', ProviderListComponent )
 	.component( 'cmsProviderForm', ProviderFormComponent )
 	.component( 'cmsUserList', UserListComponent )
+	.component( 'cmsUserForm', UserFormComponent )
 	.component( 'cmsTranslationList', TranslationListComponent )
 	.component( 'imageUploader', ImageUploaderComponent )
 	.component( 'filterSelector', FilterSelectorComponent )

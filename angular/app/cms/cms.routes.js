@@ -211,6 +211,40 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 			} )
 
 		//
+		.state( 'cms.users.new',
+			{
+				url: '/new',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ]
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-user-form></cms-user-form>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.users.edit',
+			{
+				url: '/{id:[0-9]+}',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ]
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-user-form></cms-user-form>"
+					}
+				}
+			} )
+
+		//
 		.state( 'cms.translations',
 			{
 				url: '/translations/{type:[a-z]*}',

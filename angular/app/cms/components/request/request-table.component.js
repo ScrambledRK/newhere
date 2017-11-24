@@ -55,16 +55,30 @@ class RequestTableController
 	}
 
 	//
-	deleteItem( item )
+	deleteItem( item, isAccept )
 	{
 		console.log( "delete request", item );
 
-		this.DialogService.prompt( 'Deleting Profile-Change-Request?',
-			'You are about to delete a profile change request. Type in DELETE and confirm?',
-			'Delete Secret' )
+		let title = 'Delete Profile-Change-Request?';
+		let text = 'You are about to delete a profile change request. Type in DELETE and confirm';
+		let label = 'Delete Secret';
+		let secret = "DELETE";
+		let success = 'Change-Request gelöscht.';
+
+		if( isAccept )
+		{
+			title = 'Perform Profile-Change-Request?';
+			text = 'You are about to perform a profile change request. Type in PERFORM and confirm';
+			label = 'Perform Secret';
+			secret = "PERFORM";
+			success = "Change-Request successful"
+		}
+
+		//
+		this.DialogService.prompt( title, text, label )
 			.then( ( response ) =>
 			{
-				if( response !== "DELETE" )
+				if( response !== secret )
 				{
 					this.DialogService.alert( 'Not correct',
 						'Thankfully, you entered the wrong secret. So nothing is going to change... for now.' );
@@ -74,15 +88,19 @@ class RequestTableController
 					this.API.one( 'cms/users/pending', item.id ).remove()
 						.then( ( response ) =>
 							{
-								this.ToastService.show( 'Change-Request gelöscht.' );
+
+								this.ToastService.show( success );
 
 								if( response.data )
 								{
-									let index = this.indexOf( response.data.id );
+									let index = this.indexOf( response.data.pending.id );
 
 									if( index !== -1 )
 										this.items.splice( index, 1 );
 								}
+
+								if( isAccept )
+									this.$rootScope.$broadcast( 'request.accept', item );
 							},
 							( error ) =>
 							{
@@ -94,12 +112,17 @@ class RequestTableController
 
 	}
 
+	acceptItem( item )
+	{
+		this.deleteItem( item, true );
+	}
+
 	//
 	indexOf( requestID )
 	{
 		let result = -1;
 
-		angular.forEach( this.items, ( user, index ) =>
+		angular.forEach( this.items, ( item, index ) =>
 		{
 			if( item.id === requestID )
 				result = index;
@@ -115,10 +138,13 @@ class RequestTableController
 	isElementVisible( name )
 	{
 		if( name === "user" )
-			return this.UserService.isAdministrator();
+			return false; //this.UserService.isAdministrator();
 
 		if( name === "delete" )
 			return true; //this.UserService.isAdministrator();
+
+		if( name === "accept" )
+			return this.UserService.isAdministrator();
 
 		//
 		return false;

@@ -31,6 +31,23 @@ class UserController extends Controller
         return response()->json( $user );
     }
 
+    //
+    public function byId( $id )
+    {
+        $user = User::where( 'id', $id )->with(
+            [
+                'roles',
+                'ngos',
+                'languages',
+                'pendings',
+                'pendings.ngo',
+                'pendings.role'
+            ]
+        )->firstOrFail();
+
+        return response()->json( $user );
+    }
+
     /**
      * @param Request $request
      * @return mixed
@@ -116,6 +133,30 @@ class UserController extends Controller
      * @param Request $request
      * @return mixed
      */
+    public function roles( Request $request )
+    {
+        $result = Role::with( [] );
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        $count = $result->count();
+        $result = $this->paginate( $request, $result );
+
+        //
+        $result = $result->get();
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        return response()->success( compact( 'result', 'count' ) );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function create( Request $request )
     {
         DB::beginTransaction();
@@ -123,6 +164,9 @@ class UserController extends Controller
         $user = new User;
         $user = $this->populateFromRequest( $request, $user );
         $user = $this->passwordFromRequest( $request, $user );
+        $user->save();
+
+        $user = $this->relationFromRequest( $request, $user );
         $user->save();
 
         DB::commit();
@@ -142,6 +186,7 @@ class UserController extends Controller
 
         $user = User::findOrFail( $id );
         $user = $this->populateFromRequest( $request, $user );
+        $user = $this->relationFromRequest( $request, $user );
         $user->save();
 
         DB::commit();
@@ -186,30 +231,50 @@ class UserController extends Controller
         // ---------------------------------- //
 
         //
-        $user->roles()->detach();
+        return $user;
+    }
 
-        foreach( $request->get( 'roles' ) as $role )
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return User
+     */
+    private function relationFromRequest( Request $request, User $user )
+    {
+        //
+        if( $request->has( 'roles' ) )
         {
-            $role = Role::findOrFail( $role[ 'id' ] );
-            $user->roles()->attach( $role );
+            $user->roles()->detach();
+
+            foreach( $request->get( 'roles' ) as $role )
+            {
+                $role = Role::findOrFail( $role[ 'id' ] );
+                $user->roles()->attach( $role );
+            }
         }
 
         //
-        $user->ngos()->detach();
-
-        foreach( $request->get( 'ngos' ) as $ngo )
+        if( $request->has( 'ngos' ) )
         {
-            $ngo = Ngo::findOrFail( $ngo[ 'id' ] );
-            $user->ngos()->attach( $ngo );
+            $user->ngos()->detach();
+
+            foreach( $request->get( 'ngos' ) as $ngo )
+            {
+                $ngo = Ngo::findOrFail( $ngo[ 'id' ] );
+                $user->ngos()->attach( $ngo );
+            }
         }
 
         //
-        $user->languages()->detach();
-
-        foreach( $request->get( 'languages' ) as $language )
+        if( $request->has( 'languages' ) )
         {
-            $language = Language::where( 'language', $language[ 'language' ] )->firstOrFail();
-            $user->languages()->attach( $language );
+            $user->languages()->detach();
+
+            foreach( $request->get( 'languages' ) as $language )
+            {
+                $language = Language::where( 'language', $language[ 'language' ] )->firstOrFail();
+                $user->languages()->attach( $language );
+            }
         }
 
         // ---------------------------------- //

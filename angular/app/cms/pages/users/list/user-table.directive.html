@@ -1,7 +1,7 @@
 <md-table-container>
 	<table
 		md-table
-		md-row-select
+		md-row-select="vm.isElementVisible('select')"
 		multiple
 		ng-model="vm.selectedItems"
 		md-progress="vm.promise"
@@ -168,12 +168,9 @@
 			>
 				<a
 					ng-click="vm.editItem(item)"
-					ng-if="item.open_requests > 0"
+					ng-if="item.pendings.length > 0"
 				>
-					{{item.open_requests}}</a>
-
-				<span ng-if="item.open_requests == 0">
-					0</span>
+					{{item.pendings.length}}</a>
 			</td>
 
 		</tr>

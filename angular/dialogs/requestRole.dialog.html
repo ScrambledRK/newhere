@@ -87,7 +87,10 @@
 
 			<!--          -->
 			<!-- finalize -->
-			<wz-step wz-title="{{ 'Finalize' | translate }}">
+			<wz-step
+				wz-title="{{ 'Finalize' | translate }}"
+				canexit="vm.canRequestStepComplete()"
+			>
 
 				<!-- content -->
 				<md-content
@@ -110,7 +113,8 @@
 					<!-- create -->
 					<cms-provider-form
 						ng-if="vm.requestGroup == 'create'"
-						hide-form-button="true"
+						buttons="vm"
+						layout-fill
 					></cms-provider-form>
 
 					<!-- translate -->
@@ -119,6 +123,30 @@
 					>
 						great! thank you, we will process your request soon™
 					</div>
+
+					<!-- leave -->
+					<div
+						ng-if="vm.requestGroup == 'leave'"
+					>
+						<md-radio-group
+							ng-model="vm.leaveGroup"
+						>
+							<md-radio-button
+								ng-repeat="ngo in vm.providers"
+								value="{{ngo.id}}"
+							>
+								{{ngo.organisation}}
+							</md-radio-button>
+						</md-radio-group>
+					</div>
+
+					<!-- leave -->
+					<div
+						ng-if="vm.requestGroup == 'resign'"
+					>
+						oh well! we will process your request soon™
+					</div>
+
 				</md-content>
 			</wz-step>
 
@@ -147,6 +175,7 @@
 				ng-if="vm.isLastRequestStep()"
 				class="md-primary md-raised"
 				ng-click="vm.requestComplete()"
+				ng-disabled="!vm.canRequestStepComplete()"
 			>
 				{{ 'Speichern' | translate }}
 			</md-button>

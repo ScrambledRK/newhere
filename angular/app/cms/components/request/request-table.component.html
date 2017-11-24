@@ -45,6 +45,16 @@
 			>delete</i>
 			</th>
 
+			<!-- accept -->
+			<th
+				md-column
+				ng-if="vm.isElementVisible('accept')"
+			><i
+				class="material-icons"
+				style="padding-left: 14px;"
+			>done</i>
+			</th>
+
 		</tr>
 		</thead>
 
@@ -82,7 +92,6 @@
 					</md-tooltip>
 					<md-icon>redo</md-icon>
 				</md-button>
-				<strong>join</strong>
 
 				<md-button
 					ng-if="item.type == 0"
@@ -95,7 +104,6 @@
 					>wants to leave role/provider
 					</md-tooltip>
 					<md-icon>undo</md-icon>
-					<strong>leave</strong>
 				</md-button>
 			</td>
 
@@ -119,9 +127,22 @@
 			>
 				<md-button
 					ng-click="vm.deleteItem(item)"
-					class="md-icon-button md-accent md-hue-2"
+					class="md-icon-button md-accent md-hue-1"
 				>
 					<md-icon>delete</md-icon>
+				</md-button>
+			</td>
+
+			<!-- delete -->
+			<td
+				md-cell
+				ng-if="vm.isElementVisible('accept')"
+			>
+				<md-button
+					ng-click="vm.acceptItem(item)"
+					class="md-icon-button md-accent md-hue-2"
+				>
+					<md-icon>done</md-icon>
 				</md-button>
 			</td>
 

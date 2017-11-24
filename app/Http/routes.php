@@ -122,9 +122,11 @@ groupAuthenticated( $api, function( $api )
     $api->get( 'cms/providers/all', 'Cms\ProviderController@all' );
     $api->get( 'cms/providers/{id}', 'Cms\ProviderController@byId' );
 
+    // normal users can create a new one
+    $api->post('cms/providers', 'Cms\ProviderController@create');
+
     groupOrganisation( $api, function( $api )
     {
-        $api->post('cms/providers', 'Cms\ProviderController@create');
         $api->put( 'cms/providers/{id}', 'Cms\ProviderController@update' );
         $api->delete( 'cms/providers/{id}', 'Cms\ProviderController@delete' );
     } );
@@ -164,11 +166,15 @@ groupAuthenticated( $api, function( $api )
 {
     $api->get('cms/users/me', 'Cms\UserController@me');
     $api->get( 'cms/users', 'Cms\UserController@index' );
+    $api->get( 'cms/roles', 'Cms\UserController@roles' );
 
     $api->get( 'cms/users/pending', 'Cms\PendingRequestController@index' );
+    $api->post( 'cms/users/pending', 'Cms\PendingRequestController@create' );
+    $api->delete( 'cms/users/pending/{id}', 'Cms\PendingRequestController@delete' );
 
     groupAdministration($api, function ($api)
     {
+        $api->get('cms/users/{id}', 'Cms\UserController@byId');
         $api->post('cms/users', 'Cms\UserController@create');
         $api->put( 'cms/users/{id}', 'Cms\UserController@update' );
         $api->delete( 'cms/users/{id}', 'Cms\UserController@delete' );

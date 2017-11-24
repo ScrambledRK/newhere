@@ -35,6 +35,9 @@ export class UserService
 		this.numItems = 0;
 
 		//
+		this.all_roles = [];
+
+		//
 		if( this.$auth.isAuthenticated() )
 		{
 			this.$rootScope.isLoading = true;
@@ -50,6 +53,26 @@ export class UserService
 					}
 				);
 		}
+	}
+
+	allRoles(force)
+	{
+		if( !force && this.all_roles.length > 0 )
+			return;
+
+		//
+		this.all_roles.length = 0;
+
+		return this.API.all( 'cms/roles' ).getList()
+			.then( ( response ) =>
+				{
+					this.all_roles.push.apply( this.all_roles, response );
+					console.log( "all_roles:", this.all_roles );
+				},
+				( error ) =>
+				{
+					throw error;
+				} );
 	}
 
 	/**

@@ -6,7 +6,10 @@ class RoleAssignmentController
 	             ProviderService,
 	             DialogService,
 	             WizardHandler,
-	             $rootScope )
+	             ToastService,
+	             API,
+	             $rootScope,
+	             $scope )
 	{
 		'ngInject';
 
@@ -14,8 +17,13 @@ class RoleAssignmentController
 		this.ProviderService = ProviderService;
 		this.DialogService = DialogService;
 		this.WizardHandler = WizardHandler;
-		this.$rootScope = $rootScope;
+		this.ToastService = ToastService;
+		this.API = API;
 
+		this.$rootScope = $rootScope;
+		this.$scope = $scope;
+
+		// -------------- //
 		// -------------- //
 
 		this.roles = this.UserService.roles;
@@ -26,6 +34,21 @@ class RoleAssignmentController
 
 		//
 		this.ProviderService.all();
+
+		// -------------- //
+		// -------------- //
+
+		//
+		let onCheck = this.$rootScope.$on( "role.createProviderComplete", ( event, item ) =>
+		{
+			this.assignProvider = item;
+			this.finalize();
+		} );
+
+		this.$scope.$on( '$destroy', () =>
+		{
+			onCheck();
+		} );
 	}
 
 	//
@@ -64,12 +87,36 @@ class RoleAssignmentController
 	}
 
 	//
+	onProviderChange( item )
+	{
+		this.assignProvider = item;
+	}
+
+	//
 	canRequestStepComplete()
 	{
 		let step = this.WizardHandler.wizard().currentStepNumber();
 
 		if( step === 1 )
 			return this.requestGroup !== null;
+
+		if( step === 2 )
+		{
+			switch( this.requestGroup )
+			{
+				case "leave":
+					return this.leaveGroup !== null;
+
+				case "create":
+				{
+					this.$rootScope.$broadcast( 'role.checkComplete', this );
+					return this.canComplete;
+				}
+
+				case "assign":
+					return this.assignProvider !== null;
+			}
+		}
 
 		return true;
 	}
@@ -86,8 +133,11 @@ class RoleAssignmentController
 	//
 	requestRole()
 	{
+		this.assignProvider = null;
+		this.canComplete = false;
 		this.isRequestDialogOpen = true;
 		this.requestGroup = null;
+		this.leaveGroup = null;
 
 		this.DialogService.fromTemplate('requestRole', {
 			controller: () => this,
@@ -104,6 +154,8 @@ class RoleAssignmentController
 	//
 	requestCancel()
 	{
+		console.log("cancel", this.requestGroup);
+
 		this.isRequestDialogOpen = false;
 		this.DialogService.hide();
 	}
@@ -113,11 +165,74 @@ class RoleAssignmentController
 	{
 		console.log("I wanna complete man!", this.requestGroup);
 
+		if( this.requestGroup === "create" )
+		{
+			this.$rootScope.$broadcast( 'role.createProvider', this );
+		}
+		else
+		{
+			this.finalize();
+		}
+	}
+
+	finalize()
+	{
+		console.log("finalize");
+
+		//
+		let request = {};
+
+		//
+		if( this.requestGroup === "leave" || this.requestGroup === "resign" )
+		{
+			request.type = 0;
+		}
+		else
+		{
+			request.type = 1;
+		}
+
+		//
+		if( this.requestGroup === "create" )
+		{
+			request.ngo_id = this.assignProvider.id;
+			request.role_id = 3; // org-admin
+		}
+		if( this.requestGroup === "assign" )
+		{
+			request.ngo_id = this.assignProvider.id;
+			request.role_id = 4; // org-user
+		}
+		if( this.requestGroup === "leave" )
+		{
+			request.ngo_id = this.leaveGroup;
+			request.role_id = 4; // org-user
+		}
+
+		//
+		if( this.requestGroup === "translate" )
+		{
+			request.ngo_id = null; // moderator
+			request.role_id = 5; // moderator
+		}
+
+		//
+		this.API.all( 'cms/users/pending' ).post( request )
+			.then( ( response ) =>
+				{
+					this.ToastService.show( 'Erfolgreich gespeichert.' );
+
+					console.log( "penres:", response.data.pending );
+					this.UserService.user.pendings.push( response.data.pending );
+				},
+				( error ) =>
+				{
+					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+				}
+			);
+
 		this.isRequestDialogOpen = false;
 		this.DialogService.hide();
-
-		if( this.requestGroup === "create" )
-			this.$rootScope.$broadcast( 'createProvider', this );
 	}
 
 	// --------------------------------------- //
