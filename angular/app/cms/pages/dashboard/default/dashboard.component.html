@@ -1,2 +1,13 @@
 hello, here you see some statistics about our content
 and changes since your last login.
+
+<!-- pending table -->
+<div
+	ng-if="vm.isElementVisible('pending-requests')"
+	style="margin-top: 24px;"
+>
+	<cms-request-table
+		ng-model="vm.pendings"
+		overview="true"
+	></cms-request-table>
+</div>

@@ -22,8 +22,10 @@ class PendingRequestController extends Controller
     public function index( Request $request )
     {
         $user = Auth::user();
-        $result = PendingRequest::with( [ "ngo", "role", "user" ] )
-                                ->where( "user_id", $user->id );
+        $result = PendingRequest::with( [ "ngo", "role", "user" ] );
+
+        if( !$this->isUserAdmin( $user ) )
+            $result = $result->where( "user_id", $user->id );
 
         // ------------------------------------------- //
         // ------------------------------------------- //
@@ -107,15 +109,15 @@ class PendingRequestController extends Controller
         //
         $pending->user_id = $user->id;
         $pending->role_id = $request->get( 'role_id' );
-        $pending->ngo_id  = $request->get( 'ngo_id' );
-        $pending->type  = $request->get( 'type' );
+        $pending->ngo_id = $request->get( 'ngo_id' );
+        $pending->type = $request->get( 'type' );
 
         // ---------------------------------- //
         // ---------------------------------- //
 
-        $pending->load("ngo" );
-        $pending->load("role" );
-        $pending->load("user" );
+        $pending->load( "ngo" );
+        $pending->load( "role" );
+        $pending->load( "user" );
 
         //
         return $pending;

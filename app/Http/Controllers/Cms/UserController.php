@@ -59,7 +59,8 @@ class UserController extends Controller
 
         if( $this->isUserAdmin( $user ) )
         {
-            $result = User::with( [ "ngos", "pendings", "roles" ] ); // only thing I found that returns a builder and not a collection
+            $result = User::with( [ "ngos", "pendings", "roles" ] )
+            ->withCount('pendings');
         }
         else
         {
@@ -187,6 +188,10 @@ class UserController extends Controller
         $user = User::findOrFail( $id );
         $user = $this->populateFromRequest( $request, $user );
         $user = $this->relationFromRequest( $request, $user );
+
+        if( $request->has( 'password' ) )
+            $user = $this->passwordFromRequest( $request, $user );
+
         $user->save();
 
         DB::commit();

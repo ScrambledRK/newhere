@@ -186,6 +186,8 @@
 				flex
 			>
 				<md-chip-template>
+					<md-icon ng-if="!$chip.published">lock</md-icon>
+					<md-icon ng-if="$chip.published">lock_open</md-icon>
 					<a
 						href="{{vm.getURL($chip,'provider')}}"
 					>

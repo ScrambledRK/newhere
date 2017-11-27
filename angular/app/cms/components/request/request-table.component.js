@@ -39,7 +39,7 @@ class RequestTableController
 			{
 				if( this.UserService.isAdministrator() )
 				{
-					return "#!/cms/providers/" + item.ngo.id;
+					return "#!/cms/providers//" + item.ngo.id;
 				}
 				else
 				{
@@ -48,7 +48,16 @@ class RequestTableController
 			}
 
 			case "user":
-				return "#!/cms/users/" + item.user.id;
+			{
+				if( this.UserService.isAdministrator() )
+				{
+					return "#!/cms/users//" + item.user.id;
+				}
+				else
+				{
+					return "#!/cms/users/" + item.user.id;
+				}
+			}
 		}
 
 		return "";
@@ -138,13 +147,13 @@ class RequestTableController
 	isElementVisible( name )
 	{
 		if( name === "user" )
-			return false; //this.UserService.isAdministrator();
+			return Boolean(this.overview) && this.UserService.isAdministrator();
 
 		if( name === "delete" )
-			return true; //this.UserService.isAdministrator();
+			return !Boolean(this.overview); //this.UserService.isAdministrator();
 
 		if( name === "accept" )
-			return this.UserService.isAdministrator();
+			return !Boolean(this.overview) &&  this.UserService.isAdministrator();
 
 		//
 		return false;
@@ -162,6 +171,7 @@ export const RequestTableComponent = {
 	controller: RequestTableController,
 	controllerAs: 'vm',
 	bindings: {
-		items: '=ngModel'
+		items: '=ngModel',
+		overview: '=overview'
 	},
 };

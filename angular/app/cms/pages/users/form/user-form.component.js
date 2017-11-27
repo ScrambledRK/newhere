@@ -141,6 +141,9 @@ class UserFormController
 
 		if( !this.user.pendings )
 			this.user.pendings = [];
+
+		//
+		this.$scope.userForm.$setPristine();
 	}
 
 	// ------------------------------------------- //
@@ -204,7 +207,7 @@ class UserFormController
 		}
 
 		console.log(this.user);
-		this.user.changed = true;
+		this.$scope.userForm.$setDirty();
 	}
 
 	// ------------------------------------------- //
@@ -279,13 +282,13 @@ class UserFormController
 		if( this.hasRole(item) )
 		{
 			this.user.roles.splice( this.indexOfRole(item), 1 );
-			this.user.changed = true;
 		}
 		else
 		{
 			this.user.roles.push( item );
-			this.user.changed = true;
 		}
+
+		this.$scope.userForm.$setDirty();
 	}
 
 	//

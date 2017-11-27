@@ -11,13 +11,15 @@
 			<th
 				md-column
 				ng-if="vm.isElementVisible('user')"
-				style="min-width: 300px"
+				style="min-width: 200px"
+				md-order-by="user_id"
 			>{{ 'User' | translate }}
 			</th>
 
 			<!-- type -->
 			<th
 				md-column
+				md-order-by="type"
 			>{{ 'Request' | translate }}
 			</th>
 
@@ -25,6 +27,7 @@
 			<th
 				md-column
 				style="min-width: 200px"
+				md-order-by="role_id"
 			>{{ 'Rolle' | translate }}
 			</th>
 
@@ -32,6 +35,7 @@
 			<th
 				md-column
 				style="min-width: 200px"
+				md-order-by="ngo_id"
 			>{{ 'Anbieter' | translate }}
 			</th>
 
@@ -75,7 +79,7 @@
 				<a
 					href="{{vm.getURL(item,'user')}}"
 					ng-if="item.user"
-				>{{item.user.name}}</a>
+				>{{item.user.email}}</a>
 			</td>
 
 			<!-- type -->
@@ -114,6 +118,8 @@
 
 			<!-- provider -->
 			<td	md-cell>
+				<md-icon ng-if="item.ngo && !item.ngo.published">lock</md-icon>
+				<md-icon ng-if="item.ngo && item.ngo.published">lock_open</md-icon>
 					<a
 						href="{{vm.getURL(item,'provider')}}"
 						ng-if="item.ngo"
