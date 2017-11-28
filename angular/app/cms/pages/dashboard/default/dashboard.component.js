@@ -23,37 +23,7 @@ class DashboardController
 		// ------------ //
 
 		this.pendings = [];
-
-		this.fetchPendings();
 	}
-
-	// --------------------------------------- //
-	// --------------------------------------- //
-
-	//
-	fetchPendings()
-	{
-		this.API.one( 'cms/users/pending' ).getList()
-			.then( ( item ) =>
-				{
-					this.setPendings( item );
-				},
-				( error ) =>
-				{
-					this.ToastService.error( 'Fehler beim laden der Daten.' );
-				}
-			);
-	}
-
-	//
-	setPendings(item)
-	{
-		console.log("set pendings:", item );
-
-		//
-		this.pendings.push.apply( this.pendings, item );
-	}
-
 
 	// --------------------------------------- //
 	// --------------------------------------- //

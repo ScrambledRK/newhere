@@ -252,7 +252,7 @@ class UserListController
 			return this.UserService.isAdministrator();
 
 		if( name === "select" )
-			return true; //this.UserService.isAdministrator();
+			return this.UserService.isAdministrator();
 
 		//
 		return false;

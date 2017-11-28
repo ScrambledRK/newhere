@@ -4,7 +4,11 @@
 	>
 
 		<!-- head -->
-		<thead md-head>
+		<thead
+			md-head
+			md-order="vm.query.order"
+			md-on-reorder="vm.onQueryUpdate"
+		>
 		<tr md-row>
 
 			<!-- user -->
@@ -117,13 +121,13 @@
 			</td>
 
 			<!-- provider -->
-			<td	md-cell>
+			<td md-cell>
 				<md-icon ng-if="item.ngo && !item.ngo.published">lock</md-icon>
 				<md-icon ng-if="item.ngo && item.ngo.published">lock_open</md-icon>
-					<a
-						href="{{vm.getURL(item,'provider')}}"
-						ng-if="item.ngo"
-					>{{item.ngo.organisation}}</a>
+				<a
+					href="{{vm.getURL(item,'provider')}}"
+					ng-if="item.ngo"
+				>{{item.ngo.organisation}}</a>
 			</td>
 
 			<!-- delete -->

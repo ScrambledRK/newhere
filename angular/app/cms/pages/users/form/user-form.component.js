@@ -71,6 +71,8 @@ class UserFormController
 	//
 	fetchItem( id )
 	{
+		this.user.id = id;
+
 		this.API.one( 'cms/users', id ).get()
 			.then( ( item ) =>
 				{

@@ -28,6 +28,38 @@ class RequestTableController
 		//
 		this.loading = true;
 		this.promise = null;
+
+		//
+		this.query =
+			{
+				order: '-user_id',
+				limit: 10,
+				page: 1
+			};
+
+		/**
+		 * not a "member" method because of stupid bug where "this" reference is lost
+		 * this issue is specific to material design components
+		 */
+		this.onQueryUpdate = () =>
+		{
+			vm.promise = vm.API.all( 'cms/users/pending' ).getList( vm.query )
+				.then( ( item ) =>
+					{
+						vm.items.length = 0;
+						vm.items.push.apply( vm.items, item );
+					}
+				);
+		};
+	}
+
+	$onInit()
+	{
+		this.query.user = this.user ? this.user.id : null;
+
+
+
+		this.onQueryUpdate();
 	}
 
 	//
@@ -172,6 +204,7 @@ export const RequestTableComponent = {
 	controllerAs: 'vm',
 	bindings: {
 		items: '=ngModel',
-		overview: '=overview'
+		overview: '=overview',
+		user: '=user'
 	},
 };

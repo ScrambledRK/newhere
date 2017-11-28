@@ -86,26 +86,47 @@ class ProviderFormController
 		}
 
 		if( !this.offer.id )
+		{
 			this.offer.published = false;
 
-		//
-		this.API.all( 'cms/providers' ).post( this.offer )
-			.then( ( response ) =>
-				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
-					console.log( "res:", response.data.provider );
+			this.API.all( 'cms/providers' ).post( this.offer )
+				.then( ( response ) =>
+					{
+						this.ToastService.show( 'Erfolgreich gespeichert.' );
+						console.log( "res:", response.data.provider );
 
-					this.setProvider( response.data.provider );
-					this.$rootScope.$broadcast( 'role.createProviderComplete', this.offer );
+						this.setProvider( response.data.provider );
+						this.$rootScope.$broadcast( 'role.createProviderComplete', this.offer );
 
-					this.isProcessing = false;
-				},
-				( error ) =>
-				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
-					this.isProcessing = false;
-				}
-			);
+						this.isProcessing = false;
+					},
+					( error ) =>
+					{
+						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.isProcessing = false;
+					}
+				);
+		}
+		else
+		{
+			this.API.one( 'cms/providers', this.offer.id ).customPUT( this.offer )
+				.then( ( response ) =>
+					{
+						this.ToastService.show( 'Erfolgreich gespeichert.' );
+						console.log( "res:", response.data.provider );
+
+						this.setProvider( response.data.provider );
+						this.$rootScope.$broadcast( 'role.createProviderComplete', this.offer );
+
+						this.isProcessing = false;
+					},
+					( error ) =>
+					{
+						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.isProcessing = false;
+					}
+				);
+		}
 	}
 
 	setProvider(item)
@@ -120,6 +141,10 @@ class ProviderFormController
 
 		//
 		this.offer.isWithoutAddress = !this.offer.street;
+		this.offer.streetnumber = this.offer.street_number;
+
+		//
+		this.updateMap();
 	}
 
 	// ------------------------------------------------------- //
@@ -140,7 +165,8 @@ class ProviderFormController
 			return;
 
 		this.offer.street = item.street;
-		this.offer.street_number = item.number;
+		this.offer.street_number = item.number; // cause stupid db
+		this.offer.streetnumber = item.number;
 		this.offer.city = item.city;
 		this.offer.zip = item.zip;
 		this.offer.latitude = item.coordinates[0];

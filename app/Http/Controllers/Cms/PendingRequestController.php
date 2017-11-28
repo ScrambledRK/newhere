@@ -25,7 +25,14 @@ class PendingRequestController extends Controller
         $result = PendingRequest::with( [ "ngo", "role", "user" ] );
 
         if( !$this->isUserAdmin( $user ) )
+        {
             $result = $result->where( "user_id", $user->id );
+        }
+        else
+        {
+            if( $request->has("user") )
+                $result = $result->where( "user_id", $request->get("user") );
+        }
 
         // ------------------------------------------- //
         // ------------------------------------------- //
