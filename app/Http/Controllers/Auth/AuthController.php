@@ -99,12 +99,6 @@ class AuthController extends Controller
      */
     public function postRegister( Request $request )
     {
-        if( $request->has( 'organisation' ) )
-        {
-            //redirect to NGO registration
-            return $this->registerNgo( $request );
-        }
-
         $this->validate( $request, [
             'name'     => 'required|min:3',
             'email'    => 'required|email|unique:users',
@@ -112,72 +106,10 @@ class AuthController extends Controller
         ] );
 
         $user = $this->storeAndSendMail( $request->name, $request->email, $request->password );
-        $user->attachRole( Role::where( 'name', 'user' )->findOrFail() );
+        $user->attachRole( Role::where( 'name', 'user' )->firstOrFail() );
 
         $token = JWTAuth::fromUser( $user );
 
-        return response()->success( compact( 'user', 'token' ) );
-    }
-
-    /**
-     * NGO Registration
-     * @param Request $request
-     * @return mixed
-     */
-    public function registerNgo( Request $request )
-    {
-        $this->validate( $request, [
-            'organisation' => 'required',
-            'email'        => 'required|email|unique:users',
-            'password'     => 'required|min:5',
-            'description'  => 'max:200'
-        ] );
-
-        if( $request->has( 'street' ) && $request->has( 'street_number' ) && $request->has( 'zip' ) )
-        {
-            $addressApi = new AddressAPI();
-            $coordinates = $addressApi->getCoordinates( $request->get( 'street' ), $request->get( 'street_number' ), $request->get( 'zip' ) );
-        }
-
-        DB::beginTransaction();
-
-        $ngoUser = $this->storeAndSendMail( $request->get( 'organisation' ), $request->email, $request->password );
-        $organisationRole = Role::where( 'name', 'organisation-admin' )->firstOrFail();
-        $ngoUser->attachRole( $organisationRole );
-
-        $ngo = new Ngo();
-        $ngo->published = false;
-        $ngo->organisation = $request->get( 'organisation' );
-        $ngo->website = $request->get( 'website' );
-        $ngo->contact = $request->get( 'contact' );
-        $ngo->contact_email = $request->get( 'contact_email' );
-        $ngo->contact_phone = $request->get( 'contact_phone' );
-        $ngo->street = $request->get( 'street' );
-        $ngo->street_number = $request->get( 'street_number' );
-        $ngo->zip = $request->get( 'zip' );
-        $ngo->city = $request->get( 'city' );
-        $ngo->image_id = $request->get( 'image_id' );
-
-        //
-        if( $coordinates )
-        {
-            $ngo->latitude = $coordinates[ 0 ];
-            $ngo->longitude = $coordinates[ 1 ];
-        }
-
-        //Standard Translation
-        if( $request->has( 'description' ) )
-        {
-            $locale = $request->get( 'language' );
-            $ngo->translateOrNew( $locale )->description = $request->get( 'description' );
-        }
-
-        $ngo->save();
-        $ngo->users()->attach( $ngoUser );
-
-        DB::commit();
-
-        //$token = JWTAuth::fromUser($ngoUser);
         return response()->success( compact( 'user', 'token' ) );
     }
 

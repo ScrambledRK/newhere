@@ -22,6 +22,7 @@ import {MapService} from "./services/map.service";
 import {ContentService} from "./services/content.service";
 import {OfferTitleDirective} from "./directives/offer-title.directive";
 import {RoutingService} from "./services/routing.service";
+import {RegisterFormComponent} from "./pages/login/register-form.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -77,4 +78,5 @@ angular.module( 'app.main' )
 	.component( 'mapTogglerWide', MapTogglerWide )
 	.component( 'mapTogglerCircle', MapTogglerCircle )
 	.component( 'loginForm', LoginFormComponent )
+	.component( 'registerForm', RegisterFormComponent )
 ;

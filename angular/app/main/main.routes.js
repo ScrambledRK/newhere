@@ -166,4 +166,17 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 						}
 					}
 			} )
+
+		//
+		.state( 'main.register',
+			{
+				url: '/register',
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'login/register' )
+						}
+					}
+			} )
 }
