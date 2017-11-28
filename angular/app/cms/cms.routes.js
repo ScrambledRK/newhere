@@ -40,7 +40,14 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'cms.dashboard',
 			{
-				url: '/dashboard',
+				url: '/dashboard/{tab:[0-9]*}',
+
+				params:
+					{
+						tab: {
+							value: null,
+						}
+					},
 
 				data: {
 					auth: true,
@@ -50,7 +57,7 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 
 				views: {
 					'body@cms': {
-						templateUrl: getView( 'pages/dashboard/dashboard' )
+						template: "<cms-dashboard-page></cms-dashboard-page>"
 					}
 				}
 			} )

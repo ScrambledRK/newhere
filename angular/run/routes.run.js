@@ -27,6 +27,9 @@ export function RoutesRun( $rootScope,
 			// ------------------------------- //
 			// ------------------------------- //
 
+			$rootScope.$state = toState;
+			$rootScope.$stateParams = toParams;
+
 			if( !$rootScope.language )
 				$rootScope.language = $translate.preferredLanguage();
 

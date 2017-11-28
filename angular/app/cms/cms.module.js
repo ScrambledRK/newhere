@@ -44,6 +44,8 @@ import {RoleAssignmentComponent} from "./pages/dashboard/roles/role-assignment.c
 import {ProviderFormComponent} from "./pages/providers/form/provider-form.component";
 import {RequestTableComponent} from "./components/request/request-table.component";
 import {UserFormComponent} from "./pages/users/form/user-form.component";
+import {UserMenuComponent} from "./components/menu/cms-user-menu.component";
+import {DashboardPageComponent} from "./pages/dashboard/dashboard-page.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -105,6 +107,7 @@ angular.module( 'app.cms' )
 angular.module( 'app.cms' )
 	.component( 'cmsPage', CmsPageComponent )
 	.component( 'cmsMenu', CmsMenuComponent )
+	.component( 'cmsDashboardPage', DashboardPageComponent )
 	.component( 'cmsOfferList', OfferListComponent )
 	.component( 'cmsOfferForm', OfferFormComponent )
 	.component( 'cmsProviderList', ProviderListComponent )
@@ -118,4 +121,5 @@ angular.module( 'app.cms' )
 	.component( 'cmsDashboard', DashboardComponent )
 	.component( 'cmsRoleAssignment', RoleAssignmentComponent )
 	.component( 'cmsRequestTable', RequestTableComponent )
+	.component( 'cmsUserMenu', UserMenuComponent )
 ;
