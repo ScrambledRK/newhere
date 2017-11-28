@@ -37,6 +37,17 @@ class OfferFormController
 		//
 		if( $state.params.id )
 			this.fetchItem( $state.params.id );
+
+		//
+		let onImage = this.$rootScope.$on( "image.changed", ( event ) =>
+		{
+			this.$scope.offerForm.$setDirty();
+		} );
+
+		this.$scope.$on( '$destroy', () =>
+		{
+			onImage();
+		} );
 	}
 
 	//

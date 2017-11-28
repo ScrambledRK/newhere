@@ -48,10 +48,17 @@ class ProviderFormController
 				&& !this.$scope.form.$pristine && !this.isProcessing;
 		} );
 
+		//
+		let onImage = this.$rootScope.$on( "image.changed", ( event ) =>
+		{
+			this.$scope.ngoForm.$setDirty();
+		} );
+
 		this.$scope.$on( '$destroy', () =>
 		{
 			onSave();
 			onCheck();
+			onImage();
 		} );
 	}
 

@@ -1,10 +1,11 @@
 class ImageUploaderController
 {
-	constructor( $auth )
+	constructor( $auth, $rootScope )
 	{
 		'ngInject';
 
 		this.$auth = $auth;
+		this.$rootScope = $rootScope;
 
 		if( !this.label )
 			this.label = "Logo hochladen";
@@ -20,6 +21,8 @@ class ImageUploaderController
 
 		this.item.image = image;
 		this.item.image_id = image.id;
+
+		this.$rootScope.$broadcast("image.changed",image);
 	}
 
 	//
