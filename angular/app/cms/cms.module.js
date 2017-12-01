@@ -40,12 +40,12 @@ import {TranslationTypeDirective} from "./pages/translations/list/translation-ty
 import {TranslationStatusDirective} from "./pages/translations/list/translation-status.directive";
 import {TranslationLanguageDirective} from "./pages/translations/list/translation-lang.directive";
 import {DashboardComponent} from "./pages/dashboard/default/dashboard.component";
-import {RoleAssignmentComponent} from "./pages/dashboard/roles/role-assignment.component";
 import {ProviderFormComponent} from "./pages/providers/form/provider-form.component";
 import {RequestTableComponent} from "./components/request/request-table.component";
 import {UserFormComponent} from "./pages/users/form/user-form.component";
 import {UserMenuComponent} from "./components/menu/cms-user-menu.component";
 import {DashboardPageComponent} from "./pages/dashboard/dashboard-page.component";
+import {ProfileComponent} from "./pages/dashboard/profile/profile.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -119,7 +119,7 @@ angular.module( 'app.cms' )
 	.component( 'filterSelector', FilterSelectorComponent )
 	.component( 'categorySelector', CategorySelectorComponent )
 	.component( 'cmsDashboard', DashboardComponent )
-	.component( 'cmsRoleAssignment', RoleAssignmentComponent )
+	.component( 'cmsProfile', ProfileComponent )
 	.component( 'cmsRequestTable', RequestTableComponent )
 	.component( 'cmsUserMenu', UserMenuComponent )
 ;

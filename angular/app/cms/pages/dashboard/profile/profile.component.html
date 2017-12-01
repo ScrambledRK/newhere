@@ -2,6 +2,36 @@
 	layout="column"
 	style="padding-top: 8px"
 >
+	<!-- Name -->
+	<div
+		style="padding-top: 8px"
+		layout="row"
+		flex="50"
+	>
+		<div flex="10">Name:</div>
+		<div
+			layout="column"
+			flex
+		>
+			{{vm.UserService.user.name}}
+		</div>
+	</div>
+
+	<!-- Email -->
+	<div
+		style="padding-top: 8px"
+		layout="row"
+		flex="50"
+	>
+		<div flex="10">E-Mail:</div>
+		<div
+			layout="column"
+			flex
+		>
+			{{vm.UserService.user.email}}
+		</div>
+	</div>
+
 	<!-- roles -->
 	<div
 		ng-if="vm.isElementVisible('roles')"

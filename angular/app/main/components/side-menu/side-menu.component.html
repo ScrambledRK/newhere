@@ -13,7 +13,8 @@
 
 		<!-- -->
 		<md-list>
-			<md-list-item ng-if="!$root.$auth.isAuthenticated()">
+
+			<md-list-item ng-if="!vm.isAuthenticated()">
 				<md-button
 					class=""
 					ui-sref="main.login"
@@ -22,21 +23,43 @@
 				>
 				</md-button>
 			</md-list-item>
-			<md-list-item>
+
+			<md-list-item ng-if="!vm.isAuthenticated()">
 				<md-button
 					class=""
-					href="https://cms.newhere.org/#!/ngoRegister"
+					ui-sref="main.register"
 					aria-label="register"
-					translate="Als Service-Provider registrieren"
+					translate="Registrieren"
 				>
 				</md-button>
 			</md-list-item>
+
+			<md-list-item ng-if="vm.isAuthenticated()">
+				<md-button
+					class=""
+					ui-sref="cms.dashboard"
+					aria-label="cms"
+					translate="CMS"
+				>
+				</md-button>
+			</md-list-item>
+
+			<md-list-item ng-if="vm.isAuthenticated()">
+				<md-button
+					class=""
+					ng-click="vm.logout()"
+					aria-label="logout"
+					translate="Abmelden"
+				>
+				</md-button>
+			</md-list-item>
+
 			<md-list-item>
 				<md-button
 					class=""
 					ui-sref="main.content.providers"
 					aria-label="providers"
-					translate="Alle Service-Provider"
+					translate="Alle Anbieter"
 				>
 				</md-button>
 			</md-list-item>

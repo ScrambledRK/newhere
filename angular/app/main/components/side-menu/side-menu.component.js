@@ -36,6 +36,11 @@ class SideMenuController
 			this.$state.go( 'main.landing' );
 		} );
 	}
+
+	isAuthenticated()
+	{
+		return this.$auth.isAuthenticated();
+	}
 }
 
 //

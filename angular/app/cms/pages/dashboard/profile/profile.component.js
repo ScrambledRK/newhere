@@ -1,4 +1,4 @@
-class RoleAssignmentController
+class ProfileController
 {
 	/**
 	 */
@@ -280,10 +280,10 @@ class RoleAssignmentController
 }
 
 //
-export const RoleAssignmentComponent = {
+export const ProfileComponent = {
 
-	template: require( './role-assignment.component.html' ),
-	controller: RoleAssignmentController,
+	template: require( './profile.component.html' ),
+	controller: ProfileController,
 	controllerAs: 'vm',
 	bindings: {}
 };
