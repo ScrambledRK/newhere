@@ -2,6 +2,7 @@ export class MapService
 {
 	constructor( $rootScope,
 	             ToastService,
+	             ContentService,
 	             $translate,
 	             $timeout,
 	             leafletData,
@@ -12,15 +13,40 @@ export class MapService
 		'ngInject';
 
 		L.Icon.Default.imagePath = '/img';
+
+		console.log("YES!\n", L );
+
 		var vm = this;
+
+		//
 		this.located = false;
 		this.map = null;
 		this.route = null;
 		this.meMarker = null;
 		this.defaults = {};
-		this.markers = {};
+		this.markers = [];
 		this.leafletData = leafletData;
 		this.leafletMarkerEvents = leafletMarkerEvents;
+		this.highlight = -1;
+
+		//
+		this.ContentService = ContentService;
+
+		$rootScope.$on( "contentChanged", ( event ) =>
+		{
+			this.setMarkers( this.ContentService.markerList );
+
+			if( this.ContentService.offer )
+			{
+				this.highlightMarker( this.ContentService.offer  );
+				this.zoomTo( this.ContentService.offer  );
+			}
+			else
+			{
+				this.highlightMarker( null );
+				this.center = this.fixCenter;
+			}
+		} );
 
 		/**
 		 *
@@ -58,7 +84,7 @@ export class MapService
 			tapTolerance: 150
 		};
 
-		this.center = {
+		this.center = this.fixCenter = {
 			lat: 48.209272,
 			lng: 16.372801,
 			zoom: 12
@@ -94,7 +120,36 @@ export class MapService
 					visible: true,
 					layerOptions: {
 						showCoverageOnHover: false,
-						disableClusteringAtZoom: 15
+						disableClusteringAtZoom: 15,
+						iconCreateFunction: function(cluster)
+						{
+							var childCount = cluster.getChildCount();
+
+							var c = ' marker-cluster-';
+							var h = '';
+
+							if (childCount < 10) {
+								c += 'small';
+							} else if (childCount < 100) {
+								c += 'medium';
+							} else {
+								c += 'large';
+							}
+
+							//
+							var children = cluster.getAllChildMarkers();
+
+							for( let j = 0; j < children.length; j++ )
+							{
+								if( children[j].options.isHighlight )
+								{
+									h = " highlight";
+									break;
+								}
+							}
+
+							return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c + h, iconSize: new L.Point(40, 40) });
+						}
 					}
 				}
 			}
@@ -106,32 +161,35 @@ export class MapService
 			}
 		};
 
-		this.markers = {};
+		//
+		//
+		//
 		this.setMarkers = ( offers ) =>
 		{
+			this.markers.length = 0;
 
-			var markers = {};
-
+			//
 			angular.forEach( offers, ( offer, key ) =>
 			{
-
-				if( offer.latitude && offer.longitude )
+				if( offer && offer.latitude && offer.longitude )
 				{
 					var marker = {
 						offer_id: offer.id,
+						isHighlight: false,
 						lng: parseFloat( offer.latitude ), // jupp, we have them all wrong
 						lat: parseFloat( offer.longitude ),
 						icon: this.blueIcon,
 						layer: 'offers',
 						clickable: true,
-						draggable: true
+						draggable: false,
+						riseOnHover: true,
+						zIndexOffset: 10
 					};
-					markers[offer.id] = marker;
 
+					this.markers[offer.id] = marker;
 				}
 			} );
 
-			this.markers = markers;
 		};
 	}
 
@@ -146,21 +204,25 @@ export class MapService
 
 	highlightMarker( offer )
 	{
+		this.highlight = -1;
+
 		angular.forEach( this.markers, ( marker, key ) =>
 		{
 			marker.icon = this.blueIcon;
+			marker.zIndexOffset = 10;
+			marker.isHighlight = false;
 		} );
 
-		var marker = {
-			offer_id: offer.id,
-			lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
-			lng: parseFloat( offer.latitude ),
-			icon: this.whiteIcon,
-			riseOnHover: true,
-			zIndexOffset: 9999999
-		};
+		//
+		if( offer )
+		{
+			this.highlight = offer.id;
 
-		this.markers[offer.id] = marker;
+			let highlight = this.markers[offer.id];
+				highlight.icon = this.whiteIcon;
+				highlight.zIndexOffset = 9999999;
+				highlight.isHighlight = true;
+		}
 	}
 
 	zoomTo( offer )
@@ -240,46 +302,5 @@ export class MapService
 		} )
 	}
 
-	getLocationByAddress( address )
-	{
-
-	}
-
-	setLocation()
-	{
-
-	}
-
-	showRoute( start, end, type )
-	{
-		// if (this.route) {
-		//     this.map.removeLayer(this.route);
-		// }
-		// this.route = L.Routing.control({
-		//     waypoints: [
-		//         L.latLng(end),
-		//         L.latLng(start)
-		//     ],
-		//     lineOptions: {
-		//         styles: [{
-		//             color: 'white',
-		//             opacity: 0.8,
-		//             weight: 12
-		//         }, {
-		//             color: '#357DBA',
-		//             opacity: 1,
-		//             weight: 6
-		//         }]
-		//     },
-		//     router: L.Routing.mapzen('valhalla-ojkyxg5', {
-		//         costing: type
-		//     }),
-		//     formatter: new L.Routing.mapzenFormatter(),
-		//     summaryTemplate: '<div class="start">{name}</div><div class="info {costing}">{distance}, {time}</div>',
-		//     routeWhileDragging: false,
-		//     language: 'de-DE'
-		// });
-		// this.route.addTo(this.map);
-	}
 
 }

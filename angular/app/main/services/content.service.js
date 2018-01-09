@@ -51,6 +51,7 @@ export class ContentService
 		this.categoryList = null;
 		this.providerList = null;
 		this.offerList = null;
+		this.markerList = null;
 
 		//
 		this.slugCategory = null;
@@ -208,6 +209,7 @@ export class ContentService
 					this.category = response[0];
 					this.categoryList = this.category.children;
 					this.offerList = this.category.offers;
+					this.markerList = this.category.offers;
 
 					//
 					for( let j = 1; j < response.length; j++ )
@@ -290,6 +292,7 @@ export class ContentService
 				{
 					this.provider = response;
 					this.offerList = this.provider.offers;
+					this.markerList = this.provider.offers;
 				},
 				( msg ) =>
 				{
@@ -313,6 +316,9 @@ export class ContentService
 	{
 		console.log( "fetching offer: ", slugOffer );
 
+		this.offer = null;
+
+		//
 		if( !slugOffer )
 			return this.$q.when();
 
@@ -320,7 +326,6 @@ export class ContentService
 			return this.$q.when();
 
 		this.slugOffer = slugOffer;
-		this.offer = null;
 
 		// ---------- //
 

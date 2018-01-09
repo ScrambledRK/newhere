@@ -96,6 +96,20 @@
 
   .leaflet-marker-icon
   {
+    &.highlight
+    {
+      div, div:before, div:after
+      {
+        background-color: @white !important;
+        border-color: @blue !important;
+      }
+
+      span
+      {
+        color: @blue !important;
+      }
+    }
+
     &.marker-cluster
     {
       background-color: transparent !important;

@@ -34,7 +34,6 @@ class ContentPageController
 	$onInit()
 	{
 		this.$rootScope.$watch( () => { return this.$mdMedia('gt-sm'); }, () => {
-			console.log("gt-sm.watch");
 			this.resizeContent();
 		});
 

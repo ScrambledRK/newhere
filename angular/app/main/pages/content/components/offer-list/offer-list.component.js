@@ -51,8 +51,8 @@ class OfferListController
 	{
 		this.offers = offers;
 
-		this.MapService.markers = {};
-		this.MapService.setMarkers( this.offers );
+		// this.MapService.markers = {};
+		// this.MapService.setMarkers( this.offers );
 	}
 
 	//

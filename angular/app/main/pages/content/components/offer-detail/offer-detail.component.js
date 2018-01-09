@@ -53,12 +53,6 @@ class OfferDetailController
 	setContent( offer )
 	{
 		this.offer = offer;
-
-		if( this.offer )
-		{
-			this.MapService.highlightMarker( this.offer );
-			this.MapService.zoomTo( this.offer );
-		}
 	}
 
 	//
