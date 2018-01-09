@@ -28,22 +28,25 @@ export class MapService
 		this.leafletData = leafletData;
 		this.leafletMarkerEvents = leafletMarkerEvents;
 		this.highlight = -1;
+		this.$timeout = $timeout;
+		this.counter = 0;
 
 		//
 		this.ContentService = ContentService;
 
 		$rootScope.$on( "contentChanged", ( event ) =>
 		{
-			this.setMarkers( this.ContentService.markerList );
+			console.log("map content changed, yes man yes");
+
+			//
+			this.setMarkers( this.ContentService.markerList, this.ContentService.offer );
 
 			if( this.ContentService.offer )
 			{
-				this.highlightMarker( this.ContentService.offer  );
 				this.zoomTo( this.ContentService.offer  );
 			}
 			else
 			{
-				this.highlightMarker( null );
 				this.center = this.fixCenter;
 			}
 		} );
@@ -55,6 +58,13 @@ export class MapService
 		{
 			vm.map = map;
 			vm.map.invalidateSize();
+
+			// map.on('zoomend', () => {
+			// 	leafletData.getLayers().then( (layers) => {
+			// 		console.log("refresh layer zoom");
+			// 			layers.overlays.offers.refreshClusters();
+			// 	});
+			// });
 		} );
 
 		this.tokens = {
@@ -164,32 +174,70 @@ export class MapService
 		//
 		//
 		//
-		this.setMarkers = ( offers ) =>
+		this.setMarkers = ( offers, highlighted ) =>
 		{
-			this.markers.length = 0;
-
-			//
-			angular.forEach( offers, ( offer, key ) =>
+			angular.forEach( this.markers, ( marker, key ) =>
 			{
-				if( offer && offer.latitude && offer.longitude )
-				{
-					var marker = {
-						offer_id: offer.id,
-						isHighlight: false,
-						lng: parseFloat( offer.latitude ), // jupp, we have them all wrong
-						lat: parseFloat( offer.longitude ),
-						icon: this.blueIcon,
-						layer: 'offers',
-						clickable: true,
-						draggable: false,
-						riseOnHover: true,
-						zIndexOffset: 10
-					};
-
-					this.markers[offer.id] = marker;
-				}
+				marker.icon = this.blueIcon;
+				marker.zIndexOffset = 10;
+				marker.isHighlight = false;
 			} );
 
+			//
+			this.markers = [];
+
+			//
+			this.leafletData.getLayers().then( (layers) => {
+				layers.overlays.offers.refreshClusters();
+			});
+
+			//
+			// timeout hack, because there is a angular/leaflet race-condition
+			// without it, highlighted clusters stay highlighted although they shouldn't
+			//
+			this.$timeout( () =>
+			{
+				angular.forEach( offers, ( offer, key ) =>
+				{
+					var isFocus = false;
+					var icon = this.blueIcon;
+					var depth = 10;
+
+					if( highlighted && offer.id === highlighted.id )
+					{
+						this.highlight = offer.id;
+
+						isFocus = true;
+						icon = this.whiteIcon;
+						depth = 999999;
+					}
+
+					if( offer && offer.latitude && offer.longitude )
+					{
+						var marker = {
+							counter: this.counter++,
+							offer_id: offer.id,
+							isHighlight: isFocus,
+							lng: parseFloat( offer.latitude ), // jupp, we have them all wrong
+							lat: parseFloat( offer.longitude ),
+							icon: icon,
+							layer: 'offers',
+							clickable: true,
+							draggable: false,
+							riseOnHover: true,
+							zIndexOffset: depth
+						};
+
+						this.markers[offer.id] = marker;
+					}
+				} );
+
+				//
+				this.leafletData.getLayers().then( ( layers ) =>
+				{
+					layers.overlays.offers.refreshClusters();
+				} );
+			}, 0, false );
 		};
 	}
 
@@ -200,29 +248,6 @@ export class MapService
 			console.log("map.service invalidate size");
 			map.invalidateSize();
 		} );
-	}
-
-	highlightMarker( offer )
-	{
-		this.highlight = -1;
-
-		angular.forEach( this.markers, ( marker, key ) =>
-		{
-			marker.icon = this.blueIcon;
-			marker.zIndexOffset = 10;
-			marker.isHighlight = false;
-		} );
-
-		//
-		if( offer )
-		{
-			this.highlight = offer.id;
-
-			let highlight = this.markers[offer.id];
-				highlight.icon = this.whiteIcon;
-				highlight.zIndexOffset = 9999999;
-				highlight.isHighlight = true;
-		}
 	}
 
 	zoomTo( offer )
