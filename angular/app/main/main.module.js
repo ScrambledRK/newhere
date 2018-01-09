@@ -23,6 +23,8 @@ import {ContentService} from "./services/content.service";
 import {OfferTitleDirective} from "./directives/offer-title.directive";
 import {RoutingService} from "./services/routing.service";
 import {RegisterFormComponent} from "./pages/login/register-form.component";
+import {ForgotpasswordFormComponent} from "./pages/login/forgotpassword-form.component";
+import {ResetpasswordFormComponent} from "./pages/login/resetpassword-form.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -79,4 +81,6 @@ angular.module( 'app.main' )
 	.component( 'mapTogglerCircle', MapTogglerCircle )
 	.component( 'loginForm', LoginFormComponent )
 	.component( 'registerForm', RegisterFormComponent )
+	.component( 'forgotpasswordForm', ForgotpasswordFormComponent )
+	.component( 'resetpasswordForm', ResetpasswordFormComponent )
 ;

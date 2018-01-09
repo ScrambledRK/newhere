@@ -55,6 +55,31 @@ export class UserService
 		}
 	}
 
+	// ------------------------------------------------------ //
+	// ------------------------------------------------------ //
+
+	//
+	requestNewPassword( email, success )
+	{
+		return this.API.all( 'password' ).post( { email: email } );
+	}
+
+	//
+	setNewPassword( data, success )
+	{
+		if( this.$auth.isAuthenticated() )
+		{
+			return this.API.all( 'profile/password' ).post( data );
+		}
+		else
+		{
+			return this.API.all( 'password/' + data.token ).post( data );
+		}
+	}
+
+	// ------------------------------------------------------ //
+	// ------------------------------------------------------ //
+
 	allRoles(force)
 	{
 		if( !force && this.all_roles.length > 0 )

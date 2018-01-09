@@ -46,6 +46,7 @@ import {UserFormComponent} from "./pages/users/form/user-form.component";
 import {UserMenuComponent} from "./components/menu/cms-user-menu.component";
 import {DashboardPageComponent} from "./pages/dashboard/dashboard-page.component";
 import {ProfileComponent} from "./pages/dashboard/profile/profile.component";
+//import {ResetpasswordFormComponent} from "../main/pages/login/resetpassword-form.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -122,4 +123,5 @@ angular.module( 'app.cms' )
 	.component( 'cmsProfile', ProfileComponent )
 	.component( 'cmsRequestTable', RequestTableComponent )
 	.component( 'cmsUserMenu', UserMenuComponent )
+	//.component( 'resetpasswordForm', ResetpasswordFormComponent )
 ;

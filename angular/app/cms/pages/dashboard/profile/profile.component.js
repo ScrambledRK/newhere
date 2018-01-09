@@ -9,7 +9,8 @@ class ProfileController
 	             ToastService,
 	             API,
 	             $rootScope,
-	             $scope )
+	             $scope,
+	             $state )
 	{
 		'ngInject';
 
@@ -22,6 +23,7 @@ class ProfileController
 
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
+		this.$state = $state;
 
 		// -------------- //
 		// -------------- //
@@ -61,6 +63,11 @@ class ProfileController
 		}
 
 		return "";
+	}
+
+	changePassword()
+	{
+		this.$state.go( 'main.resetpassword', {token:""} );
 	}
 
 	// --------------------------------------- //

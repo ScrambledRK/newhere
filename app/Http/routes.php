@@ -158,7 +158,8 @@ groupAuthenticated( $api, function( $api )
 */
 groupEveryone( $api, function( $api )
 {
-
+    $api->post('password', 'Auth\PasswordResetController@requestPasswordResetMail');
+    $api->post('password/{token}', 'Auth\PasswordResetController@submitNewPassword');
 } );
 
 //
@@ -172,6 +173,9 @@ groupAuthenticated( $api, function( $api )
     $api->post( 'cms/users/pending', 'Cms\PendingRequestController@create' );
     $api->delete( 'cms/users/pending/{id}', 'Cms\PendingRequestController@delete' );
 
+    $api->post('profile/password', 'Auth\PasswordResetController@resetPassword');
+
+    //
     groupAdministration($api, function ($api)
     {
         $api->get('cms/users/{id}', 'Cms\UserController@byId');

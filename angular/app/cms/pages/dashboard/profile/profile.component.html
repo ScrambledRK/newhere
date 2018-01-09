@@ -124,11 +124,19 @@
 	layout="row"
 	layout-align="end center"
 	style="margin-top: 24px;"
-	ng-if="!vm.UserService.isAdministrator()"
+
 >
+	<md-button
+		ng-click="vm.changePassword()"
+		class="md-raised"
+	>
+		change your password
+	</md-button>
+
 	<md-button
 		ng-click="vm.requestRole()"
 		class="md-primary md-raised"
+		ng-if="!vm.UserService.isAdministrator()"
 	>
 		<md-tooltip
 			md-direction="left"
@@ -136,6 +144,8 @@
 		</md-tooltip>
 		request a profile change
 	</md-button>
+
+
 </div>
 
 

@@ -1,29 +1,47 @@
 class ResetpasswordFormController
 {
-	constructor( $state, UserService )
+	constructor( $auth, $state, UserService, ToastService )
 	{
 		'ngInject';
 
 		//
+		this.$auth = $auth;
 		this.$state = $state;
-		this.token = $state.params.token;
 		this.UserService = UserService;
+		this.ToastService = ToastService;
+
+		//
+		this.token = $state.params.token;
+		this.sending = false;
 	}
 
 	//
-	setNewPassword( isValid )
+	setNewPassword()
 	{
-		if( isValid )
+		let data = {
+			token: this.token,
+			password: this.password,
+			re_password: this.re_password
+		};
+
+		//
+		this.sending = true;
+
+		this.UserService.setNewPassword( data ).then( ( response ) =>
 		{
-			this.UserService.setNewPassword( {
-				token: this.token,
-				password: this.password,
-				re_password: this.re_password
-			}, ( response ) =>
+			this.sending = false;
+
+			if( this.$auth.isAuthenticated() )
 			{
-				this.$state.go( 'app.login' );
-			} )
-		}
+				this.$state.go( 'cms.dashboard', {tab:1} );
+			}
+			else
+			{
+				this.$state.go( 'main.login' );
+			}
+
+			this.ToastService.show( 'Das Passwort wurde erfolgreich gespeichert.' );
+		} );
 	}
 
 	//
@@ -33,7 +51,7 @@ class ResetpasswordFormController
 }
 
 export const ResetpasswordFormComponent = {
-	templateUrl: './views/app/components/resetpassword-form/resetpassword-form.component.html',
+	template: require('./resetpassword-form.component.html'),
 	controller: ResetpasswordFormController,
 	controllerAs: 'vm',
 	bindings: {}

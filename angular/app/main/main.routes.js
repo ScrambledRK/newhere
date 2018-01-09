@@ -179,4 +179,32 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 						}
 					}
 			} )
+
+		//
+		.state( 'main.forgotpassword',
+			{
+				url: '/forgot-password',
+				data: {},
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'login/forgot-password' )
+						}
+					}
+			} )
+
+		//
+		.state( 'main.resetpassword',
+			{
+				url: '/reset-password/{token}',
+				data: {},
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'login/reset-password' )
+						}
+					}
+			} )
 }
