@@ -59,12 +59,14 @@ export class MapService
 			vm.map = map;
 			vm.map.invalidateSize();
 
-			// map.on('zoomend', () => {
-			// 	leafletData.getLayers().then( (layers) => {
-			// 		console.log("refresh layer zoom");
-			// 			layers.overlays.offers.refreshClusters();
-			// 	});
-			// });
+			//
+			// workaround for bug with disableClusteringAtZoom and spiderfyOnMaxZoom
+			//
+			leafletData.getLayers().then( (layers) => {
+				layers.overlays.offers.on('clusterclick', function (a) {
+					a.layer.zoomToBounds();
+				});
+			} );
 		} );
 
 		this.tokens = {
@@ -131,6 +133,8 @@ export class MapService
 					layerOptions: {
 						showCoverageOnHover: false,
 						disableClusteringAtZoom: 15,
+						spiderfyOnMaxZoom: false,
+
 						iconCreateFunction: function(cluster)
 						{
 							var childCount = cluster.getChildCount();
