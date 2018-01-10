@@ -40,15 +40,7 @@ export class MapService
 
 			//
 			this.setMarkers( this.ContentService.markerList, this.ContentService.offer );
-
-			if( this.ContentService.offer )
-			{
-				this.zoomTo( this.ContentService.offer  );
-			}
-			else
-			{
-				this.center = this.fixCenter;
-			}
+			this.zoomTo( this.ContentService.offer );
 		} );
 
 		/**
@@ -256,11 +248,18 @@ export class MapService
 
 	zoomTo( offer )
 	{
-		this.center = {
-			lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
-			lng: parseFloat( offer.latitude ),
-			zoom: 16
-		};
+		if( offer && offer.latitude && offer.longitude )
+		{
+			this.center = {
+				lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
+				lng: parseFloat( offer.latitude ),
+				zoom: 16
+			};
+		}
+		else
+		{
+			this.center = this.fixCenter;
+		}
 	}
 
 	/**
