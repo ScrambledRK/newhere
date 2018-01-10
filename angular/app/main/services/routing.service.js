@@ -67,6 +67,8 @@ export class RoutingService
 		//
 		this.$state.go( 'main.content.offers', params, config );
 		this.updateState( offer );                   // in case state does not change, reset still
+
+		return true;
 	}
 
 	/**
@@ -100,6 +102,8 @@ export class RoutingService
 		//
 		this.$state.go( 'main.content.providers', params, config );
 		this.updateState( provider ); // in case state does not change, reset still
+
+		return true;
 	}
 
 	// ------------------------------------- //

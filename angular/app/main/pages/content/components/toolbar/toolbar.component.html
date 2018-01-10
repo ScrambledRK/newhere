@@ -1,15 +1,28 @@
-<md-toolbar md-theme="whitey">
+<md-toolbar md-theme="whitey" class="toolbar-bread-container">
 
 	<!-- left to right -->
 	<div
 		ng-if="$root.isTextAlignmentLeft"
-		class="md-toolbar-tools"
+		class="md-toolbar-tools toolbar-bread-content"
 		layout="row"
 		layout-align="start center"
 	>
 
+		<!-- back -->
+		<md-button
+			class="btn-back"
+			aria-label="back"
+			ng-click="vm.goBack()"
+			href="{{vm.getBackURL()}}"
+			ng-if="vm.categories.length < vm.max"
+		>
+			<md-icon>chevron_left</md-icon>
+		</md-button>
+
+		<!-- categories -->
 		<div
 			ng-repeat="category in vm.categories track by category.id"
+			layout="row"
 		>
 			<md-button
 				aria-label="{{category.title}}"
@@ -17,7 +30,7 @@
 				href="{{vm.getURL(category)}}"
 			>
 				<md-icon
-					class="big-icon"
+					class="medium-icon"
 					ng-if="category.image"
 					md-svg-src="{{ category.image.src }}"
 				>
@@ -27,6 +40,24 @@
 			</md-button>
 			<md-icon ng-if="$index < vm.categories.length-1">chevron_right</md-icon>
 		</div>
+
+		<!-- detail -->
+		<div
+			ng-if="vm.detail"
+			layout="row"
+		>
+			<md-icon ng-if="vm.categories.length > 0">chevron_right</md-icon>
+			<md-button
+				aria-label="{{vm.detail.title}}"
+				ng-click="vm.goDetail(vm.detail)"
+				href="{{vm.getURL(vm.detail,'detail')}}"
+			>
+				<md-icon class="small-icon">{{ vm.detail.icon }}</md-icon>
+				<small>{{vm.detail.title | limitTo:20 }}</small>
+				<span ng-if="vm.detail.title.length > 20">...</span>
+			</md-button>
+		</div>
+
 	</div>
 
 	<!-- right to left -->
@@ -36,8 +67,27 @@
 		layout="row"
 		layout-align="end center"
 	>
+		<!-- detail -->
+		<div
+			ng-if="vm.detail"
+			layout="row"
+		>
+			<md-button
+				aria-label="{{vm.detail.title}}"
+				ng-click="vm.goDetail(vm.detail)"
+				href="{{vm.getURL(vm.detail,'detail')}}"
+			>
+				<span ng-if="vm.detail.title.length > 20">...</span>
+				{{vm.detail.title | limitTo:20 }}
+				<md-icon class="small-icon">{{ vm.detail.icon }}</md-icon>
+			</md-button>
+			<md-icon ng-if="vm.categories.length > 0">chevron_left</md-icon>
+		</div>
+
+		<!-- categories -->
 		<div
 			ng-repeat="category in vm.categories track by category.id"
+			layout="row"
 		>
 			<md-button
 				aria-label="{{category.title}}"
@@ -47,7 +97,7 @@
 				<span ng-if="category.title.length > 20">...</span>
 				{{category.title | limitTo:20 }}
 				<md-icon
-					class="big-icon"
+					class="medium-icon"
 					ng-if="category.image"
 					md-svg-src="{{ category.image.src }}"
 				>
@@ -55,6 +105,17 @@
 			</md-button>
 			<md-icon ng-if="$index < vm.categories.length-1">chevron_left</md-icon>
 		</div>
+
+		<!-- back -->
+		<md-button
+			class="btn-back"
+			aria-label="back"
+			ng-click="vm.goBack()"
+			href="{{vm.getBackURL()}}"
+			ng-if="vm.categories.length < vm.max"
+		>
+			<md-icon>chevron_right</md-icon>
+		</md-button>
 	</div>
 
 </md-toolbar>
