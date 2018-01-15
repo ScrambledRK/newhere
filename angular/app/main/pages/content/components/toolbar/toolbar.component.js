@@ -65,10 +65,16 @@ class ToolbarController
 	//
 	setContent()
 	{
+		//
+		this.categories = [];
+		this.detail = null;
+		this.max = 0;
+
+		//
 		let category = this.ContentService.category;
 
-		if( !category )
-			return;
+		//if( !category )
+		//	return;
 
 		//
 		let limit = 1;
@@ -81,11 +87,6 @@ class ToolbarController
 
 		if( this.ContentService.offer || this.ContentService.provider )
 			limit--;
-
-		//
-		this.categories = [];
-		this.detail = null;
-		this.max = 0;
 
 		//
 		while( category )

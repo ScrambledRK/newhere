@@ -4,6 +4,7 @@ export class MapService
 	             ToastService,
 	             ContentService,
 	             $translate,
+	             $http,
 	             $timeout,
 	             leafletData,
 	             leafletMarkerEvents,
@@ -14,7 +15,7 @@ export class MapService
 
 		L.Icon.Default.imagePath = '/img';
 
-		console.log("YES!\n", L );
+		console.log( "YES!\n", L );
 
 		var vm = this;
 
@@ -36,7 +37,7 @@ export class MapService
 
 		$rootScope.$on( "contentChanged", ( event ) =>
 		{
-			console.log("map content changed, yes man yes");
+			console.log( "map content changed, yes man yes" );
 
 			//
 			this.setMarkers( this.ContentService.markerList, this.ContentService.offer );
@@ -54,10 +55,12 @@ export class MapService
 			//
 			// workaround for bug with disableClusteringAtZoom and spiderfyOnMaxZoom
 			//
-			leafletData.getLayers().then( (layers) => {
-				layers.overlays.offers.on('clusterclick', function (a) {
+			leafletData.getLayers().then( ( layers ) =>
+			{
+				layers.overlays.offers.on( 'clusterclick', function( a )
+				{
 					a.layer.zoomToBounds();
-				});
+				} );
 			} );
 		} );
 
@@ -117,6 +120,7 @@ export class MapService
 					}
 				}
 			},
+
 			overlays: {
 				offers: {
 					name: 'Offers',
@@ -127,18 +131,23 @@ export class MapService
 						disableClusteringAtZoom: 15,
 						spiderfyOnMaxZoom: false,
 
-						iconCreateFunction: function(cluster)
+						iconCreateFunction: function( cluster )
 						{
 							var childCount = cluster.getChildCount();
 
 							var c = ' marker-cluster-';
 							var h = '';
 
-							if (childCount < 10) {
+							if( childCount < 10 )
+							{
 								c += 'small';
-							} else if (childCount < 100) {
+							}
+							else if( childCount < 100 )
+							{
 								c += 'medium';
-							} else {
+							}
+							else
+							{
 								c += 'large';
 							}
 
@@ -154,7 +163,11 @@ export class MapService
 								}
 							}
 
-							return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c + h, iconSize: new L.Point(40, 40) });
+							return new L.DivIcon( {
+								html: '<div><span>' + childCount + '</span></div>',
+								className: 'marker-cluster' + c + h,
+								iconSize: new L.Point( 40, 40 )
+							} );
 						}
 					}
 				}
@@ -183,9 +196,10 @@ export class MapService
 			this.markers = [];
 
 			//
-			this.leafletData.getLayers().then( (layers) => {
+			this.leafletData.getLayers().then( ( layers ) =>
+			{
 				layers.overlays.offers.refreshClusters();
-			});
+			} );
 
 			//
 			// timeout hack, because there is a angular/leaflet race-condition
@@ -235,13 +249,38 @@ export class MapService
 				} );
 			}, 0, false );
 		};
+
+		//
+		// https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:OEFFLINIENOGD&srsName=EPSG:4326&outputFormat=json
+		// http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png
+		//
+		//
+		$http.get( "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:OEFFLINIENOGD&srsName=EPSG:4326&outputFormat=json" )
+			.then( ( data, status ) =>
+			{
+				angular.extend( this.layers.overlays, {
+					transportation: {
+						name:'public transport',
+						type: 'geoJSON',
+						data: data,
+						visible: true,
+						layerOptions: {
+							style: {
+								color: 'blue',
+								weight: 2.0,
+								opacity: 0.6
+							}
+						}
+					}
+				});
+			} );
 	}
 
 	invalidateSize()
 	{
 		this.leafletData.getMap( 'nhMap' ).then( ( map ) =>
 		{
-			console.log("map.service invalidate size");
+			console.log( "map.service invalidate size" );
 			map.invalidateSize();
 		} );
 	}
