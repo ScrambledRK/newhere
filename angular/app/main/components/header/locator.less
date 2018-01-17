@@ -1,0 +1,56 @@
+@import "./angular/material/colors";
+
+locator
+{
+  background-color: #FFFFFF;
+  margin:           .4em;
+  max-width:        200px;
+
+  input {
+    text-align:       inherit;
+  }
+
+  md-icon
+  {
+    color: @blue !important;
+  }
+  md-input-container > md-icon
+  {
+    top: 5px;
+  }
+  md-autocomplete-wrap
+  {
+    box-shadow: none !important;
+  }
+
+  md-input-container .md-input
+  {
+    padding-right: 10px;
+  }
+}
+
+.autocomplete-custom-template li
+{
+  border-bottom:  1px solid #CCCCCC;
+  padding-top:    8px;
+  padding-bottom: 8px;
+  height:         68px;
+  white-space:    normal; }
+
+.autocomplete-custom-template li:last-child
+{
+  border-bottom-width: 0; }
+
+.autocomplete-custom-template .item-title,
+.autocomplete-custom-template .item-description
+{
+  display:       block;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+  line-height:   2; }
+
+.autocomplete-custom-template .item-title md-icon
+{
+  height: 18px;
+  width:  18px; }

@@ -1,0 +1,25 @@
+<md-input-container
+	class="md-block no-error"
+	style="font-size:16px;"
+>
+	<label>{{ 'Status' | translate }}</label>
+	<md-select
+		ng-model="vm.query.status"
+		ng-change="vm.onQueryUpdate()"
+	>
+		<md-option ng-value="">{{ 'Alle' | translate }}</md-option>
+
+		<md-option value="2">
+			<md-icon>done_all</md-icon>&nbsp;&nbsp;
+			proof-read
+		</md-option>
+		<md-option value="1">
+			<md-icon>done</md-icon>&nbsp;&nbsp;
+			translated
+		</md-option>
+		<md-option value="0">
+			<md-icon>highlight_off</md-icon>&nbsp;&nbsp;
+			outdated
+		</md-option>
+	</md-select>
+</md-input-container>

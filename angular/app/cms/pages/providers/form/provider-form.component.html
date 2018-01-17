@@ -1,0 +1,158 @@
+<form
+	name="ngoForm"
+	ng-submit="vm.save()"
+	class="blank"
+	layout-fill
+>
+	<!-- horrible hack, I am sorry -->
+	<span style="display:none" >{{ form = ngoForm}}</span>
+
+	<div
+		layout="row"
+		layout-fill
+	>
+		<!-- #1 col: details -->
+		<md-card
+			flex-xs
+			flex-gt-md="66"
+			flex-gt-xs="60"
+		>
+
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{ 'Details' | translate }}</span>
+				</md-card-title-text>
+			</md-card-title>
+
+			<!-- -->
+			<md-content
+				layout-padding
+				layout="column"
+			>
+				<!-- title -->
+				<md-input-container
+					class="md-block"
+					flex
+				>
+					<label>{{ 'Titel' | translate }}</label>
+					<input
+						ng-model="vm.offer.organisation"
+						required
+					>
+				</md-input-container>
+
+				<!-- website -->
+				<md-input-container
+					class="md-block"
+					flex
+				>
+					<label>{{ 'Webseite' | translate }}</label>
+					<input
+						name="website"
+						ng-model="vm.offer.website"
+						type="url"
+						placeholder="http://www.your-ngo.com"
+					>
+
+				</md-input-container>
+
+				<!-- contact name -->
+				<md-input-container
+					class="md-block"
+					flex-gt-sm
+				>
+					<label>{{ 'Kontakt' | translate }}</label>
+					<input
+						ng-model="vm.offer.contact"
+						placeholder="Max Mustermann"
+					>
+				</md-input-container>
+
+				<!-- email -->
+				<md-input-container class="md-block">
+					<label>{{ 'Email' | translate }}</label>
+					<input
+						ng-model="vm.offer.contact_email"
+						type="email"
+						name="email"
+						placeholder="email@offer.com"
+						ng-pattern="/^.+@.+\..+$/"
+					>
+					<div
+						ng-messages="ngoForm.email.$error"
+						role="alert"
+					>
+						<div ng-message-exp="['pattern']">
+							{{ 'the given email address should at least look valid' | translate }}
+						</div>
+					</div>
+				</md-input-container>
+
+				<!-- phone -->
+				<md-input-container class="md-block">
+					<label>{{ 'Telefon' | translate }}</label>
+					<input
+						ng-model="vm.offer.contact_phone"
+						placeholder="+43 660 12345678"
+						type="tel"
+						name="phone"
+						ng-pattern="/^\+?[0-9]+[\s0-9]*$/"
+						minlength="6"
+						maxlength="24"
+					>
+					<div
+						ng-messages="ngoForm.phone.$error"
+						role="alert"
+					>
+						<div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+							{{ 'the given phone number should at least look valid' | translate }}
+						</div>
+					</div>
+				</md-input-container>
+
+				<!-- description -->
+				<md-input-container class="md-block">
+					<label>{{ 'Beschreibung' | translate }}</label>
+					<textarea
+						ng-model="vm.offer.description"
+						md-maxlength="200"
+						rows="3"
+					></textarea>
+				</md-input-container>
+
+			</md-content>
+		</md-card>
+
+		<!-- #2 col: image/address -->
+		<div flex>
+			<!-- image -->
+			<md-card>
+				<md-content>
+					<image-uploader
+						ng-model="vm.offer"
+						label="Logo oder Bild hochladen"
+					></image-uploader>
+				</md-content>
+			</md-card>
+
+			<!-- address -->
+			<offer-address></offer-address>
+		</div>
+
+	</div>
+
+	<!-- submit -->
+	<div
+		flex
+		layout="row"
+		layout-align="end center"
+		ng-if="!vm.buttons"
+	>
+		<save
+			is-disabled="ngoForm.$invalid || ngoForm.$pristine"
+		></save>
+
+		<cancel></cancel>
+	</div>
+
+</form>

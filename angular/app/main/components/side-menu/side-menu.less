@@ -1,0 +1,63 @@
+@import "./angular/material/colors";
+
+md-sidenav
+{
+  &.md-sidenav-left, &.md-sidenav-right
+  {
+    &[md-component-id='side-menu']
+    {
+      background-color: @blue;
+      color:            @white;
+      md-content
+      {
+        background-color: @blue;
+        color:            @white;
+        md-list
+        {
+          background: @blue;
+          padding:    0px;
+          md-list-item
+          {
+            background: @blue;
+            .md-button
+            {
+              background: @blue;
+              color:      @white;
+              width:      100%;
+              font-size:  1.3em;
+              &:hover
+              {
+                background-color: darken(@blue, 5%);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 599px)
+  {
+    max-width: 100%;
+    width:     100%;
+  }
+  .bottom-nav
+  {
+    position:  fixed;
+    bottom:    0px;
+    left:      0px;
+    width:     100%;
+    font-size: 0.7em;
+  }
+  z-index: 75;
+}
+
+md-sidenav.md-locked-open.md-sidenav-left,md-sidenav.md-locked-open.md-sidenav-right
+{
+  width:     183px;
+  min-width: 183px;
+  max-width: 183px;
+  &.wide
+  {
+    min-width: 250px;
+  }
+}

@@ -1,285 +1,370 @@
 @import "colors";
 @import "project";
-.u-center {
-    text-align: center;
-}
-.cursor {
-    cursor: pointer;
-}
-.flip-hor {
-    transform: rotate(180deg);
-}
-.btn-big {
-    font-size: 2em;
-    padding: 0.5em 1em;
-    text-transform: none;
-}
-md-toolbar.md-table-toolbar{
-  transition: all 0s;
-  h3{
-    margin-top:10px;
-  }
-}
-md-toolbar.md-table-toolbar:not(.md-menu-toolbar).md-default .md-button{
-  &.md-primary, &.md-warn {
-    color: #fff;
-  }
-}
-md-input-container{
-  &.bigger{
-    font-size:2em;
-    margin-top:2em;
 
-    label{
-      font-weight:400;
+.u-center
+{
+  text-align: center;
+}
+
+.cursor
+{
+  cursor: pointer;
+}
+
+.flip-hor
+{
+  transform: rotate(180deg);
+}
+
+.btn-big
+{
+  font-size:      2em;
+  padding:        0.5em 1em;
+  text-transform: none;
+}
+
+md-input-container
+{
+  &.bigger
+  {
+    font-size:  2em;
+    margin-top: 2em;
+
+    label
+    {
+      font-weight: 400;
     }
-    input{
-      padding-bottom:12px;
+    input
+    {
+      padding-bottom: 12px;
     }
-    &.md-input-focused{
-      input{
-        padding-bottom:10px;
+    &.md-input-focused
+    {
+      input
+      {
+        padding-bottom: 10px;
       }
     }
   }
-  &.no-margin{
-    margin:0px;
+  &.no-margin
+  {
+    margin: 0px;
   }
 }
-md-toolbar.md-table-toolbar.md-default {
-    md-input-container {
-      label{
-        font-size:14px;
-      }
-        md-icon {
-            color: @grey;
-            fill: @grey;
-        }
-        &.md-input-focused {
-            md-icon {
-                color: @blue;
-                fill: @blue;
-            }
-        }
-    }
-    md-checkbox{
-      margin-top:16px;
-      font-size:14px;
-    }
 
-}
-md-checkbox.md-default-theme.md-checked ._md-icon, md-checkbox.md-checked ._md-icon{
-  background-color:@blue;
-  &::after{
-    border-color:@white;
-  }
-}
-md-chips[readonly='true']{
-  md-chips-wrap{
-    box-shadow:0 0 0 rgba(0,0,0,0);
-  }
-
-}
-table.md-table{
-  th{
-    &.md-column{
-      &.icon{
-        width:20px;
+md-toolbar.md-table-toolbar.md-default
+{
+  md-input-container
+  {
+    label
+    {
+      font-size: 14px;
+    }
+    md-icon
+    {
+      color: @grey;
+      fill:  @grey;
+    }
+    &.md-input-focused
+    {
+      md-icon
+      {
+        color: @blue;
+        fill:  @blue;
       }
     }
   }
-}
-md-table-pagination{
-  .label{
-    color:@grey;
-    margin-top:.5em;
-    font-size:14px;
-    font-weight:normal;
-  }
-}
-md-toast{
-  position:fixed;
-}
-
-md-dialog{
-  border-radius:0px;
-}
-
-md-fab-speed-dial{
-  &.fixed{
-    position:fixed;
-    &.bottom{
-      bottom:1em;
-      right:1em;
-    }
-  }
-}
-md-input-container{
-  &.no-error{
-    .md-errors-spacer{
-      min-height:0px;
-    }
+  md-checkbox
+  {
+    margin-top: 16px;
+    font-size:  14px;
   }
 
- }
- .blank{
-   background-color: transparent !important;
- }
- md-content.md-default-theme, md-content{
-   background-color:#fff;
- }
- //md-input-container label:not(._md-container-ignore){
+}
 
-      //left:8px;
- //}
- .md-button{
-   &.md-mega-mini{
-     line-height: 20px;
-     min-height:20px;
-     height:20px;
-     width:20px;
-
-     .material-icons{
-          font-size:16px;
-     }
-   }
- }
- md-toolbar{
-   &.md-custom-theme{
-     min-height:48px;
-     .md-toolbar-tools{
-       min-height:48px;
-       height:48px;
-     }
-   }
- }
-.steps-indicator{
-  padding-top:30px;
-  height:75px;
+md-checkbox.md-default-theme.md-checked ._md-icon, md-checkbox.md-checked ._md-icon
+{
   background-color: @blue;
-  li{
-    padding-top:1em;
-    a{
+  &::after
+  {
+    border-color: @white;
+  }
+}
+
+md-chips[readonly='true']
+{
+  md-chips-wrap
+  {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+
+}
+
+table.md-table
+{
+  th
+  {
+    &.md-column
+    {
+      &.icon
+      {
+        width: 20px;
+      }
+    }
+  }
+}
+
+md-table-pagination
+{
+  .label
+  {
+    color:       @grey;
+    margin-top:  .5em;
+    font-size:   14px;
+    font-weight: normal;
+  }
+}
+
+md-toast
+{
+  position: fixed;
+}
+
+md-dialog
+{
+  border-radius: 0px;
+}
+
+md-fab-speed-dial
+{
+  &.fixed
+  {
+    position: fixed;
+    &.bottom
+    {
+      bottom: 1em;
+      right:  1em;
+    }
+  }
+}
+
+md-input-container
+{
+  &.no-error
+  {
+    .md-errors-spacer
+    {
+      min-height: 0px;
+    }
+  }
+
+}
+
+.blank
+{
+  background-color: transparent !important;
+}
+
+md-content.md-default-theme, md-content
+{
+  background-color: #FFFFFF;
+}
+
+.md-button
+{
+  &.md-mega-mini
+  {
+    line-height: 20px;
+    min-height:  20px;
+    height:      20px;
+    width:       20px;
+
+    .material-icons
+    {
+      font-size: 16px;
+    }
+  }
+}
+
+md-toolbar
+{
+  &.md-custom-theme
+  {
+    min-height: 48px;
+    .md-toolbar-tools
+    {
+      min-height: 48px;
+      height:     48px;
+    }
+  }
+}
+
+.steps-indicator
+{
+  padding-top:      30px;
+  height:           75px;
+  background-color: @blue;
+  li
+  {
+    padding-top: 1em;
+    a
+    {
       font-weight: normal;
-      color:@white;
-      padding-top:.5em;
-      &::before{
+      color:       @white;
+      padding-top: .5em;
+      &::before
+      {
         background-color: @white;
       }
     }
-    &.current, &.editing{
-      a{
-        &::before{
+    &.current, &.editing
+    {
+      a
+      {
+        &::before
+        {
           background-color: @desert;
         }
       }
     }
-    &.done{
-      a{
+    &.done
+    {
+      a
+      {
         //color:@green;
-        &::before{
+        &::before
+        {
           background-color: @green;
         }
       }
     }
 
   }
-  &.steps-4:before {
-    left: calc(100% / 4 / 1.2);
+  &.steps-4:before
+  {
+    left:  calc(100% / 4 / 1.2);
     right: calc(100% / 4 / 1.2);
   }
-  &.steps-3:before {
-    left: calc(100% / 3 / 1.4);
+  &.steps-3:before
+  {
+    left:  calc(100% / 3 / 1.4);
     right: calc(100% / 3 / 1.4);
   }
-  &::before{
+  &::before
+  {
     background-color: @white;
-    display: none;
+    display:          none;
   }
 }
-.icon-colored{
-  color:@blue;
-}
-md-toolbar.md-whitey-theme:not(.md-menu-toolbar){
-  color:@blue;
-  border-bottom:1px solid @blue;
-  // &.md-whiteframe-z1 {
-  //   box-shadow: 0px 1px 3px 0px rgba(53,125,186, 0.2), 0px 1px 1px 0px rgba(53,125,186, 0.14), 0px 2px 1px -1px rgba(53,125,186, 0.12);
-  // }
-}
-md-toolbar.md-whitey-theme:not(.md-menu-toolbar) md-icon{
-  color:@blue;
-  fill:@blue;
 
+.icon-colored
+{
+  color: @blue;
 }
-.md-button{
-  &.md-full{
-    padding: 1em;
-    margin-right: -16px !important;
+
+md-toolbar.md-whitey-theme:not(.md-menu-toolbar)
+{
+  color:         @blue;
+  border-bottom: 1px solid @blue;
+}
+
+md-toolbar.md-whitey-theme:not(.md-menu-toolbar) md-icon
+{
+  color: @blue;
+  fill:  @blue;
+}
+
+.md-button
+{
+  &.md-full
+  {
+    padding:          1em;
+    margin-right:     -16px !important;
     background-color: @blue;
-    color:@white;
-    border-radius: 0;
-    padding-right: 16px;
-    md-icon{
-      &.material-icons{
-        color:@white;
-        fill:@white;
+    color:            @white;
+    border-radius:    0;
+    padding-right:    16px;
+    md-icon
+    {
+      &.material-icons
+      {
+        color:      @white;
+        fill:       @white;
         transition: all .3s;
       }
     }
-    &.md-whitey-theme{
-      &:not([disabled]){
-        &:hover{
-            color:@blue;
-            md-icon{
-              &.material-icons{
-                color:@blue;
-                fill:@blue;
-              }
+    &.md-whitey-theme
+    {
+      &:not([disabled])
+      {
+        &:hover
+        {
+          color: @blue;
+          md-icon
+          {
+            &.material-icons
+            {
+              color: @blue;
+              fill:  @blue;
             }
+          }
         }
       }
     }
   }
-  &.big-thumb{
-    margin:0px;
-    padding: 2em;
+  &.big-thumb
+  {
+    margin:        0px;
+    padding:       2em;
     border-radius: 0px;
-    font-size:11px;
-    color:@blue;
-    white-space: normal;
-    line-height: 1.4em;
-    min-height: 175px;
-    &:nth-child(odd){
-      background-color:#f8f8f8;
+    //  font-size:     11px;
+    color:         @blue;
+    white-space:   normal;
+    line-height:   1.4em;
+    min-height:    175px;
+    overflow-wrap: break-word;
+    word-break:    normal;
+
+    &:nth-child(odd)
+    {
+      background-color: #F8F8F8;
     }
-    &:hover{
-        background-color:#efefef;
+    &:hover
+    {
+      background-color: #EFEFEF;
     }
-    md-icon{
-      margin:0;
-      font-size: 96px;
-      min-width: 96px;
+    md-icon
+    {
+      margin:     0;
+      font-size:  96px;
+      min-width:  96px;
       min-height: 96px;
-      &.material-icons{
-        color:@blue;
-        fill:@blue;
+      &.material-icons
+      {
+        color:      @blue;
+        fill:       @blue;
         transition: all .3s;
       }
     }
-    > span{
+    > span
+    {
       height: 3em;
     }
-    &.clean{
-      &:nth-child(odd){
-        background-color:transparent;
+    &.clean
+    {
+      &:nth-child(odd)
+      {
+        background-color: transparent;
       }
-      &.md-raised{
+      &.md-raised
+      {
         background-color: @blue;
-        md-icon{
-          *{
-            color:@white;
-            fill:@white;
+        md-icon
+        {
+          *
+          {
+            color: @white;
+            fill:  @white;
           }
         }
       }
@@ -287,25 +372,162 @@ md-toolbar.md-whitey-theme:not(.md-menu-toolbar) md-icon{
   }
 
 }
-md-icon{
-  &.big-icon{
-    margin:0;
-    font-size: 64px;
-    min-width: 64px;
+
+md-icon
+{
+  &.big-icon
+  {
+    margin:     0;
+    font-size:  64px;
+    min-width:  64px;
     min-height: 64px;
-    &.material-icons{
-      color:@blue;
-      fill:@blue;
+    &.material-icons
+    {
+      color:      @blue;
+      fill:       @blue;
       transition: all .3s;
     }
   }
-  &.normal{
-    svg{
-      width: 24px;
+  &.medium-icon
+  {
+    margin:     0;
+    font-size:  48px;
+    min-width:  48px;
+    min-height: 48px;
+    &.material-icons
+    {
+      color:      @blue;
+      fill:       @blue;
+      transition: all .3s;
+    }
+  }
+  &.small-icon
+  {
+    margin:     0;
+    font-size:  24px;
+    min-width:  24px;
+    min-height: 24px;
+    &.material-icons
+    {
+      color:      @blue;
+      fill:       @blue;
+      transition: all .3s;
+    }
+  }
+  &.normal
+  {
+    svg
+    {
+      width:   24px;
       display: inline;
-      path{
-        fill:@blue;
+      path
+      {
+        fill: @blue;
       }
     }
   }
+}
+
+// ------------------------------------------- //
+// ------------------------------------------- //
+// TOOLBAR
+
+md-toolbar
+{
+  &.md-custom-theme
+  {
+    min-height: 48px;
+    .md-toolbar-tools
+    {
+      min-height: 48px;
+      height:     48px;
+    }
+  }
+}
+
+md-toolbar.md-whitey-theme:not(.md-menu-toolbar)
+{
+  color:         @blue;
+  border-bottom: 1px solid @blue;
+}
+
+md-toolbar.md-whitey-theme:not(.md-menu-toolbar) md-icon
+{
+  color: @blue;
+  fill:  @blue;
+}
+
+md-toolbar.md-table-toolbar.md-default
+{
+  md-input-container
+  {
+    label
+    {
+      font-size: 14px;
+    }
+    md-icon
+    {
+      color: @grey;
+      fill:  @grey;
+    }
+    &.md-input-focused
+    {
+      md-icon
+      {
+        color: @blue;
+        fill:  @blue;
+      }
+    }
+  }
+  md-checkbox
+  {
+    margin-top: 16px;
+    // font-size:  14px;
+  }
+
+}
+
+md-toolbar.md-table-toolbar
+{
+  transition: all 0s;
+  h3
+  {
+    margin-top: 10px;
+  }
+}
+
+md-toolbar.md-table-toolbar:not(.md-menu-toolbar).md-default .md-button
+{
+  &.md-primary, &.md-warn
+  {
+    color: #FFFFFF;
+  }
+}
+
+md-switch
+{
+  margin: 0;
+  height: inherit;
+}
+
+table.md-table:not(.md-row-select) td.md-cell:first-child, table.md-table:not(.md-row-select) th.md-column:first-child {
+  padding: 0 24px 0 0;
+}
+table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
+  padding: 0 24px 0 0;
+}
+table.md-table.md-row-select td.md-cell:nth-child(n+3):nth-last-child(n+2), table.md-table.md-row-select th.md-column:nth-child(n+3):nth-last-child(n+2) {
+  padding: 0 24px 0 0;
+}
+table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2), table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+  padding: 0 24px 0 0;
+}
+
+.hidden {
+  display: none!important;
+  visibility: hidden!important;
+}
+
+.angular-ui-tree-handle {
+  cursor:default !important;
 }

@@ -24,19 +24,23 @@ class AddressAPI
      *
      * @return null
      */
-    public function getCoordinates($street, $streetnumber, $zip)
+    public function getCoordinates( $street, $streetnumber, $zip )
     {
-        $json = $this->query($street.' '.$streetnumber.', '.$zip);
+        $json = $this->query( $street . ' ' . $streetnumber . ', ' . $zip );
 
-        if($json === null){
+        if( $json === null )
+        {
             return null;
         }
 
-        try{
-            $feature = $json['features'][0];
+        try
+        {
+            $feature = $json[ 'features' ][ 0 ];
 
-            return $feature['geometry']['coordinates'];
-        }catch(\Exception $error){
+            return $feature[ 'geometry' ][ 'coordinates' ];
+        }
+        catch( \Exception $error )
+        {
             //;
         }
 
@@ -49,31 +53,35 @@ class AddressAPI
      * @return array
      * Returns an array of address suggestions, or an empty array if an error occurs or no suggestions were found
      */
-    public function getAddressSuggestions($input)
+    public function getAddressSuggestions( $input )
     {
         $returnArray = [];
 
-        $json = $this->query($input);
+        $json = $this->query( $input );
 
-        if($json == null){
+        if( $json == null )
+        {
             return $returnArray;
         }
 
-        $features = $json['features'];
+        $features = $json[ 'features' ];
 
-        foreach($features as $feature){
-            $properties = $feature['properties'];
+        foreach( $features as $feature )
+        {
+            $properties = $feature[ 'properties' ];
 
-            if(array_key_exists("street", $properties)
-                && array_key_exists("housenumber", $properties)
-                && array_key_exists("locality", $properties)
-                && array_key_exists("postalcode", $properties)
-            ){
+            if( array_key_exists( "street", $properties )
+                && array_key_exists( "housenumber", $properties )
+                && array_key_exists( "locality", $properties )
+                && array_key_exists( "postalcode", $properties )
+            )
+            {
                 $returnAddress = [
-                    "street" => $properties['street'],
-                    "number" => $properties['housenumber'],
-                    "city"   => $properties['locality'],
-                    "zip"    => $properties['postalcode'],
+                    "street"      => $properties[ 'street' ],
+                    "number"      => $properties[ 'housenumber' ],
+                    "city"        => $properties[ 'locality' ],
+                    "zip"         => $properties[ 'postalcode' ],
+                    "coordinates" => $feature[ 'geometry' ][ 'coordinates' ]
                 ];
 
                 $returnArray[] = $returnAddress;
@@ -91,40 +99,50 @@ class AddressAPI
      *
      * @return mixed|null
      */
-    private function query($input)
+    private function query( $input )
     {
-        if(empty($input)){
+        if( empty( $input ) )
+        {
             return null;
         }
 
         //
         $response = null;
 
-        try{
+        try
+        {
             $client = new Client();
             $response = $client->request(
-                'GET', 'https://search.mapzen.com/v1/search',
+                'GET', 'https://search.mapzen.com/v1/autocomplete',
                 [
                     'query' => [
                         'text'                   => $input,
                         'api_key'                => 'search-pTjgegT',
                         'layers'                 => 'address',
+                        'focus.point.lat'        => 48.208493,
+                        'focus.point.lon'        => 16.373118,
                         'boundary.circle.lat'    => 48.208493,
                         'boundary.circle.lon'    => 16.373118,
                         'boundary.circle.radius' => 35,
+                        'boundary.country'       => 'AUT'
                     ],
                 ]
             );
-        }catch(\Exception $error){
+        }
+        catch( \Exception $error )
+        {
             return null;
         }
 
         //
         $result = null;
 
-        try{
-            $result = json_decode($response->getBody(), true);
-        }catch(\Exception $error){
+        try
+        {
+            $result = json_decode( $response->getBody(), true );
+        }
+        catch( \Exception $error )
+        {
             //;
         }
 

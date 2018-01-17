@@ -1,0 +1,107 @@
+<div
+	style="padding:.5em;"
+	layout="row"
+	layout-align="space-between center"
+>
+	<span class="md-title">
+		{{ vm.offer.title || 'Neues Angebot' | translate  }}
+	</span>
+	<span ng-if="vm.providers.length > 1">
+    <md-input-container class="md-block">
+      <label>{{ 'NGO' | translate }}</label>
+      <md-select ng-model="vm.offer.ngo_id">
+        <md-option
+	        ng-repeat="ngo in vm.providers"
+	        ng-value="ngo.id"
+        >{{ ngo.organisation }}</md-option>
+      </md-select>
+    </md-input-container>
+  </span>
+</div>
+
+<form
+	name="offerForm"
+	ng-submit="vm.save()"
+	class="blank"
+>
+	<md-content
+		class="blank"
+		layout-xs="column"
+		layout="row"
+	>
+
+		<!-- 1# details/filters/categories -->
+		<div
+			flex-xs
+			flex-gt-md="66"
+			flex-gt-xs="60"
+			layout="column"
+		>
+			<!-- details -->
+		  <offer-details></offer-details>
+			<div
+				layout="row"
+				layout-md="column"
+				flex
+			>
+				<div
+					flex-gt-md="50"
+					layout="column"
+				>
+					<!-- filters -->
+					<offer-filters></offer-filters>
+				</div>
+				<div
+					flex-gt-md="50"
+					layout="column"
+				>
+					<!-- categories -->
+					<offer-categories></offer-categories>
+				</div>
+			</div>
+		</div>
+
+		<!-- 2# image/date/address/translation -->
+		<div
+			flex-xs
+			flex-gt-md="33"
+			flex-gt-xs="40"
+			layout="column"
+		>
+			<!-- image -->
+			<offer-image></offer-image>
+
+			<!-- date -->
+			<offer-date></offer-date>
+
+			<!-- address -->
+			<offer-address></offer-address>
+
+			<div
+				layout="row"
+				layout-xs="column"
+				flex
+			>
+				<div
+					flex-gt-xs="100"
+					layout="column"
+				>
+					<!-- translations -->
+					<offer-translation></offer-translation>
+				</div>
+			</div>
+		</div>
+	</md-content>
+
+	<div
+		flex
+		layout="row"
+		layout-align="end center"
+	>
+		<save
+			is-disabled="offerForm.$invalid || offerForm.$pristine"
+		></save>
+
+		<cancel></cancel>
+	</div>
+</form>

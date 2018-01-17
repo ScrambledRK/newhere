@@ -1,0 +1,27 @@
+<md-input-container
+	class="md-block no-error"
+	style="font-size:16px;"
+>
+	<label>{{ 'Art' | translate }}</label>
+	<md-select
+		ng-model="vm.query.type"
+		ng-change="vm.onQueryUpdate()"
+	>
+		<md-option value="offer">
+			<md-icon>local_offer</md-icon>&nbsp;&nbsp;
+			{{ 'Angebote' | translate }}
+		</md-option>
+		<md-option value="provider">
+			<md-icon>business</md-icon>&nbsp;&nbsp;
+			{{ 'Anbieter' | translate }}
+		</md-option>
+		<md-option value="filter">
+			<md-icon>filter_list</md-icon>&nbsp;&nbsp;
+			{{ 'Filter' | translate }}
+		</md-option>
+		<md-option value="category">
+			<md-icon>list</md-icon>&nbsp;&nbsp;
+			{{ 'Kategorien' | translate }}
+		</md-option>
+	</md-select>
+</md-input-container>

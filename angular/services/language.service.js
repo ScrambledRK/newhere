@@ -1,106 +1,89 @@
-export class LanguageService {
-    constructor(API, ToastService, $window, $filter, $translate) {
-        'ngInject';
+export class LanguageService
+{
+	/**
+	 *
+	 * @param {*} API
+	 * @param {*} $translate
+	 * @param {*} $rootScope
+	 */
+	constructor( API,
+	             $translate,
+	             $rootScope,
+	             $log )
+	{
+		'ngInject';
 
-        this.$translate = $translate;
-        this.$filter = $filter;
-        this.$window = $window;
-        this._promise;
-        this._callbacks = new Array();
-        this.API = API;
-        this.ToastService = ToastService;
+		this.API = API;
+		this.$translate = $translate;
+		this.$rootScope = $rootScope;
+		this.$log = $log;
 
-        this.languages = [];
-        this.activeLanguages = [];
-        this.publishedLanguages = [];
-        this.selectedLanguage = '';
-        this.defaultLanguage;
-        this.enabledLanguages = [];
-    }
+		this.publishedLanguages = null;
+		this.log();
+	}
 
-    fetchAll(success, error, force) {
+	/**
+	 * @returns {*|{promise}}
+	 */
+	fetchPublished()
+	{
+		if( this.publishedLanguages !== null )
+			return this.publishedLanguages;
 
-        if (this.languages.length && !force) {
-            success(this.languages);
-        } else if (angular.isDefined(this._promise)) {
-            this._callbacks.push(success)
-        } else {
-            this._callbacks.push(success);
+		return this.publishedLanguages = this.API.all('languages').one('published').getList();
+	}
 
-            this._promise = this.API.all('languages').getList().then((list) => {
-                this.languages = list;
-                angular.forEach(this._callbacks, (callback) => {
-                    callback(this.languages);
-                })
-                this._promise = null;
-            })
-        }
-    }
-    
-    fetchDefault(success, error, force) {
-        if (this.defaultLanguage && !force) {
-            success(this.defaultLanguage);
-            return;
-        }
+	/**
+	 *
+	 * @param {string|*} language
+	 * @returns {string|*}
+	 */
+	changeLanguage( language )
+	{
+		this.log( language );
 
-        this.API.all('languages').customGET('default').then((language) => {
-            this.defaultLanguage = language;
-            success(this.defaultLanguage);
-        });
-    }
+		if( language === this.$rootScope.language )
+			return language;
 
-    fetchEnabled(success, error, force) {
-        if (this.enabledLanguages.length > 0 && !force) {
-            success(this.enabledLanguages);
-            return;
-        }
+		//
+		switch( language )
+		{
+			case "ar":
+			case "fa":
+				this.$rootScope.isTextAlignmentLeft = false;
+				break;
 
-        this.API.all('languages').customGETLIST('enabled').then((list) => {
-            this.enabledLanguages = list;
-            success(this.enabledLanguages);
-        });
-    }
+			default:
+				this.$rootScope.isTextAlignmentLeft = true;
+		}
 
-    fetchPublished(success, error, force) {
-        if (this.publishedLanguages.length > 0 && !force) {
-            success(this.publishedLanguages);
-            return;
-        }
+		//
+		this.$translate.use( language ).then( (lang) =>
+		{
+			this.$rootScope.language = lang;
+			this.$rootScope.$broadcast( 'languageChanged', this.$rootScope.language );
 
-        this.API.all('languages').customGETLIST('published').then((list) => {
-            this.publishedLanguages = list;
-            success(this.publishedLanguages);
-        });
-    }
+			this.log( lang );
 
-    getActive(success) {
-        this.fetchAll((languages) => {
-            this.activeLanguages = this.$filter('filter')(languages, {
-                'enabled': true
-            }, true);
-            success(this.activeLanguages);
-        });
-    }
-    changeLanguage(language, doneFn) {
-        this.selectedLanguage = this.$window.localStorage.language = language;
-        this.$translate.use(language);
-        if (typeof doneFn == "function") {
-            doneFn();
-        }
-        return this.selectedLanguage;
-    }
-    activeLanguage() {
-        if (this.selectedLanguage == '') {
-            this.selectedLanguage = this.$window.localStorage.language || 'de';
-        }
-        return this.selectedLanguage;
-    }
+			return lang;
+		} );
 
-    update(language) {
-        return language.save().then((response) => {
-            this.$translate('Sprache aktualisiert.').then((msg) => {
-                this.ToastService.show(msg);
-            });
-        });
-    }
+
+		return this.$rootScope.language = language;
+	}
+
+	/**
+	 *
+	 * @param language
+	 */
+	log( language )
+	{
+		console.log( "language.uses", this.$translate.use() );
+		console.log( "language.proposed", this.$translate.proposedLanguage() );
+		console.log( "language.preferred", this.$translate.preferredLanguage() );
+		console.log( 'language.current', this.$rootScope.language );
+
+		if( language )
+			console.log( 'language.select', language );
+	}
 }

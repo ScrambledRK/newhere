@@ -5,8 +5,8 @@ services:
       context: ./docker
       dockerfile: docker-image-dev.txt
     ports:
-      - 6000:80
-      - 6001:443
+      - 2007:80
+      - 2008:443
     env_file: .env
     links:
       - database

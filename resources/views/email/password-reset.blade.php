@@ -15,7 +15,7 @@
 
     @include('beautymail::templates.sunny.button', [
             'title' => 'Set a new password',
-            'link' => url('/#/reset-password/'.$token),
+            'link' => url('/#!/reset-password/'.$token),
             'color' => '#357DBA'
     ])
 

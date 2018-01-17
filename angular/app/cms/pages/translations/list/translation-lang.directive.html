@@ -1,0 +1,18 @@
+<md-input-container
+	class="md-block no-error"
+	style="font-size:16px;"
+>
+	<label>{{ 'Languages' | translate }}</label>
+	<md-select
+		ng-model="vm.languages"
+		ng-change="vm.onSelectedLanguagesChanged()"
+		multiple
+	>
+		<md-option
+			ng-repeat="lang in vm.enabledLanguages"
+			ng-value="lang"
+			ng-if="lang != 'de'"
+		>{{lang}}
+		</md-option>
+	</md-select>
+</md-input-container>

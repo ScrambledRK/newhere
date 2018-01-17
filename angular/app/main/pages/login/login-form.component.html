@@ -1,0 +1,66 @@
+<div flex>
+	<form
+		ng-submit="vm.login()"
+		name="loginForm"
+	>
+		<div>
+			<md-input-container class="md-block">
+				<label translate="Email"></label>
+				<input
+					type="email"
+					ng-model="vm.email"
+					name="email"
+					required
+				>
+				<div ng-messages="loginForm.email.$error">
+					<div
+						ng-message="required"
+						translate="Das ist ein Pflichtfeld."
+					></div>
+				</div>
+			</md-input-container>
+		</div>
+
+		<div>
+			<md-input-container class="md-block">
+				<label translate="Passwort"></label>
+				<input
+					type="password"
+					ng-model="vm.password"
+					name="password"
+					required
+				>
+				<div ng-messages="loginForm.password.$error">
+					<div
+						ng-message="required"
+						translate="Das ist ein Pflichtfeld."
+					></div>
+				</div>
+			</md-input-container>
+		</div>
+
+		<md-button
+			type="submit"
+			class="login-form-submit md-primary md-raised"
+			ng-disabled="loginForm.$invalid"
+			translate="Anmelden"
+		>
+		</md-button>
+
+	</form>
+	<div
+		layout="row"
+		layout-align="space-around center"
+	>
+		<a
+			ui-sref="main.register"
+			class="md-primary"
+			translate="Registrieren"></a>
+		<a
+			ui-sref="main.forgotpassword"
+			md-no-ink
+			class="md-primary"
+			translate="Passwort vergessen?"
+		></a>
+	</div>
+</div>

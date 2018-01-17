@@ -1,0 +1,51 @@
+<div
+	layout="row"
+	layout-wrap
+>
+	<md-button
+		flex="33"
+		ng-repeat="filter in vm.filters | filter: {type: 'icon'}"
+		ng-class="{'md-raised md-primary': vm.inSelection(filter)}"
+		ng-click="vm.toggleFilter(filter)"
+		layout="column"
+		layout-align="center center"
+		class="big-thumb clean md-primary"
+	>
+		<div
+			hide-sm
+			class="md-tile-content"
+		>
+			<md-icon
+				md-svg-src="{{filter.image.src}}"
+				class="md-96"
+			></md-icon>
+		</div>
+		<div class="md-tile-content">{{filter.title}}</div>
+	</md-button>
+</div>
+
+<!-- dropdown -->
+<div
+	layout="column"
+	layout-padding
+>
+	<md-input-container
+		ng-repeat="filter in vm.filters | filter: {type: 'dropdown'}"
+		flex
+		class="md-block"
+	>
+		<label>{{filter.title}}</label>
+		<md-select
+			ng-model="vm.dropFilter[filter.id]"
+			ng-model-options="{trackBy: '$value.id'}"
+			multiple
+		>
+			<md-option
+				ng-repeat="item in filter.children"
+				ng-value="item"
+				ng-click="vm.toggleFilter(item)"
+			>{{item.title}}
+			</md-option>
+		</md-select>
+	</md-input-container>
+</div>

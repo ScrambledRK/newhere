@@ -1,0 +1,24 @@
+<md-toolbar
+	ng-if="$root.isTextAlignmentLeft"
+>
+	<div class="md-toolbar-tools">
+		<h2>
+			<span translate="Angebote"></span>
+		</h2>
+	</div>
+</md-toolbar>
+
+<md-toolbar
+	ng-if="!$root.isTextAlignmentLeft"
+>
+	<div
+		class="md-toolbar-tools"
+		layout-align="end center"
+		layout-fill
+		flex
+	>
+		<h2>
+			<span translate="Angebote"></span>
+		</h2>
+	</div>
+</md-toolbar>

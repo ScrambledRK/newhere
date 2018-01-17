@@ -1,0 +1,162 @@
+<div
+	class="provider-detail"
+	ng-if="vm.provider"
+	md-swipe-up="vm.onSwipeUp()"
+	md-swipe-down="vm.onSwipeDown()"
+>
+	<h2>{{vm.provider.organisation}}</h2>
+
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- content -->
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+	<!-- description -->
+	<div
+		layout="row"
+		class="detail-container"
+	>
+		<md-icon ng-if="$root.isTextAlignmentLeft">info</md-icon>
+
+		<div
+			class="detail-content"
+			layout="column"
+		>
+			{{vm.provider.description}}
+		</div>
+		<md-icon ng-if="!$root.isTextAlignmentLeft">info</md-icon>
+	</div>
+
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- contact -->
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+	<!-- phone -->
+	<div
+		layout="row"
+		class="detail-container"
+		ng-if="vm.provider.contact_phone"
+	>
+		<md-icon ng-if="$root.isTextAlignmentLeft">phone</md-icon>
+
+		<div
+			class="detail-content"
+			layout="column"
+		>
+			<a href="tel:{{vm.provider.contact_phone}}">{{vm.provider.contact_phone}}</a>
+		</div>
+
+		<md-icon ng-if="!$root.isTextAlignmentLeft">phone</md-icon>
+	</div>
+
+	<!-- website -->
+	<div
+		layout="row"
+		class="detail-container"
+		ng-if="vm.provider.website"
+	>
+		<md-icon ng-if="$root.isTextAlignmentLeft">insert_link</md-icon>
+
+		<div
+			class="detail-content"
+			layout="column"
+		>
+			<a
+				href="{{vm.provider.website}}"
+				target="_blank"
+			>{{vm.provider.website}}</a>
+		</div>
+
+		<md-icon ng-if="!$root.isTextAlignmentLeft">insert_link</md-icon>
+	</div>
+
+	<!--facebook -->
+	<div
+		layout="row"
+		class="detail-container"
+		ng-if="vm.provider.facebook_url"
+	>
+		<md-icon
+			ng-if="$root.isTextAlignmentLeft"
+			md-svg-src="/img/icons/facebook.svg"
+			class="normal"
+		></md-icon>
+
+		<div
+			class="detail-content"
+			layout="column"
+		>
+			<a
+				href="{{vm.provider.facebook_url}}"
+				target="_blank"
+			>{{vm.provider.facebook_url}}</a>
+		</div>
+
+		<md-icon
+			ng-if="!$root.isTextAlignmentLeft"
+			md-svg-src="/img/icons/facebook.svg"
+			class="normal"
+		></md-icon>
+	</div>
+
+	<!-- email -->
+	<div
+		layout="row"
+		class="detail-container"
+		ng-if="vm.provider.contact_email"
+	>
+		<md-icon ng-if="$root.isTextAlignmentLeft">mail</md-icon>
+
+		<div
+			class="detail-content"
+			layout="column"
+		>
+			<a href="mailto:{{vm.provider.contact_email}}">{{vm.provider.contact_email}}</a>
+		</div>
+
+		<md-icon ng-if="!$root.isTextAlignmentLeft">mail</md-icon>
+	</div>
+
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- address -->
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+	<div
+		layout="row"
+		class="detail-container"
+		ng-if="vm.provider.street"
+	>
+		<md-icon ng-if="$root.isTextAlignmentLeft">place</md-icon>
+
+		<div
+			class="detail-content"
+			layout="column"
+		>
+			<div>
+				<span>{{vm.provider.street}} {{vm.provider.street_number}}</span>
+				<span ng-if="vm.provider.streetnumberadditional">
+					{{vm.provider.streetnumberadditional}}
+				</span>
+			</div>
+			<span>{{vm.provider.zip}} {{vm.provider.city}}</span>
+		</div>
+
+		<md-icon ng-if="!$root.isTextAlignmentLeft">place</md-icon>
+	</div>
+
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- data -->
+	<!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+	<br>
+
+	<!-- image -->
+	<div ng-if="vm.provider.image">
+		<img
+			class="provider-detail-image"
+			ng-src="{{vm.provider.image.src}}"
+		>
+	</div>
+
+</div>
+
+

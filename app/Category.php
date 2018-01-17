@@ -2,39 +2,91 @@
 
 namespace App;
 
-use \Dimsav\Translatable\Translatable;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
     use Translatable;
 
-    public $translatedAttributes = ['title', 'description'];
-    protected $fillable = ['image_id', 'disabled', 'title', 'description'];
+    //
+    public $translatedAttributes = [
+        'title',
+        'description'
+    ];
 
+    //
+    protected $fillable = [
+        'image_id',
+        'disabled',
+        'title',
+        'description'
+    ];
+
+    /**
+     * @return mixed
+     */
     public function children()
     {
-        return $this->hasMany('App\Category', 'parent_id', 'id')->with('children');
+        $result = $this->hasMany( 'App\Category', 'parent_id', 'id' )
+                       ->where( 'enabled', true )
+                       ->orderBy( 'sortindex', 'ASC' )
+                       ->with( 'image' );
+                     //  ->has( 'offers' )
+                    //   ->orHas( '_children' );
+
+        return $result;
     }
 
+    //
+    public function allChildren()
+    {
+        return $this->hasMany('App\Category', 'parent_id', 'id')
+                    ->with('allChildren');
+    }
+
+    //
+//    public function _children()
+//    {
+//        return $this->hasMany( 'App\Category', 'parent_id', 'id' );
+//    }
+
+
+    /**
+     * @return mixed
+     */
     public function parent()
     {
-        return $this->hasOne('App\Category', 'id', 'parent_id')->with(['image','parent']);
+        return $this->hasOne( 'App\Category', 'id', 'parent_id' )
+                    ->where( 'enabled', true )
+                    ->with( [ 'parent', 'image' ] );
     }
 
+    /**
+     * @return mixed
+     */
     public function offers()
     {
-        return $this->belongsToMany('App\Offer', 'offer_categories', 'category_id', 'offer_id')->with(['ngo', 'filters', 'categories', 'image']);
+        return $this->belongsToMany( 'App\Offer', 'offer_categories',
+                                     'category_id', 'offer_id' )
+                    ->where( 'enabled', true )
+                    ->with(
+                        [
+                            'ngo' => function( $q )
+                            {
+                                $q->where( 'published', true );
+                            },
+                            'filters',
+                            'image'
+                        ] );
     }
-    public function public_offers()
-    {
-        return $this->belongsToMany('App\Offer', 'offer_categories', 'category_id', 'offer_id')->with(['ngo', 'filters', 'categories', 'image'])->whereHas('ngo', function($query){
-          $query->where('id', 5);
-        });
-    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function image()
     {
-        return $this->belongsTo('App\Image');
+        return $this->belongsTo( 'App\Image' );
 
     }
 }

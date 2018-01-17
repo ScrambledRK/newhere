@@ -1,0 +1,45 @@
+<md-dialog>
+	<form ng-submit="vm.assignSave()">
+
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>{{ 'Angebot an NGO zuweisen' | translate }}</h2>
+				<span flex></span>
+				<md-button
+					class="md-icon-button"
+					ng-click="vm.cancel()"
+				>
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<p>
+					{{ '%d Angebote ausgewählt' | translate | sprintf: vm.selectedItems.length }}
+				</p>
+				<provider
+					vm="vm"
+					action=""
+					model="assignProvider"
+				>
+
+				</provider>
+			</div>
+		</md-dialog-content>
+
+		<md-dialog-actions>
+			<md-button
+				type="button"
+				ng-click="vm.assignCancel()"
+			>{{ 'Abbrechen' | translate }}
+			</md-button>
+			<md-button
+				class="md-primary md-raised"
+				type="submit"
+			>{{ 'Speichern' | translate }}
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

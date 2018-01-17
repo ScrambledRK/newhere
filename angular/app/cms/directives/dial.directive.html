@@ -1,0 +1,88 @@
+<md-fab-speed-dial
+	class="md-fling fixed bottom"
+	ng-show="vm.selectedItems.length"
+	md-open="vm.menu.isOpen"
+	md-direction="up"
+>
+	<md-fab-trigger>
+		<md-button
+			aria-label="menu"
+			class="md-fab md-warn"
+		>
+			<md-tooltip
+				md-direction="left"
+				md-delay="250"
+			>{{ 'bearbeiten' | translate }}
+			</md-tooltip>
+			<md-icon>edit</md-icon>
+		</md-button>
+	</md-fab-trigger>
+
+	<md-fab-actions>
+
+		<!-- delete -->
+		<md-button
+			ng-if="vm.isElementVisible('delete')"
+			class="md-raised md-fab md-warn md-hue-2 md-mini"
+			ng-click="vm.deleteSelectedItems()"
+			layout="row"
+			layout-align="center center"
+		>
+			<md-tooltip
+				md-direction="left"
+				md-delay="250"
+			>{{ 'löschen' | translate }}
+			</md-tooltip>
+			<i class="material-icons">delete</i>
+		</md-button>
+
+		<!-- disable -->
+		<md-button
+			ng-if="vm.isElementVisible('enable-dial')"
+			class="md-raised md-fab  md-warn md-mini"
+			ng-click="vm.enableSelectedItems(false)"
+			layout="row"
+			layout-align="center center"
+		>
+			<md-tooltip
+				md-direction="left"
+				md-delay="250"
+			>{{ 'deaktivieren' | translate }}
+			</md-tooltip>
+			<i class="material-icons">lock</i>
+		</md-button>
+
+		<!-- enable -->
+		<md-button
+			ng-if="vm.isElementVisible('enable-dial')"
+			class="md-raised md-fab  md-accent md-mini"
+			ng-click="vm.enableSelectedItems(true)"
+			layout="row"
+			layout-align="center center"
+		>
+			<md-tooltip
+				md-direction="left"
+				md-delay="250"
+			>{{ 'aktivieren' | translate }}
+			</md-tooltip>
+			<i class="material-icons">lock_open</i>
+		</md-button>
+
+		<!-- ngo -->
+		<md-button
+			ng-if="vm.isElementVisible('provider')"
+			class="md-raised md-fab  md-default  md-mini"
+			ng-click="vm.assignSelectedItems()"
+			layout="row"
+			layout-align="center center"
+		>
+			<md-tooltip
+				md-direction="left"
+				md-delay="250"
+			>{{ 'NGO zuweisen' | translate }}
+			</md-tooltip>
+			<i class="material-icons">business</i>
+		</md-button>
+
+	</md-fab-actions>
+</md-fab-speed-dial>

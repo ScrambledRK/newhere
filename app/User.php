@@ -7,7 +7,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
-     use EntrustUserTrait;
+    use EntrustUserTrait;
     /**
      * The attributes that are mass assignable.
      *
@@ -23,13 +23,28 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'confirmation_code'
     ];
 
-    public function ngos(){
-      return $this->belongsToMany('App\Ngo', 'ngo_users');
+    public function ngos()
+    {
+        return $this->belongsToMany( 'App\Ngo', 'ngo_users' );
     }
-    public function languages(){
-      return $this->belongsToMany('App\Language', 'user_languages');
+
+    public function pendings()
+    {
+        return $this->hasMany( 'App\PendingRequest',
+                                     'user_id', 'id' );
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany( 'App\Role',
+                               'role_user' );
+    }
+
+    public function languages()
+    {
+        return $this->belongsToMany( 'App\Language', 'user_languages' );
     }
 }

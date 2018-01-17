@@ -1,0 +1,19 @@
+<div
+	class="map-toggler-wide"
+	layout="row"
+>
+	<md-button
+		ng-click="vm.toggleMap()"
+		class="btn-bottom md-primary md-raised btn-big"
+		flex
+	>
+		<div ng-if="vm.isMapFocused()">
+			<md-icon>list</md-icon>
+			<span translate="Liste anzeigen"></span>
+		</div>
+		<div ng-if="!vm.isMapFocused()">
+			<md-icon>map</md-icon>
+			<span translate="Karte erkunden"></span>
+		</div>
+	</md-button>
+</div>

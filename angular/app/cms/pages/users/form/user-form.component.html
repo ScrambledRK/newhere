@@ -1,0 +1,215 @@
+<form
+	name="userForm"
+	ng-submit="vm.save()"
+>
+
+	<!-- -->
+	<!-- pending -->
+	<md-card
+		flex
+		layout-padding
+	>
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline">{{ 'Pending Requests' | translate }}</span>
+			</md-card-title-text>
+		</md-card-title>
+
+		<cms-request-table
+			ng-model="vm.user.pendings"
+			user="vm.user"
+		></cms-request-table>
+
+	</md-card>
+
+	<div
+		layout="row"
+		layout-fill
+	>
+		<!-- roles -->
+		<md-card
+			flex
+			layout-padding
+		>
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{ 'Rolle' | translate }}</span>
+				</md-card-title-text>
+			</md-card-title>
+
+			<md-checkbox
+				ng-repeat="role in vm.roles"
+				ng-checked="vm.hasRole(role)"
+				ng-click="vm.toggleRole(role)"
+			>
+				<strong>{{ role.display_name }}</strong>
+				(<em>{{ role.description }}</em>)
+			</md-checkbox>
+		</md-card>
+
+		<!-- -->
+		<!-- credentials -->
+		<md-card
+			flex
+			layout-padding
+		>
+
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{ 'Credentials' | translate }}</span>
+				</md-card-title-text>
+			</md-card-title>
+
+			<!-- name/email -->
+			<div layout-gt-sm="row">
+
+				<!-- -->
+				<md-input-container
+					class="md-block"
+					flex-gt-sm
+				>
+					<label>{{ 'Name' | translate }}</label>
+					<input
+						type="text"
+						ng-model="vm.user.name"
+						required
+					>
+				</md-input-container>
+
+				<!-- -->
+				<md-input-container
+					class="md-block"
+					flex-gt-sm
+				>
+					<label>{{ 'Email' | translate }}</label>
+					<input
+						type="email"
+						ng-model="vm.user.email"
+						required
+					>
+				</md-input-container>
+			</div>
+
+			<!-- password -->
+			<div layout-gt-sm="row">
+
+				<!-- -->
+				<md-input-container
+					class="md-block"
+					flex-gt-sm
+				>
+					<label>{{ 'Passwort' | translate }}</label>
+					<input
+						name="password"
+						type="password"
+						ng-model="vm.user.password"
+						minlength="5"
+					>
+					<div
+						ng-messages="userForm.password.$error"
+						ng-show="userForm.password.$dirty"
+					>
+						<div ng-message="minlength">{{ 'Mindestens %d Zeichen' | translate |
+						                            sprintf: 5 }}
+						</div>
+					</div>
+				</md-input-container>
+
+				<!-- -->
+				<md-input-container
+					class="md-block"
+					flex-gt-sm
+				>
+					<label>{{ 'Passwort wiederholen' | translate }}</label>
+					<input
+						name="re_password"
+						type="password"
+						ng-model="vm.user.re_password"
+						compare-to="vm.user.password"
+					>
+					<div
+						ng-messages="userForm.re_password.$error"
+						ng-show="userForm.re_password.$dirty"
+					>
+						<div ng-message="compareTo">{{ 'Unterschiedliche Passwörter' | translate
+						                            }}
+						</div>
+					</div>
+				</md-input-container>
+			</div>
+		</md-card>
+
+	</div>
+
+	<!-- providers -->
+	<md-card
+		layout-padding
+		layout="column"
+	>
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline">{{ 'Anbieter' | translate }}</span>
+			</md-card-title-text>
+		</md-card-title>
+
+		<!-- select -->
+		<div layout="row">
+			<div
+				layout="row"
+				flex
+			>
+				<provider
+					vm="vm"
+				></provider>
+
+				<md-button
+					class="md-raised md-icon-button md-primary"
+					layout="row"
+					layout-align="center center"
+					ng-click="vm.assignSelectedProvider()"
+					style="margin-top: 18px; margin-bottom: 18px;"
+				>
+					<md-tooltip
+						md-direction="left"
+						md-delay="250"
+					>{{ 'NGO zuweisen' | translate }}
+					</md-tooltip>
+					<i class="material-icons">add</i>
+				</md-button>
+			</div>
+
+			<!-- list -->
+			<md-chips
+				ng-model="vm.user.ngos"
+				readonly="true"
+				md-removable="true"
+				md-enable-chip-edit="false"
+				flex
+			>
+				<md-chip-template>
+					<md-icon ng-if="!$chip.published">lock</md-icon>
+					<md-icon ng-if="$chip.published">lock_open</md-icon>
+					<a
+						href="{{vm.getURL($chip,'provider')}}"
+					>
+						{{ $chip.organisation }}
+					</a>
+				</md-chip-template>
+			</md-chips>
+		</div>
+
+	</md-card>
+
+	<div
+		flex
+		layout="row"
+		layout-align="end center"
+	>
+		<save
+			is-disabled="userForm.$invalid || userForm.$pristine"
+		></save>
+
+		<cancel></cancel>
+	</div>
+
+</form>

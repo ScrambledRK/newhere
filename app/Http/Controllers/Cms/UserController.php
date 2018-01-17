@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\PendingRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -16,205 +17,305 @@ use DB;
 class UserController extends Controller
 {
     //
-    public function index(){
-      $users = User::with(['roles', 'ngos','languages'])->get();
-      return response()->success(compact('users'));
-    }
-
-    public function show($id){
-      $user = User::findOrFail($id)->load(['roles', 'ngos','languages']);
-      return response()->json($user);
-    }
-    public function me(){
-      $user = Auth::user();
-      return response()->json($user);
-    }
-    public function byRole($role){
-      $users = User::whereHas('roles', function($query) use ($role){
-          $query->where('name', $role);
-      })->get();
-      return response()->success(compact('users'));
-    }
-
-    public function byNgo(Request $request)
+    public function me()
     {
-        $ngoId = $request->header('ngoId');
-        if ($ngoId) {
-            $ngo = Ngo::findOrFail($ngoId);
-            $ngoUsers = $ngo->users()->with(['roles'])->get();
-        } else {
-            $user = Auth::user();
-            $ngo = $user->ngos()->firstOrFail();
-            $ngoUsers = $ngo->users()->with(['roles'])->where('user_id', '<>', $user->id)->get();
-        }
-        return response()->success(compact('ngoUsers'));
+        $user = Auth::user();
+
+        $user->load( "roles" );
+        $user->load( "ngos" );
+        $user->load( "languages" );
+        $user->load( ['pendings' => function ($query) {
+            $query->with([ "ngo", "role" ]);
+        }]);
+
+        return response()->json( $user );
     }
 
-
-    public function byLanuage($language){
-      $language = Language::where('language',$language)->firstOrFail;
-      $users = $language->load('users');
-      return response()->success(compact('users'));
-    }
-    public function update(Request $request, $id){
-      $this->validate($request, [
-          'email'    => 'required|email',
-          'name' => 'required|min:3|max:255',
-          'confirmed' => 'required',
-          'roles' => 'required'
-      ]);
-
-      DB::beginTransaction();
-
-      $user = User::findOrFail($id);
-      $user->name = $request->get('name');
-      $user->email = $request->get('email');
-      $user->confirmed = $request->get('confirmed');
-      $user->save();
-
-      $user->roles()->detach();
-      foreach($request->get('roles') as $role){
-        $role = Role::findOrFail($role['id']);
-        $user->roles()->attach($role);
-      }
-      $user->ngos()->detach();
-      foreach($request->get('ngos') as $ngo){
-        $ngo = Ngo::findOrFail($ngo['id']);
-        $user->ngos()->attach($ngo);
-      }
-      $user->languages()->detach();
-      foreach($request->get('languages') as $language){
-        $language = Language::where('language', $language['language'])->firstOrFail();
-        $user->languages()->attach($language);
-      }
-      DB::commit();
-
-      $user->load('ngos', 'roles', 'languages');
-      return response()->success(compact(['user']));
-    }
-
-    public function create(Request $request){
-      $this->validate($request, [
-          'email'    => 'required|email',
-          'name' => 'required|min:3|max:255',
-          'confirmed' => 'required',
-          'password' => 'required|min:5',
-          're_password' => 'required|min:5',
-          'roles' => 'required'
-      ]);
-
-      if($request->get('password') != $request->get('re_password')){
-        return response()->error('Passwords do not match!', 422);
-      }
-
-      DB::beginTransaction();
-      $user = new User;
-      $user->name = trim($request->get('name'));
-      $user->email = trim(strtolower($request->get('email')));
-      $user->password = bcrypt($request->get('password'));
-
-      if(!$request->get('confirmed')){
-        $user->confirmation_code = str_random(30);
-      }
-      $user->save();
-
-      foreach($request->get('roles') as $role){
-        $role = Role::findOrFail($role['id']);
-        $user->roles()->attach($role);
-      }
-      if($request->has('ngos')){
-        foreach($request->get('ngos') as $ngo){
-          $ngo = Ngo::findOrFail($ngo['id']);
-          $user->ngos()->attach($ngo);
-        }
-      }
-      if($request->has('languages')){
-        foreach($request->get('languages') as $language){
-          $language = Language::where('language', $language['language'])->firstOrFail();
-          $user->languages()->attach($language);
-        }
-      }
-
-      DB::commit();
-      //if not confirmed send mail
-
-      $user->load('ngos', 'roles');
-      return response()->success(compact('user'));
-
-    }
-
-    public function createNgoUser(Request $request)
+    //
+    public function byId( $id )
     {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'name' => 'required|min:3|max:255',
-            'password' => 'required|min:5',
-            're_password' => 'required|min:5',
-            'isNgoAdmin' => 'required'
-        ]);
+        $user = User::where( 'id', $id )->with(
+            [
+                'roles',
+                'ngos',
+                'languages',
+                'pendings',
+                'pendings.ngo',
+                'pendings.role'
+            ]
+        )->firstOrFail();
 
-        if ($request->get('password') != $request->get('re_password')) {
-            return response()->error('Passwords do not match!', 422);
+        return response()->json( $user );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function index( Request $request )
+    {
+        $user = Auth::user();
+        $result = null;
+
+        if( $this->isUserAdmin( $user ) )
+        {
+            $result = User::with( [ "ngos", "pendings", "roles" ] )
+            ->withCount('pendings');
+        }
+        else
+        {
+            $result = User::with( [ "ngos", "roles" ] )
+                          ->whereHas( "ngos.users",
+                              function( $query ) use ( $user )
+                              {
+                                  $query->where( "user_id", $user->id );
+                              } );
         }
 
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        if( $request->has( 'ngo_id' ) )
+        {
+            $result = $result->whereHas( "ngos",
+                function( $query ) use ( $request )
+                {
+                    $query->where( "ngo_id", $request->get( 'ngo_id' ) );
+                } );
+        }
+
+        //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'confirmed',
+                                      $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            $result = $result->where( function( $query ) use ( $toSearch )
+            {
+                $query->where(
+                    'name',
+                    'ilike',
+                    '%' . $toSearch . '%'
+                )->orWhere( function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'email',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    );
+                } );
+            } );
+        }
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        $count = $result->count();
+        $result = $this->paginate( $request, $result );
+
+        //
+        $result = $result->get();
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        return response()->success( compact( 'result', 'count' ) );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function roles( Request $request )
+    {
+        $result = Role::with( [] );
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        //
+        $count = $result->count();
+        $result = $this->paginate( $request, $result );
+
+        //
+        $result = $result->get();
+
+        // ------------------------------------------- //
+        // ------------------------------------------- //
+
+        return response()->success( compact( 'result', 'count' ) );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function create( Request $request )
+    {
         DB::beginTransaction();
+
         $user = new User;
-        $user->name = trim($request->get('name'));
-        $user->email = trim(strtolower($request->get('email')));
-        $user->password = bcrypt($request->get('password'));
-        $user->confirmation_code = str_random(30);
+        $user = $this->populateFromRequest( $request, $user );
+        $user = $this->passwordFromRequest( $request, $user );
         $user->save();
-        // attach organisation role
-        if ($request->get('isNgoAdmin')) {
-            $ngoRole = Role::where('name', 'organisation-admin')->firstOrFail();
-        } else {
-            $ngoRole = Role::where('name', 'organisation-user')->firstOrFail();
-        }
-        $user->roles()->attach($ngoRole);
-        // attach ngo
-        if ($request->has('ngoId')) {
-            $ngo = Ngo::findOrFail($request->get('ngoId'));
-        } else {
-            $loggedInUser = Auth::user();
-            $ngo = $loggedInUser->ngos()->firstOrFail();
-        }
-        $user->ngos()->attach($ngo);
+
+        $user = $this->relationFromRequest( $request, $user );
+        $user->save();
+
         DB::commit();
 
-        return response()->success(compact('user'));
+        return response()->success( compact( 'user' ) );
 
     }
 
-    function bulkRemove($ids){
-      $usersQ = User::whereIn('id', explode(',', $ids));
-      $users = $usersQ->get();
-      $deletedRows = $usersQ->delete();
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function update( Request $request, $id )
+    {
+        DB::beginTransaction();
 
-      return response()->success(compact('users', 'deletedRows'));
+        $user = User::findOrFail( $id );
+        $user = $this->populateFromRequest( $request, $user );
+        $user = $this->relationFromRequest( $request, $user );
+
+        if( $request->has( 'password' ) )
+            $user = $this->passwordFromRequest( $request, $user );
+
+        $user->save();
+
+        DB::commit();
+
+        return response()->success( compact( [ 'user' ] ) );
     }
 
-    public function toggleAdmin(Request $request, $id) {
-        $this->validate($request, [
-            'isNgoAdmin' => 'required'
-        ]);
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function delete( Request $request, $id )
+    {
+        $user = User::findOrFail( $id );
+        $user->delete();
 
-        $user = User::find((int)$id);
-        if (!$user) {
-            return response()->error('User not found', 404);
-        }
+        return response()->success( compact( 'user' ) );
+    }
 
-        $ngoAdminRole = Role::where('name', 'organisation-admin')->firstOrFail();
-        $ngoUserRole = Role::where('name', 'organisation-user')->firstOrFail();
-        if($request->get('isNgoAdmin')) {
-            $user->roles()->attach($ngoAdminRole);
-        } else {
-            $user->roles()->detach($ngoAdminRole->id);
-            // attach organisation-user role if not already attached
-            if (!$user->roles->contains('id', $ngoUserRole->id)) {
-                $user->roles()->attach($ngoUserRole);
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return User
+     */
+    private function populateFromRequest( Request $request, User $user )
+    {
+        $this->validate( $request, [
+            'email'     => 'required|email',
+            'name'      => 'required|min:3|max:255',
+            'confirmed' => 'required'
+        ] );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        $user->name = trim( $request->get( 'name' ) );
+        $user->email = trim( strtolower( $request->get( 'email' ) ) );
+        $user->confirmed = $request->get( 'confirmed' );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+        return $user;
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return User
+     */
+    private function relationFromRequest( Request $request, User $user )
+    {
+        //
+        if( $request->has( 'roles' ) )
+        {
+            $user->roles()->detach();
+
+            foreach( $request->get( 'roles' ) as $role )
+            {
+                $role = Role::findOrFail( $role[ 'id' ] );
+                $user->roles()->attach( $role );
             }
         }
 
-        return response()->success(compact('user'));
+        //
+        if( $request->has( 'ngos' ) )
+        {
+            $user->ngos()->detach();
+
+            foreach( $request->get( 'ngos' ) as $ngo )
+            {
+                $ngo = Ngo::findOrFail( $ngo[ 'id' ] );
+                $user->ngos()->attach( $ngo );
+            }
+        }
+
+        //
+        if( $request->has( 'languages' ) )
+        {
+            $user->languages()->detach();
+
+            foreach( $request->get( 'languages' ) as $language )
+            {
+                $language = Language::where( 'language', $language[ 'language' ] )->firstOrFail();
+                $user->languages()->attach( $language );
+            }
+        }
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+        return $user;
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return User
+     */
+    private function passwordFromRequest( Request $request, User $user )
+    {
+        $this->validate( $request, [
+            'confirmed'   => 'required',
+            'password'    => 'required|min:5',
+            're_password' => 'required|min:5',
+            'roles'       => 'required'
+        ] );
+
+        //
+        if( $request->get( 'password' ) != $request->get( 're_password' ) )
+            return response()->error( 'Passwords do not match!', 422 );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+        $user->password = bcrypt( $request->get( 'password' ) );
+
+        if( !$request->get( 'confirmed' ) )
+            $user->confirmation_code = str_random( 30 );
+
+        return $user;
     }
 }

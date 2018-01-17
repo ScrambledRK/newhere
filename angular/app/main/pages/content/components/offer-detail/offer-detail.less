@@ -1,0 +1,85 @@
+@import "./angular/material/colors";
+
+.offer-detail
+{
+  color:       @blue;
+  margin:      30px 22px 5px;
+  line-height: 20px;
+  background:  @white;
+}
+
+.offer-detail h2
+{
+  margin-right: 8px;
+  margin-left:  8px;
+  padding-bottom: 12px;
+}
+
+.offer-detail a
+{
+  text-decoration: underline;
+}
+
+.offer-detail .detail-container
+{
+  margin-top: 12px;
+}
+
+.offer-detail .detail-content
+{
+  width: 100%;
+}
+
+.offer-detail md-icon
+{
+  font-size:    20px;
+  margin-right: 8px;
+  margin-left:  8px;
+  margin-top: 2px;
+  color:        @blue;
+  display:      inline;
+}
+
+.offer-detail-image
+{
+  width:  100%;
+  height: auto;
+}
+
+.check-element
+{
+  height:     300px;
+  padding:    10px;
+  background: white;
+}
+
+.animation
+{
+  -webkit-transition: 0.5s;
+}
+
+.animation.ng-enter
+{
+  opacity: 0;
+  height:  0;
+}
+
+.animation.ng-leave
+{
+  opacity: 1;
+  height:  300px;
+}
+
+.animation.ng-enter.ng-enter-active
+{
+  opacity:  1;
+  height:   300px;
+  overflow: hidden;
+}
+
+.animation.ng-leave.ng-leave-active
+{
+  opacity:  0;
+  height:   0;
+  overflow: hidden;
+}
