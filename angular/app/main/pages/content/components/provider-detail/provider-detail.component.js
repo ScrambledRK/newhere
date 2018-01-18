@@ -9,6 +9,7 @@ class ProviderDetailController
 	 * @param $state
 	 */
 	constructor( ContentService,
+	             RoutingService,
 	             MapService,
 	             $rootScope,
 	             $scope,
@@ -18,6 +19,7 @@ class ProviderDetailController
 
 		//
 		this.ContentService = ContentService;
+		this.RoutingService = RoutingService;
 		this.MapService = MapService;
 
 		this.$rootScope = $rootScope;
@@ -55,10 +57,14 @@ class ProviderDetailController
 	}
 
 	//
-	toggleMap()
+	onSwipeUp()
 	{
-		this.$rootScope.showMap = !this.$rootScope.showMap;
-		this.$rootScope.showDetails = !this.$rootScope.showDetails;
+		this.RoutingService.setMapFocus( false );
+	}
+
+	onSwipeDown()
+	{
+		this.RoutingService.setMapFocus( true );
 	}
 }
 

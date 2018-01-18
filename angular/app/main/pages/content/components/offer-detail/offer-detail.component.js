@@ -56,13 +56,6 @@ class OfferDetailController
 	}
 
 	//
-	toggleMap()
-	{
-		this.$rootScope.showMap = !this.$rootScope.showMap;
-		this.$rootScope.showDetails = !this.$rootScope.showDetails;
-	}
-
-	//
 	goProvider()
 	{
 		this.RoutingService.goProvider( this.offer.ngo.id );
@@ -79,12 +72,12 @@ class OfferDetailController
 
 	onSwipeUp()
 	{
-		console.log( "swipe-up" );
+		this.RoutingService.setMapFocus( false );
 	}
 
 	onSwipeDown()
 	{
-		console.log( "swipe-down" );
+		this.RoutingService.setMapFocus( true );
 	}
 }
 
