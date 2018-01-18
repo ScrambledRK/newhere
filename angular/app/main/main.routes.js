@@ -51,7 +51,20 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 				views:
 					{
 						'body@main': {
-							templateUrl: getView( 'impressum/impressum' )
+							templateUrl: getView( 'static/impressum' )
+						}
+					}
+			} )
+
+		//
+		.state( 'main.about',
+			{
+				url: '/about',
+
+				views:
+					{
+						'body@main': {
+							templateUrl: getView( 'static/about' )
 						}
 					}
 			} )
