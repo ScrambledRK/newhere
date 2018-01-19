@@ -1,3 +1,58 @@
+/*
+cartodb
+:
+{mustHaveUrl: true, createLayer: ƒ}
+cartodbInteractive
+:
+{mustHaveKey: true, mustHaveLayer: true, createLayer: ƒ}
+cartodbTiles
+:
+{mustHaveKey: true, createLayer: ƒ}
+cartodbUTFGrid
+:
+{mustHaveKey: true, mustHaveLayer: true, createLayer: ƒ}
+custom
+:
+{createLayer: ƒ}
+featureGroup
+:
+{mustHaveUrl: false, createLayer: ƒ}
+geoJSON
+:
+{mustHaveUrl: true, createLayer: ƒ}
+geoJSONAwesomeMarker
+:
+{mustHaveUrl: false, createLayer: ƒ}
+geoJSONShape
+:
+{mustHaveUrl: false, createLayer: ƒ}
+geoJSONVectorMarker
+:
+{mustHaveUrl: false, createLayer: ƒ}
+group
+:
+{mustHaveUrl: false, createLayer: ƒ}
+iip
+:
+{mustHaveUrl: true, createLayer: ƒ}
+imageOverlay
+:
+{mustHaveUrl: true, mustHaveBounds: true, createLayer: ƒ}
+markercluster
+:
+{mustHaveUrl: false, createLayer: ƒ}
+wms
+:
+{mustHaveUrl: true, createLayer: ƒ}
+wmts
+:
+{mustHaveUrl: true, createLayer: ƒ}
+xyz
+:
+{mustHaveUrl: true, createLayer: ƒ}
+
+ */
+
 export class MapService
 {
 	constructor( $rootScope,
@@ -61,6 +116,14 @@ export class MapService
 				{
 					a.layer.zoomToBounds();
 				} );
+			} );
+
+			//
+			map.on("zoomend", () =>
+			{
+				console.log( map.getZoom() );
+				this.layers.overlays.other_transportation.visible = (map.getZoom() >= 16);
+				this.layers.overlays.metro_transportation.visible = (map.getZoom() >= 14);
 			} );
 		} );
 
@@ -170,6 +233,33 @@ export class MapService
 							} );
 						}
 					}
+				},
+
+				//
+				stations: {
+					name: 'stations',
+					type: 'markercluster',
+					visible: true,
+					layerOptions: {
+						showCoverageOnHover: false,
+						singleMarkerMode: true,
+						maxClusterRadius: 0,
+						disableClusteringAtZoom: true,
+						animateAddingMarkers: false,
+						spiderfyOnMaxZoom: false,
+
+						iconCreateFunction: function( cluster )
+						{
+							//console.log( cluster );
+
+							let text = "A";
+
+							return new L.DivIcon( {
+								html: '<div><span>' + text + '</span></div>',
+								iconSize: new L.Point( 40, 40 )
+							} );
+						}
+					}
 				}
 			}
 		};
@@ -243,6 +333,10 @@ export class MapService
 				} );
 
 				//
+				// if( this.stationMarkers )
+				// 	this.markers.push.apply( this.markers, this.stationMarkers );
+
+				//
 				this.leafletData.getLayers().then( ( layers ) =>
 				{
 					layers.overlays.offers.refreshClusters();
@@ -251,29 +345,155 @@ export class MapService
 		};
 
 		//
-		// https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:OEFFLINIENOGD&srsName=EPSG:4326&outputFormat=json
-		// http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png
 		//
-		//
-		$http.get( "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:OEFFLINIENOGD&srsName=EPSG:4326&outputFormat=json" )
-			.then( ( data, status ) =>
-			{
-				angular.extend( this.layers.overlays, {
-					transportation: {
-						name:'public transport',
-						type: 'geoJSON',
-						data: data,
-						visible: true,
-						layerOptions: {
-							style: {
-								color: 'blue',
-								weight: 2.0,
-								opacity: 0.6
+		$http.get( "public_transport_mini.json" )
+			.then( ( response ) =>
+				{
+					angular.extend( this.layers.overlays, {
+						metro_transportation:
+							{
+								name: 'public transport metro',
+								type: 'geoJSONShape',
+								data: response.data,
+								visible: true,
+								layerOptions:
+									{
+										filter: function(feature)
+										{
+											return feature.properties.LTYP === "4" ||
+												feature.properties.LTYP === "5";
+										},
+
+										style: this.getFeatureStyle
+									}
+							},
+						other_transportation:
+							{
+								name: 'public transport other',
+								type: 'geoJSONShape',
+								data: response.data,
+								visible: true,
+								layerOptions:
+									{
+										filter: function(feature)
+										{
+											return feature.properties.LTYP !== "4" &&
+												feature.properties.LTYP !== "5";
+										},
+
+										style: this.getFeatureStyle
+									}
 							}
-						}
-					}
-				});
-			} );
+					} );
+				},
+				( response ) =>
+				{
+					console.log( "error", response );
+				} );
+
+		//
+		//
+		// this.stationMarkers = [];
+		//
+		// $http.get( "stations.json" )
+		// 	.then( ( response ) =>
+		// 		{
+		// 			console.log("result station: ", response );
+		//
+		// 			angular.forEach( response.data, ( station, key ) =>
+		// 			{
+		// 				var marker = {
+		// 					lines: station.relatedLines,
+		// 					lng: parseFloat( station.longitude ),
+		// 					lat: parseFloat( station.latitude ),
+		// 					icon: this.blueIcon,
+		// 					layer: 'stations',
+		// 					clickable: false,
+		// 					draggable: false,
+		// 					riseOnHover: false,
+		// 					zIndexOffset: 5
+		// 				};
+		//
+		// 				if( this.stationMarkers.length < 10 )
+		// 					this.stationMarkers.push( marker );
+		// 			} );
+		// 		},
+		// 		( response ) =>
+		// 		{
+		// 			console.log( "error", response );
+		// 		} );
+	}
+
+	getFeatureStyle( feature )
+	{
+		//console.log( feature );
+
+		//
+		let color = '#4a6aff';
+		let alpha = 0.2 + Math.random() * 0.6;
+		let weight =  1.0;
+
+		//
+		switch( feature.properties.LTYP )
+		{
+			case '1':   // Straßenbahn
+				color = '#ff8668';
+				break;
+
+			case '2':   // Autobus
+				color = '#55baff';
+				break;
+
+			case '3': // Regionalbus
+				color = '#6affbf';
+				break;
+
+			case '4': // U-Bahn
+			{
+				switch( feature.properties.LBEZEICHNUNG )
+				{
+					case "U1":
+						color = "#ff0600";
+						break;
+
+					case "U2":
+						color = "#bb00ff";
+						break;
+
+					case "U3":
+						color = "#ff7825";
+						break;
+
+					case "U4":
+						color = "#74ff30";
+						break;
+
+					case "U5":
+						color = "#44ffca";
+						break;
+
+					case "U6":
+						color = "#ffbf41";
+						break;
+				}
+
+				weight = 2.5;
+				alpha = 0.9;
+				break;
+			}
+
+			case "5":   // S-Bahn
+				color = '#3247ff'
+				weight = 2.0;
+				alpha = 0.6;
+				break;
+		}
+
+		return {
+			color: color,
+			weight: weight,
+			opacity: alpha
+		};
 	}
 
 	invalidateSize()
