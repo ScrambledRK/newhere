@@ -25,6 +25,7 @@ import {RoutingService} from "./services/routing.service";
 import {RegisterFormComponent} from "./pages/login/register-form.component";
 import {ForgotpasswordFormComponent} from "./pages/login/forgotpassword-form.component";
 import {ResetpasswordFormComponent} from "./pages/login/resetpassword-form.component";
+import {CategoryTitleDirective} from "./directives/category-title.directive";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -51,6 +52,7 @@ angular.module( 'app.main' )
 //
 angular.module( 'app.main' )
 	.directive( "offerTitle", OfferTitleDirective )
+	.directive( "categoryTitle", CategoryTitleDirective )
 ;
 
 // ------------------------------- //
