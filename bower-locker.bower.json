@@ -36,7 +36,6 @@
       "font-awesome": "4.7.0",
       "leaflet": "0.7.7",
       "leaflet-fullscreen": "1.0.2",
-      "leaflet-icon-pulse": "0.1.0",
       "leaflet-pulse-icon": "0.1.0",
       "leaflet-routing-machine": "3.2.5",
       "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#leaflet-0.7",
@@ -48,7 +47,8 @@
       "satellizer": "0.15.5",
       "sprintf": "1.1.1",
       "textAngular": "1.5.16",
-      "ui-leaflet": "2.0.0"
+      "ui-leaflet": "2.0.0",
+	  "angular-ui-tinymce":"0.0.19"
     },
     "overrides": {
         "font-awesome": {

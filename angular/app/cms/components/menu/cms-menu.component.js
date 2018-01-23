@@ -61,6 +61,12 @@ class CmsMenuController
 				icon: 'group',
 				title: 'Users',
 				roles: ['admin','superadmin', 'organisation-admin', 'organisation-user' ]
+			},
+			{
+				sref: 'cms.pages',
+				icon: 'description',
+				title: 'Pages',
+				roles: ['admin','superadmin' ]
 			}
 		];
 

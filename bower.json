@@ -37,7 +37,6 @@
     "font-awesome": "https://github.com/FortAwesome/Font-Awesome.git#a3fe90fa5f6fac55d197f9cbd18e3f57dafb716c",
     "leaflet": "https://github.com/Leaflet/Leaflet.git#197f9d43b7bbc73c0492bf62cd666a5a98038098",
     "leaflet-fullscreen": "https://github.com/Leaflet/Leaflet.fullscreen.git#c4998cf2ea7e4bd2b64006eede0a16037995e4b7",
-    "leaflet-icon-pulse": "https://github.com/mapshakers/leaflet-icon-pulse.git#fd39285a20d0ac3d085ab837607464d5b2c69f4a",
     "leaflet-pulse-icon": "https://github.com/mapshakers/leaflet-icon-pulse.git#fd39285a20d0ac3d085ab837607464d5b2c69f4a",
     "leaflet-routing-machine": "https://github.com/perliedman/leaflet-routing-machine.git#fdf3616771c3538f9cdab63c1cda6425a328bdd3",
     "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#232e93ccbe5b70241913f47a4d1a8ceec8c88c30",
@@ -49,7 +48,8 @@
     "satellizer": "https://github.com/sahat/satellizer.git#99a2603cadc1879dd577c0a19cf6c3fa9c92ac51",
     "sprintf": "https://github.com/alexei/sprintf.js.git#6bfe81840e560d675a9de3d79c06354a47ac9236",
     "textAngular": "https://github.com/fraywing/textAngular.git#a4c905845164d8c20e5cf69ece742185b2a1f1ed",
-    "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#919b862389ddddc85c197746f3126fd24de0dc42"
+    "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#919b862389ddddc85c197746f3126fd24de0dc42",
+	"angular-ui-tinymce":"0.0.19"
   },
   "overrides": {
     "font-awesome": {
