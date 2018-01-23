@@ -2,16 +2,16 @@
 
 .offer-detail
 {
-  color:       @blue;
-  margin:      30px 22px 5px;
+  color: @blue;
+  margin: 30px 22px 5px;
   line-height: 20px;
-  background:  @white;
+  background: @white;
 }
 
 .offer-detail h2
 {
   margin-right: 8px;
-  margin-left:  8px;
+  margin-left: 8px;
   padding-bottom: 12px;
 }
 
@@ -30,26 +30,44 @@
   width: 100%;
 }
 
+.offer-detail .detail-address-buttons
+{
+  margin-left: 36px;
+  margin-right: 36px;
+
+  md-icon
+  {
+    font-size: 20px;
+    margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 2px;
+    color: @blue;
+    //display: inline;
+    height: 32px;
+    width: 32px;
+  }
+}
+
 .offer-detail md-icon
 {
-  font-size:    20px;
+  font-size: 20px;
   margin-right: 8px;
-  margin-left:  8px;
+  margin-left: 8px;
   margin-top: 2px;
-  color:        @blue;
-  display:      inline;
+  color: @blue;
+  //display: inline;
 }
 
 .offer-detail-image
 {
-  width:  100%;
+  width: 100%;
   height: auto;
 }
 
 .check-element
 {
-  height:     300px;
-  padding:    10px;
+  height: 300px;
+  padding: 10px;
   background: white;
 }
 
@@ -61,25 +79,25 @@
 .animation.ng-enter
 {
   opacity: 0;
-  height:  0;
+  height: 0;
 }
 
 .animation.ng-leave
 {
   opacity: 1;
-  height:  300px;
+  height: 300px;
 }
 
 .animation.ng-enter.ng-enter-active
 {
-  opacity:  1;
-  height:   300px;
+  opacity: 1;
+  height: 300px;
   overflow: hidden;
 }
 
 .animation.ng-leave.ng-leave-active
 {
-  opacity:  0;
-  height:   0;
+  opacity: 0;
+  height: 0;
   overflow: hidden;
 }

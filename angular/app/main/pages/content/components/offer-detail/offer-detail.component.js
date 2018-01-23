@@ -13,7 +13,7 @@ class OfferDetailController
 	constructor( ContentService,
 	             RoutingService,
 	             MapService,
-	             $element,
+	             $window,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -25,7 +25,7 @@ class OfferDetailController
 		this.RoutingService = RoutingService;
 		this.MapService = MapService;
 
-		this.$window = $element;
+		this.$window = $window;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 		this.$state = $state;
@@ -53,6 +53,19 @@ class OfferDetailController
 	setContent( offer )
 	{
 		this.offer = offer;
+
+		//
+		if( this.offer && this.offer.street )
+		{
+			let address = this.offer.street + " " + this.offer.streetnumber;
+
+			//
+			this.link_google = "https://www.google.com/maps/dir/?api=1&destination=";
+			this.link_google += this.$window.encodeURIComponent( address );
+
+			this.link_wlinien = "https://www.wienerlinien.at/eportal3/ep/channelView.do/channelId/-46649"
+			this.link_wlinien += "?routeTo=" + address;
+		}
 	}
 
 	//
@@ -79,6 +92,7 @@ class OfferDetailController
 	{
 		this.RoutingService.setMapFocus( true );
 	}
+
 }
 
 //

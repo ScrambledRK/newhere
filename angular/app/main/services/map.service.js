@@ -124,11 +124,11 @@ export class MapService
 		this._setupLeafletData( leafletData );
 
 		//
-		this.$timeout( () =>
-		{
-			this._createTransportLayer( $http );
-			this._createStationLayer( $http );
-		}, 1, false );
+		// this.$timeout( () =>
+		// {
+		// 	this._createTransportLayer( $http );
+		// 	this._createStationLayer( $http );
+		// }, 1, false );
 
 		//
 		this.events = {
