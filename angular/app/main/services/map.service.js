@@ -281,7 +281,7 @@ export class MapService
 	 */
 	_createOfferMarker( cluster )
 	{
-		let childCount = cluster.getChildCount();
+		let childCount = cluster ? cluster.getChildCount() : 0;
 
 		let c = ' marker-cluster-';
 		let h = '';
@@ -300,14 +300,17 @@ export class MapService
 		}
 
 		//
-		let children = cluster.getAllChildMarkers();
-
-		for( let j = 0; j < children.length; j++ )
+		if( cluster )
 		{
-			if( children[j].options.isHighlight )
+			let children = cluster.getAllChildMarkers();
+
+			for( let j = 0; j < children.length; j++ )
 			{
-				h = " highlight";
-				break;
+				if( children[j].options.isHighlight )
+				{
+					h = " highlight";
+					break;
+				}
 			}
 		}
 
