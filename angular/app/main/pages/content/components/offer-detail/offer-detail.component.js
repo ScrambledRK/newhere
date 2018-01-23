@@ -66,6 +66,10 @@ class OfferDetailController
 			this.link_wlinien = "https://www.wienerlinien.at/eportal3/ep/channelView.do/channelId/-46649"
 			this.link_wlinien += "?routeTo=" + address;
 		}
+		else if( this.offer )
+		{
+			this.RoutingService.setMapFocus( false );
+		}
 	}
 
 	//
