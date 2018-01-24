@@ -7,6 +7,7 @@ angular.module( 'app',
 		'app.main',
 		'app.cms',
 
+		'ui.tinymce',
 		'ui-leaflet',
 		'ui.router',
 		'ui.router.state.events',

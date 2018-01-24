@@ -49,7 +49,8 @@
     "sprintf": "https://github.com/alexei/sprintf.js.git#6bfe81840e560d675a9de3d79c06354a47ac9236",
     "textAngular": "https://github.com/fraywing/textAngular.git#a4c905845164d8c20e5cf69ece742185b2a1f1ed",
     "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#919b862389ddddc85c197746f3126fd24de0dc42",
-	"angular-ui-tinymce":"0.0.19"
+	"angular-ui-tinymce":"0.0.19",
+	"tinymce":"4.5.8"
   },
   "overrides": {
     "font-awesome": {
@@ -74,7 +75,15 @@
         "release/angular-ui-router.js",
         "release/stateEvents.js"
       ]
-    }
+    },
+	"tinymce": {
+		"main": [
+			"tinymce.min.js",
+			"themes/modern/theme.min.js",
+			"skins/**/*",
+			"skins/**/*.min.js"
+		]
+	}
   },
   "bowerLocker": {
     "lastUpdated": "2017-07-12T12:48:22.654Z",

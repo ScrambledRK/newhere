@@ -47,27 +47,18 @@
     </md-card>
 
     <!-- #2 row: content-->
-    <md-card>
-      <md-card-title>
-        <md-card-title-text>
-          <span class="md-headline">{{ 'Inhalt' | translate }}</span>
-        </md-card-title-text>
-      </md-card-title>
 
-      <!-- -->
-      <md-content
-          layout-padding
-          layout="column"
-      >
-        <md-input-container class="md-block">
+        <md-input-container
+            class="md-block"
+            style="padding-bottom: 0; margin-bottom: 0; padding-left: 8px; padding-right: 8px"
+        >
 					<textarea
+              ui-tinymce="vm.options"
               ng-model="vm.page.content"
               rows="8"
           ></textarea>
         </md-input-container>
 
-      </md-content>
-    </md-card>
   </div>
 
   <!-- submit -->

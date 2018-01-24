@@ -59,7 +59,8 @@ import {PageFormComponent} from "./pages/pages/form/page-form.component";
 angular.module( 'app.cms',
 	[
 		'ui.router',
-		'ui.router.state.events'
+		'ui.router.state.events',
+		'ui.tinymce'
 	] );
 
 // service

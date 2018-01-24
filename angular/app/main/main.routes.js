@@ -44,40 +44,21 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 			} )
 
 		//
-		.state( 'main.impressum',
+		.state( 'main.page',
 			{
-				url: '/impressum-agbs',
+				url: '/page/{slug:[a-zA-Z0-9-]+}',
 
-				views:
+				params:
 					{
-						'body@main': {
-							templateUrl: getView( 'static/impressum' )
+						slug: {
+							value: 'about-us'
 						}
-					}
-			} )
-
-		//
-		.state( 'main.about',
-			{
-				url: '/about',
+					},
 
 				views:
 					{
 						'body@main': {
-							templateUrl: getView( 'static/about' )
-						}
-					}
-			} )
-
-		//
-		.state( 'main.contribute',
-			{
-				url: '/contribute',
-
-				views:
-					{
-						'body@main': {
-							templateUrl: getView( 'contribute/contribute' )
+							template: "<custom-page></custom-page>"
 						}
 					}
 			} )

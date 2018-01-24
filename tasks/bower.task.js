@@ -68,6 +68,6 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 });
 
 gulp.task('gulp-assets', function() {
-    return gulp.src(mainBowerFiles('**/*.png'))
+    return gulp.src(mainBowerFiles(['**/*.png']))
         .pipe( gulp.dest('./public/build') )
 });

@@ -195,6 +195,7 @@ groupEveryone( $api, function( $api )
 {
     $api->controller('auth', 'Auth\AuthController');
     $api->get( 'search/address/{search}', 'Search@address');
+    $api->get( 'pages/{slug}', 'Main\PageController@bySlug');
 } );
 
 //

@@ -98,6 +98,7 @@ class PageController extends Controller
         return response()->json( $page );
     }
 
+
     /**
      * @param Request $request
      * @return mixed

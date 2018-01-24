@@ -48,7 +48,8 @@
       "sprintf": "1.1.1",
       "textAngular": "1.5.16",
       "ui-leaflet": "2.0.0",
-	  "angular-ui-tinymce":"0.0.19"
+	  "angular-ui-tinymce":"0.0.19",
+	  "tinymce":"4.5.8"
     },
     "overrides": {
         "font-awesome": {
@@ -67,7 +68,13 @@
                 "src/L.Icon.Pulse.js",
                 "src/L.Icon.Pulse.css"
             ]
-        }
+        },
+		"tinymce": {
+			"main": [
+				"**/*.min.js",
+				"**/*.min.css"
+			]
+		}
     },
     "resolutions": {
         

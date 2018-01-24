@@ -19,6 +19,12 @@ class PageFormController
 		this.$scope = $scope;
 
 		//
+		this.options = {
+			plugins: 'link autolink code',
+			toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+		};
+
+		//
 		this.page = {
 			title:"",
 			slug:"",
