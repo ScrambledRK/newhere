@@ -34,6 +34,7 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 		this.emit('end');
 	};
 
+	//
 	new Task('bower-js', function() {
 		return gulp.src(mainBowerFiles())
 			.on('error', onError)
@@ -49,7 +50,7 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 			}));
 	}).watch('bower.json');
 
-
+	//
 	new Task('bower-css', function(){
 		return gulp.src(mainBowerFiles())
 			.on('error', onError)
@@ -65,9 +66,40 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 			}));
 	}).watch('bower.json');
 
+	//
+	new Task('bower-tinymce', function(){
+		return gulp.src([
+			//"bower_components/tinymce/tinymce.min.js",
+			//"bower_components/tinymce/themes/modern/theme.min.js",
+			"bower_components/tinymce/skins/lightgray/skin.min.css",
+			"bower_components/tinymce/skins/lightgray/content.min.css",
+			"bower_components/tinymce/skins/lightgray/fonts/tinymce.ttf",
+			"bower_components/tinymce/skins/lightgray/fonts/tinymce.woff",
+			"bower_components/tinymce/plugins/autolink/plugin.min.js",
+			"bower_components/tinymce/plugins/code/plugin.min.js",
+			"bower_components/tinymce/plugins/image/plugin.min.js",
+			"bower_components/tinymce/plugins/link/plugin.min.js"
+		], {
+			base: 'bower_components/tinymce/'
+		})
+			.on('error', onError)
+			.pipe(gulp.dest("public/build/js") );
+	}).watch('bower.json');
+
+	//
+	new Task('bower-tinymce', function(){
+		return gulp.src([
+			"bower_components/tinymce/skins/lightgray/fonts/tinymce.ttf",
+			"bower_components/tinymce/skins/lightgray/fonts/tinymce.woff"
+		], {
+			base: 'bower_components/tinymce/skins/lightgray/'
+		})
+			.on('error', onError)
+			.pipe(gulp.dest("public/build/css") );
+	}).watch('bower.json');
 });
 
 gulp.task('gulp-assets', function() {
-    return gulp.src(mainBowerFiles(['**/*.png']))
+    return gulp.src(mainBowerFiles(['**/*.png','**/*.ttf','**/*.woff']))
         .pipe( gulp.dest('./public/build') )
 });

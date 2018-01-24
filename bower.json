@@ -80,8 +80,14 @@
 		"main": [
 			"tinymce.min.js",
 			"themes/modern/theme.min.js",
-			"skins/**/*",
-			"skins/**/*.min.js"
+			"skins/lightgray/skin.min.css",
+			"skins/lightgray/content.min.css",
+			"skins/lightgray/fonts/tinymce.ttf",
+			"skins/lightgray/fonts/tinymce.woff",
+			"plugins/autolink/plugin.min.js",
+			"plugins/code/plugin.min.js",
+			"plugins/image/plugin.min.js",
+			"plugins/link/plugin.min.js"
 		]
 	}
   },
