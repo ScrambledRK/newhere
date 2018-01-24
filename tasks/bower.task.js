@@ -67,10 +67,11 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 	}).watch('bower.json');
 
 	//
+	// https://github.com/ck86/main-bower-files/issues/153
+	// files otherwise not included (tinymce is missing as dependency of ui-tinymce)
+	//
 	new Task('bower-tinymce', function(){
 		return gulp.src([
-			//"bower_components/tinymce/tinymce.min.js",
-			//"bower_components/tinymce/themes/modern/theme.min.js",
 			"bower_components/tinymce/skins/lightgray/skin.min.css",
 			"bower_components/tinymce/skins/lightgray/content.min.css",
 			"bower_components/tinymce/skins/lightgray/fonts/tinymce.ttf",
