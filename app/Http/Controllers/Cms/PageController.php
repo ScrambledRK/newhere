@@ -98,6 +98,30 @@ class PageController extends Controller
         return response()->json( $page );
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function upload( Request $request )
+    {
+        $location = (object)[];
+        $location->location = '';
+
+        //
+        $base = '/uploads/';
+        $name = strtotime( 'now' ) . "_" . $request->get("name");
+
+        $location->location = $base . $name;
+        $path = public_path() . $base . $name;
+
+        $data = base64_decode( $request->get("data") );
+        $success = file_put_contents( $path, $data );
+
+        if( $success )
+            return response()->json( $location );
+
+        return null;
+    }
 
     /**
      * @param Request $request

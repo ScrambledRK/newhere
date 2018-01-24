@@ -215,6 +215,7 @@ groupAuthenticated( $api, function( $api )
         $api->get('cms/pages', 'Cms\PageController@index');
         $api->get('cms/pages/{id}', 'Cms\PageController@byId');
         $api->post('cms/pages', 'Cms\PageController@create');
+        $api->post('cms/pages/upload', 'Cms\PageController@upload');
         $api->put( 'cms/pages/{id}', 'Cms\PageController@update' );
         $api->delete( 'cms/pages/{id}', 'Cms\PageController@delete' );
     } );
