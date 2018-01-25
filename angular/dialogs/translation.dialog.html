@@ -90,11 +90,19 @@
 					>
 						<label>{{field.label}}</label>
 						<textarea
+							ng-if="field.label != 'content'"
 							ng-model="vm.dialog.source[field.value]"
 							rows="{{field.rows}}"
 							readonly
 							disabled
 						></textarea>
+						<div
+								ng-if="field.label == 'content'"
+								ng-bind-html="vm.dialog.source[field.value]"
+								style="max-height: 400px; overflow-y: auto; margin-top: 24px"
+								disabled
+						>
+						</div>
 					</md-input-container>
 				</div>
 
@@ -193,10 +201,19 @@
 						ng-repeat="field in vm.dialog.target.fields"
 						class="md-block"
 					>
-						<label>{{field.label}}</label>
+						<label
+								ng-if="field.label != 'content'"
+						>{{field.label}}</label>
 						<textarea
+							ng-if="field.label != 'content'"
 							ng-model="vm.dialog.target[field.value]"
 							rows="{{field.rows}}"
+						></textarea>
+						<textarea
+								ui-tinymce="vm.tinyOptions"
+								ng-if="field.label == 'content'"
+								ng-model="vm.dialog.target[field.value]"
+								rows="{{field.rows}}"
 						></textarea>
 					</md-input-container>
 

@@ -76,7 +76,7 @@ class PageFormController
 						console.log( payload );
 
 						let window = this.tinymce.windowManager.getWindows()[0];
-							window.hide();
+							window.hide();  // disabled() doesn't do anything, so hide instead
 
 						let notification = this.tinymce.notificationManager.open({
 							text: 'uploading file',

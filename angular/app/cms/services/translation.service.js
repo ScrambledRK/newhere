@@ -27,6 +27,15 @@ export class TranslationService
 		//
 		this.translations = [];
 		this.numItems = 0;
+
+		// --------------------------- //
+		// pages tinymce
+
+		//
+		this.tinyOptions = {
+			plugins: 'link autolink code image',
+			toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+		}
 	}
 
 	// -------------------------------------------------------------- //
@@ -70,6 +79,7 @@ export class TranslationService
 						ngo_id : item.id,
 						filter_id : item.id,
 						category_id : item.id,
+						page_id : item.id,
 						locale : lang,
 						version : 0
 					};
@@ -103,6 +113,12 @@ export class TranslationService
 			case "category":
 			{
 				this.setCategoryResult( response );
+				break;
+			}
+
+			case "page":
+			{
+				this.setPageResult( response );
 				break;
 			}
 		}
@@ -268,6 +284,46 @@ export class TranslationService
 		} );
 	}
 
+	//
+	setPageResult( response )
+	{
+		angular.forEach( response, ( item, index ) =>
+		{
+			let entry =
+				    {
+					    id : item.id,
+					    title : item.title,
+					    tooltip : item.slug,
+					    enabled : item.enabled,
+					    translations : {}
+				    };
+
+			this.translations.push( entry );
+
+			//
+			angular.forEach( item.translations, ( translation, index ) =>
+			{
+				entry.translations[translation.locale] = translation;
+
+				translation.tooltip = translation.title;
+				translation.fields = [
+					{
+						label : "title",
+						value : "title",
+						rows: 1
+					},
+					{
+						label : "content",
+						value : "content",
+						rows: 8
+					}
+				];
+			} );
+
+			console.log( entry );
+		} );
+	}
+
 	// -------------------------------------------------------------- //
 	// -------------------------------------------------------------- //
 
@@ -310,6 +366,12 @@ export class TranslationService
 				case "category":
 				{
 					itemID = item.category_id;
+					break;
+				}
+
+				case "page":
+				{
+					itemID = item.page_id;
 					break;
 				}
 			}
