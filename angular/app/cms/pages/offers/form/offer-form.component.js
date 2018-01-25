@@ -225,6 +225,17 @@ class OfferFormController
 		return true;
 	}
 
+	//
+	toggleItem( isEnabled )
+	{
+		if( this.offer )
+		{
+			if( this.offer.enabled !== isEnabled )
+				this.$scope.offerForm.$setDirty();
+
+			this.offer.enabled = isEnabled;
+		}
+	}
 
 	// ------------------------------------------------------- //
 	// ------------------------------------------------------- //
