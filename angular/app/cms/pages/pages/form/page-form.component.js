@@ -18,10 +18,19 @@ class PageFormController
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 
+		// ------------------------------ //
+		// ------------------------------ //
+
 		//
 		this.options = {
+
 			plugins: 'link autolink code image',
 			toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+
+			setup : (editor) =>
+			{
+				this.tinymce = editor;
+			},
 
 			file_picker_types: 'image file',
 			file_picker_callback: (callback, value, meta) =>
@@ -39,14 +48,7 @@ class PageFormController
 					input.setAttribute( 'accept', 'image/*,application/pdf' );
 				}
 
-				// Note: In modern browsers input[type="file"] is functional without
-				// even adding it to the DOM, but that might not be the case in some older
-				// or quirky browsers like IE, so you might want to add it to the DOM
-				// just in case, and visually hide it. And do not forget do remove it
-				// once you do not need it anymore.
-
-				console.log( this.page );
-
+				//
 				input.onchange = () =>
 				{
 					let file = input.files[0];
@@ -73,16 +75,35 @@ class PageFormController
 						//
 						console.log( payload );
 
+						let window = this.tinymce.windowManager.getWindows()[0];
+							window.hide();
+
+						let notification = this.tinymce.notificationManager.open({
+							text: 'uploading file',
+							type: 'info',
+							progressBar: true,
+							closeButton: false,
+						});
+
 						this.API.all( 'cms/pages/upload' ).post( payload )
 							.then( ( response ) =>
 								{
 									this.ToastService.show( 'Erfolgreich gespeichert.' );
 
-									console.log( "res:", response.location );
+									this.tinymce.notificationManager.close();
+									this.isProcessing = false;
+
+									window.show();
+
 									callback( response.location, { alt: file.name } );
 								},
 								( error ) =>
 								{
+									this.tinymce.notificationManager.close();
+									this.isProcessing = false;
+
+									window.show();
+
 									this.ToastService.error( 'Fehler beim Speichern der Daten.' );
 								}
 							);
@@ -91,11 +112,15 @@ class PageFormController
 					};
 
 					reader.readAsDataURL(file);
+					this.isProcessing = true;
 				};
 
 				input.click();
 			}
 		};
+
+		// ------------------------------ //
+		// ------------------------------ //
 
 		//
 		this.page = {
@@ -142,7 +167,6 @@ class PageFormController
 				.then( ( response ) =>
 					{
 						this.ToastService.show( 'Erfolgreich gespeichert.' );
-						console.log( "res:", response.data.page );
 
 						this.setPage( response.data.page );
 						this.$rootScope.$broadcast( 'role.createPageComplete', this.page );
@@ -162,7 +186,6 @@ class PageFormController
 				.then( ( response ) =>
 					{
 						this.ToastService.show( 'Erfolgreich gespeichert.' );
-						console.log( "res:", response.data.page );
 
 						this.setPage( response.data.page );
 						this.$rootScope.$broadcast( 'role.createPageComplete', this.page );

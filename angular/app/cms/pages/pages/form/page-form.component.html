@@ -55,6 +55,7 @@
 					<textarea
               ui-tinymce="vm.options"
               ng-model="vm.page.content"
+              ng-disabled="vm.isProcessing"
               rows="8"
           ></textarea>
         </md-input-container>
