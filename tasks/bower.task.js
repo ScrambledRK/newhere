@@ -98,6 +98,17 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 			.on('error', onError)
 			.pipe(gulp.dest("public/build/css") );
 	}).watch('bower.json');
+
+	//
+	// new Task('translations', function(){
+	// 	return gulp.src([
+	// 		"resources/translations/json/*.json"
+	// 	], {
+	// 		base: 'resources/translations/json/'
+	// 	})
+	// 		.on('error', onError)
+	// 		.pipe(gulp.dest("public/translations") );
+	// }).watch("resources/translations/json/*.json");
 });
 
 gulp.task('gulp-assets', function() {

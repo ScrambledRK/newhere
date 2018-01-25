@@ -97,11 +97,11 @@ class PageListController
 		this.PageService.updateList( [item] )
 			.then( ( success ) =>
 				{
-					this.ToastService.show( 'Angebot aktualisiert.' );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( "Fehler beim aktualisieren der Einträge." );
 					this.onQueryUpdate();
 				}
 			);
@@ -126,12 +126,12 @@ class PageListController
 						.then( ( response ) =>
 						{
 							this.ToastService.show(
-								sprintf( '%d Seite gelöscht.', this.selectedItems.length )
+								sprintf( '%d Einträge gelöscht.', this.selectedItems.length )
 							);
 						},
 						( error ) =>
 						{
-							this.ToastService.error( 'Fehler beim löschen der Daten.' );
+							this.ToastService.error( 'Fehler beim löschen der Einträge.' );
 							this.onQueryUpdate();
 						} );
 				}
@@ -152,12 +152,12 @@ class PageListController
 			.then( ( response ) =>
 				{
 					this.ToastService.show(
-						sprintf( '%d Seite aktualisiert.', this.selectedItems.length )
+						sprintf( '%d Eintrag aktualisiert.', this.selectedItems.length )
 					);
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim aktualisieren der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 					this.onQueryUpdate();
 				} );
 	}
@@ -168,6 +168,9 @@ class PageListController
 	//
 	isElementVisible( name )
 	{
+		if( name === "provider" )
+			return false;
+
 		return true;
 	}
 

@@ -16,7 +16,7 @@
 			href="{{vm.getBackURL()}}"
 			ng-if="vm.categories.length < vm.max"
 		>
-			<md-icon>chevron_left</md-icon>
+			<md-icon aria-label="">chevron_left</md-icon>
 		</md-button>
 
 		<!-- categories -->
@@ -29,7 +29,7 @@
 				ng-click="vm.goCategory(category)"
 				href="{{vm.getURL(category)}}"
 			>
-				<md-icon
+				<md-icon aria-label=""
 					class="medium-icon"
 					ng-if="category.image"
 					md-svg-src="{{ category.image.src }}"
@@ -38,7 +38,7 @@
 				<small>{{category.title | limitTo:20 }}</small>
 				<span ng-if="category.title.length > 20">...</span>
 			</md-button>
-			<md-icon ng-if="$index < vm.categories.length-1">chevron_right</md-icon>
+			<md-icon aria-label="" ng-if="$index < vm.categories.length-1">chevron_right</md-icon>
 		</div>
 
 		<!-- detail -->
@@ -46,13 +46,13 @@
 			ng-if="vm.detail"
 			layout="row"
 		>
-			<md-icon ng-if="vm.categories.length > 0">chevron_right</md-icon>
+			<md-icon aria-label="" ng-if="vm.categories.length > 0">chevron_right</md-icon>
 			<md-button
 				aria-label="{{vm.detail.title}}"
 				ng-click="vm.goDetail(vm.detail)"
 				href="{{vm.getURL(vm.detail,'detail')}}"
 			>
-				<md-icon class="small-icon">{{ vm.detail.icon }}</md-icon>
+				<md-icon aria-label="" class="small-icon">{{ vm.detail.icon }}</md-icon>
 				<small>{{vm.detail.title | limitTo:20 }}</small>
 				<span ng-if="vm.detail.title.length > 20">...</span>
 			</md-button>
@@ -79,9 +79,9 @@
 			>
 				<span ng-if="vm.detail.title.length > 20">...</span>
 				{{vm.detail.title | limitTo:20 }}
-				<md-icon class="small-icon">{{ vm.detail.icon }}</md-icon>
+				<md-icon aria-label="" class="small-icon">{{ vm.detail.icon }}</md-icon>
 			</md-button>
-			<md-icon ng-if="vm.categories.length > 0">chevron_left</md-icon>
+			<md-icon aria-label="" ng-if="vm.categories.length > 0">chevron_left</md-icon>
 		</div>
 
 		<!-- categories -->
@@ -96,14 +96,14 @@
 			>
 				<span ng-if="category.title.length > 20">...</span>
 				{{category.title | limitTo:20 }}
-				<md-icon
+				<md-icon aria-label=""
 					class="medium-icon"
 					ng-if="category.image"
 					md-svg-src="{{ category.image.src }}"
 				>
 				</md-icon>
 			</md-button>
-			<md-icon ng-if="$index < vm.categories.length-1">chevron_left</md-icon>
+			<md-icon aria-label="" ng-if="$index < vm.categories.length-1">chevron_left</md-icon>
 		</div>
 
 		<!-- back -->
@@ -114,7 +114,7 @@
 			href="{{vm.getBackURL()}}"
 			ng-if="vm.categories.length < vm.max"
 		>
-			<md-icon>chevron_right</md-icon>
+			<md-icon aria-label="">chevron_right</md-icon>
 		</md-button>
 	</div>
 

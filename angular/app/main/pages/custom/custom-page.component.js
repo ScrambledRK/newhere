@@ -45,7 +45,7 @@ class CustomPageController
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim laden der Daten.' );
+					this.ToastService.error( "Unbekannter Fehler aufgetreten." );
 					this._isLoading = false;
 				}
 			);
@@ -54,7 +54,7 @@ class CustomPageController
 	//
 	setPage( page )
 	{
-		console.log("custom page jo: ", page );
+		//console.log("custom page jo: ", page );
 		this.page = page;
 	}
 

@@ -50,7 +50,7 @@ export class TranslationService
 		return this.API.one( 'cms/translations', type ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 			{
-				console.log( response );
+				//console.log( response );
 
 				this.numItems = response.data.count;
 				this.setResult( type, response.data.result );
@@ -165,7 +165,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -200,7 +200,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -240,7 +240,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -280,7 +280,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -320,7 +320,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -422,8 +422,8 @@ export class TranslationService
 
 	prepareQuery()
 	{
-		if( this.$rootScope.isLoading )
-			console.log("query already in process");
+		//if( this.$rootScope.isLoading )
+			//console.log("query already in process");
 
 		this.$rootScope.isLoading = true;
 

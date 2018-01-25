@@ -152,7 +152,7 @@ export class ContentService
 		this.$q.all( [categoryPromise, providerPromise, offerPromise] )
 			.then( () =>
 				{
-					console.log( "fetch content complete" );
+					//console.log( "fetch content complete" );
 
 					this.defer = null;
 
@@ -161,7 +161,7 @@ export class ContentService
 				},
 				( msg ) =>
 				{
-					console.log( "fetch content canceled/error", msg );
+					//console.log( "fetch content canceled/error", msg );
 				} );
 	}
 
@@ -179,7 +179,7 @@ export class ContentService
 	 */
 	fetchCategory( slugCategory, config, force )
 	{
-		console.log( "fetching categories: ", slugCategory );
+		//console.log( "fetching categories: ", slugCategory );
 
 		if( !slugCategory )
 			return this.$q.when();
@@ -220,7 +220,7 @@ export class ContentService
 				},
 				( msg ) =>
 				{
-					console.log( "fetch categories canceled/error", msg );
+					//console.log( "fetch categories canceled/error", msg );
 				} );
 	}
 
@@ -238,7 +238,7 @@ export class ContentService
 	 */
 	fetchProvider( slugProvider, config, force )
 	{
-		console.log( "fetching providers: ", slugProvider );
+		//console.log( "fetching providers: ", slugProvider );
 
 		if( !slugProvider )
 			return this.$q.when();
@@ -275,7 +275,7 @@ export class ContentService
 				},
 				( msg ) =>
 				{
-					console.log( "fetch provider.list canceled/error", msg );
+					//console.log( "fetch provider.list canceled/error", msg );
 				} );
 	}
 
@@ -296,7 +296,7 @@ export class ContentService
 				},
 				( msg ) =>
 				{
-					console.log( "fetch provider.detail canceled/error", msg );
+					//console.log( "fetch provider.detail canceled/error", msg );
 				} );
 	}
 
@@ -314,7 +314,7 @@ export class ContentService
 	 */
 	fetchOffer( slugOffer, config, force )
 	{
-		console.log( "fetching offer: ", slugOffer );
+		//console.log( "fetching offer: ", slugOffer );
 
 		this.offer = null;
 
@@ -337,7 +337,7 @@ export class ContentService
 				},
 				( msg ) =>
 				{
-					console.log( "fetch offer canceled/error", msg );
+					//console.log( "fetch offer canceled/error", msg );
 				} );
 	}
 

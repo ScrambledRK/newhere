@@ -20,8 +20,8 @@
 			<a href="{{vm.getURL(offer)}}">
 				<md-grid-tile-header class="offer-header">
 					<h4>
-						<md-icon ng-if="offer.street">location_on</md-icon>
-						<md-icon ng-if="!offer.street">insert_link</md-icon>
+						<md-icon aria-label="" ng-if="offer.street">location_on</md-icon>
+						<md-icon aria-label="" ng-if="!offer.street">insert_link</md-icon>
 						<div style="margin-top:10px">{{offer.title}}</div>
 					</h4>
 					<div

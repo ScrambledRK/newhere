@@ -82,8 +82,6 @@ class ProviderFormController
 	{
 		this.isProcessing = true;
 
-		console.log("save that ass");
-
 		if( this.offer.isWithoutAddress )
 		{
 			this.offer.street = null;
@@ -99,8 +97,8 @@ class ProviderFormController
 			this.API.all( 'cms/providers' ).post( this.offer )
 				.then( ( response ) =>
 					{
-						this.ToastService.show( 'Erfolgreich gespeichert.' );
-						console.log( "res:", response.data.provider );
+						this.ToastService.show( 'Eintrag aktualisiert.' );
+						//console.log( "res:", response.data.provider );
 
 						this.setProvider( response.data.provider );
 						this.$rootScope.$broadcast( 'role.createProviderComplete', this.offer );
@@ -109,7 +107,7 @@ class ProviderFormController
 					},
 					( error ) =>
 					{
-						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 						this.isProcessing = false;
 					}
 				);
@@ -119,8 +117,8 @@ class ProviderFormController
 			this.API.one( 'cms/providers', this.offer.id ).customPUT( this.offer )
 				.then( ( response ) =>
 					{
-						this.ToastService.show( 'Erfolgreich gespeichert.' );
-						console.log( "res:", response.data.provider );
+						this.ToastService.show( 'Eintrag aktualisiert.' );
+						//console.log( "res:", response.data.provider );
 
 						this.setProvider( response.data.provider );
 						this.$rootScope.$broadcast( 'role.createProviderComplete', this.offer );
@@ -129,7 +127,7 @@ class ProviderFormController
 					},
 					( error ) =>
 					{
-						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 						this.isProcessing = false;
 					}
 				);
@@ -138,7 +136,7 @@ class ProviderFormController
 
 	setProvider(item)
 	{
-		console.log("setProvider:", item );
+		//console.log("setProvider:", item );
 
 		//
 		for(let k in item)
@@ -184,7 +182,7 @@ class ProviderFormController
 
 	updateMap()
 	{
-		console.log("update map:", this.offer );
+		//console.log("update map:", this.offer );
 
 		this.MapService.markers = {};
 		this.MapService.setMarkers( [ this.offer ] );

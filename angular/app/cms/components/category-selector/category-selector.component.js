@@ -37,8 +37,8 @@ class CategorySelectorController
 	{
 		this.setupCategories( this.category );
 
-		console.log( this.category );
-		console.log( this.selected );
+		//console.log( this.category );
+		//console.log( this.selected );
 	}
 
 	//
@@ -80,7 +80,7 @@ class CategorySelectorController
 
 	toggleExpansion( category, node )
 	{
-		console.log( "t:", category, node );
+		//console.log( "t:", category, node );
 
 		category.isExpanded = !category.isExpanded;
 		node.toggle();
@@ -102,7 +102,7 @@ class CategorySelectorController
 				this.selected.splice( index );
 		}
 
-		console.log( this.selected );
+		//console.log( this.selected );
 	}
 
 	//

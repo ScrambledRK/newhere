@@ -98,7 +98,7 @@ class RequestTableController
 	//
 	deleteItem( item, isAccept )
 	{
-		console.log( "delete request", item );
+		//console.log( "delete request", item );
 
 		let title = 'Delete Profile-Change-Request?';
 		let text = 'You are about to delete a profile change request. Type in DELETE and confirm';

@@ -51,7 +51,7 @@ export class CategoryService
 				},
 				( msg ) =>
 				{
-					console.log( "fetch categories canceled/error", msg );
+					//console.log( "fetch categories canceled/error", msg );
 				} );
 	}
 

@@ -161,7 +161,7 @@ class ProfileController
 	//
 	requestCancel()
 	{
-		console.log("cancel", this.requestGroup);
+		//console.log("cancel", this.requestGroup);
 
 		this.isRequestDialogOpen = false;
 		this.DialogService.hide();
@@ -170,7 +170,7 @@ class ProfileController
 	//
 	requestComplete()
 	{
-		console.log("I wanna complete man!", this.requestGroup);
+		//console.log("I wanna complete man!", this.requestGroup);
 
 		if( this.requestGroup === "create" )
 		{
@@ -184,7 +184,7 @@ class ProfileController
 
 	finalize()
 	{
-		console.log("finalize");
+		//console.log("finalize");
 
 		//
 		let request = {};
@@ -227,14 +227,14 @@ class ProfileController
 		this.API.all( 'cms/users/pending' ).post( request )
 			.then( ( response ) =>
 				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
 
-					console.log( "penres:", response.data.pending );
+					//console.log( "penres:", response.data.pending );
 					this.UserService.user.pendings.push( response.data.pending );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
 

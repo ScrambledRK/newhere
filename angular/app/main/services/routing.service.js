@@ -51,7 +51,7 @@ export class RoutingService
 	 */
 	goContent( category, offer )
 	{
-		console.log( "routing.go.content: ", category, offer );
+		//console.log( "routing.go.content: ", category, offer );
 
 		//
 		let params = {
@@ -87,7 +87,7 @@ export class RoutingService
 	 */
 	goProvider( provider )
 	{
-		console.log( "routing.go.provider: ", provider );
+		//console.log( "routing.go.provider: ", provider );
 
 		//
 		let params = {
@@ -157,7 +157,7 @@ export class RoutingService
 	{
 		if( this.viewStateChanged )
 		{
-			console.log("viewStateChanged", this.isMapFocused, this.isDetailState );
+			//console.log("viewStateChanged", this.isMapFocused, this.isDetailState );
 
 			this.$rootScope.$broadcast( 'viewStateChanged', this.isMapFocused, this.isDetailState );
 			this.viewStateChanged = false;

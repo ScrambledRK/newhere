@@ -31,8 +31,11 @@
 	</md-button>
 
 	<!-- title -->
-	<span class="md-title">
-		{{ vm.offer.title || 'Neues Angebot' | translate  }}
+	<span class="md-title" ng-if="vm.offer.title">
+		{{ vm.offer.title }}
+	</span>
+	<span class="md-title" ng-if="!vm.offer.title">
+		{{ 'Neues Angebot' | translate  }}
 	</span>
 
 	<span flex></span>
@@ -40,7 +43,7 @@
 	<!-- ngo list -->
 	<span ng-if="vm.providers.length > 1">
     <md-input-container class="md-block">
-      <label>{{ 'NGO' | translate }}</label>
+      <label>{{ 'Anbieter' | translate }}</label>
       <md-select ng-model="vm.offer.ngo_id">
         <md-option
 	        ng-repeat="ngo in vm.providers"

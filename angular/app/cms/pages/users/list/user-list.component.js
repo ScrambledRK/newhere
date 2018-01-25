@@ -112,11 +112,11 @@ class UserListController
 		this.UserService.updateList( [item] )
 			.then( ( success ) =>
 				{
-					this.ToastService.show( 'User aktualisiert.' );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 					this.onQueryUpdate();
 				}
 			);
@@ -141,12 +141,12 @@ class UserListController
 						.then( ( response ) =>
 						{
 							this.ToastService.show(
-								sprintf( '%d User gelöscht.', this.selectedItems.length )
+								sprintf( '%d Einträge gelöscht.', this.selectedItems.length )
 							);
 						},
 						( error ) =>
 						{
-							this.ToastService.error( 'Fehler beim löschen der Daten.' );
+							this.ToastService.error( 'Fehler beim löschen der Einträge.' );
 							this.onQueryUpdate();
 						} );
 				}
@@ -167,12 +167,12 @@ class UserListController
 			.then( ( response ) =>
 				{
 					this.ToastService.show(
-						sprintf( '%d User aktualisiert.', this.selectedItems.length )
+						sprintf( '%d Einträge aktualisiert.', this.selectedItems.length )
 					);
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim aktualisieren der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 					this.onQueryUpdate();
 				} );
 	}
@@ -203,12 +203,12 @@ class UserListController
 			.then( ( success ) =>
 				{
 					this.ToastService.show(
-						sprintf( '%d User aktualisiert.', this.selectedItems.length )
+						sprintf( '%d Einträge aktualisiert.', this.selectedItems.length )
 					);
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 					this.onQueryUpdate();
 				}
 			);

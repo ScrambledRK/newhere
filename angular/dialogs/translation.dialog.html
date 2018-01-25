@@ -8,7 +8,7 @@
 					class="md-icon-button"
 					ng-click="vm.cancel()"
 				>
-					<md-icon>close</md-icon>
+					<md-icon aria-label="close">close</md-icon>
 				</md-button>
 			</div>
 		</md-toolbar>
@@ -50,17 +50,17 @@
 									ng-repeat="lang in vm.dialog.languages"
 									ng-value="lang"
 								>
-									<md-icon
+									<md-icon aria-label="done_all"
 										ng-if="lang.version == 2"
 									>
 										done_all
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="done"
 										ng-if="lang.version == 1"
 									>
 										done
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="highlight_off"
 										ng-if="lang.version == 0"
 									>
 										highlight_off
@@ -99,7 +99,7 @@
 						<div
 								ng-if="field.label == 'content'"
 								ng-bind-html="vm.dialog.source[field.value]"
-								style="max-height: 400px; overflow-y: auto; margin-top: 24px"
+								class="max-height-content"
 								disabled
 						>
 						</div>
@@ -136,17 +136,17 @@
 									ng-value="lang"
 									ng-if="lang.locale != 'de'"
 								>
-									<md-icon
+									<md-icon aria-label="done_all"
 										ng-if="lang.version == 2"
 									>
 										done_all
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="done"
 										ng-if="lang.version == 1"
 									>
 										done
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="highlight_off"
 										ng-if="lang.version == 0"
 									>
 										highlight_off
@@ -167,15 +167,15 @@
 								ng-change="vm.onDialogStatusChange()"
 							>
 								<md-option value="2">
-									<md-icon>done_all</md-icon>&nbsp;&nbsp;
+									<md-icon aria-label="">done_all</md-icon>&nbsp;&nbsp;
 									                           proof-read
 								</md-option>
 								<md-option value="1">
-									<md-icon>done</md-icon>&nbsp;&nbsp;
+									<md-icon aria-label="">done</md-icon>&nbsp;&nbsp;
 									                       translated
 								</md-option>
 								<md-option value="0">
-									<md-icon>highlight_off</md-icon>&nbsp;&nbsp;
+									<md-icon aria-label="">highlight_off</md-icon>&nbsp;&nbsp;
 									                                outdated
 								</md-option>
 							</md-select>

@@ -23,19 +23,19 @@ class CmsMenuController
 			{
 				sref: 'cms.offers',
 				icon: 'local_offer',
-				title: 'Offers',
+				title: 'Angebote',
 				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user']
 			},
 			{
 				sref: 'cms.providers',
 				icon: 'business',
-				title: 'Providers',
+				title: 'Anbieter',
 				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user']
 			},
 			{
 				sref: 'cms.translations',
 				icon: 'translate',
-				title: 'Translations',
+				title: 'Übersetzungen',
 				roles: ['admin', 'superadmin', 'moderator']
 			},
 			// {
@@ -59,13 +59,13 @@ class CmsMenuController
 			{
 				sref: 'cms.users',
 				icon: 'group',
-				title: 'Users',
+				title: 'Benutzer',
 				roles: ['admin','superadmin', 'organisation-admin', 'organisation-user' ]
 			},
 			{
 				sref: 'cms.pages',
 				icon: 'description',
-				title: 'Pages',
+				title: 'Seiten',
 				roles: ['admin','superadmin' ]
 			}
 		];

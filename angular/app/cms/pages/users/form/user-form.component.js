@@ -88,7 +88,7 @@ class UserFormController
 	//
 	setUser(item)
 	{
-		console.log("set user:", item );
+		//console.log("set user:", item );
 
 		//
 		for(let k in item)
@@ -169,7 +169,7 @@ class UserFormController
 	//
 	performPendingRequest( request )
 	{
-		console.log( "performPendingRequest", request );
+		//console.log( "performPendingRequest", request );
 
 		if( request.type === 0 )
 		{
@@ -208,7 +208,7 @@ class UserFormController
 			}
 		}
 
-		console.log(this.user);
+		//console.log(this.user);
 		this.$scope.userForm.$setDirty();
 	}
 
@@ -220,7 +220,7 @@ class UserFormController
 	 */
 	save()
 	{
-		console.log("save user:", this.user );
+		//console.log("save user:", this.user );
 
 		//
 		if( this.user.id )
@@ -239,11 +239,11 @@ class UserFormController
 		this.API.one( 'cms/users', this.user.id ).customPUT( this.user )
 			.then( ( response ) =>
 				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
 	}
@@ -257,14 +257,14 @@ class UserFormController
 		this.API.all( 'cms/users' ).post( this.user )
 			.then( ( response ) =>
 				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
-					console.log( "res:", response.data.user );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
+					//console.log( "res:", response.data.user );
 
 					this.setUser( response.data.user );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
 	}

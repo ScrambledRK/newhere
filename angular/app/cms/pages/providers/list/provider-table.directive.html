@@ -99,7 +99,7 @@
 					ng-click="vm.editItem(item)"
 					class="md-icon-button md-accent md-hue-2"
 				>
-					<md-icon>edit</md-icon>
+					<md-icon aria-label="">edit</md-icon>
 				</md-button>
 			</td>
 
@@ -115,7 +115,7 @@
 						<small>link to frontend (ID: {{item.id}})</small>
 					</md-tooltip>
 					<a href="{{vm.getURL(item,'frontend')}}">
-						<md-icon>insert_link</md-icon>
+						<md-icon aria-label="">insert_link</md-icon>
 					</a>
 				</div>
 			</td>
@@ -149,7 +149,7 @@
 						md-delay="800"
 					>provider is not enabled
 					</md-tooltip>
-					<md-icon>lock</md-icon>
+					<md-icon aria-label="">lock</md-icon>
 				</md-button>
 				<md-button
 					ng-click="vm.toggleItem(item,false)"
@@ -162,7 +162,7 @@
 						md-delay="800"
 					>provider is enabled
 					</md-tooltip>
-					<md-icon>lock_open</md-icon>
+					<md-icon aria-label="">lock_open</md-icon>
 				</md-button>
 			</td>
 
@@ -188,7 +188,7 @@
 				<div ng-if="item.contact_phone">
 					<md-tooltip>{{item.contact_phone}}</md-tooltip>
 					<a href="tel:{{item.contact_phone}}">
-						<md-icon>phone</md-icon>
+						<md-icon aria-label="">phone</md-icon>
 					</a>
 				</div>
 			</td>
@@ -196,7 +196,7 @@
 				<div ng-if="item.contact_email">
 					<md-tooltip md-direction="left">{{item.contact_email}}</md-tooltip>
 					<a href="mailto:{{item.contact_email}}">
-						<md-icon>mail</md-icon>
+						<md-icon aria-label="">mail</md-icon>
 					</a></div>
 			</td>
 			<td md-cell>
@@ -206,7 +206,7 @@
 						href="{{item.website}}"
 						target="_blank"
 					>
-						<md-icon>insert_link</md-icon>
+						<md-icon aria-label="">insert_link</md-icon>
 					</a></div>
 			</td>
 		</tr>

@@ -8,7 +8,7 @@
 		layout="row"
 		flex="50"
 	>
-		<div flex="10">Name:</div>
+		<div flex="10">{{ 'Name' | translate }}:</div>
 		<div
 			layout="column"
 			flex
@@ -23,7 +23,7 @@
 		layout="row"
 		flex="50"
 	>
-		<div flex="10">E-Mail:</div>
+		<div flex="10">{{ 'Email' | translate }}:</div>
 		<div
 			layout="column"
 			flex
@@ -39,7 +39,7 @@
 		layout="row"
 		flex="50"
 	>
-		<div flex="10">Rollen:</div>
+		<div flex="10">{{ 'Rolle' | translate }}:</div>
 		<div
 			layout="column"
 			flex
@@ -74,7 +74,7 @@
 		layout="row"
 		flex="50"
 	>
-		<div flex="10">Anbieter:</div>
+		<div flex="10">{{ 'Anbieter' | translate }}:</div>
 		<div
 			layout="column"
 			flex
@@ -130,7 +130,7 @@
 		ng-click="vm.changePassword()"
 		class="md-raised"
 	>
-		change your password
+		{{ 'Passwort ändern' | translate }}
 	</md-button>
 
 	<md-button

@@ -87,7 +87,7 @@ class TranslationListController
 	//
 	editItem( item )
 	{
-		console.log( "dialog:", item );
+		//console.log( "dialog:", item );
 
 		let source = item.translations["de"];
 		let target = item.translations["en"];
@@ -116,13 +116,13 @@ class TranslationListController
 
 	cancel()
 	{
-		console.log("cancel");
+		//console.log("cancel");
 		this.DialogService.hide();
 	}
 
 	save()
 	{
-		console.log("save");
+		//console.log("save");
 
 		this.TranslationService.updateList( [this.dialog.target], this.query.type );
 		this.DialogService.hide();

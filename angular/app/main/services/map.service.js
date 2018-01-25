@@ -214,8 +214,15 @@ export class MapService
 				//
 				this.leafletData.getLayers().then( ( layers ) =>
 				{
-					if( this.markers.length > 0 )
-						layers.overlays.offers.refreshClusters();
+					try
+					{
+						if( this.markers.length > 0 )
+							layers.overlays.offers.refreshClusters();
+					}
+					catch(err)
+					{
+						//;
+					}
 				} );
 			}, 0, false );
 		};
@@ -382,7 +389,7 @@ export class MapService
 					},
 					( response ) =>
 					{
-						console.log( "error", response );
+						//console.log( "error", response );
 					} );
 
 			$http.get( "public_transport_2.json" )
@@ -393,7 +400,7 @@ export class MapService
 					},
 					( response ) =>
 					{
-						console.log( "error", response );
+						//console.log( "error", response );
 					} );
 		}
 
@@ -577,7 +584,7 @@ export class MapService
 				},
 				( response ) =>
 				{
-					console.log( "error", response );
+					//console.log( "error", response );
 				} );
 	}
 
@@ -603,7 +610,7 @@ export class MapService
 	{
 		this.leafletData.getMap( 'nhMap' ).then( ( map ) =>
 		{
-			console.log( "map.service invalidate size" );
+			//console.log( "map.service invalidate size" );
 			map.invalidateSize();
 		} );
 	}
@@ -642,7 +649,7 @@ export class MapService
 		{
 			navigator.geolocation.getCurrentPosition( ( position ) =>
 			{
-				console.log( position.coords.latitude + ' ' + position.coords.longitude );
+				//console.log( position.coords.latitude + ' ' + position.coords.longitude );
 
 				this.center.lat = position.coords.latitude;
 				this.center.lng = position.coords.longitude;

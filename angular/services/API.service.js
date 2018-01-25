@@ -42,7 +42,7 @@ export class APIService
 
 					if( operation === "getList" )
 					{
-						console.log( what, url );
+						//console.log( what, url );
 						extractedData = data.data["result"];
 
 						if( data.data['count'] )

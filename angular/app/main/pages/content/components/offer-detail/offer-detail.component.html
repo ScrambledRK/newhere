@@ -15,7 +15,7 @@
       layout="row"
       class="detail-container"
   >
-    <md-icon ng-if="$root.isTextAlignmentLeft">info</md-icon>
+    <md-icon aria-label="" ng-if="$root.isTextAlignmentLeft">info</md-icon>
 
     <div
         class="detail-content"
@@ -52,7 +52,7 @@
       </div>
 
     </div>
-    <md-icon ng-if="!$root.isTextAlignmentLeft">info</md-icon>
+    <md-icon aria-label="" ng-if="!$root.isTextAlignmentLeft">info</md-icon>
   </div>
 
   <!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
@@ -65,7 +65,7 @@
       class="detail-container"
       ng-if="vm.offer.phone"
   >
-    <md-icon ng-if="$root.isTextAlignmentLeft">phone</md-icon>
+    <md-icon aria-label="" ng-if="$root.isTextAlignmentLeft">phone</md-icon>
 
     <div
         class="detail-content"
@@ -74,7 +74,7 @@
       <a href="tel:{{vm.offer.phone}}">{{vm.offer.phone}}</a>
     </div>
 
-    <md-icon ng-if="!$root.isTextAlignmentLeft">phone</md-icon>
+    <md-icon aria-label="" ng-if="!$root.isTextAlignmentLeft">phone</md-icon>
   </div>
 
   <!-- website -->
@@ -83,7 +83,7 @@
       class="detail-container"
       ng-if="vm.offer.website"
   >
-    <md-icon ng-if="$root.isTextAlignmentLeft">insert_link</md-icon>
+    <md-icon aria-label="" ng-if="$root.isTextAlignmentLeft">insert_link</md-icon>
 
     <div
         class="detail-content"
@@ -95,7 +95,7 @@
       >{{vm.offer.website}}</a>
     </div>
 
-    <md-icon ng-if="!$root.isTextAlignmentLeft">insert_link</md-icon>
+    <md-icon aria-label="" ng-if="!$root.isTextAlignmentLeft">insert_link</md-icon>
   </div>
 
   <!--facebook -->
@@ -104,7 +104,7 @@
       class="detail-container"
       ng-if="vm.offer.facebook_url"
   >
-    <md-icon
+    <md-icon aria-label=""
         ng-if="$root.isTextAlignmentLeft"
         md-svg-src="/img/icons/facebook.svg"
         class="normal"
@@ -120,7 +120,7 @@
       >{{vm.offer.facebook_url}}</a>
     </div>
 
-    <md-icon
+    <md-icon aria-label=""
         ng-if="!$root.isTextAlignmentLeft"
         md-svg-src="/img/icons/facebook.svg"
         class="normal"
@@ -133,7 +133,7 @@
       class="detail-container"
       ng-if="vm.offer.email"
   >
-    <md-icon ng-if="$root.isTextAlignmentLeft">mail</md-icon>
+    <md-icon aria-label="" ng-if="$root.isTextAlignmentLeft">mail</md-icon>
 
     <div
         class="detail-content"
@@ -142,7 +142,7 @@
       <a href="mailto:{{vm.offer.email}}">{{vm.offer.email}}</a>
     </div>
 
-    <md-icon ng-if="!$root.isTextAlignmentLeft">mail</md-icon>
+    <md-icon aria-label="" ng-if="!$root.isTextAlignmentLeft">mail</md-icon>
   </div>
 
   <!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
@@ -154,7 +154,7 @@
       class="detail-container"
       ng-if="vm.offer.street"
   >
-    <md-icon ng-if="$root.isTextAlignmentLeft">place</md-icon>
+    <md-icon aria-label="" ng-if="$root.isTextAlignmentLeft">place</md-icon>
 
     <!-- transit links -->
 
@@ -181,15 +181,15 @@
     >
 
       <a href="{{vm.link_google}}">
-        <md-icon md-svg-src="img/google-maps.svg"></md-icon>
+        <md-icon aria-label="" md-svg-src="img/google-maps.svg"></md-icon>
       </a>
 
       <a href="{{vm.link_wlinien}}">
-        <md-icon md-svg-src="img/Wiener_Linien_logo_icon.svg"></md-icon>
+        <md-icon aria-label="" md-svg-src="img/Wiener_Linien_logo_icon.svg"></md-icon>
       </a>
     </div>
 
-    <md-icon ng-if="!$root.isTextAlignmentLeft">place</md-icon>
+    <md-icon aria-label="" ng-if="!$root.isTextAlignmentLeft">place</md-icon>
   </div>
 
   <!--  ||||||||||||||||||||||||||||||||||||||||||||||||||| -->
@@ -202,7 +202,7 @@
       class="detail-container"
       ng-if="vm.offer.opening_hours"
   >
-    <md-icon ng-if="$root.isTextAlignmentLeft">schedule</md-icon>
+    <md-icon aria-label="" ng-if="$root.isTextAlignmentLeft">schedule</md-icon>
 
     <div
         class="detail-content"
@@ -211,7 +211,7 @@
       {{vm.offer.opening_hours}}
     </div>
 
-    <md-icon ng-if="!$root.isTextAlignmentLeft">schedule</md-icon>
+    <md-icon aria-label="" ng-if="!$root.isTextAlignmentLeft">schedule</md-icon>
   </div>
 
   <!-- age from/to -->
@@ -220,7 +220,7 @@
       class="detail-container"
       ng-if="vm.offer.age_from && vm.offer.age_to"
   >
-    <md-icon ng-if="$root.isTextAlignmentLeft">people</md-icon>
+    <md-icon aria-label="" ng-if="$root.isTextAlignmentLeft">people</md-icon>
 
     <div
         class="detail-content"
@@ -230,7 +230,7 @@
 			</span>
     </div>
 
-    <md-icon ng-if="!$root.isTextAlignmentLeft">people</md-icon>
+    <md-icon aria-label="" ng-if="!$root.isTextAlignmentLeft">people</md-icon>
   </div>
 
   <br>

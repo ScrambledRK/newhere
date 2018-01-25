@@ -73,7 +73,7 @@ class PageFormController
 						};
 
 						//
-						console.log( payload );
+						//console.log( payload );
 
 						let window = this.tinymce.windowManager.getWindows()[0];
 							window.hide();  // disabled() doesn't do anything, so hide instead
@@ -88,7 +88,7 @@ class PageFormController
 						this.API.all( 'cms/pages/upload' ).post( payload )
 							.then( ( response ) =>
 								{
-									this.ToastService.show( 'Erfolgreich gespeichert.' );
+									this.ToastService.show( 'Eintrag aktualisiert.' );
 
 									this.tinymce.notificationManager.close();
 									this.isProcessing = false;
@@ -104,7 +104,7 @@ class PageFormController
 
 									window.show();
 
-									this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+									this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 								}
 							);
 
@@ -166,7 +166,7 @@ class PageFormController
 			this.API.all( 'cms/pages' ).post( this.page )
 				.then( ( response ) =>
 					{
-						this.ToastService.show( 'Erfolgreich gespeichert.' );
+						this.ToastService.show( 'Eintrag aktualisiert.' );
 
 						this.setPage( response.data.page );
 						this.$rootScope.$broadcast( 'role.createPageComplete', this.page );
@@ -175,7 +175,7 @@ class PageFormController
 					},
 					( error ) =>
 					{
-						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 						this.isProcessing = false;
 					}
 				);
@@ -185,7 +185,7 @@ class PageFormController
 			this.API.one( 'cms/pages', this.page.id ).customPUT( this.page )
 				.then( ( response ) =>
 					{
-						this.ToastService.show( 'Erfolgreich gespeichert.' );
+						this.ToastService.show( 'Eintrag aktualisiert.' );
 
 						this.setPage( response.data.page );
 						this.$rootScope.$broadcast( 'role.createPageComplete', this.page );
@@ -194,7 +194,7 @@ class PageFormController
 					},
 					( error ) =>
 					{
-						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 						this.isProcessing = false;
 					}
 				);
@@ -204,7 +204,7 @@ class PageFormController
 	//
 	setPage(item)
 	{
-		console.log("setPage:", item );
+		//console.log("setPage:", item );
 
 		//
 		for(let k in item)

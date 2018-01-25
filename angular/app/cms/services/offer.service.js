@@ -137,8 +137,8 @@ export class OfferService
 
 	prepareQuery()
 	{
-		if( this.$rootScope.isLoading )
-			console.log("query already in process");
+		//if( this.$rootScope.isLoading )
+		//	console.log("query already in process");
 
 		this.$rootScope.isLoading = true;
 

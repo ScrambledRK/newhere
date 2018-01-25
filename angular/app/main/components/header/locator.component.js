@@ -54,7 +54,7 @@ class LocatorController
 	 */
 	onItemSelect( item )
 	{
-		console.log("locator.item.select",item);
+		//console.log("locator.item.select",item);
 
 		if( item )
 			this.RoutingService.goContent( '', item.id )

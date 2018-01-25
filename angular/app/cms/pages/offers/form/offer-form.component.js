@@ -60,7 +60,7 @@ class OfferFormController
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim laden der Daten.' );
+					this.ToastService.error( 'Unbekannter Fehler aufgetreten.' );
 				}
 			);
 	}
@@ -74,7 +74,7 @@ class OfferFormController
 	 */
 	setOffer( item )
 	{
-		console.log("set offer:", item );
+		//console.log("set offer:", item );
 
 		//
 		for(let k in item)
@@ -145,7 +145,7 @@ class OfferFormController
 		this.$rootScope.$broadcast( 'filterChanged', this );
 
 		//
-		console.log("got offer:", this.offer );
+		//console.log("got offer:", this.offer );
 	}
 
 	/**
@@ -153,7 +153,7 @@ class OfferFormController
 	 */
 	save()
 	{
-		console.log("save offer:", this.offer );
+		//console.log("save offer:", this.offer );
 
 		if( this.offer.isWithoutAddress )
 		{
@@ -183,11 +183,11 @@ class OfferFormController
 		this.API.one( 'cms/offers', this.offer.id ).customPUT( this.offer )
 			.then( ( response ) =>
 				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
 	}
@@ -198,14 +198,14 @@ class OfferFormController
 		this.API.all( 'cms/offers' ).post( this.offer )
 			.then( ( response ) =>
 				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
-					console.log( "res:", response.data.offer );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
+					//console.log( "res:", response.data.offer );
 
 					this.setOffer( response.data.offer );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
 	}
@@ -264,7 +264,7 @@ class OfferFormController
 
 	updateMap()
 	{
-		console.log("update map:", this.offer );
+		//console.log("update map:", this.offer );
 
 		this.MapService.markers = {};
 		this.MapService.setMarkers( [ this.offer ] );

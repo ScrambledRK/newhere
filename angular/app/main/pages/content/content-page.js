@@ -60,7 +60,7 @@ class ContentPageController
 		let isMapFocused = this.RoutingService.isMapFocused;
 		let isDetailState = this.RoutingService.isDetailState;
 
-		console.log("resizeContent", isMapFocused, isDetailState );
+		//console.log("resizeContent", isMapFocused, isDetailState );
 
 		let contentElement = angular.element( this.$document[0].querySelector( '#content-container' ) );
 		let mapElement = angular.element( this.$document[0].querySelector( '#map-container' ) );
