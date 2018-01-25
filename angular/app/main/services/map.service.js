@@ -164,7 +164,8 @@ export class MapService
 			//
 			this.leafletData.getLayers().then( ( layers ) =>
 			{
-				layers.overlays.offers.refreshClusters();
+				if( this.markers.length > 0 )
+					layers.overlays.offers.refreshClusters();
 			} );
 
 			//
@@ -213,7 +214,8 @@ export class MapService
 				//
 				this.leafletData.getLayers().then( ( layers ) =>
 				{
-					layers.overlays.offers.refreshClusters();
+					if( this.markers.length > 0 )
+						layers.overlays.offers.refreshClusters();
 				} );
 			}, 0, false );
 		};
