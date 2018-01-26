@@ -201,8 +201,13 @@ class PageController extends Controller
 
         if( $hasTitleChanged || $hasDescriptionChanged )
         {
-            $page->translations()->where("locale","!=","de")
-                  ->update( [ 'version' => 0 ] );
+            $locale = $request->header("Language", "de");
+
+            $page->translations()->where("locale","!=", $locale)
+                ->update( [ 'version' => 0 ] );
+
+            $page->translations()->where("locale","=", $locale)
+                ->update( [ 'version' => 2 ] );
         }
 
         // ---------------------------------- //

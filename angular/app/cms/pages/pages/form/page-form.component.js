@@ -136,6 +136,26 @@ class PageFormController
 
 		//
 		this.isProcessing = false;
+
+		// ------------------------------- //
+
+		//
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			this.onLanguageChanged();
+		} );
+
+		this.$scope.$on( '$destroy', () =>
+		{
+			onLanguage();
+		} );
+	}
+
+	//
+	onLanguageChanged()
+	{
+		if( this.page.id )
+			this.fetchItem( this.page.id );
 	}
 
 	//

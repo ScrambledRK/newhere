@@ -36,6 +36,12 @@ class ProviderFormController
 		// ------------ //
 
 		//
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			this.onLanguageChanged();
+		} );
+
+		//
 		let onSave = this.$rootScope.$on( "role.createProvider", ( event ) =>
 		{
 			this.save();
@@ -44,8 +50,8 @@ class ProviderFormController
 		//
 		let onCheck = this.$rootScope.$on( "role.checkComplete", ( event, ctrl ) =>
 		{
-			ctrl.canComplete = !this.$scope.form.$invalid
-				&& !this.$scope.form.$pristine && !this.isProcessing;
+			ctrl.canComplete = !this.$scope.aform.$invalid
+				&& !this.$scope.aform.$pristine && !this.isProcessing;
 		} );
 
 		//
@@ -56,10 +62,18 @@ class ProviderFormController
 
 		this.$scope.$on( '$destroy', () =>
 		{
+			onLanguage();
 			onSave();
 			onCheck();
 			onImage();
 		} );
+	}
+
+	//
+	onLanguageChanged()
+	{
+		if( this.offer.id )
+			this.fetchItem( this.offer.id );
 	}
 
 	//

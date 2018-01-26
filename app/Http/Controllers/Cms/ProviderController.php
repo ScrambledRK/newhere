@@ -261,11 +261,23 @@ class ProviderController extends Controller
         // ---------------------------------- //
 
         //
-        if( $request->has( 'description' ) )
+        $hasDescriptionChanged  = $provider->description   != $request->get( 'description' );
+
+        if( $hasDescriptionChanged )
         {
-            $locale = $request->get( 'language' );
-            $provider->translateOrNew( $locale )->description = $request->get( 'description' );
+            $locale = $request->header("Language", "de");
+
+            $provider->translations()->where("locale","!=", $locale)
+                ->update( [ 'version' => 0 ] );
+
+            $provider->translations()->where("locale","=", $locale)
+                ->update( [ 'version' => 2 ] );
         }
+
+        $provider->description = $request->get( 'description' );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
 
         return $provider;
     }

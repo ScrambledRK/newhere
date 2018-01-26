@@ -5,7 +5,7 @@
 	layout-fill
 >
 	<!-- horrible hack, I am sorry -->
-	<span style="display:none" >{{ form = ngoForm}}</span>
+	<span style="display:none" >{{ aform = ngoForm}}</span>
 
 	<div
 		layout="row"
@@ -96,7 +96,7 @@
 						placeholder="+43 660 12345678"
 						type="tel"
 						name="phone"
-						ng-pattern="/^\+?[0-9]+[\s0-9]*$/"
+						ng-pattern="/^\+?[0-9]+[\s0-9\-]*$/"
 						minlength="6"
 						maxlength="24"
 					>

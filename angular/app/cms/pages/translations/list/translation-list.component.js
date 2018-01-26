@@ -92,6 +92,31 @@ class TranslationListController
 		let source = item.translations["de"];
 		let target = item.translations["en"];
 
+
+		for( let s in item.translations )
+		{
+			if( !item.translations.hasOwnProperty(s) )
+				continue;
+
+			if( item.translations[s].version === 2 )
+			{
+				source = item.translations[s];
+				break;
+			}
+		}
+
+		for( let t in item.translations )
+		{
+			if( !item.translations.hasOwnProperty(t) )
+				continue;
+
+			if( item.translations[t].version === 0 )
+			{
+				target = item.translations[t];
+				break;
+			}
+		}
+
 		//
 		if( this.dialog )
 		{

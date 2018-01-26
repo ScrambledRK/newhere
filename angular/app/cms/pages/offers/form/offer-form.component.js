@@ -38,6 +38,15 @@ class OfferFormController
 		if( $state.params.id )
 			this.fetchItem( $state.params.id );
 
+		// ------------------------------ //
+		// ------------------------------ //
+
+		//
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			this.onLanguageChanged();
+		} );
+
 		//
 		let onImage = this.$rootScope.$on( "image.changed", ( event ) =>
 		{
@@ -47,7 +56,15 @@ class OfferFormController
 		this.$scope.$on( '$destroy', () =>
 		{
 			onImage();
+			onLanguage();
 		} );
+	}
+
+	//
+	onLanguageChanged()
+	{
+		if( this.offer.id )
+			this.fetchItem( this.offer.id );
 	}
 
 	//
