@@ -23,9 +23,18 @@ export class APIService
 					{
 						for( var error in response.data.errors )
 						{
-							return ToastService.error( response.data.errors[error][0] );
+							try
+							{
+								ToastService.error( response.data.errors[error][0] );
+							}
+							catch( err )
+							{
+								//;
+							}
 						}
 					}
+
+					return response;
 				} )
 				.addFullRequestInterceptor( function( element, operation, what, url, headers )
 				{
@@ -56,6 +65,7 @@ export class APIService
 					{
 						extractedData = data;
 					}
+
 					return extractedData;
 				} );
 		} );

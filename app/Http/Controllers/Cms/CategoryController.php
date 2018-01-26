@@ -43,4 +43,62 @@ class CategoryController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * @param Request $request
+     */
+    public function update( Request $request, $id )
+    {
+        DB::beginTransaction();
+
+        $category = Category::findOrFail( $id );
+        $category = $this->populateFromRequest( $request, $category );
+        $category->save();
+
+        DB::commit();
+
+        return response()->success( compact( [ 'category' ] ) );
+    }
+
+    /**
+     * @param Request $request
+     * @param Category $category
+     * @return Category
+     */
+    private function populateFromRequest( Request $request, Category $category )
+    {
+//        $this->validate( $request, [
+//            'slug'   => 'required|max:255'
+//        ] );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+//        $hasTitleChanged        = $category->title     != $request->get( 'title' );
+//        $hasDescriptionChanged  = $category->content   != $request->get( 'content' );
+//
+//        if( $hasTitleChanged || $hasDescriptionChanged )
+//        {
+//            $locale = $request->header("Language", "de");
+//
+//            $category->translations()->where("locale","!=", $locale)
+//                ->update( [ 'version' => 0 ] );
+//
+//            $category->translations()->where("locale","=", $locale)
+//                ->update( [ 'version' => 2 ] );
+//        }
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        //
+//        $category->slug = $request->get( 'slug' );
+//        $category->enabled = $request->get( 'enabled' );
+        $category->page_id = $request->get( 'page_id' );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
+
+        return $category;
+    }
 }

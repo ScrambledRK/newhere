@@ -51,6 +51,7 @@ import {PageTableDirective} from "./pages/pages/list/page-table.directive";
 import {PageListComponent} from "./pages/pages/list/page-list.component";
 import {PageFormComponent} from "./pages/pages/form/page-form.component";
 import {LanguageMenuComponent} from "./components/menu/cms-language-menu.component";
+import {CategoryFormComponent} from "./pages/category/category-form.component";
 //import {ResetpasswordFormComponent} from "../main/pages/login/resetpassword-form.component";
 
 // ------------------------------- //
@@ -134,5 +135,6 @@ angular.module( 'app.cms' )
 	.component( 'cmsPageList', PageListComponent )
 	.component( 'cmsPageForm', PageFormComponent )
 	.component( 'cmsLanguageMenu', LanguageMenuComponent )
+	.component( 'cmsCategoryForm', CategoryFormComponent )
 	//.component( 'resetpasswordForm', ResetpasswordFormComponent )
 ;

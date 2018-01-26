@@ -72,6 +72,12 @@
 			>{{ 'Antrag' | translate }}
 			</th>
 
+			<th
+					md-column
+					md-order-by="updated_at"
+			>{{ 'Letzte Änderung' | translate }}
+			</th>
+
 		</tr>
 		</thead>
 
@@ -173,7 +179,11 @@
 					{{item.pendings.length}}</a>
 			</td>
 
+			<td md-cell>
+				<div>{{item.updated_at}}</div>
+			</td>
 		</tr>
+
 		</tbody>
 	</table>
 </md-table-container>

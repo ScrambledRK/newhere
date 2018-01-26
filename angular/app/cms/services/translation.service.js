@@ -81,6 +81,7 @@ export class TranslationService
 						category_id : item.id,
 						page_id : item.id,
 						locale : lang,
+						tooltip : "-",
 						version : 0
 					};
 
@@ -135,6 +136,7 @@ export class TranslationService
 					    title : item.title,
 					    tooltip : item.description,
 					    enabled : item.enabled,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -145,7 +147,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "title",
@@ -180,6 +182,7 @@ export class TranslationService
 					    title : item.organisation,
 					    tooltip : item.description,
 					    enabled : item.published,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -190,7 +193,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "description",
@@ -215,6 +218,7 @@ export class TranslationService
 					    title : item.title,
 					    tooltip : item.description,
 					    enabled : item.enabled,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -225,7 +229,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "title",
@@ -255,6 +259,7 @@ export class TranslationService
 					    title : item.title,
 					    tooltip : item.description,
 					    enabled : item.enabled,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -265,7 +270,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "title",
@@ -295,6 +300,7 @@ export class TranslationService
 					    title : item.title,
 					    tooltip : item.slug,
 					    enabled : item.enabled,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -305,7 +311,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.title;
+				translation.tooltip = translation.title ? translation.title : "-";
 				translation.fields = [
 					{
 						label : "title",

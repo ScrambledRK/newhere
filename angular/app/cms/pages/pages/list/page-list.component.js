@@ -38,7 +38,7 @@ class PageListController
 		//
 		this.query =
 			{
-				order: '-id',
+				order: 'updated_at',
 				limit: 10,
 				page: 1
 			};

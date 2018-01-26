@@ -39,6 +39,7 @@
           aria-label="further information"
           ng-click="vm.goFurther()"
           href="{{vm.getFurtherURL()}}"
+          ng-if="vm.ContentService.category.page"
       >
         <md-icon aria-label="">more_horiz</md-icon>
       </md-button>

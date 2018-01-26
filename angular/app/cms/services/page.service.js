@@ -26,6 +26,24 @@ export class PageService
 	// -------------------------------------------------------------- //
 
 	//
+	all()
+	{
+		let config = this.prepareQuery();
+
+		return this.API.all( 'cms/pages/all' ).withHttpConfig( config ).getList()
+			.then( ( response ) =>
+			{
+				this.numItems = response.count;
+
+				this.pages.length = 0;
+				this.pages.push.apply( this.pages, response );
+
+				this.resolveQuery();
+			} )
+		;
+	}
+
+	//
 	fetchList( query )
 	{
 		let config = this.prepareQuery();
@@ -41,7 +59,7 @@ export class PageService
 
 				this.resolveQuery();
 			} )
-		;
+			;
 	}
 
 	/**
@@ -81,7 +99,7 @@ export class PageService
 			.then( () =>
 			{
 				this.resolveQuery();
-			});
+			} );
 	}
 
 	/**
@@ -115,7 +133,7 @@ export class PageService
 			.then( () =>
 			{
 				this.resolveQuery();
-			});
+			} );
 	}
 
 	// -------------------------------------------------------------- //

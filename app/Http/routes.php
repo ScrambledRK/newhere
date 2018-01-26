@@ -101,6 +101,11 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/categories/{slug}', 'Cms\CategoryController@bySlug' );
+
+    groupAdministration($api, function ($api)
+    {
+        $api->put( 'cms/categories/{id}', 'Cms\CategoryController@update' );
+    } );
 } );
 
 /*
@@ -213,6 +218,7 @@ groupAuthenticated( $api, function( $api )
     groupAdministration($api, function ($api)
     {
         $api->get('cms/pages', 'Cms\PageController@index');
+        $api->get('cms/pages/all', 'Cms\PageController@all');
         $api->get('cms/pages/{id}', 'Cms\PageController@byId');
         $api->post('cms/pages', 'Cms\PageController@create');
         $api->post('cms/pages/upload', 'Cms\PageController@upload');

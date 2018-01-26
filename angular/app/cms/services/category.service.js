@@ -13,6 +13,8 @@ export class CategoryService
 		this.$rootScope = $rootScope;
 		this.$q = $q;
 
+		this.defer = null;
+
 		// --------------------------- //
 
 		//
@@ -20,6 +22,12 @@ export class CategoryService
 
 		//
 		this.fetchCategories();
+
+		//
+		this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			this.fetchCategories();
+		} );
 	}
 
 	// -------------------------------------------------------------- //
@@ -41,7 +49,7 @@ export class CategoryService
 						return;
 
 					//
-					for(let k in response[0])
+					for( let k in response[0] )
 						this.category[k] = response[0][k];
 
 					this.setupCategories( this.category, null );
@@ -67,4 +75,72 @@ export class CategoryService
 		} );
 	}
 
+	/**
+	 *
+	 * @param categoryList
+	 */
+	updateList( categoryList )
+	{
+		let config = this.prepareQuery();
+		let promises = [];
+
+		//
+		angular.forEach( categoryList, ( item ) =>
+		{
+			let payload = {
+				id : item.id,
+				page_id : item.page_id
+			};
+
+			let promise = this.API.one( 'cms/categories/', payload.id )
+				.withHttpConfig( config ).customPUT( payload )
+				.then( ( response ) =>
+					{
+						return response;
+					},
+					( error ) =>
+					{
+						throw error;
+					}
+				);
+
+			promises.push( promise );
+		} );
+
+		//
+		return this.$q.all( promises )
+			.then( () =>
+				{
+					this.resolveQuery();
+				},
+				( error ) =>
+				{
+					throw error;
+				} );
+	}
+
+	//
+	prepareQuery()
+	{
+		this.$rootScope.isLoading = true;
+
+		//
+		if( this.defer !== null )
+			this.defer.resolve();
+
+		//
+		this.defer = this.$q.defer();
+
+		return {
+			timeout: this.defer.promise
+		};
+	}
+
+	resolveQuery()
+	{
+		this.defer = null;
+
+		this.$rootScope.isLoading = false;
+		//this.$rootScope.$broadcast( 'pagesChanged', this );
+	}
 }

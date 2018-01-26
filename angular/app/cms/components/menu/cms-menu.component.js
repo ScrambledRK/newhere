@@ -39,12 +39,6 @@ class CmsMenuController
 				roles: ['admin', 'superadmin', 'moderator']
 			},
 			// {
-			// 	sref: 'cms.categories',
-			// 	icon: 'list',
-			// 	title: 'Categories',
-			// 	roles: ['admin', 'superadmin']
-			// },
-			// {
 			// 	sref: 'cms.filters',
 			// 	icon: 'filter_list',
 			// 	title: 'Filters',
@@ -66,6 +60,12 @@ class CmsMenuController
 				sref: 'cms.pages',
 				icon: 'description',
 				title: 'Seiten',
+				roles: ['admin','superadmin' ]
+			},
+			{
+				sref: 'cms.categories',
+				icon: 'list',
+				title: 'Kategorien',
 				roles: ['admin','superadmin' ]
 			}
 		];

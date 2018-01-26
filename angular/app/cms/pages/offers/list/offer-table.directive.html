@@ -72,6 +72,11 @@
 				class="icon"
 			>{{ 'Webseite' | translate }}
 			</th>
+			<th
+					md-column
+					md-order-by="updated_at"
+			>{{ 'Letzte Änderung' | translate }}
+			</th>
 		</tr>
 		</thead>
 
@@ -200,6 +205,9 @@
 					>
 						<md-icon>insert_link</md-icon>
 					</a></div>
+			</td>
+			<td md-cell>
+				<div>{{item.updated_at}}</div>
 			</td>
 		</tr>
 		</tbody>

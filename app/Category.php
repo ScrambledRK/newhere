@@ -89,4 +89,13 @@ class Category extends Model
         return $this->belongsTo( 'App\Image' );
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function page()
+    {
+        return $this->hasOne( 'App\Page', 'id', 'page_id' )
+            ->where( 'enabled', true )->select(['id','slug']);
+    }
 }

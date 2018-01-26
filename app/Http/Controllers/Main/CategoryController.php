@@ -75,7 +75,7 @@ class CategoryController extends Controller
      */
     public function bySlug( Request $request, $slug )
     {
-        $result = Category::with( ['image'] );
+        $result = Category::with( ['image', 'page'] );
 
         //
         $result = $result->where('enabled', true );

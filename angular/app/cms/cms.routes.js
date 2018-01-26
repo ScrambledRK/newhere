@@ -291,6 +291,24 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 				}
 			} )
 
+		//
+		.state( 'cms.categories',
+			{
+				url: '/categories',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ],
+					title: "Kategorien"
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-category-form></cms-category-form>"
+					}
+				}
+			} )
+
 		// --------------------------------------------- //
 		// pages:
 

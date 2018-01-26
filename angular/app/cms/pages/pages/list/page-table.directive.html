@@ -40,6 +40,12 @@
 				style="padding-left: 14px;"
 			>lock_open</i>
 			</th>
+
+			<th
+					md-column
+					md-order-by="updated_at"
+			>{{ 'Letzte Änderung' | translate }}
+			</th>
 		</tr>
 		</thead>
 
@@ -110,6 +116,9 @@
 				</md-button>
 			</td>
 
+			<td md-cell>
+				<div>{{item.updated_at}}</div>
+			</td>
 		</tr>
 		</tbody>
 	</table>

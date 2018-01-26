@@ -80,6 +80,19 @@ class PageController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function all()
+    {
+        $result = Page::with( [] );
+
+        $count = $result->count();
+        $result = $result->get(['id','slug']);
+
+        return response()->success( compact( 'result', 'count' ) );
+    }
+
+    /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */

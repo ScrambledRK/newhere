@@ -14,8 +14,11 @@ class CategorySelectorController
 		this.$scope.category = this.category = {};
 		this.selected = [];
 
+		// ---------------------- //
+		// ---------------------- //
+
 		//
-		this.$rootScope.$on( "categoriesChanged", ( event, data ) =>
+		let onCategories = this.$rootScope.$on( "categoriesChanged", ( event, data ) =>
 		{
 			if( !this.item )
 				console.error("no category item available! oh-nose");
@@ -24,6 +27,12 @@ class CategorySelectorController
 			this.selected = this.item;
 
 			this.onCategoriesChanged();
+		} );
+
+		//
+		this.$scope.$on( '$destroy', () =>
+		{
+			onCategories();
 		} );
 	}
 
