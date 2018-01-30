@@ -17,6 +17,7 @@ class PageFormController
 		this.$document = $document;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
+		this.$state = $state;
 
 		// ------------------------------ //
 		// ------------------------------ //
@@ -127,7 +128,7 @@ class PageFormController
 			title:"",
 			slug:"",
 			content:"",
-			enabled:false
+			enabled:true
 		};
 
 		//
@@ -231,6 +232,22 @@ class PageFormController
 		{
 			this.page[k] = item[k];
 		}
+	}
+
+	toggleItem(isEnabled)
+	{
+		if( this.page )
+		{
+			if( this.page.enabled !== isEnabled )
+				this.$scope.pageForm.$setDirty();
+
+			this.page.enabled = isEnabled;
+		}
+	}
+
+	cancel()
+	{
+		this.$state.go( 'cms.pages' );
 	}
 }
 

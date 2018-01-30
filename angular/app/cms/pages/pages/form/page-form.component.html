@@ -18,6 +18,37 @@
           layout-padding
           layout="row"
       >
+        <!-- enabled -->
+        <md-input-container
+          class="md-block"
+          style="padding: 0px !important;"
+        >
+          <md-button
+            ng-click="vm.toggleItem(true)"
+            ng-if="!vm.page.enabled"
+            class="md-icon-button md-accent md-hue-2"
+          >
+            <md-tooltip
+              md-direction="right"
+              md-delay="800"
+            >page is not enabled
+            </md-tooltip>
+            <md-icon>lock</md-icon>
+          </md-button>
+          <md-button
+            ng-click="vm.toggleItem(false)"
+            ng-if="vm.page.enabled"
+            class="md-icon-button md-accent md-hue-2"
+          >
+            <md-tooltip
+              md-direction="right"
+              md-delay="800"
+            >page is enabled
+            </md-tooltip>
+            <md-icon>lock_open</md-icon>
+          </md-button>
+        </md-input-container>
+
         <!-- title -->
         <md-input-container
             class="md-block"

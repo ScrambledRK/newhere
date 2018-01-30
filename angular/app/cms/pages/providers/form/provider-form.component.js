@@ -19,6 +19,7 @@ class ProviderFormController
 		this.$timeout = $timeout;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
+		this.$state = $state;
 
 		//
 		this.offer = {
@@ -164,6 +165,11 @@ class ProviderFormController
 
 		//
 		this.updateMap();
+	}
+
+	cancel()
+	{
+		this.$state.go( 'cms.providers' );
 	}
 
 	// ------------------------------------------------------- //

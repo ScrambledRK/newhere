@@ -17,6 +17,7 @@ class UserFormController
 
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
+		this.$state = $state;
 
 		// ------------ //
 
@@ -267,6 +268,11 @@ class UserFormController
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
+	}
+
+	cancel()
+	{
+		this.$state.go( 'cms.users' );
 	}
 
 	// ------------------------------------------- //

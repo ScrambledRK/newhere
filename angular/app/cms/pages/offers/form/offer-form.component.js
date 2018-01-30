@@ -20,6 +20,7 @@ class OfferFormController
 		this.$timeout = $timeout;
 		this.$scope = $scope;
 		this.$rootScope = $rootScope;
+		this.$state = $state;
 
 		//
 		this.providers = this.UserService.providers;
@@ -252,6 +253,11 @@ class OfferFormController
 
 			this.offer.enabled = isEnabled;
 		}
+	}
+
+	cancel()
+	{
+		this.$state.go( 'cms.offers' );
 	}
 
 	// ------------------------------------------------------- //
