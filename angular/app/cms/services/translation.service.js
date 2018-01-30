@@ -21,6 +21,7 @@ export class TranslationService
 
 		this.languages = this.UserService.languages;
 
+		this.isTranslateOnSave = false;
 		this.enabledLanguages = ["de","en","ar","fa","fr"];
 		this.defaultLanguage = "de";
 

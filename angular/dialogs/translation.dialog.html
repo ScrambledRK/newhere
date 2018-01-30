@@ -222,6 +222,17 @@
 
 		<!-- -->
 		<md-dialog-actions>
+			<md-checkbox
+				ng-model="vm.isTranslateOnSave"
+				ng-change="vm.setTranslateOnSave()"
+        style="margin: unset;"
+			>
+
+        {{ 'translate on save' | translate }}
+			</md-checkbox>
+
+      <span flex></span>
+
 			<md-button
 				type="button"
 				ng-click="vm.cancel()"
@@ -233,5 +244,6 @@
 			>{{ 'Speichern' | translate }}
 			</md-button>
 		</md-dialog-actions>
+
 	</form>
 </md-dialog>
