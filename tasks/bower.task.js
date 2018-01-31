@@ -76,10 +76,10 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 			"bower_components/tinymce/skins/lightgray/content.min.css",
 			"bower_components/tinymce/skins/lightgray/fonts/tinymce.ttf",
 			"bower_components/tinymce/skins/lightgray/fonts/tinymce.woff",
-			"bower_components/tinymce/plugins/autolink/plugin.min.js",
-			"bower_components/tinymce/plugins/code/plugin.min.js",
-			"bower_components/tinymce/plugins/image/plugin.min.js",
-			"bower_components/tinymce/plugins/link/plugin.min.js"
+			"bower_components/tinymce/plugins/autolink/plugin.js",
+			"bower_components/tinymce/plugins/code/plugin.js",
+			"bower_components/tinymce/plugins/image/plugin.js",
+			"bower_components/tinymce/plugins/link/plugin.js"
 		], {
 			base: 'bower_components/tinymce/'
 		})

@@ -50,7 +50,7 @@
     "textAngular": "https://github.com/fraywing/textAngular.git#a4c905845164d8c20e5cf69ece742185b2a1f1ed",
     "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#919b862389ddddc85c197746f3126fd24de0dc42",
 	"angular-ui-tinymce":"0.0.19",
-	"tinymce":"4.5.8"
+	"tinymce":"4.6.0"
   },
   "overrides": {
     "font-awesome": {
@@ -76,20 +76,20 @@
         "release/stateEvents.js"
       ]
     },
-	"tinymce": {
-		"main": [
-			"tinymce.min.js",
-			"themes/modern/theme.min.js",
-			"skins/lightgray/skin.min.css",
-			"skins/lightgray/content.min.css",
-			"skins/lightgray/fonts/tinymce.ttf",
-			"skins/lightgray/fonts/tinymce.woff",
-			"plugins/autolink/plugin.min.js",
-			"plugins/code/plugin.min.js",
-			"plugins/image/plugin.min.js",
-			"plugins/link/plugin.min.js"
-		]
-	}
+    "tinymce": {
+      "main": [
+        "tinymce.js",
+        "themes/modern/theme.js",
+        "skins/lightgray/skin.css",
+        "skins/lightgray/content.css",
+        "skins/lightgray/fonts/tinymce.ttf",
+        "skins/lightgray/fonts/tinymce.woff",
+        "plugins/autolink/plugin.js",
+        "plugins/code/plugin.js",
+        "plugins/image/plugin.js",
+        "plugins/link/plugin.js"
+      ]
+    }
   },
   "bowerLocker": {
     "lastUpdated": "2017-07-12T12:48:22.654Z",

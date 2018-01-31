@@ -1,22 +1,22 @@
 <form
-    name="pageForm"
-    ng-submit="vm.save()"
-    class="blank"
-    layout-fill
+  name="pageForm"
+  ng-submit="vm.save()"
+  class="blank"
+  layout-fill
 >
   <!-- horrible hack, I am sorry -->
   <span style="display:none">{{ form = pageForm}}</span>
 
   <div
-      layout="column"
-      layout-fill
+    layout="column"
+    layout-fill
   >
     <!-- #1 row: general -->
     <md-card>
       <!-- -->
       <md-content
-          layout-padding
-          layout="row"
+        layout-padding
+        layout="row"
       >
         <!-- enabled -->
         <md-input-container
@@ -51,27 +51,27 @@
 
         <!-- title -->
         <md-input-container
-            class="md-block"
-            style="margin-bottom: 0px !important;"
-            flex
+          class="md-block"
+          style="margin-bottom: 0px !important;"
+          flex
         >
           <label>{{ 'Titel' | translate }}</label>
           <input
-              ng-model="vm.page.title"
-              required
+            ng-model="vm.page.title"
+            required
           >
         </md-input-container>
 
         <!-- slug -->
         <md-input-container
-            class="md-block"
-            style="margin-bottom: 0px !important;"
-            flex
+          class="md-block"
+          style="margin-bottom: 0px !important;"
+          flex
         >
           <label>{{ 'Slug' | translate }}</label>
           <input
-              ng-model="vm.page.slug"
-              required
+            ng-model="vm.page.slug"
+            required
           >
         </md-input-container>
 
@@ -80,28 +80,29 @@
 
     <!-- #2 row: content-->
 
-        <md-input-container
-            class="md-block"
-            style="padding-bottom: 0; margin-bottom: 0; padding-left: 8px; padding-right: 8px"
-        >
+    <md-input-container
+      ng-if="vm.options"
+      class="md-block"
+      style="padding-bottom: 0; margin-bottom: 0; padding-left: 8px; padding-right: 8px"
+    >
 					<textarea
-              ui-tinymce="vm.options"
-              ng-model="vm.page.content"
-              ng-disabled="vm.isProcessing"
-              rows="8"
+            ui-tinymce="vm.options"
+            ng-model="vm.page.content"
+            ng-disabled="vm.isProcessing"
+            rows="8"
           ></textarea>
-        </md-input-container>
+    </md-input-container>
 
   </div>
 
   <!-- submit -->
   <div
-      flex
-      layout="row"
-      layout-align="end center"
+    flex
+    layout="row"
+    layout-align="end center"
   >
     <save
-        is-disabled="pageForm.$invalid || pageForm.$pristine"
+      is-disabled="pageForm.$invalid || pageForm.$pristine"
     ></save>
 
     <cancel></cancel>

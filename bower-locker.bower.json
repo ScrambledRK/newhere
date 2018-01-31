@@ -49,7 +49,7 @@
       "textAngular": "1.5.16",
       "ui-leaflet": "2.0.0",
 	  "angular-ui-tinymce":"0.0.19",
-	  "tinymce":"4.5.8"
+	  "tinymce":"4.6.0"
     },
     "overrides": {
         "font-awesome": {
@@ -68,13 +68,21 @@
                 "src/L.Icon.Pulse.js",
                 "src/L.Icon.Pulse.css"
             ]
-        },
-		"tinymce": {
-			"main": [
-				"**/*.min.js",
-				"**/*.min.css"
-			]
-		}
+        },		
+        "tinymce": {
+            "main": [
+                "tinymce.js",
+                "themes/modern/theme.js",
+                "skins/lightgray/skin.css",
+                "skins/lightgray/content.css",
+                "skins/lightgray/fonts/tinymce.ttf",
+                "skins/lightgray/fonts/tinymce.woff",
+                "plugins/autolink/plugin.js",
+                "plugins/code/plugin.js",
+                "plugins/image/plugin.js",
+                "plugins/link/plugin.js"
+            ]
+        }
     },
     "resolutions": {
         

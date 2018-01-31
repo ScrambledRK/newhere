@@ -1,9 +1,11 @@
 class PageFormController
 {
 	constructor( ToastService,
+	             PageService,
 				 API,
 				 $timeout,
 				 $document,
+				 $window,
 				 $rootScope,
 	             $scope,
 	             $state )
@@ -11,6 +13,7 @@ class PageFormController
 		'ngInject';
 
 		this.ToastService = ToastService;
+		this.PageService = PageService;
 		this.API = API;
 
 		this.$timeout = $timeout;
@@ -23,14 +26,81 @@ class PageFormController
 		// ------------------------------ //
 
 		//
+		this.PageService.all().then( () =>
+		{
+			let tiny_linklist = [];
+
+			//
+			for( let i = 0; i < this.PageService.pages.length; i++ )
+			{
+				let page = this.PageService.pages[i];
+
+				//
+				tiny_linklist[i] = {
+					title: page.title,
+					value: '#!/page/' + page.slug
+				}
+			}
+
+			this._setupTinyMCE( $window, tiny_linklist );
+		});
+
+		// ------------------------------ //
+		// ------------------------------ //
+
+		//
+		this.page = {
+			title:"",
+			slug:"",
+			content:"",
+			enabled:true
+		};
+
+		//
+		if( $state.params.id )
+			this.fetchItem( $state.params.id );
+
+		//
+		this.isProcessing = false;
+
+		// ------------------------------- //
+
+		//
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			this.onLanguageChanged();
+		} );
+
+		this.$scope.$on( '$destroy', () =>
+		{
+			onLanguage();
+		} );
+	}
+
+	//
+	_setupTinyMCE( $window, linklist )
+	{
+		console.log("setup tinymce");
+
+		//
 		this.options = {
 
 			plugins: 'link autolink code image',
 			toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+		//	content_css: $window.newhere.css,
 
-			setup : (editor) =>
+			link_list: linklist,
+			link_class_list: [
+				{title: 'default', value: ''},
+				{title: 'download', value: 'btn-download'}
+			],
+
+			init_instance_callback : (editor) =>
 			{
-				this.tinymce = editor;
+				console.log("init instance callback:", editor);
+
+				this.tinymceEditor = editor;
+				//this._setLinkList();
 			},
 
 			file_picker_types: 'image file',
@@ -76,10 +146,10 @@ class PageFormController
 						//
 						//console.log( payload );
 
-						let window = this.tinymce.windowManager.getWindows()[0];
+						let window = this.tinymceEditor.windowManager.getWindows()[0];
 							window.hide();  // disabled() doesn't do anything, so hide instead
 
-						let notification = this.tinymce.notificationManager.open({
+						let notification = this.tinymceEditor.notificationManager.open({
 							text: 'uploading file',
 							type: 'info',
 							progressBar: true,
@@ -91,7 +161,7 @@ class PageFormController
 								{
 									this.ToastService.show( 'Eintrag aktualisiert.' );
 
-									this.tinymce.notificationManager.close();
+									this.tinymceEditor.notificationManager.close();
 									this.isProcessing = false;
 
 									window.show();
@@ -100,7 +170,7 @@ class PageFormController
 								},
 								( error ) =>
 								{
-									this.tinymce.notificationManager.close();
+									this.tinymceEditor.notificationManager.close();
 									this.isProcessing = false;
 
 									window.show();
@@ -119,37 +189,6 @@ class PageFormController
 				input.click();
 			}
 		};
-
-		// ------------------------------ //
-		// ------------------------------ //
-
-		//
-		this.page = {
-			title:"",
-			slug:"",
-			content:"",
-			enabled:true
-		};
-
-		//
-		if( $state.params.id )
-			this.fetchItem( $state.params.id );
-
-		//
-		this.isProcessing = false;
-
-		// ------------------------------- //
-
-		//
-		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
-		{
-			this.onLanguageChanged();
-		} );
-
-		this.$scope.$on( '$destroy', () =>
-		{
-			onLanguage();
-		} );
 	}
 
 	//
