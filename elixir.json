@@ -5,6 +5,7 @@
     },
     "css": {
         "outputFolder": "public/css",
+        "tempFolder":"public/csstmp",
         "less": {
             "folder": "../../angular/"
         }

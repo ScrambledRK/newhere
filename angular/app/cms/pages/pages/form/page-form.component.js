@@ -87,7 +87,7 @@ class PageFormController
 
 			plugins: 'link autolink code image',
 			toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-		//	content_css: $window.newhere.css,
+			content_css: $window.newhere.css,
 
 			link_list: linklist,
 			link_class_list: [

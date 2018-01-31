@@ -12,6 +12,9 @@
         <link rel="stylesheet"
               id="style.app.css"
               href="{!! elixir('css/app.css') !!}">
+	    <link rel="stylesheet"
+			id="style.tinymce.css"
+			href="{!! elixir('css/tinymcs_custom.css') !!}">
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700'
               id="style.font.css"
               rel='stylesheet'
@@ -38,8 +41,9 @@
                     // so when they change the user browser flushes the cache
 
                 	css: [
-		                document.getElementById("style.app.css").getAttribute('href'),
-		                document.getElementById("style.vendor.css").getAttribute('href'),
+		               // document.getElementById("style.app.css").getAttribute('href'),
+		               // document.getElementById("style.vendor.css").getAttribute('href'),
+		                document.getElementById("style.tinymce.css").getAttribute('href'),
 		                document.getElementById("style.font.css").getAttribute('href'),
 		                document.getElementById("style.icon.css").getAttribute('href')
                     ]
