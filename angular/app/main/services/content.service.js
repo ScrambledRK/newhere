@@ -158,11 +158,40 @@ export class ContentService
 
 					this.$rootScope.isLoading = false;
 					this.$rootScope.$broadcast( 'contentChanged', this );
+
+					this._setDocumentTitle();
 				},
 				( msg ) =>
 				{
 					//console.log( "fetch content canceled/error", msg );
 				} );
+	}
+
+	_setDocumentTitle()
+	{
+		if( this.offer && this.slugOffer )
+		{
+			document.title = "newhere : " + this.offer.title;
+		}
+		else if( this.provider && this.slugProvider )
+		{
+			document.title = "newhere : " + this.provider.organisation;
+		}
+		else if( this.category && this.slugCategory )
+		{
+			document.title = "newhere : " + this.category.title;
+		}
+		else if( this.providerList && !this.slugProvider && !this.slugOffer )
+		{
+			this.$translate( "Anbieter" ).then( ( msg ) =>
+			{
+				document.title = "newhere : " + msg;
+			} );
+		}
+		else
+		{
+			document.title = "newhere : welcome";
+		}
 	}
 
 	// -------------------------------------------------------------- //

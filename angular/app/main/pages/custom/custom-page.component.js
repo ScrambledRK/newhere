@@ -56,6 +56,9 @@ class CustomPageController
 	{
 		//console.log("custom page jo: ", page );
 		this.page = page;
+
+		if( this.page )
+			document.title = "newhere : " + this.page.title;
 	}
 
 

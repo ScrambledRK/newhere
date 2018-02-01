@@ -5,7 +5,8 @@ class OfferDetailController
 	 * @param {ContentService} ContentService
 	 * @param {RoutingService} RoutingService
 	 * @param {MapService} MapService
-	 * @param $element
+	 * @param {Page} Page
+	 * @param $window
 	 * @param $rootScope
 	 * @param $scope
 	 * @param $state
@@ -53,6 +54,9 @@ class OfferDetailController
 	setContent( offer )
 	{
 		this.offer = offer;
+
+		if( this.offer )
+			document.title = "newhere : " + this.offer.title;
 
 		//
 		if( this.offer && this.offer.street )

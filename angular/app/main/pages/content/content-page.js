@@ -10,6 +10,7 @@ class ContentPageController
 	 * @param {*} $scope
 	 */
 	constructor( RoutingService,
+				 ContentService,
 	             MapService,
 	             $rootScope,
 	             $document,
@@ -21,6 +22,7 @@ class ContentPageController
 
 		//
 		this.RoutingService = RoutingService;
+		this.ContentService = ContentService;
 		this.MapService = MapService;
 		this.$rootScope = $rootScope;
 		this.$document = $document;
