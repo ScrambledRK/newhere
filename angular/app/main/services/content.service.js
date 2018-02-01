@@ -238,10 +238,11 @@ export class ContentService
 	 */
 	fetchProvider( slugProvider, config, force )
 	{
-		//console.log( "fetching providers: ", slugProvider );
-
 		if( !slugProvider )
+		{
+			this.provider = null;
 			return this.$q.when();
+		}
 
 		if( !force && slugProvider === this.slugProvider )
 			return this.$q.when();
@@ -316,11 +317,12 @@ export class ContentService
 	{
 		//console.log( "fetching offer: ", slugOffer );
 
-		this.offer = null;
-
 		//
 		if( !slugOffer )
+		{
+			this.offer = null;
 			return this.$q.when();
+		}
 
 		if( !force && slugOffer === this.slugOffer )
 			return this.$q.when();
