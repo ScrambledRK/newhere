@@ -81,16 +81,15 @@
     <!-- #2 row: content-->
 
     <md-input-container
-      ng-if="vm.options"
       class="md-block"
       style="padding-bottom: 0; margin-bottom: 0; padding-left: 8px; padding-right: 8px"
     >
-					<textarea
-            ui-tinymce="vm.options"
-            ng-model="vm.page.content"
-            ng-disabled="vm.isProcessing"
-            rows="8"
-          ></textarea>
+      <cms-tiny-mce
+        ng-model="vm.page.content"
+        ng-disabled="vm.isProcessing"
+        is-admin="true"
+      >
+      </cms-tiny-mce>
     </md-input-container>
 
   </div>

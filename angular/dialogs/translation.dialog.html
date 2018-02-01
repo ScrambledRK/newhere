@@ -208,12 +208,12 @@
 							ng-model="vm.dialog.target[field.value]"
 							rows="{{field.rows}}"
 						></textarea>
-						<textarea
-								ui-tinymce="vm.tinyOptions"
-								ng-if="field.label == 'content'"
-								ng-model="vm.dialog.target[field.value]"
-								rows="{{field.rows}}"
-						></textarea>
+						<cms-tiny-mce
+							ng-if="field.label == 'content'"
+							ng-model="vm.dialog.target[field.value]"
+							is-admin="false"
+						>
+						</cms-tiny-mce>
 					</md-input-container>
 
 				</div>
