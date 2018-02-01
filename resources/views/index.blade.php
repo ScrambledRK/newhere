@@ -7,20 +7,15 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet"
-              id="style.vendor.css"
               href="{!! elixir('css/vendor.css') !!}">
         <link rel="stylesheet"
-              id="style.app.css"
               href="{!! elixir('css/app.css') !!}">
 	    <link rel="stylesheet"
-			id="style.tinymce.css"
 			href="{!! elixir('css/tinymcs_custom.css') !!}">
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700'
-              id="style.font.css"
               rel='stylesheet'
               type='text/css'>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-              id="style.icon.css"
               rel="stylesheet">
         <!-- <link rel="stylesheet" href="https://npmcdn.com/lrm-mapzen/dist/leaflet.routing.mapzen.css"> -->
         <meta name="apple-mobile-web-app-capable"
@@ -41,11 +36,9 @@
                     // so when they change the user browser flushes the cache
 
                 	css: [
-		               // document.getElementById("style.app.css").getAttribute('href'),
-		               // document.getElementById("style.vendor.css").getAttribute('href'),
-		                document.getElementById("style.tinymce.css").getAttribute('href'),
-		                document.getElementById("style.font.css").getAttribute('href'),
-		                document.getElementById("style.icon.css").getAttribute('href')
+                        "{!! elixir('css/tinymcs_custom.css') !!}",
+                        "https://fonts.googleapis.com/icon?family=Material+Icons",
+                        'https://fonts.googleapis.com/css?family=Lato:300,400,700'
                     ]
                 }
         </script>
