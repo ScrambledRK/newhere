@@ -88,7 +88,7 @@ class TranslationListController
 	//
 	editItem( item )
 	{
-		//console.log( "dialog:", item );
+		console.log( "dialog:", item );
 
 		let source = item.translations["de"];
 		let target = item.translations["en"];
@@ -123,6 +123,25 @@ class TranslationListController
 		{
 			source = item.translations[this.dialog.source.locale];
 			target = item.translations[this.dialog.target.locale];
+		}
+
+		//
+		if( this.query.type === "page" )
+		{
+			for( let t in item.translations )
+			{
+				if( !item.translations.hasOwnProperty(t) )
+					continue;
+
+				//
+				let trgt = item.translations[t];
+
+				if( trgt.version !== 0 || trgt === source )
+					continue;
+
+				if( source.content && (!trgt.content || trgt.content.length === 0) )
+					trgt.content = source.content;
+			}
 		}
 
 		//
