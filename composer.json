@@ -1,7 +1,7 @@
 {
-    "name": "jadjoubran/laravel5-angular-material-starter",
-    "description": "Laravel angular material starter",
-    "keywords": ["laravel", "angular", "material", "starter", "ui-router", "api", "angular-material"],
+    "name": "newhere",
+    "description": "newhere website: refugess should find their way around",
+    "keywords": ["ngo-data","angularjs","laravel"],
     "license": "MIT",
     "type": "project",
     "require": {

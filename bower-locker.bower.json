@@ -1,8 +1,9 @@
 {
-    "name": "laravel5-angular-material-starter",
-    "authors": [
-        "Jad Joubran <jad@jadjoubran.com>"
-    ],
+    "name": "newhere",
+    "description": "where refugees can get all the information for their orientation",
+    "authors": [],
+    "license": "MIT",
+    "homepage": "https://www.newhere.org",
     "ignore": [
         "**/.*",
         "node_modules",

@@ -3,7 +3,7 @@
   "description": "where refugees can get all the information for their orientation",
   "authors": [],
   "license": "MIT",
-  "homepage": "http://www.welcomeoida.at",
+  "homepage": "https://www.newhere.org",
   "ignore": [
     "**/.*",
     "node_modules",
