@@ -42,6 +42,16 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 			.pipe(gulpIf(config.production, cssnano({safe: true})))
 			.pipe(gulp.dest(cssOutputFolder || config.css.outputFolder));
 	}).watch('bower.json');
+
+	//
+	new Task('copy-assets', function(){
+		return gulp.src([
+			"resources/images/**/*"
+		], {
+			base: 'resources/'
+		})
+			.pipe(gulp.dest("public/uploads/") );
+	}).watch('resources/images/**/*');
 });
 
 gulp.task('gulp-assets', function() {
