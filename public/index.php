@@ -46,9 +46,12 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-	ini_set('display_errors', TRUE);
-	ini_set('display_startup_errors', TRUE);
-	error_reporting(E_ALL);
+if( env('APP_DEBUG', false) && env('APP_ENV', 'production') != 'production' )
+{
+    ini_set('display_errors', TRUE);
+    ini_set('display_startup_errors', TRUE);
+    error_reporting(E_ALL);
+}
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 

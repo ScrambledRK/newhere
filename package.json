@@ -4,6 +4,8 @@
     "angular-mocks": "^1.5.2",
     "gulp": "^3.9.1",
     "gulp-main-bower-files": "^1.6.2",
+    "gulp-ng-constant": "^1.2.0",
+    "gulp-preprocess": "^2.0.0",
     "html-loader": "^0.5.1",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",

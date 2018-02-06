@@ -29,12 +29,14 @@ export class APIService
 							}
 							catch( err )
 							{
-								//;
+								return true; // error not handled
 							}
 						}
+
+						return false; // error handled
 					}
 
-					return response;
+					return true;  // error not handled
 				} )
 				.addFullRequestInterceptor( function( element, operation, what, url, headers )
 				{

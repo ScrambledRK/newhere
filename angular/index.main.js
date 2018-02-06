@@ -34,6 +34,9 @@ angular.module( 'app',
 	] )
 ;
 
+//
+require( './app.js' );
+
 // --------------------------------------------------- //
 // RUN
 // --------------------------------------------------- //
@@ -146,3 +149,7 @@ angular.module('app').factory('missingTranslationHandler', function ()
 	};
 });
 
+angular.module('app').config(function ($qProvider,isFrontendDebug)
+{
+	$qProvider.errorOnUnhandledRejections( isFrontendDebug );
+});
