@@ -27,6 +27,7 @@ import {ForgotpasswordFormComponent} from "./pages/login/forgotpassword-form.com
 import {ResetpasswordFormComponent} from "./pages/login/resetpassword-form.component";
 import {CategoryTitleDirective} from "./directives/category-title.directive";
 import {CustomPageComponent} from "./pages/custom/custom-page.component";
+import {PayPalDonateComponent} from "./components/donate/paypal.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -65,6 +66,7 @@ angular.module( 'app.main' )
 	.component( 'sideMenu', SideMenuComponent )
 	.component( 'loader', LoaderComponent )
 	.component( 'languageSwitcher', LanguageSwitcherComponent )
+	.component( 'paypalDonate', PayPalDonateComponent )
 ;
 
 angular.module( 'app.main' )

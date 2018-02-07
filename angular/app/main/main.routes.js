@@ -58,8 +58,18 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 				views:
 					{
 						'body@main': {
-							template: "<custom-page></custom-page>"
+							templateProvider: function( $stateParams )
+							{
+								let result = "<custom-page></custom-page>";
+
+								if( $stateParams.slug === 'about-us' )
+									result += "<paypal-donate></paypal-donate>";
+
+								return result;
+							}
 						}
+
+
 					}
 			} )
 
