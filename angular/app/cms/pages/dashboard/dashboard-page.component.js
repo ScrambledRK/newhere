@@ -18,7 +18,15 @@ class DashboardPageController
 			this.tab = $state.params.tab;
 	}
 
+	//
+	isElementVisible( name )
+	{
+		if( name === "provider" )
+			return this.UserService.isAdministrator();
 
+		//
+		return false;
+	}
 }
 
 export const DashboardPageComponent = {

@@ -133,6 +133,7 @@ groupAuthenticated( $api, function( $api )
     groupOrganisation( $api, function( $api )
     {
         $api->put( 'cms/providers/{id}', 'Cms\ProviderController@update' );
+        $api->put( 'cms/providers/note/{id}', 'Cms\ProviderController@note' );
         $api->delete( 'cms/providers/{id}', 'Cms\ProviderController@delete' );
     } );
 } );

@@ -7,6 +7,7 @@ use App\Filter;
 use App\Http\Controllers\Controller;
 use App\Logic\Address\AddressAPI;
 use App\Ngo;
+use App\NgoNotes;
 use App\Offer;
 use App\User;
 use Auth;
@@ -29,7 +30,7 @@ class ProviderController extends Controller
 
         if( $this->isUserAdmin( $user ) )
         {
-            $result = Ngo::with( [] ); // only thing I found that returns a builder and not a collection
+            $result = Ngo::with( ["notes"] ); // only thing I found that returns a builder and not a collection
         }
         else
         {
@@ -280,6 +281,45 @@ class ProviderController extends Controller
         // ---------------------------------- //
 
         return $provider;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function note( Request $request, $id )
+    {
+        DB::beginTransaction();
+
+        //
+        $provider = Ngo::with(["notes"])->findOrFail( $id );
+
+        if( !$this->isUserProvider( $provider ) )
+            throw new AccessDeniedHttpException();
+
+        //
+        if( $request->has( 'contact' ) )
+            $provider->contact = $request->get( 'contact' );
+
+        if( $request->has( 'contact_email' ) )
+            $provider->contact_email = $request->get( 'contact_email' );
+
+        if( $request->has( 'contact_phone' ) )
+            $provider->contact_phone = $request->get( 'contact_phone' );
+
+        //
+        $note = NgoNotes::firstOrCreate ( array( 'id' => $provider->note_id ) );
+        $note->checked = $request->get( 'note_checked' );
+        $note->notes = $request->get( 'note_content' );
+        $note->save();
+
+        $provider->note_id = $note->id;
+        $provider->save();
+
+        DB::commit();
+
+        //
+        return response()->success( compact( 'provider' ) );
     }
 
     /**

@@ -35,39 +35,47 @@ export class ProviderService
 			return;
 
 		//
-		let config = this.prepareQuery();
+		let config = this.prepareQuery( "all" );
 
 		//
 		return this.API.all( 'cms/providers/all' ).withHttpConfig( config ).getList()
 			.then( ( response ) =>
-			{
-				this.numItems = response.count;
+				{
+					this.numItems = response.count;
 
-				this.allProviders.length = 0;
-				this.allProviders.push.apply( this.allProviders, response );
+					this.allProviders.length = 0;
+					this.allProviders.push.apply( this.allProviders, response );
 
-				this.resolveQuery();
-			} )
+					this.resolveQuery( "all" );
+				},
+				( error ) =>
+				{
+
+				} )
 			;
 	}
 
 	//
 	fetchList( query )
 	{
-		let config = this.prepareQuery();
+		let config = this.prepareQuery( "list" );
 
 		//
 		return this.API.all( 'cms/providers' ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
-			{
-				this.numItems = response.count;
+				{
+					this.numItems = response.count;
 
-				this.providers.length = 0;
-				this.providers.push.apply( this.providers, response );
+					this.providers.length = 0;
+					this.providers.push.apply( this.providers, response );
 
-				this.resolveQuery();
-			} )
-		;
+					this.resolveQuery( "list" );
+				},
+				( error ) =>
+				{
+
+				} )
+			;
 	}
 
 	/**
@@ -107,7 +115,7 @@ export class ProviderService
 			.then( () =>
 			{
 				this.resolveQuery();
-			});
+			} );
 	}
 
 	/**
@@ -141,7 +149,7 @@ export class ProviderService
 			.then( () =>
 			{
 				this.resolveQuery();
-			});
+			} );
 	}
 
 	// -------------------------------------------------------------- //
@@ -161,10 +169,14 @@ export class ProviderService
 		return result;
 	}
 
-	prepareQuery()
+	prepareQuery( type )
 	{
-		//if( this.$rootScope.isLoading )
-		//	console.log("query already in process");
+		if( type === "all" )
+		{
+			return {
+				timeout: this.$q.defer().promise
+			};
+		}
 
 		this.$rootScope.isLoading = true;
 
@@ -172,7 +184,6 @@ export class ProviderService
 		if( this.defer !== null )
 			this.defer.resolve();
 
-		//
 		this.defer = this.$q.defer();
 
 		return {
@@ -180,9 +191,12 @@ export class ProviderService
 		};
 	}
 
-	resolveQuery()
+	resolveQuery( type )
 	{
-		this.defer = null;
+		if( type !== "all" )
+		{
+			this.defer = null;
+		}
 
 		this.$rootScope.isLoading = false;
 		this.$rootScope.$broadcast( 'providersChanged', this );

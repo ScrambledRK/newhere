@@ -1,0 +1,162 @@
+<md-table-container>
+  <table
+    md-table
+    ng-model="vm.selectedItems"
+    md-progress="vm.promise"
+  >
+
+    <!-- head -->
+    <thead
+      md-head
+      md-order="vm.query.order"
+      md-on-reorder="vm.onQueryUpdate"
+    >
+    <tr md-row>
+
+      <!-- checkbox -->
+      <th
+        md-column
+        md-order-by="note.checked"
+        ng-if="vm.isElementVisible('enabled')"
+      ><i
+        class="material-icons"
+        style="padding-left: 14px;"
+      >check_circle</i>
+      </th>
+
+      <!-- name -->
+      <th
+        md-column
+        md-order-by="id"
+        style="min-width: 300px"
+      >{{ 'Anbieter' | translate }}
+      </th>
+
+      <!-- info -->
+      <th
+        md-column
+        md-order-by="offers_count"
+      ><i
+        class="material-icons"
+      >local_offer</i>
+      </th>
+      <th
+        md-column
+        md-order-by="users_count"
+      ><i
+        class="material-icons"
+      >group</i>
+      </th>
+
+      <!-- edit -->
+      <th
+        md-column
+        class="icon"
+        ng-if="vm.isElementVisible('edit')"
+      ></th>
+
+      <!-- note -->
+      <th
+        md-column
+        style="min-width: 300px"
+      >{{ 'Note' | translate }}
+      </th>
+
+      <!-- last change -->
+      <th
+        md-column
+        md-order-by="note.updated_at"
+      >{{ 'Letzte Änderung' | translate }}
+      </th>
+    </tr>
+    </thead>
+
+    <!-- body -->
+    <tbody md-body>
+    <tr
+      md-row
+      md-select="item"
+      ng-repeat="item in vm.items"
+    >
+
+      <!-- enabled lock -->
+      <td
+        md-cell
+        ng-if="vm.isElementVisible('enabled')"
+      >
+        <md-button
+          ng-click="vm.toggleItem(item,true)"
+          ng-disabled="true"
+          ng-if="item.notes ? !item.notes.checked : false"
+          class="md-icon-button md-accent"
+        >
+          <md-tooltip
+            md-direction="right"
+            md-delay="800"
+          >belongs to newhere (has stars)
+          </md-tooltip>
+          <md-icon aria-label="">radio_button_unchecked</md-icon>
+        </md-button>
+        <md-button
+          ng-click="vm.toggleItem(item,false)"
+          ng-disabled="true"
+          ng-if="item.notes ? item.notes.checked : false"
+          class="md-icon-button md-accent"
+        >
+          <md-tooltip
+            md-direction="right"
+            md-delay="800"
+          >belongs to provider (no stars)
+          </md-tooltip>
+          <md-icon aria-label="">check</md-icon>
+        </md-button>
+      </td>
+
+      <!-- title -->
+      <td md-cell>
+        <div>
+          <strong>{{item.organisation}}</strong>
+        </div>
+      </td>
+
+      <!-- counts -->
+      <td md-cell>
+        <a href="{{vm.getURL(item,'offer')}}">{{item.offers_count}}</a>
+      </td>
+      <td md-cell>
+        <a href="{{vm.getURL(item,'user')}}">{{item.users_count}}</a>
+      </td>
+
+      <!-- edit -->
+      <td
+        md-cell
+        ng-if="vm.isElementVisible('edit')"
+      >
+        <md-button
+          ng-click="vm.editItem(item)"
+          class="md-icon-button md-accent md-hue-2"
+        >
+          <md-icon aria-label="">edit</md-icon>
+        </md-button>
+      </td>
+
+      <td
+        md-cell
+      >
+        <md-tooltip
+          md-direction="left"
+          md-delay="800"
+        >{{(item.notes ? item.notes.notes : "no notes")}}
+        </md-tooltip>
+        <small>{{(item.notes ? item.notes.notes : "no notes") | limitTo:200 }}</small>
+        <span ng-if="(item.notes ? item.notes.notes : 'no notes').length > 200">...</span>
+      </td>
+
+      <!-- last updated at-->
+      <td md-cell>
+        <div>{{item.notes ? item.notes.updated_at : item.updated_at}} </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</md-table-container>

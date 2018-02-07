@@ -1,0 +1,190 @@
+<md-dialog class="min-width-dialog">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>{{ 'Provider Notes' | translate }}</h2>
+      <span flex></span>
+      <md-button
+        class="md-icon-button"
+        ng-click="vm.requestCancel()"
+      >
+        <md-icon aria-label="">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <!-- content -->
+  <md-dialog-content>
+
+    <!-- headline -->
+    <div
+      layout="row"
+      layout-align="start center"
+      layout-padding
+    >
+      <!-- checked -->
+      <md-button
+        ng-click="vm.toggleItem(vm.note,true)"
+        ng-disabled="!vm.isElementEnabled('enabled')"
+        ng-if="!vm.note.checked"
+        class="md-icon-button md-accent"
+      >
+        <md-tooltip
+          md-direction="right"
+          md-delay="800"
+        >belongs to newhere (has stars)
+        </md-tooltip>
+        <md-icon aria-label="">radio_button_unchecked</md-icon>
+      </md-button>
+      <md-button
+        ng-click="vm.toggleItem(vm.note,false)"
+        ng-disabled="!vm.isElementEnabled('enabled')"
+        ng-if="vm.note.checked"
+        class="md-icon-button md-accent"
+      >
+        <md-tooltip
+          md-direction="right"
+          md-delay="800"
+        >belongs to provider (no stars)
+        </md-tooltip>
+        <md-icon aria-label="">check</md-icon>
+      </md-button>
+
+      <!-- name -->
+      <span>{{vm.item.organisation}}</span>
+    </div>
+
+    <!-- form -->
+    <form
+      name="ngoForm"
+      class="blank"
+      layout="column"
+      layout-padding
+    >
+
+      <!-- contact -->
+      <div
+        layout="row"
+        layout-align="space-between start"
+      >
+        <!-- name -->
+        <md-input-container
+          class="md-block"
+          flex-gt-sm
+        >
+          <label>{{ 'Kontakt' | translate }}</label>
+          <input
+            ng-model="vm.item.contact"
+            placeholder="Max Mustermann"
+          >
+        </md-input-container>
+
+        <!-- email -->
+        <md-input-container class="md-block">
+          <label>{{ 'Email' | translate }}</label>
+          <input
+            ng-model="vm.item.contact_email"
+            type="email"
+            name="email"
+            placeholder="email@offer.com"
+            ng-pattern="/^.+@.+\..+$/"
+          >
+          <div
+            ng-messages="ngoForm.email.$error"
+            role="alert"
+          >
+            <div ng-message-exp="['pattern']">
+              {{ 'the given email address should at least look valid' | translate }}
+            </div>
+          </div>
+        </md-input-container>
+
+        <!-- phone -->
+        <md-input-container class="md-block">
+          <label>{{ 'Telefon' | translate }}</label>
+          <input
+            ng-model="vm.item.contact_phone"
+            placeholder="+43 660 12345678"
+            type="tel"
+            name="phone"
+            ng-pattern="/^\+?[0-9]+[\s0-9\-]*$/"
+            minlength="6"
+            maxlength="24"
+          >
+          <div
+            ng-messages="ngoForm.phone.$error"
+            role="alert"
+          >
+            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+              {{ 'the given phone number should at least look valid' | translate }}
+            </div>
+          </div>
+        </md-input-container>
+      </div>
+
+      <div
+        layout="row"
+        layout-align="start none"
+      >
+        <!-- last update -->
+        <div
+          layout="column"
+          layout-align="start start"
+          flex="40"
+        >
+          <span>
+            {{ 'Letzte Änderung' | translate }}
+          </span>
+
+          <md-input-container
+            class="md-block"
+          >
+            <md-datepicker
+              ng-model="vm.note.updated_at"
+              md-placeholder="{{ 'Datum eingeben' | translate }}"
+            ></md-datepicker>
+          </md-input-container>
+        </div>
+
+        <!-- notes -->
+        <div
+          layout="column"
+          flex="60"
+        >
+          <md-input-container
+            class="md-block"
+            layout-fill
+          >
+            <label>{{ 'Notes' | translate }}</label>
+            <textarea
+              layout-fill
+              ng-model="vm.note.notes"
+              md-maxlength="1023"
+              rows="8"
+            ></textarea>
+          </md-input-container>
+        </div>
+      </div>
+    </form>
+
+  </md-dialog-content>
+
+  <!-- toolbar -->
+  <md-dialog-actions>
+    <div>
+      <md-button
+        ng-click="vm.requestCancel()"
+      >
+        {{ 'Abbrechen' | translate }}
+      </md-button>
+
+      <md-button
+        class="md-primary md-raised"
+        ng-click="vm.requestComplete()"
+      >
+        {{ 'Speichern' | translate }}
+      </md-button>
+    </div>
+  </md-dialog-actions>
+
+</md-dialog>

@@ -53,6 +53,8 @@ import {PageFormComponent} from "./pages/pages/form/page-form.component";
 import {LanguageMenuComponent} from "./components/menu/cms-language-menu.component";
 import {CategoryFormComponent} from "./pages/category/category-form.component";
 import {TinyMceComponent} from "./components/tinymce/cms-tinymce.component";
+import {ProviderTasksComponent} from "./pages/dashboard/provider/provider-tasks.component";
+import {ProviderTasksTableDirective} from "./pages/dashboard/provider/provider-tasks-table.directive";
 //import {ResetpasswordFormComponent} from "../main/pages/login/resetpassword-form.component";
 
 // ------------------------------- //
@@ -109,6 +111,7 @@ angular.module( 'app.cms' )
 	.directive( "translationStatus", TranslationStatusDirective )
 	.directive( "translationLanguage", TranslationLanguageDirective )
 	.directive( "pageTable", PageTableDirective )
+	.directive( "providerTasksTable", ProviderTasksTableDirective )
 ;
 
 // ------------------------------- //
@@ -138,5 +141,6 @@ angular.module( 'app.cms' )
 	.component( 'cmsLanguageMenu', LanguageMenuComponent )
 	.component( 'cmsCategoryForm', CategoryFormComponent )
 	.component( 'cmsTinyMce', TinyMceComponent )
+	.component( 'cmsProviderTasks', ProviderTasksComponent )
 	//.component( 'resetpasswordForm', ResetpasswordFormComponent )
 ;
