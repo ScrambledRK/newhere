@@ -3,6 +3,7 @@ require('./tasks/angular.task.js');
 require('./tasks/bower.task.js');
 require('./tasks/ngHtml2Js.task.js');
 require('./tasks/tinymce.task.js');
+require('./tasks/clean.task.js');
 require('laravel-elixir-livereload');
 require('laravel-elixir-karma');
 
@@ -37,6 +38,7 @@ elixir(function(mix) {
         ];
 
     mix
+	    .clean()
         .bower()
         .angular('./angular/')
         .ngHtml2Js('./angular/**/*.html')

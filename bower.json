@@ -49,8 +49,8 @@
     "sprintf": "https://github.com/alexei/sprintf.js.git#6bfe81840e560d675a9de3d79c06354a47ac9236",
     "textAngular": "https://github.com/fraywing/textAngular.git#a4c905845164d8c20e5cf69ece742185b2a1f1ed",
     "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#919b862389ddddc85c197746f3126fd24de0dc42",
-	"angular-ui-tinymce":"0.0.19",
-	"tinymce":"4.6.0"
+    "angular-ui-tinymce": "0.0.19",
+    "tinymce": "4.6.0"
   },
   "overrides": {
     "font-awesome": {
@@ -172,6 +172,7 @@
     "satellizer": "99a2603cadc1879dd577c0a19cf6c3fa9c92ac51",
     "sprintf": "6bfe81840e560d675a9de3d79c06354a47ac9236",
     "textAngular": "a4c905845164d8c20e5cf69ece742185b2a1f1ed",
-    "ui-leaflet": "919b862389ddddc85c197746f3126fd24de0dc42"
+    "ui-leaflet": "919b862389ddddc85c197746f3126fd24de0dc42",
+    "tinymce": "4.6.0"
   }
 }
