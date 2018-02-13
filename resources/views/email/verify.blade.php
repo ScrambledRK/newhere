@@ -3,7 +3,7 @@
 @section('content')
 
     @include ('beautymail::templates.sunny.heading' , [
-        'heading' => 'Welcome to new here!',
+        'heading' => 'Welcome to NewHere!',
         'level' => 'h1',
     ])
 
@@ -13,7 +13,9 @@
     ])
     @include('beautymail::templates.sunny.contentStart')
 
-        <p>We have just received an user registration for this email. To active this account you just have click the button below and you can immediately start over.</p>
+        <p>Ein neuer User wurde für diese E-Mail registriert. Um den Account zu aktivieren, klicke auf den Link unten und melde dich an.</p>
+
+        <p>We have just received an user registration for this email. To active this account you just have click the button below and login.</p>
 
     @include('beautymail::templates.sunny.contentEnd')
 
