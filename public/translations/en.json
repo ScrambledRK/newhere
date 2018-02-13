@@ -21,6 +21,7 @@
 
   "Sie haben sich erfolgreich angemeldet.": "Login successful",
   "Erfolgreich abgemeldet.": "Logout successful",
+  "Registrierung erfolgreich.":"Register successful. Please check your mail to confirm your registration",
 
   "Das ist ein Pflichtfeld.": "This is a required field",
   "Passwort vergessen?": "Forgot password?",
