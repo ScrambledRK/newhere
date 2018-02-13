@@ -133,8 +133,9 @@ groupAuthenticated( $api, function( $api )
     groupOrganisation( $api, function( $api )
     {
         $api->put( 'cms/providers/{id}', 'Cms\ProviderController@update' );
-        $api->put( 'cms/providers/note/{id}', 'Cms\ProviderController@note' );
         $api->delete( 'cms/providers/{id}', 'Cms\ProviderController@delete' );
+        $api->get( 'cms/notes', 'Cms\ProviderNotesController@index' );
+        $api->put( 'cms/notes/{id}', 'Cms\ProviderNotesController@update' );
     } );
 } );
 

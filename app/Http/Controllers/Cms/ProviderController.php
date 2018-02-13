@@ -30,7 +30,7 @@ class ProviderController extends Controller
 
         if( $this->isUserAdmin( $user ) )
         {
-            $result = Ngo::with( ["notes"] ); // only thing I found that returns a builder and not a collection
+            $result = Ngo::with( [] ); // only thing I found that returns a builder and not a collection
         }
         else
         {
@@ -283,19 +283,90 @@ class ProviderController extends Controller
         return $provider;
     }
 
+    // ----------------------------------------------------------------------------- //
+    // ----------------------------------------------------------------------------- //
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function lol( Request $request )
+    {
+        $result = Ngo::with( [] );
+
+        $count = $result->count();
+        $result = $result->get();
+
+        return response()->success( compact( 'result', 'count' ) );
+
+//        if( !$this->isUserAdmin( Auth::user() ) )
+//            throw new AccessDeniedHttpException();
+//
+//        $result = Ngo::with( ["notes","notes.user"] );
+//
+//        // ------------------------------------------- //
+//        // ------------------------------------------- //
+//
+//        //
+//        if( $request->has( 'enabled' ) )
+//        {
+//            $result = $result->where( 'notes.checked',
+//                                      $request->get( 'enabled' ) );
+//        }
+//
+//        //
+//        if( $request->has( 'title' ) )
+//        {
+//            $toSearch = $request->get( 'title' );
+//
+//            $result = $result->where( function( $query ) use ( $toSearch )
+//            {
+//                $query->where(
+//                    'organisation',
+//                    'ilike',
+//                    '%' . $toSearch . '%'
+//                )
+//                      ->orWhere(
+//                          'notes.notes',
+//                          'ilike',
+//                          '%' . $toSearch . '%'
+//                      );
+//            } );
+//        }
+//
+//        //
+//        if( $request->has( 'withCounts' ) )
+//        {
+//            $result->withCount( "offers" );
+//            $result->withCount( "users" );
+//        }
+//
+//        //
+//        $count = $result->count();
+//        $result = $this->paginate( $request, $result );
+//
+//        //
+//        $result = $result->get();
+//
+//        // ------------------------------------------- //
+//        // ------------------------------------------- //
+//
+//        return response()->success( compact( 'result', 'count' ) );
+    }
+
     /**
      * @param Request $request
      * @return mixed
      */
     public function note( Request $request, $id )
     {
+        if( !$this->isUserAdmin( Auth::user() ) )
+            throw new AccessDeniedHttpException();
+
         DB::beginTransaction();
 
         //
         $provider = Ngo::with(["notes"])->findOrFail( $id );
-
-        if( !$this->isUserProvider( $provider ) )
-            throw new AccessDeniedHttpException();
 
         //
         if( $request->has( 'contact' ) )
@@ -309,6 +380,7 @@ class ProviderController extends Controller
 
         //
         $note = NgoNotes::firstOrCreate ( array( 'id' => $provider->note_id ) );
+
         $note->checked = $request->get( 'note_checked' );
         $note->notes = $request->get( 'note_content' );
         $note->save();
@@ -321,6 +393,9 @@ class ProviderController extends Controller
         //
         return response()->success( compact( 'provider' ) );
     }
+
+    // ------------------------------------------------------------------------------ //
+    // ------------------------------------------------------------------------------ //
 
     /**
      * @param Ngo $provider

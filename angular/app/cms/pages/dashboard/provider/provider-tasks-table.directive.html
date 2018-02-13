@@ -13,16 +13,12 @@
     >
     <tr md-row>
 
-      <!-- checkbox -->
+      <!-- edit -->
       <th
         md-column
-        md-order-by="note.checked"
-        ng-if="vm.isElementVisible('enabled')"
-      ><i
-        class="material-icons"
-        style="padding-left: 14px;"
-      >check_circle</i>
-      </th>
+        class="icon"
+        ng-if="vm.isElementVisible('edit')"
+      ></th>
 
       <!-- name -->
       <th
@@ -30,6 +26,17 @@
         md-order-by="id"
         style="min-width: 300px"
       >{{ 'Anbieter' | translate }}
+      </th>
+
+      <!-- checkbox -->
+      <th
+        md-column
+        md-order-by="checked"
+        ng-if="vm.isElementVisible('enabled')"
+      ><i
+        class="material-icons"
+        style="padding-left: 14px;"
+      >check_circle</i>
       </th>
 
       <!-- info -->
@@ -48,13 +55,6 @@
       >group</i>
       </th>
 
-      <!-- edit -->
-      <th
-        md-column
-        class="icon"
-        ng-if="vm.isElementVisible('edit')"
-      ></th>
-
       <!-- note -->
       <th
         md-column
@@ -65,7 +65,7 @@
       <!-- last change -->
       <th
         md-column
-        md-order-by="note.updated_at"
+        md-order-by="updated_at"
       >{{ 'Letzte Änderung' | translate }}
       </th>
     </tr>
@@ -79,6 +79,31 @@
       ng-repeat="item in vm.items"
     >
 
+      <!-- edit -->
+      <td
+        md-cell
+        ng-if="vm.isElementVisible('edit')"
+      >
+        <md-button
+          ng-click="vm.editItem(item)"
+          class="md-icon-button md-accent md-hue-2"
+        >
+          <md-icon aria-label="">edit</md-icon>
+        </md-button>
+      </td>
+
+      <!-- title -->
+      <td md-cell>
+        <div>
+          <md-tooltip
+            md-direction="right"
+            md-delay="400"
+          >{{item.contact + ", " + item.contact_email + ", " + item.contact_phone}}
+          </md-tooltip>
+          <strong>{{item.organisation}}</strong>
+        </div>
+      </td>
+
       <!-- enabled lock -->
       <td
         md-cell
@@ -87,7 +112,7 @@
         <md-button
           ng-click="vm.toggleItem(item,true)"
           ng-disabled="true"
-          ng-if="item.notes ? !item.notes.checked : false"
+          ng-if="item.notes ? !item.notes.checked : true"
           class="md-icon-button md-accent"
         >
           <md-tooltip
@@ -112,13 +137,6 @@
         </md-button>
       </td>
 
-      <!-- title -->
-      <td md-cell>
-        <div>
-          <strong>{{item.organisation}}</strong>
-        </div>
-      </td>
-
       <!-- counts -->
       <td md-cell>
         <a href="{{vm.getURL(item,'offer')}}">{{item.offers_count}}</a>
@@ -127,26 +145,13 @@
         <a href="{{vm.getURL(item,'user')}}">{{item.users_count}}</a>
       </td>
 
-      <!-- edit -->
-      <td
-        md-cell
-        ng-if="vm.isElementVisible('edit')"
-      >
-        <md-button
-          ng-click="vm.editItem(item)"
-          class="md-icon-button md-accent md-hue-2"
-        >
-          <md-icon aria-label="">edit</md-icon>
-        </md-button>
-      </td>
-
       <td
         md-cell
       >
         <md-tooltip
           md-direction="left"
           md-delay="800"
-        >{{(item.notes ? item.notes.notes : "no notes")}}
+        >{{((item.notes && item.notes.notes.length > 0) ? item.notes.notes : "no notes")}}
         </md-tooltip>
         <small>{{(item.notes ? item.notes.notes : "no notes") | limitTo:200 }}</small>
         <span ng-if="(item.notes ? item.notes.notes : 'no notes').length > 200">...</span>

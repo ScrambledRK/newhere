@@ -12,8 +12,12 @@ class NgoNotes extends Model
     //
     protected $fillable = [
         'checked',
-        'updated_at',
         'notes'
     ];
 
+    //
+    public function user()
+    {
+        return $this->belongsTo( 'App\User', 'user_id', 'id' );
+    }
 }

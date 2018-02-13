@@ -56,12 +56,13 @@ export class ProviderService
 	}
 
 	//
-	fetchList( query )
+	fetchList( query, isWithNotes )
 	{
+		let path = isWithNotes ? "cms/notes" : "cms/providers";
 		let config = this.prepareQuery( "list" );
 
 		//
-		return this.API.all( 'cms/providers' ).withHttpConfig( config ).getList( query )
+		return this.API.all( path ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 				{
 					this.numItems = response.count;

@@ -66,7 +66,7 @@ class ProviderTasksController
 		{
 			this.selectedItems = [];
 
-			vm.promise = this.ProviderService.fetchList( vm.query )
+			vm.promise = this.ProviderService.fetchList( vm.query, true )
 				.then( () =>
 				{
 					vm.loading = false;
@@ -113,16 +113,21 @@ class ProviderTasksController
 		if( !i ) i = this.item;
 		if( !n ) n = this.note;
 
+		//
+		n.user_id = this.UserService.user.id;
+
+		//
 		let payload = {
 			id: i.id,
 			note_checked: n.checked,
 			note_content: n.notes,
 			contact: i.contact,
 			contact_email: i.contact_email,
-			contact_phone: i.contact_phone
+			contact_phone: i.contact_phone,
+			user_id : n.user_id
 		};
 
-		this.API.one( 'cms/providers/note', this.item.id ).customPUT( payload )
+		this.API.one( 'cms/notes', this.item.id ).customPUT( payload )
 			.then( ( response ) =>
 				{
 					this.ToastService.show( 'Eintrag aktualisiert.' );
@@ -165,6 +170,9 @@ class ProviderTasksController
 	//
 	getURL( item, type )
 	{
+		if( !item )
+			return "";
+
 		switch( type )
 		{
 			case "offer":
@@ -175,6 +183,9 @@ class ProviderTasksController
 
 			case "frontend":
 				return "#!/providers/" + item.id;
+
+			case "cms":
+				return "#!/cms/providers//" + item.id;
 		}
 
 		return "";

@@ -2,7 +2,7 @@
 
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>{{ 'Provider Notes' | translate }}</h2>
+      <h2>{{ 'Anbieter Notizen' | translate }}</h2>
       <span flex></span>
       <md-button
         class="md-icon-button"
@@ -19,7 +19,7 @@
     <!-- headline -->
     <div
       layout="row"
-      layout-align="start center"
+      layout-align="space-between center"
       layout-padding
     >
       <!-- checked -->
@@ -51,8 +51,76 @@
       </md-button>
 
       <!-- name -->
-      <span>{{vm.item.organisation}}</span>
+      <span><strong>{{vm.item.organisation}}</strong></span>
+      <span flex></span>
+
+      <!-- links -->
+      <div layout="row">
+        <div>
+          <md-tooltip
+            md-direction="left"
+            md-delay="800"
+          >
+            <small>link to frontend (ID: {{vm.item.id}})</small>
+          </md-tooltip>
+          <a href="{{vm.getURL(vm.item,'frontend')}}">
+            <md-icon>insert_link</md-icon>
+          </a>
+        </div>
+
+        <div style="padding-left: 4px">
+          <md-tooltip
+            md-direction="left"
+            md-delay="800"
+          >
+            <small>link to cms (ID: {{vm.item.id}})</small>
+          </md-tooltip>
+          <a href="{{vm.getURL(vm.item,'cms')}}">
+            <md-icon>business</md-icon>
+          </a>
+        </div>
+      </div>
     </div>
+
+    <!-- last update -->
+    <div
+      layout="column"
+      layout-align="start start"
+    >
+       <span style="margin-left: 16px">
+      {{ 'Letzte Änderung' | translate }}
+      </span>
+      <div
+        layout="row"
+        layout-align="start start"
+        layout-padding
+      >
+        <div
+          layout="row"
+          layout-align="start center"
+          layout-padding
+        >
+          <i
+            class="material-icons"
+            style="color:rgba(93, 93, 93, 0.87)"
+          >date_range</i>
+          <span style="padding-left: 4px">{{vm.note.updated_at}}</span>
+        </div>
+
+        <div
+          layout="row"
+          layout-align="start center"
+          layout-padding
+        >
+          <i
+            class="material-icons"
+            style="color:rgba(93, 93, 93, 0.87)"
+          >group</i>
+          <span style="padding-left: 4px">{{vm.note.user.name}}</span>
+        </div>
+      </div>
+    </div>
+
 
     <!-- form -->
     <form
@@ -61,6 +129,9 @@
       layout="column"
       layout-padding
     >
+      <span>
+        {{ 'Anbieter Kontaktdaten' | translate }}
+      </span>
 
       <!-- contact -->
       <div
@@ -122,49 +193,25 @@
         </md-input-container>
       </div>
 
+      <!-- notes -->
       <div
         layout="row"
-        layout-align="start none"
+        layout-align="start end"
       >
-        <!-- last update -->
-        <div
-          layout="column"
-          layout-align="start start"
-          flex="40"
+        <md-input-container
+          class="md-block"
+          layout-fill
         >
-          <span>
-            {{ 'Letzte Änderung' | translate }}
-          </span>
-
-          <md-input-container
-            class="md-block"
-          >
-            <md-datepicker
-              ng-model="vm.note.updated_at"
-              md-placeholder="{{ 'Datum eingeben' | translate }}"
-            ></md-datepicker>
-          </md-input-container>
-        </div>
-
-        <!-- notes -->
-        <div
-          layout="column"
-          flex="60"
-        >
-          <md-input-container
-            class="md-block"
+          <label>{{ 'Notes' | translate }}</label>
+          <textarea
             layout-fill
-          >
-            <label>{{ 'Notes' | translate }}</label>
-            <textarea
-              layout-fill
-              ng-model="vm.note.notes"
-              md-maxlength="1023"
-              rows="8"
-            ></textarea>
-          </md-input-container>
-        </div>
+            ng-model="vm.note.notes"
+            md-maxlength="1023"
+            rows="4"
+          ></textarea>
+        </md-input-container>
       </div>
+
     </form>
 
   </md-dialog-content>
