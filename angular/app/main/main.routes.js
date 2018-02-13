@@ -162,6 +162,11 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.login',
 			{
 				url: '/login',
+				params: {
+					registerMail: {
+						value: null
+					}
+				},
 
 				views:
 					{
