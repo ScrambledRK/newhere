@@ -1,163 +1,238 @@
-<form
-	name="ngoForm"
-	ng-submit="vm.save()"
-	class="blank"
-	layout-fill
+<div
+  layout="row"
+  layout-align="start center"
 >
-	<!-- horrible hack, I am sorry -->
-	<span style="display:none" >{{ aform = ngoForm}}</span>
+  <i
+    class="material-icons"
+    style="color: red !important; margin-left: 16px; margin-right: 4px;"
+  >warning</i>
+  <span translate="Alle angegebenen Daten werden veröffentlicht"></span>
+</div>
 
-	<div
-		layout="row"
-		layout-fill
-	>
-		<!-- #1 col: details -->
-		<md-card
-			flex-xs
-			flex-gt-md="66"
-			flex-gt-xs="60"
-		>
+<form
+  name="ngoForm"
+  ng-submit="vm.save()"
+  class="blank provider-form"
+  layout-fill
+>
+  <!-- horrible hack, I am sorry -->
+  <span
+    style="display:none"
+  >
+  >{{ aform = ngoForm}}
+  </span>
 
-			<md-card-title>
-				<md-card-title-text>
-					<span class="md-headline">{{ 'Details' | translate }}</span>
-				</md-card-title-text>
-			</md-card-title>
+  <div
+    layout="row"
+    layout-fill
+  >
+    <!-- #1 col: details -->
+    <md-card
+      flex-xs
+      flex-gt-md="66"
+      flex-gt-xs="60"
+    >
 
-			<!-- -->
-			<md-content
-				layout-padding
-				layout="column"
-			>
-				<!-- title -->
-				<md-input-container
-					class="md-block"
-					flex
-				>
-					<label>{{ 'Titel' | translate }}</label>
-					<input
-						ng-model="vm.offer.organisation"
-						required
-					>
-				</md-input-container>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">{{ 'Provider Information' | translate }}</span>
+        </md-card-title-text>
+      </md-card-title>
 
-				<!-- website -->
-				<md-input-container
-					class="md-block"
-					flex
-				>
-					<label>{{ 'Webseite' | translate }}</label>
-					<input
-						name="website"
-						ng-model="vm.offer.website"
-						type="url"
-						placeholder="http://www.your-ngo.com"
-					>
+      <!-- -->
+      <md-content
+        layout-padding
+        layout="column"
+      >
+        <!-- title -->
+        <md-input-container
+          class="md-block"
+        >
+          <label>{{ 'Titel' | translate }}</label>
+          <md-icon>title</md-icon>
+          <div
+            class="hint"
+            ng-show="(!vm.offer.organisation || vm.offer.organisation.length == 0) && (ngoForm.title.$pristine && ngoForm.title.$valid)"
+            ng-hide="!ngoForm.title.$valid && !ngoForm.title.$pristine"
+          >how would you name your provider?
+          </div>
+          <input
+            name="title"
+            ng-model="vm.offer.organisation"
+            required
+          >
+          <div
+            ng-messages="ngoForm.title.$error"
+            role="alert"
+          >
+            <div ng-message-exp="['required']">
+              {{ 'this field is required and must be filled' | translate }}
+            </div>
+          </div>
+        </md-input-container>
 
-				</md-input-container>
+        <!-- description -->
+        <md-input-container class="md-block">
+          <label>{{ 'Beschreibung' | translate }}</label>
+          <md-icon>description</md-icon>
+          <div
+            class="hint"
+            ng-show="(!vm.offer.description || vm.offer.description.length == 0) && (ngoForm.description.$pristine && ngoForm.description.$valid)"
+            ng-hide="!ngoForm.description.$valid && !ngoForm.description.$pristine"
+          >what does your provider do?
+          </div>
+          <textarea
+            name="description"
+            ng-model="vm.offer.description"
+            required
+            md-maxlength="200"
+            rows="3"
+          ></textarea>
+          <div
+            ng-messages="ngoForm.description.$error"
+            role="alert"
+          >
+            <div ng-message-exp="['required']">
+              {{ 'this field is required and must be filled' | translate }}
+            </div>
+          </div>
+        </md-input-container>
 
-				<!-- contact name -->
-				<md-input-container
-					class="md-block"
-					flex-gt-sm
-				>
-					<label>{{ 'Kontakt' | translate }}</label>
-					<input
-						ng-model="vm.offer.contact"
-						placeholder="Max Mustermann"
-					>
-				</md-input-container>
+        <!-- website -->
+        <md-input-container
+          class="md-block"
 
-				<!-- email -->
-				<md-input-container class="md-block">
-					<label>{{ 'Email' | translate }}</label>
-					<input
-						ng-model="vm.offer.contact_email"
-						type="email"
-						name="email"
-						placeholder="email@offer.com"
-						ng-pattern="/^.+@.+\..+$/"
-					>
-					<div
-						ng-messages="ngoForm.email.$error"
-						role="alert"
-					>
-						<div ng-message-exp="['pattern']">
-							{{ 'the given email address should at least look valid' | translate }}
-						</div>
-					</div>
-				</md-input-container>
+        >
+          <label>{{ 'Webseite' | translate }}</label>
+          <md-icon>insert_link</md-icon>
+          <div
+            class="hint"
+            ng-show="!vm.offer.website || vm.offer.website.length == 0 || ngoForm.website.$valid"
+            ng-hide="!ngoForm.website.$valid"
+          >how can visitors contact your provider online?
+          </div>
+          <input
+            name="website"
+            ng-model="vm.offer.website"
+            type="text"
+            ng-pattern="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/"
+          >
+          <div
+            ng-messages="ngoForm.website.$error"
+            role="alert"
+          >
+            <div ng-message-exp="['pattern']">
+              {{ 'the given web address should at least look valid' | translate }}
+            </div>
+          </div>
+        </md-input-container>
 
-				<!-- phone -->
-				<md-input-container class="md-block">
-					<label>{{ 'Telefon' | translate }}</label>
-					<input
-						ng-model="vm.offer.contact_phone"
-						placeholder="+43 660 12345678"
-						type="tel"
-						name="phone"
-						ng-pattern="/^\+?[0-9]+[\s0-9\-]*$/"
-						minlength="6"
-						maxlength="24"
-					>
-					<div
-						ng-messages="ngoForm.phone.$error"
-						role="alert"
-					>
-						<div ng-message-exp="['minlength', 'maxlength', 'pattern']">
-							{{ 'the given phone number should at least look valid' | translate }}
-						</div>
-					</div>
-				</md-input-container>
+        <!-- contact name -->
+        <md-input-container
+          class="md-block"
+        >
+          <label>{{ 'Kontakt' | translate }}</label>
+          <md-icon>group</md-icon>
+          <div
+            class="hint"
+            ng-show="!vm.offer.contact || vm.offer.contact.length == 0 || ngoForm.contact.$valid"
+            ng-hide="!ngoForm.contact.$valid"
+          >is there a contact-person visitors can refere to?
+          </div>
+          <input
+            name="contact"
+            ng-model="vm.offer.contact"
+          >
+        </md-input-container>
 
-				<!-- description -->
-				<md-input-container class="md-block">
-					<label>{{ 'Beschreibung' | translate }}</label>
-					<textarea
-						ng-model="vm.offer.description"
-						required
-						md-maxlength="200"
-						rows="3"
-					></textarea>
-				</md-input-container>
+        <!-- email -->
+        <md-input-container class="md-block">
+          <label>{{ 'Email' | translate }}</label>
+          <md-icon>mail</md-icon>
+          <div
+            class="hint"
+            ng-show="!vm.offer.contact_email || vm.offer.contact_email.length == 0 || ngoForm.email.$valid"
+            ng-hide="!ngoForm.email.$valid"
+          >how can visitors contact your provider by mail?
+          </div>
+          <input
+            ng-model="vm.offer.contact_email"
+            type="email"
+            name="email"
+            ng-pattern="/^.+@.+\..+$/"
+          >
+          <div
+            ng-messages="ngoForm.email.$error"
+            role="alert"
+          >
+            <div ng-message-exp="['pattern']">
+              {{ 'the given email address should at least look valid' | translate }}
+            </div>
+          </div>
+        </md-input-container>
 
-			</md-content>
-		</md-card>
+        <!-- phone -->
+        <md-input-container class="md-block">
+          <label>{{ 'Telefon' | translate }}</label>
+          <md-icon>phone</md-icon>
+          <div
+            class="hint"
+            ng-show="!vm.offer.contact_phone || vm.offer.contact_phone.length == 0 || ngoForm.phone.$valid"
+            ng-hide="!ngoForm.phone.$valid"
+          >how can visitors contact your provider by phone?
+          </div>
+          <input
+            ng-model="vm.offer.contact_phone"
+            type="tel"
+            name="phone"
+            ng-pattern="/^\+?[0-9]+[\s0-9\-]*$/"
+            minlength="6"
+            maxlength="24"
+          >
+          <div
+            ng-messages="ngoForm.phone.$error"
+            role="alert"
+          >
+            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+              {{ 'the given phone number should at least look valid' | translate }}
+            </div>
+          </div>
+        </md-input-container>
 
-		<!-- #2 col: image/address -->
-		<div flex>
-			<!-- image -->
-			<md-card>
-				<md-content>
-					<image-uploader
-						ng-model="vm.offer"
-						label="Logo oder Bild hochladen"
-					></image-uploader>
-				</md-content>
-			</md-card>
 
-			<!-- address -->
-			<offer-address></offer-address>
-		</div>
+      </md-content>
+    </md-card>
 
-	</div>
+    <!-- #2 col: image/address -->
+    <div flex>
+      <!-- image -->
+      <md-card>
+        <md-content>
+          <image-uploader
+            ng-model="vm.offer"
+            label="Logo oder Bild hochladen"
+          ></image-uploader>
+        </md-content>
+      </md-card>
 
-	<!-- submit -->
-	<div
-		flex
-		layout="row"
-		layout-align="end center"
-		ng-if="!vm.buttons"
-	>
-		&nbsp;<md-icon aria-label="">warning</md-icon>&nbsp;
-		<span translate="Alle angegebenen Daten werden veröffentlicht"></span>
-		<span flex></span>
+      <!-- address -->
+      <offer-address></offer-address>
+    </div>
 
-		<save
-			is-disabled="ngoForm.$invalid || ngoForm.$pristine"
-		></save>
+  </div>
 
-		<cancel></cancel>
-	</div>
+  <!-- submit -->
+  <div
+    flex
+    layout="row"
+    layout-align="end center"
+    ng-if="!vm.buttons"
+  >
+    <save
+      is-disabled="ngoForm.$invalid || ngoForm.$pristine"
+    ></save>
+
+    <cancel></cancel>
+  </div>
 
 </form>
