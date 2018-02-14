@@ -21,7 +21,7 @@ class ForgotpasswordFormController
 		this.UserService.requestNewPassword( this.email ).then( (response) =>
 		{
 			this.sending = false;
-			this.$state.go( 'app.login' );
+			this.$state.go( 'main.login' );
 			this.ToastService.show( 'Klicke auf den Link in der Email, die wir dir soeben gesendet haben!' );
 		} );
 	}
