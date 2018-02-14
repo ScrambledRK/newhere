@@ -1,84 +1,93 @@
 <div
-	layout="row"
-	layout-fill
+  layout="row"
+  layout-fill
 >
 
-	<!-- side menu -->
-	<md-sidenav
-		md-is-locked-open="$mdMedia('gt-sm')"
-		md-component-id="left"
-		class="md-whiteframe-z1 md-sidenav-left main"
-		style="min-height:100%"
-	>
-		<md-toolbar md-theme="custom">
-			<md-button
-				layout="row"
-				layout-align="space-between center"
-				layout-align-gt-sm="center center"
-				class="md-toolbar-tools"
-			>
-				<h1>
-					<md-icon
-						md-svg-src="/img/newhere-logo_white.svg"
-						class="newHere-logo"
-						ui-sref="cms.dashboard"
-					></md-icon>
-				</h1>
-				<md-button
-					class="md-icon-button"
-					hide-gt-sm
-					ng-click="vm.toggleItemsList()"
-				>
-					<md-icon>close</md-icon>
-				</md-button>
-			</md-button>
-		</md-toolbar>
+  <!-- side menu -->
+  <md-sidenav
+    md-is-locked-open="$mdMedia('gt-sm')"
+    md-component-id="left"
+    class="md-whiteframe-z1 md-sidenav-left main"
+    style="min-height:100%"
+  >
+    <md-toolbar md-theme="custom">
+      <md-button
+        layout="row"
+        layout-align="space-between center"
+        layout-align-gt-sm="center center"
+        class="md-toolbar-tools"
+      >
+        <h1>
+          <md-icon
+            md-svg-src="/img/newhere-logo_white.svg"
+            class="newHere-logo"
+            ui-sref="cms.dashboard"
+          ></md-icon>
+        </h1>
+        <md-button
+          class="md-icon-button"
+          hide-gt-sm
+          ng-click="vm.toggleItemsList()"
+        >
+          <md-icon>close</md-icon>
+        </md-button>
+      </md-button>
+    </md-toolbar>
 
-		<!-- cms menu -->
-		<cms-menu></cms-menu>
-	</md-sidenav>
+    <!-- cms menu -->
+    <cms-menu></cms-menu>
+  </md-sidenav>
 
-	<!-- main -->
-	<div
-		layout="column"
-		flex
-	>
+  <!-- main -->
+  <div
+    layout="column"
+    flex
+  >
 
-		<!-- header -->
-		<md-toolbar
-			md-theme="custom"
-			layout="row"
-			class=""
-			layout-align="space-between center"
-		>
+    <!-- header -->
+    <md-toolbar
+      md-theme="custom"
+      layout="row"
+      class=""
+      layout-align="space-between center"
+    >
 
-			<md-button
-				class="md-icon-button"
-				layout="column"
-				layout-align="center center"
-				ng-click="vm.toggleItemsList()"
-				aria-label="Menu"
-				hide-gt-sm
-			>
-				<i class="material-icons">apps</i>
-			</md-button>
+      <md-button
+        class="md-icon-button"
+        layout="column"
+        layout-align="center center"
+        ng-click="vm.toggleItemsList()"
+        aria-label="Menu"
+        hide-gt-sm
+      >
+        <i class="material-icons">apps</i>
+      </md-button>
 
-			<span translate="{{$scope.title}}"></span>
-			<span flex></span>
+      <span translate="{{$scope.title}}"></span>
+      <span flex></span>
 
-			<!-- language menu -->
-			<cms-language-menu></cms-language-menu>
+      <!-- language menu -->
+      <cms-language-menu></cms-language-menu>
 
-			<!-- user menu -->
-			<cms-user-menu></cms-user-menu>
-		</md-toolbar>
+      <!-- user menu -->
+      <cms-user-menu></cms-user-menu>
+    </md-toolbar>
 
-		<!-- body -->
-		<md-content
-			flex
-			class="md-padding page-content"
-		>
-			<div ui-view="body"></div>
-		</md-content>
-	</div>
+    <!-- body -->
+    <md-content
+      flex
+      class="md-padding page-content"
+    >
+      <div ui-view="body"></div>
+    </md-content>
+
+    <div
+      layout-align="center center"
+      layout="row"
+    >
+        <small>Nähere Informationen und Rückfragen unter:
+               <a href="mailto:info@newhere.at">info@newhere.at</a>
+        </small>
+    </div>
+  </div>
 </div>
