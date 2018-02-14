@@ -92,7 +92,7 @@ export class UserService
 			.then( ( response ) =>
 				{
 					this.all_roles.push.apply( this.all_roles, response );
-					//console.log( "all_roles:", this.all_roles );
+					this.$rootScope.$broadcast( 'userChanged', this );
 				},
 				( error ) =>
 				{

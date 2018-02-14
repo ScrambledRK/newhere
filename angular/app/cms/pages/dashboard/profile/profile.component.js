@@ -47,10 +47,41 @@ class ProfileController
 			this.finalize();
 		} );
 
+		let onUser = this.$rootScope.$on( "userChanged", ( event, item ) =>
+		{
+			this._checkUser();
+		} );
+
 		this.$scope.$on( '$destroy', () =>
 		{
 			onCheck();
+			onUser();
 		} );
+	}
+
+	_checkUser()
+	{
+		console.log("onInit","profile");
+
+		if( this.UserService.isWithoutRole() )
+		{
+			//
+			let query =
+				    {
+					    user: this.UserService.user.id,
+					    order: '-user_id',
+					    limit: 1,
+					    page: 1
+				    };
+
+			this.API.all( 'cms/users/pending' ).getList( query )
+				.then( ( item ) =>
+					{
+						if( !item || item.length <= 0 )
+							this.requestRole();
+					}
+				);
+		}
 	}
 
 	//
@@ -155,7 +186,14 @@ class ProfileController
 	//
 	requestNextStep()
 	{
-		this.WizardHandler.wizard().next();
+		if( this.requestGroup === "translate" || this.requestGroup === "resign" )
+		{
+			this.WizardHandler.wizard().goTo( 2 );
+		}
+		else
+		{
+			this.WizardHandler.wizard().next();
+		}
 	}
 
 	//

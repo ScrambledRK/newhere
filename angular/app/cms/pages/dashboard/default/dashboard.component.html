@@ -1,5 +1,10 @@
-hello, here you see some statistics about our content
-and changes since your last login.
+<div>
+	<p>Hello!</p>
+  <p ng-if="!vm.isElementVisible('pending-requests')">
+    this page might show changes since your last login in the future, right now it
+    is only useful to administrators.
+  </p>
+</div>
 
 <!-- pending table -->
 <div

@@ -56,9 +56,6 @@ class RequestTableController
 	$onInit()
 	{
 		this.query.user = this.user ? this.user.id : null;
-
-
-
 		this.onQueryUpdate();
 	}
 

@@ -86,9 +86,9 @@
 			</wz-step>
 
 			<!--          -->
-			<!-- finalize -->
+			<!-- customize -->
 			<wz-step
-				wz-title="{{ 'Finalize' | translate }}"
+				wz-title="{{ 'Customize' | translate }}"
 				canexit="vm.canRequestStepComplete()"
 			>
 
@@ -102,7 +102,10 @@
 					<!-- assign -->
 					<div
 						ng-if="vm.requestGroup == 'assign'"
+						layout="column"
+						layout-align="center center"
 					>
+						<p>search for a provider you would like to join and create/edit offers for below</p>
 						<provider
 							vm="vm"
 							action=""
@@ -117,18 +120,15 @@
 						layout-fill
 					></cms-provider-form>
 
-					<!-- translate -->
-					<div
-						ng-if="vm.requestGroup == 'translate'"
-					>
-						great! thank you, we will process your request soon™
-					</div>
-
 					<!-- leave -->
 					<div
 						ng-if="vm.requestGroup == 'leave'"
+            layout="column"
+            layout-align="center center"
 					>
-						<md-radio-group
+            <p>select the providers you would like to leave below</p>
+
+            <md-radio-group
 							ng-model="vm.leaveGroup"
 						>
 							<md-radio-button
@@ -140,15 +140,42 @@
 						</md-radio-group>
 					</div>
 
-					<!-- leave -->
-					<div
-						ng-if="vm.requestGroup == 'resign'"
-					>
-						oh well! we will process your request soon™
-					</div>
-
 				</md-content>
 			</wz-step>
+
+      <!--          -->
+      <!-- finalize -->
+      <wz-step
+        wz-title="{{ 'Finalize' | translate }}"
+        canexit="vm.canRequestStepComplete()"
+      >
+        <md-content
+          layout-padding
+          layout="row"
+          layout-align="center center"
+        >
+          <!-- join -->
+          <div
+            layout="column"
+            layout-align="center center"
+            ng-if="vm.requestGroup != 'resign' && vm.requestGroup != 'leave'"
+          >
+            <p>great! thank you!</p>
+            <p>an administrator will review your request shortly and might contact you in the process.</br>
+               once granted access you can start contributing</p>
+          </div>
+
+          <!-- leave -->
+          <div
+            layout="column"
+            layout-align="center center"
+            ng-if="vm.requestGroup == 'resign' || vm.requestGroup == 'leave'"
+          >
+            <p>oh, too bad!</p>
+            <p>an administrator will make sure to apply your changes shortly.</p>
+          </div>
+        </md-content>
+      </wz-step>
 
 		</wizard>
 	</md-dialog-content>
