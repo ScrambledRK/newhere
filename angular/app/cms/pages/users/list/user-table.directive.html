@@ -1,189 +1,203 @@
 <md-table-container>
-	<table
-		md-table
-		md-row-select="vm.isElementVisible('select')"
-		multiple
-		ng-model="vm.selectedItems"
-		md-progress="vm.promise"
-	>
+  <table
+    md-table
+    md-row-select="vm.isElementVisible('select')"
+    multiple
+    ng-model="vm.selectedItems"
+    md-progress="vm.promise"
+  >
 
-		<!-- head -->
-		<thead
-			md-head
-			md-order="vm.query.order"
-			md-on-reorder="vm.onQueryUpdate"
-		>
-		<tr md-row>
-			<th
-				md-column
-				class="icon"
-				ng-if="vm.isElementVisible('edit')"
-			></th>
+    <!-- head -->
+    <thead
+      md-head
+      md-order="vm.query.order"
+      md-on-reorder="vm.onQueryUpdate"
+    >
+    <tr md-row>
+      <th
+        md-column
+        class="icon"
+        ng-if="vm.isElementVisible('edit')"
+      ></th>
 
-			<!-- name -->
-			<th
-				md-column
-				md-order-by="id"
-				style="min-width: 200px"
-			>{{ 'Name' | translate }}
-			</th>
+      <!-- name -->
+      <th
+        md-column
+        md-order-by="id"
+        style="min-width: 200px"
+      >{{ 'Name' | translate }}
+      </th>
 
-			<!-- mail -->
-			<th
-				md-column
-				md-order-by="email"
-				style="min-width: 200px"
-			>{{ 'Email' | translate }}
-			</th>
+      <!-- mail -->
+      <th
+        md-column
+        md-order-by="email"
+        style="min-width: 200px"
+      >{{ 'Email' | translate }}
+      </th>
 
-			<!-- enabled -->
-			<th
-				md-column
-				md-order-by="confirmed"
-				ng-if="vm.isElementVisible('enabled')"
-			><i
-				class="material-icons"
-				style="padding-left: 14px;"
-			>lock_open</i>
-			</th>
+      <!-- phone -->
+      <th
+        md-column
+        md-order-by="phone"
+        ng-if="vm.isElementVisible('phone')"
+        style="min-width: 200px"
+      >{{ 'Phone' | translate }}
+      </th>
 
-			<!-- providers -->
-			<th
-				md-column
-				md-order-by="ngo_id"
-				ng-if="vm.isElementVisible('provider')"
-				style="min-width: 200px"
-			>{{ 'Anbieter' | translate }}
-			</th>
+      <!-- enabled -->
+      <th
+        md-column
+        md-order-by="confirmed"
+        ng-if="vm.isElementVisible('enabled')"
+      ><i
+        class="material-icons"
+        style="padding-left: 14px;"
+      >lock_open</i>
+      </th>
 
-			<!-- roles -->
-			<th
-				md-column
-				md-order-by="roles"
-				style="min-width: 200px"
-			>{{ 'Rolle' | translate }}
-			</th>
+      <!-- providers -->
+      <th
+        md-column
+        md-order-by="ngo_id"
+        ng-if="vm.isElementVisible('provider')"
+        style="min-width: 200px"
+      >{{ 'Anbieter' | translate }}
+      </th>
 
-			<!-- pendings -->
-			<th
-				md-column
-				md-order-by="pendings_count"
-				ng-if="vm.isElementVisible('pending')"
-			>{{ 'Antrag' | translate }}
-			</th>
+      <!-- roles -->
+      <th
+        md-column
+        md-order-by="roles"
+        style="min-width: 200px"
+      >{{ 'Rolle' | translate }}
+      </th>
 
-			<th
-					md-column
-					md-order-by="updated_at"
-			>{{ 'Letzte Änderung' | translate }}
-			</th>
+      <!-- pendings -->
+      <th
+        md-column
+        md-order-by="pendings_count"
+        ng-if="vm.isElementVisible('pending')"
+      >{{ 'Antrag' | translate }}
+      </th>
 
-		</tr>
-		</thead>
+      <th
+        md-column
+        md-order-by="updated_at"
+      >{{ 'Letzte Änderung' | translate }}
+      </th>
 
-		<!-- body -->
-		<tbody md-body>
-		<tr
-			md-row
-			md-select="item"
-			ng-repeat="item in vm.items"
-		>
-			<!-- edit -->
-			<td
-				md-cell
-				ng-if="vm.isElementVisible('edit')"
-			>
-				<md-button
-					ng-click="vm.editItem(item)"
-					class="md-icon-button md-accent md-hue-2"
-				>
-					<md-icon>edit</md-icon>
-				</md-button>
-			</td>
+    </tr>
+    </thead>
 
-			<!-- title -->
-			<td md-cell>
-				<strong>{{item.name}}</strong>
-			</td>
+    <!-- body -->
+    <tbody md-body>
+    <tr
+      md-row
+      md-select="item"
+      ng-repeat="item in vm.items"
+    >
+      <!-- edit -->
+      <td
+        md-cell
+        ng-if="vm.isElementVisible('edit')"
+      >
+        <md-button
+          ng-click="vm.editItem(item)"
+          class="md-icon-button md-accent md-hue-2"
+        >
+          <md-icon>edit</md-icon>
+        </md-button>
+      </td>
 
-			<!-- email -->
-			<td md-cell>
-				<strong>{{item.email}}</strong>
-			</td>
+      <!-- title -->
+      <td md-cell>
+        <strong>{{item.name}}</strong>
+      </td>
 
-			<!-- enabled lock -->
-			<td
-				md-cell
-				ng-if="vm.isElementVisible('enabled')"
-			>
-				<md-button
-					ng-click="vm.toggleItem(item,true)"
-					ng-disabled="!vm.isElementEnabled('enabled')"
-					ng-if="!item.confirmed"
-					class="md-icon-button md-accent md-hue-2"
-				>
-					<md-tooltip
-						md-direction="right"
-						md-delay="800"
-					>user is not confirmed
-					</md-tooltip>
-					<md-icon>lock</md-icon>
-				</md-button>
-				<md-button
-					ng-click="vm.toggleItem(item,false)"
-					ng-disabled="!vm.isElementEnabled('enabled')"
-					ng-if="item.confirmed"
-					class="md-icon-button md-accent md-hue-2"
-				>
-					<md-tooltip
-						md-direction="right"
-						md-delay="800"
-					>user is confirmed
-					</md-tooltip>
-					<md-icon>lock_open</md-icon>
-				</md-button>
-			</td>
+      <!-- email -->
+      <td md-cell>
+        <strong>{{item.email}}</strong>
+      </td>
 
-			<!-- provider -->
-			<td
-				md-cell
-				ng-if="vm.isElementVisible('provider')"
-			>
-				<div
-					ng-repeat="ngo in item.ngos"
-				>
-					<a href="{{vm.getURL(ngo,'provider')}}">{{ngo.organisation}}</a>
-				</div>
-			</td>
+      <!-- phone -->
+      <td md-cell ng-if="vm.isElementVisible('phone')">
+        <strong>{{item.phone}}</strong>
+      </td>
 
-			<!-- roles -->
-			<td
-				md-cell
-			>
-				<div
-					ng-repeat="role in item.roles"
-				>
-					{{ role.display_name }}
-				</div>
-			</td>
+      <!-- enabled lock -->
+      <td
+        md-cell
+        ng-if="vm.isElementVisible('enabled')"
+      >
+        <md-button
+          ng-click="vm.toggleItem(item,true)"
+          ng-disabled="!vm.isElementEnabled('enabled')"
+          ng-if="!item.confirmed"
+          class="md-icon-button md-accent md-hue-2"
+        >
+          <md-tooltip
+            md-direction="right"
+            md-delay="800"
+          >user is not confirmed
+          </md-tooltip>
+          <md-icon>lock</md-icon>
+        </md-button>
+        <md-button
+          ng-click="vm.toggleItem(item,false)"
+          ng-disabled="!vm.isElementEnabled('enabled')"
+          ng-if="item.confirmed"
+          class="md-icon-button md-accent md-hue-2"
+        >
+          <md-tooltip
+            md-direction="right"
+            md-delay="800"
+          >user is confirmed
+          </md-tooltip>
+          <md-icon>lock_open</md-icon>
+        </md-button>
+      </td>
 
-			<!-- pending -->
-			<td
-				md-cell
-				ng-if="vm.isElementVisible('pending')"
-			>
-				<a
-					ng-click="vm.editItem(item)"
-					ng-if="item.pendings.length > 0"
-				>
-					{{item.pendings.length}}</a>
-			</td>
+      <!-- provider -->
+      <td
+        md-cell
+        ng-if="vm.isElementVisible('provider')"
+      >
+        <div
+          ng-repeat="ngo in item.ngos"
+        >
+          <a href="{{vm.getURL(ngo,'provider')}}">{{ngo.organisation}}</a>
+        </div>
+      </td>
 
-			<td md-cell>
-				<div>{{item.updated_at}}</div>
-			</td>
-		</tr>
+      <!-- roles -->
+      <td
+        md-cell
+      >
+        <div
+          ng-repeat="role in item.roles"
+        >
+          {{ role.display_name }}
+        </div>
+      </td>
 
-		</tbody>
-	</table>
+      <!-- pending -->
+      <td
+        md-cell
+        ng-if="vm.isElementVisible('pending')"
+      >
+        <a
+          ng-click="vm.editItem(item)"
+          ng-if="item.pendings.length > 0"
+        >
+          {{item.pendings.length}}</a>
+      </td>
+
+      <td md-cell>
+        <div>{{item.updated_at}}</div>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
 </md-table-container>

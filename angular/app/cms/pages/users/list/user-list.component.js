@@ -245,6 +245,9 @@ class UserListController
 		if( name === "create" )
 			return this.UserService.isAdministrator();
 
+		if( name === "phone" )
+			return this.UserService.isAdministrator();
+
 		if( name === "enabled" )
 			return true;
 
