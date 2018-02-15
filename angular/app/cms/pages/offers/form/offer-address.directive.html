@@ -1,67 +1,68 @@
 <md-card>
-	<md-card-title>
-		<md-card-title-text>
-			<span class="md-headline">{{ 'Adresse' | translate }}</span>
-		</md-card-title-text>
-	</md-card-title>
-	<md-content layout-padding>
-		<div>
-			<md-checkbox
-				ng-model="vm.offer.isWithoutAddress"
-				ng-true-value="true"
-				ng-false-value="false"
-			>
-				{{ 'Angebot ohne Adresse (Website)' | translate }}
-			</md-checkbox>
-		</div>
-		<div ng-show="!vm.offer.isWithoutAddress">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{ 'Adresse' | translate }}</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-content layout-padding>
+    <div>
+      <md-checkbox
+        ng-model="vm.offer.isWithoutAddress"
+        ng-true-value="true"
+        ng-false-value="false"
+        ng-change="vm.onWithoutAddressChange()"
+      >
+        {{ 'Angebot ohne Adresse (Website)' | translate }}
+      </md-checkbox>
+    </div>
+    <div ng-show="!vm.offer.isWithoutAddress">
 
-			<leaflet
-				id="nhMap"
-				lf-center="vm.MapService.center"
-				event-broadcast="vm.MapService.events"
-				layers="vm.MapService.layers"
-				markers="vm.MapService.markers"
-				controls="vm.MapService.controls"
-				defaults="vm.MapService.defaults"
-				class="map"
-				style="width: 100%; height: 200px"
-			>
-			</leaflet>
+      <leaflet
+        id="nhMap"
+        lf-center="vm.MapService.center"
+        event-broadcast="vm.MapService.events"
+        layers="vm.MapService.layers"
+        markers="vm.MapService.markers"
+        controls="vm.MapService.controls"
+        defaults="vm.MapService.defaults"
+        class="map"
+        style="width: 100%; height: 200px"
+      >
+      </leaflet>
 
-			<md-autocomplete
-				ng-init="vm.offer.street=''"
-				md-selected-item="vm.selectedAddress"
-				md-selected-item-change="vm.selectedAddressChanged(item)"
-				md-search-text="vm.searchAddress"
-				md-items="item in vm.queryAddress(vm.searchAddress)"
-				md-item-text="item.street+' '+item.number+', '+item.zip+' '+item.city"
-				md-min-length="2"
-				md-floating-label="{{ 'Adresssuche' | translate }}"
-				placeholder="z.B. Stephansplatz 1, 1010 Wien"
-				style="height: 90px; padding-top: 30px"
-			>
-				<md-item-template>
+      <md-autocomplete
+        ng-init="vm.offer.street=''"
+        md-selected-item="vm.selectedAddress"
+        md-selected-item-change="vm.selectedAddressChanged(item)"
+        md-search-text="vm.searchAddress"
+        md-items="item in vm.queryAddress(vm.searchAddress)"
+        md-item-text="item.street+' '+item.number+', '+item.zip+' '+item.city"
+        md-min-length="2"
+        md-floating-label="{{ 'Adresssuche' | translate }}"
+        placeholder="z.B. Stephansplatz 1, 1010 Wien"
+        style="height: 90px; padding-top: 30px"
+      >
+        <md-item-template>
 					<span md-highlight-text="vm.searchAddress">
 						{{item.street+' '+item.number+', '+item.zip+' '+item.city}}
 					</span>
-				</md-item-template>
-				<md-not-found>
-					{{ 'Keine passende Adresse gefunden!' | translate }}
-				</md-not-found>
-			</md-autocomplete>
+        </md-item-template>
+        <md-not-found>
+          {{ 'Keine passende Adresse gefunden!' | translate }}
+        </md-not-found>
+      </md-autocomplete>
 
-			<md-input-container class="md-block">
-				<label>{{ 'Adresszusatz' | translate }}</label>
-				<input ng-model="vm.offer.streetnumberadditional">
-			</md-input-container>
+      <md-input-container class="md-block">
+        <label>{{ 'Adresszusatz' | translate }}</label>
+        <input ng-model="vm.offer.streetnumberadditional">
+      </md-input-container>
 
-			<p ng-if="vm.offer.street">
-				{{vm.offer.street}} {{vm.offer.streetnumber}}
-				<br/> {{vm.offer.zip}} {{vm.offer.city}}
-				<br/>
-			</p>
+      <p ng-if="vm.offer.street">
+        {{vm.offer.street}} {{vm.offer.streetnumber}}
+        <br/> {{vm.offer.zip}} {{vm.offer.city}}
+        <br/>
+      </p>
 
-		</div>
-	</md-content>
+    </div>
+  </md-content>
 </md-card>

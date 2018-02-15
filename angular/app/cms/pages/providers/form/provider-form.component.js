@@ -71,6 +71,15 @@ class ProviderFormController
 	}
 
 	//
+	onWithoutAddressChange()
+	{
+		this.$timeout( () =>
+		{
+			this.MapService.invalidateSize();
+		}, 1, false );
+	}
+
+	//
 	onLanguageChanged()
 	{
 		if( this.offer.id )
