@@ -63,8 +63,6 @@ class ProfileController
 
 	_checkUser()
 	{
-		console.log("onInit","profile");
-
 		if( this.UserService.isWithoutRole() )
 		{
 			//

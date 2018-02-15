@@ -6,7 +6,6 @@ class DashboardPageController
 
 		//
 		this.$state = $state;
-		this.$state = $state;
 		this.UserService = UserService;
 
 		//
@@ -27,13 +26,11 @@ class DashboardPageController
 
 	_checkUser()
 	{
-		console.log("onInit","dashboard-page");
-
 		if( !this.UserService.isAdministrator() )
 			this.tab = 1;
 
 		if( this.$state.params.tab )
-			this.tab = $state.params.tab;
+			this.tab = this.$state.params.tab;
 	}
 
 	//
