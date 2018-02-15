@@ -93,7 +93,7 @@
   "Pending Requests": "Pending Requests",
 
   "Neues Angebot": "New Offer",
-  "Angebot ohne Adresse (Website)": "Offer without Address (Website)",
+  "Angebot ohne Adresse (Website)": "without Address (website only)",
   "Angebot gültig": "Offer valid",
   "Datum eingeben": "Enter date",
   "Adresssuche": "Search address",
@@ -117,6 +117,81 @@
   "translate on save": "mark as translated on save",
   "Anbieter Kontaktdaten": "Provider contact data",
   "Anbieter Notizen": "Provider Notes",
+
+  "none": "none",
+  "dashboard_0": "Hello!",
+  "dashboard_1": "this page might show changes since your last login in the future, right now it is only useful to administrators.",
+
+  "request_profile_change":"request profile change",
+  "request_profile_change_tooltip":"join, create or leave a service provider; join or resign the translation team",
+  "request_profile_change_thankyou":"great! thank you!",
+  "request_profile_change_aww":"aww! too bad!",
+  "request_profile_change_provider_leave" :"select the providers you would like to leave below",
+  "request_profile_change_provider_join" :"search for a provider you would like to join and create/edit offers for below",
+  "request_profile_change_translation_resign_btn" :"resign from translation",
+  "request_profile_change_provider_leave_btn" :"leave a service provider",
+  "request_profile_change_translator_join_btn_0" :"become a translator",
+  "request_profile_change_translator_join_btn_1" :"and translate offer descriptions",
+  "request_profile_change_provider_create_btn_0" :"create a new service provider",
+  "request_profile_change_provider_create_btn_1" :"to create and edit offers",
+  "request_profile_change_provider_join_btn_0" :"join an existing service provider",
+  "request_profile_change_provider_join_btn_1" :"to create and edit offers",
+  "request_profile_change_description":"choose how you want to contribute",
+  "request_profile_change_title":"Request Profile Change",
+
+  "profile_role_admin":"administrators are already part of all providers",
+  "profile_role_join_1":"request to join/create provider",
+  "profile_role_join_0":"become a translator",
+  "profile_role_translator":"become a translator",
+
+  "pending_table_description_0":"below you see your open contribution requests",
+  "pending_table_description_1":"an administrator will review them shortly and might contact you in the process. once granted access you can start contributing",
+  "pending_table_description_2":"an administrator will make sure to apply your changes shortly.", 
+
+  "provider_form_hint_title":"how would you name your provider?",
+  "provider_form_hint_description":"what does your provider do?",
+  "provider_form_hint_website":"how can visitors contact your provider online?",
+  "provider_form_hint_contact":"is there a contact-person visitors can refere to?",
+  "provider_form_hint_mail":"how can visitors contact your provider by mail?",
+  "provider_form_hint_phone":"how can visitors contact your provider by phone?",
+
+  "form_error_phone":"the given phone number should at least look valid",
+  "form_error_mail":"the given mail address should at least look valid",
+  "form_error_website":"the given web address should at least look valid",
+  "form_error_required":"the given field must be filled",
+
+  "provider_form_title":"Provider Informationen",
+
+  "register_form_agb_0":"I declare to have read the  ",
+  "register_form_agb_1":"",
+  "agb_btn":"AGBs bzw. Nutzungsbestimmungen",
+
+  "login_form_register_0":"You've recieved an Email (%s).",
+  "login_form_register_1":"Follow its instructions to be able to login to the CMS.",
+  "register_form_description_0":"the given data will only be used for internal administrative purposes. the phone number is only visible for administrators",
+
+  "offer_form_title":"Offer Information",
+  "offer_form_hint_title":"how would you name your offer?",
+  "offer_form_hint_description":"what is the offer about?",
+  "offer_form_hint_website":"is there a website to visit about the offer?",
+  "offer_form_hint_facebook":"is there a facebook page to visit about the offer?",
+  "offer_form_hint_mail":"can visitors use e-mail to query about the offer?",
+  "offer_form_hint_phone":"can visitors use the phone to query about the offer?",
+  "offer_form_hint_opening_hours":"are there specific times the offer is open to visitors?",
+
+  "provider_list_offers":"provider offers",
+  "provider_list_users":"provider members",
+
+  "provider_enabled":"provider and its enabled offers are visible for visitors",
+  "provider_disabled":"provider and its offers are hidden for visitors",
+  "offer_enabled":"offer is visible for visitors",
+  "offer_disabled":"offer is hidden for visitors",
+
+  "offer_categories_description":"select under what categories the offer can be found by visitors",
+  "offer_filters_description":"currently disabled and has unfortunatly no effect as of yet",
+
+  "provider_link_to":"provider link for visitors (%s)",
+  "offer_link_to":"offer link for visitors (%s)",
 
   "": ""
 }

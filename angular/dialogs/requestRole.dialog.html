@@ -1,147 +1,157 @@
 <md-dialog class="min-width-dialog">
 
-		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>{{ 'Request a profile change' | translate }}</h2>
-				<span flex></span>
-				<md-button
-					class="md-icon-button"
-					ng-click="vm.requestCancel()"
-				>
-					<md-icon aria-label="">close</md-icon>
-				</md-button>
-			</div>
-		</md-toolbar>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>{{ 'request_profile_change_title' | translate }}</h2>
+      <span flex></span>
+      <md-button
+        class="md-icon-button"
+        ng-click="vm.requestCancel()"
+      >
+        <md-icon aria-label="">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
 
-	<md-dialog-content>
-		<wizard
-			on-finish="vm.requestComplete()"
-			hide-indicators="true"
-		>
+  <md-dialog-content>
+    <wizard
+      on-finish="vm.requestComplete()"
+      hide-indicators="true"
+    >
 
-			<!--             -->
-			<!-- choose role -->
-			<wz-step
-				wz-title="{{ 'Choose Role' | translate }}"
-				canexit="vm.canRequestStepComplete()"
-			>
+      <!--             -->
+      <!-- choose role -->
+      <wz-step
+        canexit="vm.canRequestStepComplete()"
+      >
 
-				<!-- content -->
-				<md-content
-					layout-padding
-					layout="column"
-					layout-align="center center"
-				>
-					<div flex>
-						{{ 'choose how you want to contribute' | translate }}
-					</div>
+        <!-- content -->
+        <md-content
+          layout-padding
+          layout="column"
+          layout-align="center center"
+        >
+          <div flex>
+            {{ 'request_profile_change_description' | translate }}
+          </div>
 
-					<div flex style="padding-top: 8px">
-						<md-radio-group
-							ng-model="vm.requestGroup"
-							ng-change="vm.onRequestGroup(vm.requestGroup)"
-						>
-							<!---->
-							<md-radio-button value="assign">
-								<strong>join an existing service provider</strong>
-								to create and edit offers
-							</md-radio-button>
+          <div
+            flex
+            style="padding-top: 8px"
+          >
+            <md-radio-group
+              ng-model="vm.requestGroup"
+              ng-change="vm.onRequestGroup(vm.requestGroup)"
+            >
+              <!---->
+              <md-radio-button value="assign">
+                <strong>
+                  {{ 'request_profile_change_provider_join_btn_0' | translate }}
+                </strong>
+                {{ 'request_profile_change_provider_join_btn_1' | translate }}
+              </md-radio-button>
 
-							<!-- -->
-							<md-radio-button value="create">
-								<strong>create a new service provider</strong>
-								to create and edit offers
-							</md-radio-button>
+              <!-- -->
+              <md-radio-button value="create">
+                <strong>
+                  {{ 'request_profile_change_provider_create_btn_0' | translate }}
+                </strong>
+                {{ 'request_profile_change_provider_create_btn_1' | translate }}
+              </md-radio-button>
 
-							<!-- -->
-							<md-radio-button value="translate">
-								<strong>become a translator</strong>
-								and translate offer descriptions
-							</md-radio-button>
+              <!-- -->
+              <md-radio-button value="translate">
+                <strong>
+                  {{ 'request_profile_change_translator_join_btn_0' | translate }}
+                </strong>
+                {{ 'request_profile_change_translator_join_btn_1' | translate }}
+              </md-radio-button>
 
-							<md-divider
-								style="padding: 8px"
-								ng-if="vm.isElementVisible('leave') || vm.isElementVisible('resign')"
-							></md-divider>
+              <md-divider
+                style="padding: 8px"
+                ng-if="vm.isElementVisible('leave') || vm.isElementVisible('resign')"
+              ></md-divider>
 
-							<!-- -->
-							<md-radio-button
-								value="leave"
-								ng-if="vm.isElementVisible('leave')"
-							>
-								<strong>leave a service provider</strong>
-							</md-radio-button>
+              <!-- -->
+              <md-radio-button
+                value="leave"
+                ng-if="vm.isElementVisible('leave')"
+              >
+                <strong>{{ 'request_profile_change_provider_leave_btn' | translate
+                        }}</strong>
+              </md-radio-button>
 
-							<!-- -->
-							<md-radio-button
-								value="resign"
-								ng-if="vm.isElementVisible('resign')"
-							>
-								<strong>resign from translation</strong>
-							</md-radio-button>
+              <!-- -->
+              <md-radio-button
+                value="resign"
+                ng-if="vm.isElementVisible('resign')"
+              >
+                <strong>{{ 'request_profile_change_translation_resign_btn' | translate
+                        }}</strong>
+              </md-radio-button>
 
-						</md-radio-group>
-					</div>
-				</md-content>
-			</wz-step>
+            </md-radio-group>
+          </div>
+        </md-content>
+      </wz-step>
 
-			<!--          -->
-			<!-- customize -->
-			<wz-step
-				wz-title="{{ 'Customize' | translate }}"
-				canexit="vm.canRequestStepComplete()"
-			>
+      <!--          -->
+      <!-- customize -->
+      <wz-step
+        wz-title="{{ 'Customize' | translate }}"
+        canexit="vm.canRequestStepComplete()"
+      >
 
-				<!-- content -->
-				<md-content
-					layout-padding
-					layout="row"
-					layout-align="center center"
-				>
+        <!-- content -->
+        <md-content
+          layout-padding
+          layout="row"
+          layout-align="center center"
+        >
 
-					<!-- assign -->
-					<div
-						ng-if="vm.requestGroup == 'assign'"
-						layout="column"
-						layout-align="center center"
-					>
-						<p>search for a provider you would like to join and create/edit offers for below</p>
-						<provider
-							vm="vm"
-							action=""
-							model="assignProvider"
-						></provider>
-					</div>
-
-					<!-- create -->
-					<cms-provider-form
-						ng-if="vm.requestGroup == 'create'"
-						buttons="vm"
-						layout-fill
-					></cms-provider-form>
-
-					<!-- leave -->
-					<div
-						ng-if="vm.requestGroup == 'leave'"
+          <!-- assign -->
+          <div
+            ng-if="vm.requestGroup == 'assign'"
             layout="column"
             layout-align="center center"
-					>
-            <p>select the providers you would like to leave below</p>
+          >
+            <p>{{ 'request_profile_change_provider_join' | translate }}</p>
+            <provider
+              vm="vm"
+              action=""
+              model="assignProvider"
+            ></provider>
+          </div>
+
+          <!-- create -->
+          <cms-provider-form
+            ng-if="vm.requestGroup == 'create'"
+            buttons="vm"
+            layout-fill
+          ></cms-provider-form>
+
+          <!-- leave -->
+          <div
+            ng-if="vm.requestGroup == 'leave'"
+            layout="column"
+            layout-align="center center"
+          >
+            <p>{{ 'request_profile_change_provider_leave' | translate }}</p>
 
             <md-radio-group
-							ng-model="vm.leaveGroup"
-						>
-							<md-radio-button
-								ng-repeat="ngo in vm.providers"
-								value="{{ngo.id}}"
-							>
-								{{ngo.organisation}}
-							</md-radio-button>
-						</md-radio-group>
-					</div>
+              ng-model="vm.leaveGroup"
+            >
+              <md-radio-button
+                ng-repeat="ngo in vm.providers"
+                value="{{ngo.id}}"
+              >
+                {{ngo.organisation}}
+              </md-radio-button>
+            </md-radio-group>
+          </div>
 
-				</md-content>
-			</wz-step>
+        </md-content>
+      </wz-step>
 
       <!--          -->
       <!-- finalize -->
@@ -160,9 +170,8 @@
             layout-align="center center"
             ng-if="vm.requestGroup != 'resign' && vm.requestGroup != 'leave'"
           >
-            <p>great! thank you!</p>
-            <p>an administrator will review your request shortly and might contact you in the process.</br>
-               once granted access you can start contributing</p>
+            <p>{{ 'request_profile_change_thankyou' | translate }}</p>
+            <p>{{ 'pending_table_description_1' | translate }}</p>
           </div>
 
           <!-- leave -->
@@ -171,42 +180,42 @@
             layout-align="center center"
             ng-if="vm.requestGroup == 'resign' || vm.requestGroup == 'leave'"
           >
-            <p>oh, too bad!</p>
-            <p>an administrator will make sure to apply your changes shortly.</p>
+            <p>{{ 'request_profile_change_thankyou' | translate }}</p>
+            <p>{{ 'pending_table_description_2' | translate }}</p>
           </div>
         </md-content>
       </wz-step>
 
-		</wizard>
-	</md-dialog-content>
+    </wizard>
+  </md-dialog-content>
 
-	<!-- toolbar -->
-	<md-dialog-actions>
-		<div>
-			<md-button
-				ng-click="vm.requestCancel()"
-			>
-				{{ 'Abbrechen' | translate }}
-			</md-button>
+  <!-- toolbar -->
+  <md-dialog-actions>
+    <div>
+      <md-button
+        ng-click="vm.requestCancel()"
+      >
+        {{ 'Abbrechen' | translate }}
+      </md-button>
 
-			<md-button
-				ng-if="!vm.isLastRequestStep()"
-				class="md-primary md-raised"
-				ng-click="vm.requestNextStep()"
-				ng-disabled="!vm.canRequestStepComplete()"
-			>
-				{{ 'Weiter' | translate }}
-			</md-button>
+      <md-button
+        ng-if="!vm.isLastRequestStep()"
+        class="md-primary md-raised"
+        ng-click="vm.requestNextStep()"
+        ng-disabled="!vm.canRequestStepComplete()"
+      >
+        {{ 'Weiter' | translate }}
+      </md-button>
 
-			<md-button
-				ng-if="vm.isLastRequestStep()"
-				class="md-primary md-raised"
-				ng-click="vm.requestComplete()"
-				ng-disabled="!vm.canRequestStepComplete()"
-			>
-				{{ 'Speichern' | translate }}
-			</md-button>
-		</div>
-	</md-dialog-actions>
+      <md-button
+        ng-if="vm.isLastRequestStep()"
+        class="md-primary md-raised"
+        ng-click="vm.requestComplete()"
+        ng-disabled="!vm.canRequestStepComplete()"
+      >
+        {{ 'Speichern' | translate }}
+      </md-button>
+    </div>
+  </md-dialog-actions>
 
 </md-dialog>

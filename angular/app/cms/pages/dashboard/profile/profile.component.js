@@ -57,6 +57,8 @@ class ProfileController
 			onCheck();
 			onUser();
 		} );
+
+		this._checkUser();
 	}
 
 	_checkUser()

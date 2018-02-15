@@ -1,4 +1,15 @@
 <div
+	layout="row"
+	layout-align="start center"
+>
+	<i
+		class="material-icons"
+		style="color: red !important; margin-left: 22px; margin-right: 14px;"
+	>warning</i>
+	<span translate="Alle angegebenen Daten werden veröffentlicht"></span>
+</div>
+
+<div
 	style="padding:.5em;"
 	layout="row"
 	layout-align="space-between center"
@@ -13,7 +24,7 @@
 		<md-tooltip
 				md-direction="right"
 				md-delay="800"
-		>offer is not enabled
+		>{{'offer_disabled' | translate}}
 		</md-tooltip>
 		<md-icon>lock</md-icon>
 	</md-button>
@@ -25,7 +36,7 @@
 		<md-tooltip
 				md-direction="right"
 				md-delay="800"
-		>offer is enabled
+		>{{'offer_enabled' | translate}}
 		</md-tooltip>
 		<md-icon>lock_open</md-icon>
 	</md-button>
@@ -44,7 +55,7 @@
 	<span ng-if="vm.providers.length > 1">
     <md-input-container class="md-block">
       <label>{{ 'Anbieter' | translate }}</label>
-      <md-select ng-model="vm.offer.ngo_id">
+      <md-select ng-model="vm.offer.ngo_id" md-on-close="vm.onProviderSelected">
         <md-option
 	        ng-repeat="ngo in vm.providers"
 	        ng-value="ngo.id"
@@ -74,6 +85,7 @@
 		>
 			<!-- details -->
 		  <offer-details></offer-details>
+
 			<div
 				layout="row"
 				layout-md="column"
@@ -135,9 +147,6 @@
 		layout="row"
 		layout-align="end center"
 	>
-		&nbsp;<md-icon>warning</md-icon>&nbsp;
-		<span translate="Alle angegebenen Daten werden veröffentlicht"></span>
-		<span flex></span>
 
 		<save
 			is-disabled="offerForm.$invalid || offerForm.$pristine"

@@ -260,6 +260,11 @@ class OfferFormController
 		this.$state.go( 'cms.offers' );
 	}
 
+	onProviderSelected()
+	{
+		this.$scope.offerForm.$setDirty();
+	}
+
 	// ------------------------------------------------------- //
 	// ------------------------------------------------------- //
 	// address

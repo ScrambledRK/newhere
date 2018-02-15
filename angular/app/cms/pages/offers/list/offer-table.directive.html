@@ -110,7 +110,7 @@
 						md-direction="right"
 						md-delay="800"
 					>
-						<small>link to frontend (ID: {{item.id}})</small>
+						<small>{{ 'offer_link_to' | translate | sprintf: item.id }}</small>
 					</md-tooltip>
 					<a href="{{vm.getURL(item,'frontend')}}">
 						<md-icon>insert_link</md-icon>
@@ -145,7 +145,7 @@
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>offer is not enabled
+					>{{'offer_disabled' | translate}}
 					</md-tooltip>
 					<md-icon>lock</md-icon>
 				</md-button>
@@ -158,7 +158,7 @@
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>offer is enabled
+					>{{'offer_enabled' | translate}}
 					</md-tooltip>
 					<md-icon>lock_open</md-icon>
 				</md-button>

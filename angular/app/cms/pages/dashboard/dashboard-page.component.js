@@ -21,6 +21,8 @@ class DashboardPageController
 		{
 			onUser();
 		} );
+
+		this._checkUser();
 	}
 
 	_checkUser()

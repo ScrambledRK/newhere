@@ -118,7 +118,7 @@
 						md-direction="right"
 						md-delay="800"
 					>
-						<small>link to frontend (ID: {{item.id}})</small>
+						<small>{{ 'provider_link_to' | translate | sprintf: item.id }}</small>
 					</md-tooltip>
 					<a href="{{vm.getURL(item,'frontend')}}">
 						<md-icon aria-label="">insert_link</md-icon>
@@ -153,7 +153,7 @@
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>provider is not enabled
+					>{{'provider_disabled' | translate}}
 					</md-tooltip>
 					<md-icon aria-label="">lock</md-icon>
 				</md-button>
@@ -166,7 +166,7 @@
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>provider is enabled
+					>{{'provider_enabled' | translate}}
 					</md-tooltip>
 					<md-icon aria-label="">lock_open</md-icon>
 				</md-button>
@@ -174,9 +174,21 @@
 
 			<!-- counts -->
 			<td md-cell>
+				<md-tooltip
+					md-direction="right"
+					md-delay="800"
+				>
+					<small>{{'provider_list_offers' | translate}}</small>
+				</md-tooltip>
 				<a href="{{vm.getURL(item,'offer')}}">{{item.offers_count}}</a>
 			</td>
 			<td md-cell>
+				<md-tooltip
+					md-direction="right"
+					md-delay="800"
+				>
+					<small>{{'provider_list_users' | translate}}</small>
+				</md-tooltip>
 				<a href="{{vm.getURL(item,'user')}}">{{item.users_count}}</a>
 			</td>
 

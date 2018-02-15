@@ -41,7 +41,7 @@
           role="alert"
         >
           <div ng-message-exp="['pattern']">
-            {{ 'the given email address should at least look valid' | translate }}
+            {{ 'form_error_mail' | translate }}
           </div>
         </div>
       </md-input-container>
@@ -66,7 +66,7 @@
           role="alert"
         >
           <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
-            {{ 'the given phone number should at least look valid' | translate }}
+            {{ 'form_error_phone' | translate }}
           </div>
         </div>
       </md-input-container>
@@ -92,7 +92,7 @@
           ng-messages="registerForm.password.$error"
           ng-show="registerForm.password.$dirty"
         >
-          <div ng-message="minlength">{{ 'Mindestens %d Zeichen' | translate |
+          <div ng-message="minlength">{{ 'form_error_password_length' | translate |
                                       sprintf: 5 }}
           </div>
         </div>
@@ -115,7 +115,7 @@
           ng-messages="registerForm.re_password.$error"
           ng-show="registerForm.re_password.$dirty"
         >
-          <div ng-message="compareTo">{{ 'Unterschiedliche Passwörter' | translate
+          <div ng-message="compareTo">{{ 'form_error_password_difference' | translate
                                       }}
           </div>
         </div>
@@ -130,8 +130,7 @@
         layout-padding
       >
         <div>
-          <p>Die angegebene Daten werden für interne administrative Tätigkeiten benötigt. Die Telefonnummer ist nur für Administratoren sichtbar.</p>
-        </div>
+          <p>{{ 'register_form_description_0' | translate }}</p></div>
         <div layout="row">
           <md-checkbox
             ng-model="vm.accept"
@@ -139,7 +138,7 @@
             aria-label="Nutzungsbedingungen akzeptieren"
           ></md-checkbox>
           <span style="margin-left:10px">
-						Hiermit bestätige ich, die <a href="/#!/page/impressum">AGBs bzw. Nutzungsbestimmungen</a> zu akzeptierten.
+						{{ 'register_form_agb_0' | translate }}<a href="/#!/page/impressum">{{ 'agb_btn' | translate }}</a> {{ 'register_form_agb_1' | translate }}
 					</span>
         </div>
       </div>

@@ -1,8 +1,7 @@
 <div>
-	<p>Hello!</p>
+	<p>{{ 'dashboard_0' | translate }}</p>
   <p ng-if="!vm.isElementVisible('pending-requests')">
-    this page might show changes since your last login in the future, right now it
-    is only useful to administrators.
+    {{ 'dashboard_1' | translate }}
   </p>
 </div>
 

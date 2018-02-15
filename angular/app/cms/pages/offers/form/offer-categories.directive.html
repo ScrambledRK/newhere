@@ -1,11 +1,17 @@
 <md-card>
-	<md-card-title>
-		<md-card-title-text>
-			<span class="md-headline">{{ 'Kategorien' | translate }}</span>
-			<span class="md-subhead">{{ '%d ausgewählt' | translate | sprintf: vm.offer.categories.length }}</span>
-		</md-card-title-text>
-	</md-card-title>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{ 'Kategorien' | translate }}</span>
+      <span class="md-subhead">{{ '%d ausgewählt' | translate | sprintf: vm.offer.categories.length }}</span>
+      <div style="margin-top: 12px">
+        <p>{{'offer_categories_description' | translate}}</p>
+      </div>
+    </md-card-title-text>
+  </md-card-title>
 
-	<category-selector ng-model="vm.offer.categories"></category-selector>
+  <category-selector
+    ng-model="vm.offer.categories"
+    style="padding: 8px"
+  ></category-selector>
 
 </md-card>

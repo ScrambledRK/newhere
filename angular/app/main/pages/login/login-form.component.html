@@ -76,7 +76,6 @@
   ng-if="vm.registerMail"
   style="margin-top: 32px;"
 >
-  <p>Sie haben eine Mail an ({{vm.registerMail}}) erhalten.</p>
-  <p>Folgen sie den Anweisungen der Mail um sich schließlich in das
-     Content-Managment-System einloggen zu können.</p>
+  <p>{{'login_form_register_0' | translate | sprintf: vm.registerMail}}</p>
+  <p>{{'login_form_register_1' | translate }}</p>
 </div>

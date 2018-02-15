@@ -35,7 +35,7 @@
 
       <md-card-title>
         <md-card-title-text>
-          <span class="md-headline">{{ 'Provider Information' | translate }}</span>
+          <span class="md-headline">{{ 'provider_form_title' | translate }}</span>
         </md-card-title-text>
       </md-card-title>
 
@@ -48,38 +48,36 @@
         <md-input-container
           class="md-block"
         >
-          <label>{{ 'Titel' | translate }}</label>
+          <label>{{ 'Titel' | translate }} <i>({{$root.language}})</i></label>
           <md-icon>title</md-icon>
           <div
             class="hint"
-            ng-show="(!vm.offer.organisation || vm.offer.organisation.length == 0) && (ngoForm.title.$pristine && ngoForm.title.$valid)"
-            ng-hide="!ngoForm.title.$valid && !ngoForm.title.$pristine"
-          >how would you name your provider?
+            ng-show="true"
+          >{{ 'provider_form_hint_title' | translate }}
           </div>
           <input
             name="title"
             ng-model="vm.offer.organisation"
             required
           >
-          <div
-            ng-messages="ngoForm.title.$error"
-            role="alert"
-          >
-            <div ng-message-exp="['required']">
-              {{ 'this field is required and must be filled' | translate }}
-            </div>
-          </div>
+          <!--<div-->
+            <!--ng-messages="ngoForm.title.$error"-->
+            <!--role="alert"-->
+          <!--&gt;-->
+            <!--<div ng-message-exp="['required']">-->
+              <!--{{ 'form_error_required' | translate }}-->
+            <!--</div>-->
+          <!--</div>-->
         </md-input-container>
 
         <!-- description -->
         <md-input-container class="md-block">
-          <label>{{ 'Beschreibung' | translate }}</label>
+          <label>{{ 'Beschreibung' | translate }} <i>({{$root.language}})</i></label>
           <md-icon>description</md-icon>
           <div
             class="hint"
-            ng-show="(!vm.offer.description || vm.offer.description.length == 0) && (ngoForm.description.$pristine && ngoForm.description.$valid)"
-            ng-hide="!ngoForm.description.$valid && !ngoForm.description.$pristine"
-          >what does your provider do?
+            ng-show="true"
+          >{{ 'provider_form_hint_description' | translate }}
           </div>
           <textarea
             name="description"
@@ -88,20 +86,19 @@
             md-maxlength="200"
             rows="3"
           ></textarea>
-          <div
-            ng-messages="ngoForm.description.$error"
-            role="alert"
-          >
-            <div ng-message-exp="['required']">
-              {{ 'this field is required and must be filled' | translate }}
-            </div>
-          </div>
+          <!--<div-->
+            <!--ng-messages="ngoForm.description.$error"-->
+            <!--role="alert"-->
+          <!--&gt;-->
+            <!--<div ng-message-exp="['required']">-->
+              <!--{{ 'form_error_required' | translate }}-->
+            <!--</div>-->
+          <!--</div>-->
         </md-input-container>
 
         <!-- website -->
         <md-input-container
           class="md-block"
-
         >
           <label>{{ 'Webseite' | translate }}</label>
           <md-icon>insert_link</md-icon>
@@ -109,7 +106,7 @@
             class="hint"
             ng-show="!vm.offer.website || vm.offer.website.length == 0 || ngoForm.website.$valid"
             ng-hide="!ngoForm.website.$valid"
-          >how can visitors contact your provider online?
+          >{{ 'provider_form_hint_website' | translate }}
           </div>
           <input
             name="website"
@@ -122,7 +119,7 @@
             role="alert"
           >
             <div ng-message-exp="['pattern']">
-              {{ 'the given web address should at least look valid' | translate }}
+              {{ 'form_error_website' | translate }}
             </div>
           </div>
         </md-input-container>
@@ -132,12 +129,12 @@
           class="md-block"
         >
           <label>{{ 'Kontakt' | translate }}</label>
-          <md-icon>group</md-icon>
+          <md-icon>face</md-icon>
           <div
             class="hint"
             ng-show="!vm.offer.contact || vm.offer.contact.length == 0 || ngoForm.contact.$valid"
             ng-hide="!ngoForm.contact.$valid"
-          >is there a contact-person visitors can refere to?
+          >{{ 'provider_form_hint_contact' | translate }}
           </div>
           <input
             name="contact"
@@ -153,7 +150,7 @@
             class="hint"
             ng-show="!vm.offer.contact_email || vm.offer.contact_email.length == 0 || ngoForm.email.$valid"
             ng-hide="!ngoForm.email.$valid"
-          >how can visitors contact your provider by mail?
+          >{{ 'provider_form_hint_mail' | translate }}
           </div>
           <input
             ng-model="vm.offer.contact_email"
@@ -166,7 +163,7 @@
             role="alert"
           >
             <div ng-message-exp="['pattern']">
-              {{ 'the given email address should at least look valid' | translate }}
+              {{ 'form_error_mail' | translate }}
             </div>
           </div>
         </md-input-container>
@@ -179,7 +176,7 @@
             class="hint"
             ng-show="!vm.offer.contact_phone || vm.offer.contact_phone.length == 0 || ngoForm.phone.$valid"
             ng-hide="!ngoForm.phone.$valid"
-          >how can visitors contact your provider by phone?
+          >{{ 'provider_form_hint_phone' | translate }}
           </div>
           <input
             ng-model="vm.offer.contact_phone"
@@ -194,7 +191,7 @@
             role="alert"
           >
             <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
-              {{ 'the given phone number should at least look valid' | translate }}
+              {{ 'form_error_phone' | translate }}
             </div>
           </div>
         </md-input-container>

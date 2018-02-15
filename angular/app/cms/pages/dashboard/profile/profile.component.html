@@ -58,11 +58,11 @@
         ng-cloak
         flex
       >
-        <strong>none</strong>
+        <strong>{{ 'none' | translate }}</strong>
         (<a
         style="cursor: hand"
         ng-click="vm.requestRole()"
-      ><em>become a translator</em>
+      ><em>{{ 'profile_role_join_0' | translate }}</em>
       </a>)
       </div>
     </div>
@@ -90,17 +90,17 @@
       <span
         ng-if="vm.UserService.isAdministrator()"
       >
-					<strong>none</strong> (<em>administrators cannot join providers</em>)
+					<strong>{{ 'none' | translate }}</strong> (<em>{{ 'profile_role_admin' | translate }}</em>)
 			</span>
 
       <span
         ng-if="!vm.UserService.isAdministrator() && vm.UserService.providers.length == 0"
         ng-cloak
       >
-					<strong>none</strong> (<a
+					<strong>{{ 'none' | translate }}</strong> (<a
         style="cursor: hand"
         ng-click="vm.requestRole()"
-      ><em>request to join/create provider</em></a>)
+      ><em>{{ 'profile_role_join_1' | translate }}</em></a>)
 			</span>
 
     </div>
@@ -115,9 +115,9 @@
   layout="column"
 >
   <div>
-    <p>below you see your open contribution requests</p>
-    <p>an administrator will review them shortly and might contact you in the process.</br>
-    once granted access you can start contributing</p>
+
+    <p>{{ 'pending_table_description_0' | translate }}</p>
+    <p>{{ 'pending_table_description_1' | translate }}</p>
   </div>
   <cms-request-table
     ng-model="vm.UserService.user.pendings"
@@ -146,9 +146,9 @@
   >
     <md-tooltip
       md-direction="left"
-    >join,create or leave a service provider; join or resign the translation team
+    >{{ 'request_profile_change_tooltip' | translate }}
     </md-tooltip>
-    request a profile change
+    {{ 'request_profile_change' | translate }}
   </md-button>
 
 
