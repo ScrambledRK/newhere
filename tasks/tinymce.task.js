@@ -67,6 +67,8 @@ Elixir.extend('tinymce', function( cssOutputFile, cssOutputFolder) {
 			"bower_components/tinymce/plugins/autolink/plugin.js",
 			"bower_components/tinymce/plugins/code/plugin.js",
 			"bower_components/tinymce/plugins/image/plugin.js",
+			"bower_components/tinymce/plugins/lists/plugin.js",
+			"bower_components/tinymce/plugins/preview/plugin.js",
 			"bower_components/tinymce/plugins/link/plugin.js"
 		], {
 			base: 'bower_components/tinymce/'

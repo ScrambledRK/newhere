@@ -41,9 +41,11 @@ class TinyMceController
 		if( !this.isAdmin )
 		{
 			this.options = {
-				plugins: 'link autolink code',
-				toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+				plugins: 'link autolink code lists preview',
+				toolbar: 'undo redo | bold italic | numlist bullist | alignleft aligncenter alignright | code',
 				content_css: $window.newhere.css,
+				branding: false,
+				height : "480",
 
 				link_list: linklist,
 				link_class_list: [
@@ -58,9 +60,11 @@ class TinyMceController
 		//
 		this.options = {
 
-			plugins: 'link autolink code image',
-			toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+			plugins: 'link autolink code image lists preview',
+			toolbar: 'undo redo | bold italic | numlist bullist | alignleft aligncenter alignright | code',
 			content_css: $window.newhere.css,
+			branding: false,
+			height : "680",
 
 			link_list: linklist,
 			link_class_list: [
