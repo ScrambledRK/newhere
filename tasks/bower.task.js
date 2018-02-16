@@ -40,7 +40,7 @@ Elixir.extend('bower', function(jsOutputFile, jsOutputFolder, cssOutputFile, css
 
 	//
 	new Task('bower-js', function() {
-		return gulp.src(mainBowerFiles())
+		return gulp.src(mainBowerFiles()) // { group 'main' }
 			.pipe(filter('**/*.js'))	
 			.pipe(concat(jsFile, {sourcesContent: Elixir.config.production}))
 			.pipe(gulpIf(Elixir.config.production, uglify()))

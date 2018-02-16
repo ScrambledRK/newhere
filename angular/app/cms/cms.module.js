@@ -55,6 +55,7 @@ import {CategoryFormComponent} from "./pages/category/category-form.component";
 import {TinyMceComponent} from "./components/tinymce/cms-tinymce.component";
 import {ProviderTasksComponent} from "./pages/dashboard/provider/provider-tasks.component";
 import {ProviderTasksTableDirective} from "./pages/dashboard/provider/provider-tasks-table.directive";
+import {FlowConfig} from "../../config/flow.config";
 //import {ResetpasswordFormComponent} from "../main/pages/login/resetpassword-form.component";
 
 // ------------------------------- //
@@ -65,7 +66,14 @@ angular.module( 'app.cms',
 	[
 		'ui.router',
 		'ui.router.state.events',
-		'ui.tinymce'
+		'ui.tinymce',
+
+		'md.data.table',
+		'ui.tree',
+		'dndLists',
+		'flow',
+		'mgo-angular-wizard',
+		'bw.paging',
 	] );
 
 // service
@@ -83,6 +91,7 @@ angular.module( 'app.cms' )
 // config
 angular.module( 'app.cms' )
 	.config( CmsRoutesConfig )
+	.config(FlowConfig)
 ;
 
 // directive

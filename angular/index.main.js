@@ -7,27 +7,20 @@ angular.module( 'app',
 		'app.main',
 		'app.cms',
 
-		'ui.tinymce',
 		'ui-leaflet',
 		'ui.router',
 		'ui.router.state.events',
-		'md.data.table',
+
 		'ngMaterial',
 		'angular-loading-bar',
 		'restangular',
 		'ngStorage',
 		'satellizer',
-		'ui.tree',
-		'dndLists',
 		'angular.filter',
-		'textAngular',
 		'ngSanitize',
-		'flow',
 		'ngMessages',
-		'mgo-angular-wizard',
-		'bw.paging',
+
 		'pascalprecht.translate',
-		'nemLogging',
 		'ngCookies',
 
 		'app.partials'  // ngHtml2Js module of converted html templates
@@ -120,7 +113,6 @@ angular.module( 'app' )
 
 import {MaterialConfig} from './config/material.config';
 import {TranslateConfig} from './config/translate.config';
-import {FlowConfig} from './config/flow.config';
 import {LoadingBarConfig} from './config/loading_bar.config';
 import {ThemeConfig} from './config/theme.config';
 import {SatellizerConfig} from './config/satellizer.config';
@@ -129,7 +121,6 @@ import {MaterialPlaceHolderDirective} from './config/placeholder.config';
 angular.module('app')
 	.config(MaterialConfig)
 	.config(TranslateConfig)
-	.config(FlowConfig)
 	.config(LoadingBarConfig)
 	.config(ThemeConfig)
 	.config(SatellizerConfig)
@@ -140,11 +131,13 @@ angular.module('app')
 // ETC
 // --------------------------------------------------- //
 
-angular.module('app').factory('missingTranslationHandler', function ()
+angular.module('app').factory('missingTranslationHandler', function (isFrontendDebug,$log)
 {
 	return function (translationID, uses)
 	{
-		console.warn("missing translation:", translationID, "| language-key:", uses );
+		if( isFrontendDebug )
+			$log.warn("missing translation:", translationID, "| language-key:", uses );
+
 		return translationID;
 	};
 });

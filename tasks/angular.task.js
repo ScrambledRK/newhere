@@ -21,7 +21,7 @@ Elixir.extend('angular', function(src, jsOutputFile, jsOutputFolder) {
 	var jsFile = jsOutputFile || 'app.js';
 
 	new Task('angular-webpack', function() {
-		return gulp.src([baseDir + "index.main.js", baseDir + "**/*.*.js"])	
+		return gulp.src([baseDir + "index.main.js", baseDir + "**/*.*.js"])
 			 .pipe(eslint())
 	         .pipe(eslint.format())
 			 .pipe(webpack(webpackConfig))
