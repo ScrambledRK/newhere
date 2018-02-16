@@ -24,9 +24,9 @@ return [
         'address'     => null,
 
         'logo'        => [
-            'path'   => '%PUBLIC%/img/newhere-logo.svg',
-            'width'  => '',
-            'height' => '',
+            'path'   => '%PUBLIC%/img/newhere-logo.png',
+            'width'  => '261',
+            'height' => '241',
         ],
 
         'twitter'  => null,
