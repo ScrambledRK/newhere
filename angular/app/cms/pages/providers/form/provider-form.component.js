@@ -5,6 +5,7 @@ class ProviderFormController
 				 ToastService,
 				 API,
 				 $timeout,
+				 $translate,
 				 $rootScope,
 	             $scope,
 	             $state )
@@ -20,6 +21,7 @@ class ProviderFormController
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 		this.$state = $state;
+		this.$translate = $translate;
 
 		//
 		this.offer = {
@@ -68,6 +70,16 @@ class ProviderFormController
 			onCheck();
 			onImage();
 		} );
+
+		// ------------------------------ //
+		// ------------------------------ //
+
+		this.label_checkbox_without_address = "without Address (only website)";
+
+		$translate( "provider_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
+		} );
 	}
 
 	//
@@ -80,10 +92,15 @@ class ProviderFormController
 	}
 
 	//
-	onLanguageChanged()
+	onLanguageChanged( )
 	{
 		if( this.offer.id )
 			this.fetchItem( this.offer.id );
+
+		this.$translate( "provider_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
+		} );
 	}
 
 	//

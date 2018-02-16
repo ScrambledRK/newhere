@@ -4,6 +4,7 @@ class OfferFormController
 	             $timeout,
 	             $scope,
 	             $rootScope,
+	             $translate,
 	             API,
 	             UserService,
 	             ToastService,
@@ -18,6 +19,7 @@ class OfferFormController
 		this.SearchService = SearchService;
 		this.MapService = MapService;
 		this.$timeout = $timeout;
+		this.$translate = $translate;
 		this.$scope = $scope;
 		this.$rootScope = $rootScope;
 		this.$state = $state;
@@ -59,6 +61,16 @@ class OfferFormController
 			onImage();
 			onLanguage();
 		} );
+
+		// ------------------------------ //
+		// ------------------------------ //
+
+		this.label_checkbox_without_address = "without Address (only website)";
+
+		$translate( "offer_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
+		} );
 	}
 
 	//
@@ -75,6 +87,11 @@ class OfferFormController
 	{
 		if( this.offer.id )
 			this.fetchItem( this.offer.id );
+
+		this.$translate( "offer_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
+		} );
 	}
 
 	//

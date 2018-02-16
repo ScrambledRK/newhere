@@ -12,7 +12,7 @@
         ng-false-value="false"
         ng-change="vm.onWithoutAddressChange()"
       >
-        {{ 'Angebot ohne Adresse (Website)' | translate }}
+        {{ vm.label_checkbox_without_address }}
       </md-checkbox>
     </div>
     <div ng-show="!vm.offer.isWithoutAddress">

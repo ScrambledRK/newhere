@@ -193,5 +193,10 @@
   "provider_link_to":"provider link for visitors (%s)",
   "offer_link_to":"offer link for visitors (%s)",
 
+  "offer_form_address_checkbox":"offer without address (only website)",
+  "offer_form_image_upload":"upload offer image",
+  "provider_form_address_checkbox":"provider without address (only website)",
+  "provider_form_image_upload":"upload provider logo",
+
   "": ""
 }

@@ -197,5 +197,10 @@
   "provider_link_to":"Link zu Anbieter für Besucher (%s)",
   "offer_link_to":"Link zu Angebot für Besucher (%s)",
 
+  "offer_form_address_checkbox":"Angebot ohne Adresse (nur Website)",
+  "offer_form_image_upload":"Bild zum Angebot hochladen",
+  "provider_form_address_checkbox":"Anbieter ohne Adresse (nur Website)",
+  "provider_form_image_upload":"Logo des Anbieter hochladen",
+
   "": ""
 }
