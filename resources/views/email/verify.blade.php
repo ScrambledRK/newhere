@@ -13,9 +13,14 @@
     ])
     @include('beautymail::templates.sunny.contentStart')
 
-        <p>Ein neuer User wurde für diese E-Mail registriert. Um den Account zu aktivieren, klicke auf den Link unten und melde dich an.</p>
+        <p> Bitte folge den unteren Link ('confirm my account') um deine
+Registrierung zu bestätigen. Dein Account wird daraufhin aktiviert und du
+kannst dich anschließend anmelden, einen Anbieter erstellen und Angebote
+hinzufügen oder Übersetzer werden.</p>
 
-        <p>We have just received n user registration for this email. To activate this account click the button below and login.</p>
+        <p>Please follow the link below to confirm your registration.
+    Your account will then be activated and you will be able to log in begin
+adding your provider and offers to the platform, or registering as a translator.</p>
 
     @include('beautymail::templates.sunny.contentEnd')
 
