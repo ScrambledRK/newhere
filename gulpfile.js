@@ -38,7 +38,7 @@ elixir(function(mix) {
         ];
 
     mix
-	  //  .clean()
+	    .clean()
         .bower()
         .angular('./angular/')
         .ngHtml2Js('./angular/**/*.html')

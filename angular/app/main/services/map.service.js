@@ -627,18 +627,29 @@ export class MapService
 	 */
 	zoomTo( offer )
 	{
-		if( offer && offer.latitude && offer.longitude )
+		console.log( "zoomTo:", offer );
+
+		//
+		// timeout seems necessary, works most of the time without, but sometimes ..
+		// switching from a zoomed offer to a null offer (say provider) it doesn't
+		// do anything ...
+		//
+		this.$timeout( () =>
 		{
-			this.center = {
-				lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
-				lng: parseFloat( offer.latitude ),
-				zoom: 16
-			};
-		}
-		else
-		{
-			this.center = this.fixCenter;
-		}
+			if( offer && offer.latitude && offer.longitude )
+			{
+				this.center = {
+					lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
+					lng: parseFloat( offer.latitude ),
+					zoom: 16
+				};
+			}
+			else
+			{
+				this.center = this.fixCenter;
+			}
+		}, 1, false );
+
 	}
 
 	// ----------------------------------------------------------------------------------- //

@@ -52,6 +52,46 @@
     "angular-ui-tinymce": "0.0.19",
     "tinymce": "4.6.0"
   },
+  "group": {
+    "main": [
+      "angular",
+      "angular-animate",
+      "angular-aria",
+      "angular-cookies",
+      "angular-filter",
+      "angular-loading-bar",
+      "angular-material",
+      "angular-messages",
+      "angular-sanitize",
+      "angular-translate",
+      "angular-translate-loader-static-files",
+      "angular-translate-storage-cookie",
+      "angular-translate-storage-local",
+      "angular-ui-router",
+      "bootstrap-css-only",
+      "font-awesome",
+      "leaflet",
+      "leaflet-fullscreen",
+      "leaflet-pulse-icon",
+      "leaflet.markercluster",
+      "ngstorage",
+      "restangular",
+      "satellizer",
+      "sprintf",
+      "ui-leaflet"
+    ],
+    "cms": [
+      "angular-drag-and-drop-lists",
+      "angular-material-data-table",
+      "angular-paging",
+      "angular-ui-tree",
+      "angular-wizard",
+      "flow.js",
+      "ng-flow",
+      "angular-ui-tinymce",
+      "tinymce"
+    ]
+  },
   "overrides": {
     "font-awesome": {
       "main": [

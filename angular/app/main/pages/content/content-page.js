@@ -98,8 +98,11 @@ class ContentPageController
 			}
 
 			//
-			this.$timeout( () => { this.MapService.invalidateSize(); }, 150, false );
-			this.$timeout( () => { this.MapService.invalidateSize(); }, 350, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 1, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 100, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 200, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 300, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 400, false );
 			this.$timeout( () => { this.MapService.invalidateSize(); }, 500, false );
 		}
 	}
