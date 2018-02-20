@@ -50,7 +50,7 @@ import {PageService} from "./services/page.service";
 import {PageTableDirective} from "./pages/pages/list/page-table.directive";
 import {PageListComponent} from "./pages/pages/list/page-list.component";
 import {PageFormComponent} from "./pages/pages/form/page-form.component";
-import {LanguageMenuComponent} from "./components/menu/cms-language-menu.component";
+import {LanguageMenuComponent} from "../main/components/language-switcher/language-menu.component";
 import {CategoryFormComponent} from "./pages/category/category-form.component";
 import {TinyMceComponent} from "./components/tinymce/cms-tinymce.component";
 import {ProviderTasksComponent} from "./pages/dashboard/provider/provider-tasks.component";

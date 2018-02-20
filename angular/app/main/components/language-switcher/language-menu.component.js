@@ -29,7 +29,7 @@ class LanguageMenuController
 }
 
 export const LanguageMenuComponent = {
-	template: require('./cms-language-menu.component.html'),
+	template: require('./language-menu.component.html'),
 	controller: LanguageMenuController,
 	controllerAs: 'vm',
 	bindings: {}

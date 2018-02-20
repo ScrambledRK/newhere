@@ -28,6 +28,7 @@ import {ResetpasswordFormComponent} from "./pages/login/resetpassword-form.compo
 import {CategoryTitleDirective} from "./directives/category-title.directive";
 import {CustomPageComponent} from "./pages/custom/custom-page.component";
 import {PayPalDonateComponent} from "./components/donate/paypal.component";
+import {LanguageMenuComponent} from "./components/language-switcher/language-menu.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -66,6 +67,7 @@ angular.module( 'app.main' )
 	.component( 'sideMenu', SideMenuComponent )
 	.component( 'loader', LoaderComponent )
 	.component( 'languageSwitcher', LanguageSwitcherComponent )
+	.component( 'languageMenu', LanguageMenuComponent )
 	.component( 'paypalDonate', PayPalDonateComponent )
 ;
 

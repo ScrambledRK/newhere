@@ -3,6 +3,7 @@
   layout="column"
   layout-align="center center"
   layout-margin
+  ng-if="vm.isDonateEnabled"
 >
 
   <form
@@ -18,7 +19,7 @@
     <input
       type="hidden"
       name="hosted_button_id"
-      value="V5KEAY8W275X8"
+      value="{{vm.paypalKey}}"
     >
     <input
       type="image"

@@ -19,8 +19,8 @@ kannst dich anschließend anmelden, einen Anbieter erstellen und Angebote
 hinzufügen oder Übersetzer werden.</p>
 
         <p>Please follow the link below to confirm your registration.
-    Your account will then be activated and you will be able to log in begin
-adding your provider and offers to the platform, or registering as a translator.</p>
+    Your account will then be activated and you will be able to log in, begin
+adding your provider and offers to the platform, or register as a translator.</p>
 
     @include('beautymail::templates.sunny.contentEnd')
 
@@ -35,7 +35,7 @@ adding your provider and offers to the platform, or registering as a translator.
 
 @section('footer')
 <p>Nähere Informationen und Rückfragen unter:<br>
-E-Mail: <a href="mailto:info@newhere.at">info@newhere.at</a></p>
+E-Mail: <a href="mailto:info@newhere.org">info@newhere.org</a></p>
 <p>
 © 2016 New Here
 </p>

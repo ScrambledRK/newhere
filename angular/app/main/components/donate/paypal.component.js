@@ -1,9 +1,13 @@
 class PayPalDonateController
 {
-	constructor()
+	constructor(isDonateEnabled,paypalKey)
 	{
 		'ngInject';
+
 		//
+		this.isDonateEnabled = isDonateEnabled;
+		this.paypalKey = paypalKey;
+
 	}
 }
 

@@ -28,6 +28,20 @@ class CustomPageController
 		//
 		if( $state.params.slug )
 			this.fetchItem( $state.params.slug );
+
+		// ------------------------------- //
+
+		//
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			if( this._slug )
+				this.fetchItem( this._slug );
+		} );
+
+		this.$scope.$on( '$destroy', () =>
+		{
+			onLanguage();
+		} );
 	}
 
 
@@ -35,6 +49,7 @@ class CustomPageController
 	fetchItem( slug )
 	{
 		this._isLoading = true;
+		this._slug = slug;
 
 		//
 		this.API.one( 'pages', slug ).get()
@@ -54,7 +69,6 @@ class CustomPageController
 	//
 	setPage( page )
 	{
-		//console.log("custom page jo: ", page );
 		this.page = page;
 
 		if( this.page )
