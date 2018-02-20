@@ -1,6 +1,7 @@
-<md-content
-    class="Page-container"
-    flex
+<div
+    layout="column"
+    class="Page-container custom-page-container"
+    layout-fill
 >
   <md-toolbar>
     <div
@@ -16,12 +17,17 @@
     </div>
   </md-toolbar>
 
-  <div
-      flex="80"
-      flex-offset="10"
+  <md-content
+    layout-align="center start"
+    layout="row"
+  >
+    <div
+
       layout-padding
       ng-bind-html="vm.page.content"
       class="custom-page-content"
-  >
-  </div>
-</md-content>
+    >
+    </div>
+  </md-content>
+
+</div>
