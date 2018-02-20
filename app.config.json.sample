@@ -2,11 +2,11 @@
   "development": {
     "isFrontendDebug": true,
     "isDonateEnabled":true,
-    "paypalKey":"V5KEAY8W275X8"
+    "paypalKey":"01234sandbox_key56789"
   },
   "production": {
     "isFrontendDebug": false,
     "isDonateEnabled":false,
-    "paypalKey":"5MEGM33GLVPBY"
+    "paypalKey":"01234actual_key56789"
   }
 }
