@@ -44,6 +44,7 @@ class TinyMceController
 				plugins: 'link autolink code lists preview',
 				toolbar: 'undo redo | bold italic | numlist bullist | alignleft aligncenter alignright | code',
 				content_css: $window.newhere.css,
+				body_class: 'custom-page-content',
 				branding: false,
 				height : "480",
 
@@ -63,6 +64,7 @@ class TinyMceController
 			plugins: 'link autolink code image lists preview',
 			toolbar: 'undo redo | bold italic | numlist bullist | alignleft aligncenter alignright | code',
 			content_css: $window.newhere.css,
+			body_class: 'custom-page-content',
 			branding: false,
 			height : "680",
 

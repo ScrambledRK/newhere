@@ -14,16 +14,46 @@
   padding:        4px;
   font-family:    'Material Icons', serif;
   content:        'file_download';
-  max-height: 24px;
+  max-height:     24px;
 }
 
 .btn-download:hover
 {
   background-color: rgba(158, 158, 158, 0.2);
-  text-decoration: none;
+  text-decoration:  none;
 }
 
 body
 {
   font-family: 'Lato', sans-serif;
+}
+
+.custom-page-content
+{
+  max-width: 650px;
+  width:     650px;
+  padding: 8px;
+
+  > ul
+  {
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+
+    > li
+    {
+      padding-bottom: 6px;
+    }
+  }
+
+  //> h1, h2, h3, h4, h5, h6 {
+  //  margin-bottom: 0;
+  //}
+}
+
+.mce-content-body p
+{
+  line-height: unset;
 }
