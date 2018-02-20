@@ -44,7 +44,32 @@ class LocatorController
 		//
 		return this.SearchService.searchOffers( search ).then( (response) =>
 		{
-			return response;
+			let result = [];
+
+			//
+			angular.forEach( response.data.r_providers, ( provider, key ) =>
+			{
+				provider.type = "provider";
+				provider.title = provider.organisation;
+
+				result.push( provider );
+			} );
+
+			//
+			angular.forEach( response.data.r_categories, ( category, key ) =>
+			{
+				category.type = "category";
+				result.push( category );
+			} );
+
+			//
+			angular.forEach( response.data.r_offers, ( offer, key ) =>
+			{
+				offer.type = "offer";
+				result.push( offer );
+			} );
+
+			return result;
 		} );
 	}
 
@@ -54,10 +79,24 @@ class LocatorController
 	 */
 	onItemSelect( item )
 	{
-		//console.log("locator.item.select",item);
+		if( !item )
+			return;
 
-		if( item )
-			this.RoutingService.goContent( '', item.id )
+		if( item.type === 'offer' )
+		{
+			let cat = '';
+
+			if( item.categories && item.categories.length > 0 )
+				cat = item.categories[0].slug;
+
+			this.RoutingService.goContent( cat, item.id );
+		}
+
+		if( item.type === 'category' )
+			this.RoutingService.goContent( item.slug, null );
+
+		if( item.type === 'provider' )
+			this.RoutingService.goProvider( item.id );
 	}
 }
 

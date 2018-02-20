@@ -612,11 +612,10 @@ export class MapService
 	 */
 	invalidateSize()
 	{
-		console.log( "map.service invalidate size - request" );
+		//console.log( "map.service invalidate size - request" );
 
 		this.leafletData.getMap( 'nhMap' ).then( ( map ) =>
 		{
-			console.log( "map.service invalidate size" );
 			map.invalidateSize();
 		} );
 	}

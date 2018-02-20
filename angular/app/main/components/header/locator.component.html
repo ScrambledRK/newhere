@@ -1,57 +1,76 @@
 <div
-	layout="row"
-	flex
+  layout="row"
+  flex
 >
-	<md-icon aria-label="" style="padding-left: 4px; margin-right: 4px">place</md-icon>
-	<md-input-container
-		flex
-		md-no-float
-		class="md-primary md-block no-error no-margin"
-	>
+  <md-icon
+    aria-label=""
+    style="padding-left: 4px; margin-right: 4px"
+  >place
+  </md-icon>
+  <md-input-container
+    flex
+    md-no-float
+    class="md-primary md-block no-error no-margin"
+  >
 
-		<md-autocomplete
-			md-search-text="vm.searchText"
-			md-items="item in vm.search(vm.searchText)"
-			md-item-text="item.title"
-			md-min-length="3"
-			md-delay="250"
-			md-no-cache="true"
-			placeholder="nach einem Ort suchen"
-			md-menu-class="autocomplete-custom-template"
-			md-selected-item-change="vm.onItemSelect(item)"
-		>
-			<md-item-template>
-                <span class="item-title">
-                    <md-icon aria-label="" ng-if="item.street">place</md-icon>
-                    <md-icon aria-label="" ng-if="!item.street">insert_link</md-icon>
-                    <strong>
-                        {{item.title}}
-                    </strong>
-                </span>
-				<span
-					class="item-description"
-					md-highlight-text="vm.searchText"
-					md-highlight-flags="i"
-					ng-if="item.street != null && item.zip != null"
-				>{{item.street}}
-                    {{item.streetnumer}},
-                    {{item.zip}}
-                    {{item.city}}</span>
-				<span
-					class="item-description"
-					ng-if="item.street == null || item.zip == null"
-				>{{item.website}}</span>
-			</md-item-template>
-			<md-not-found>
-				<span translate="Keine Adressen/Angebote gefunden"></span>
-			</md-not-found>
-		</md-autocomplete>
+    <md-autocomplete
+      md-search-text="vm.searchText"
+      md-items="item in vm.search(vm.searchText)"
+      md-item-text="item.title"
+      md-min-length="3"
+      md-delay="500"
+      md-no-cache="true"
+      placeholder="nach einem Ort suchen"
+      md-menu-class="autocomplete-custom-template"
+      md-selected-item-change="vm.onItemSelect(item)"
+    >
+      <md-item-template>
 
-	</md-input-container>
-	<md-button
-		ng-click="vm.locateMe()"
-		class="md-icon-button md-primary"
-	>
-		<md-icon aria-label="">my_location</md-icon>
-	</md-button>
+        <!-- header -->
+        <span class="item-title">
+            <md-icon
+              aria-label=""
+              ng-if="item.street && item.type == 'offer'"
+            >place</md-icon>
+            <md-icon
+              aria-label=""
+              ng-if="!item.street && item.type == 'offer'"
+            >insert_link</md-icon>
+           <md-icon
+             aria-label=""
+             ng-if="item.type == 'provider'"
+           >business</md-icon>
+           <md-icon
+             aria-label=""
+             ng-if="item.type == 'category'"
+           >list</md-icon>
+            <strong>
+                {{item.title}}
+            </strong>
+        </span>
+
+        <!-- description -->
+        <span
+          class="item-description"
+          md-highlight-text="vm.searchText"
+          md-highlight-flags="i"
+          ng-if="item.description != null"
+        >
+          {{item.description}}
+        </span>
+
+      </md-item-template>
+
+      <md-not-found>
+        <span translate="Keine Adressen/Angebote gefunden"></span>
+      </md-not-found>
+    </md-autocomplete>
+
+  </md-input-container>
+  <md-button
+    ng-click="vm.locateMe()"
+    class="md-icon-button md-primary"
+  >
+    <md-icon aria-label="">my_location</md-icon>
+  </md-button>
 </div>
