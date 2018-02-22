@@ -35,7 +35,7 @@ export class ContentService
 		//
 		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
 		{
-			this.onStateChanged( fromState, toState, toParams );
+			this.onStateChanged( fromState, toState, fromParams, toParams );
 		} );
 
 		// --------------------------- //
@@ -59,7 +59,7 @@ export class ContentService
 		this.slugOffer = null;
 
 		//
-		this.onStateChanged( this.$state, this.$state, this.$state.params );
+		this.onStateChanged( this.$state, this.$state, this.$state.params, this.$state.params );
 	}
 
 	/**
@@ -80,16 +80,24 @@ export class ContentService
 	 * @param toState
 	 * @param toParams
 	 */
-	onStateChanged( fromState, toState, toParams )
+	onStateChanged( fromState, toState, fromParams, toParams )
 	{
+		console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
+
+		//
 		let paramCategory = toParams.category;
 		let paramProvider = toParams.provider;
 		let paramOffer = toParams.offer;
 
-		if( toState.name === "main.content.offers" )
+		if( toState.name === "main.content.offers" || (!toState.name && (paramCategory || paramOffer)))
 		{
 			if( toState.name !== fromState.name )
+			{
 				this.slugProvider = null;
+
+				if( fromParams.provider && paramOffer )
+					paramCategory = 'providers';
+			}
 
 			paramProvider = null;
 
@@ -97,17 +105,20 @@ export class ContentService
 				console.error( "content.toState requires category parameter to be set" );
 		}
 
-		if( toState.name === "main.content.providers" )
+		if( toState.name === "main.content.providers" || (!toState.name && paramProvider))
 		{
 			if( toState.name !== fromState.name )
-				this.slugCategory = this.slugOffer = null;
+				this.slugOffer = null;
 
-			paramCategory = null;
 			paramOffer = null;
+			paramCategory = 'providers';
 
 			if( !paramProvider )
 				console.error( "content.toState requires provider parameter to be set" );
 		}
+
+		//if( paramProvider === 'all' )
+		//	paramCategory = 'providers';
 
 		//
 		this.fetchContent(
@@ -130,6 +141,10 @@ export class ContentService
 	 */
 	fetchContent( slugCategory, slugProvider, slugOffer, force )
 	{
+		console.log("fetchContent", slugCategory, slugProvider, slugOffer, force );
+		console.log( "           ", this.slugCategory, this.slugProvider, this.slugOffer );
+
+		//
 		this.$rootScope.isLoading = true;
 
 		//
@@ -152,7 +167,7 @@ export class ContentService
 		this.$q.all( [categoryPromise, providerPromise, offerPromise] )
 			.then( () =>
 				{
-					//console.log( "fetch content complete" );
+					console.log( "fetchContent complete" );
 
 					this.defer = null;
 
@@ -208,7 +223,7 @@ export class ContentService
 	 */
 	fetchCategory( slugCategory, config, force )
 	{
-		//console.log( "fetching categories: ", slugCategory );
+		console.log( "fetchCategory", slugCategory, force );
 
 		if( !slugCategory )
 			return this.$q.when();
@@ -231,6 +246,8 @@ export class ContentService
 		return this.API.one( "categories", this.slugCategory ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
+					console.log( "fetchCategory complete", response );
+
 					if( !response.length )
 						return;
 
@@ -239,6 +256,15 @@ export class ContentService
 					this.categoryList = this.category.children;
 					this.offerList = this.category.offers;
 					this.markerList = this.category.offers;
+
+					//
+					if( this.slugCategory === 'providers' )
+					{
+						this.$translate( "Anbieter" ).then( ( msg ) =>
+						{
+							this.category.title =  msg;
+						} );
+					}
 
 					//
 					for( let j = 1; j < response.length; j++ )
@@ -267,6 +293,8 @@ export class ContentService
 	 */
 	fetchProvider( slugProvider, config, force )
 	{
+		console.log( "fetchProvider", slugProvider, force );
+
 		if( !slugProvider )
 		{
 			this.provider = null;
@@ -297,11 +325,14 @@ export class ContentService
 		return this.API.all( "providers" ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 				{
+					console.log("fetchProviderList complete", response );
+
 					if( !response.length )
 						return;
 
 					//
 					this.providerList = response;
+					this.provider = null;
 				},
 				( msg ) =>
 				{
@@ -320,6 +351,8 @@ export class ContentService
 		return this.API.one( "providers", this.slugProvider ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
+					console.log("fetchProviderDetail complete", response );
+
 					this.provider = response;
 					this.offerList = this.provider.offers;
 					this.markerList = this.provider.offers;
@@ -344,7 +377,7 @@ export class ContentService
 	 */
 	fetchOffer( slugOffer, config, force )
 	{
-		//console.log( "fetching offer: ", slugOffer );
+		console.log( "fetchOffer", slugOffer, force );
 
 		//
 		if( !slugOffer )
@@ -364,6 +397,7 @@ export class ContentService
 		return this.API.one( "offers", this.slugOffer ).withHttpConfig( config ).get()
 			.then( ( response ) =>
 				{
+					console.log("fetchOffer complete", response );
 					this.offer = response;
 				},
 				( msg ) =>

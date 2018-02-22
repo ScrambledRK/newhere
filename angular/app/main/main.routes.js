@@ -139,7 +139,7 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 				views:
 					{
 						'navigation@main.content': {
-							template: ""
+							template: "<toolbar></toolbar>"
 						},
 
 						'content@main.content': {

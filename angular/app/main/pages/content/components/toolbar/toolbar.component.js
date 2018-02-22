@@ -133,16 +133,27 @@ class ToolbarController
 	//
 	goCategory( category )
 	{
-		this.RoutingService.goContent( category.slug, null );
+		if( category.slug === 'providers' )
+		{
+			this.RoutingService.goProvider( 'all' );
+		}
+		else
+		{
+			this.RoutingService.goContent( category.slug, null );
+		}
 	}
 
 	//
 	goDetail( item )
 	{
 		if( item.isOffer )
+		{
 			this.RoutingService.goContent( this.ContentService.category.slug, item.id );
-
-		this.RoutingService.goProvider( item.id );
+		}
+		else
+		{
+			this.RoutingService.goProvider( item.id );
+		}
 	}
 
 	//
@@ -151,12 +162,23 @@ class ToolbarController
 		if( type === "detail" )
 		{
 			if( item.isOffer )
+			{
 				return this.RoutingService.getContentURL( this.ContentService.category.slug, item.id );
-
-			return this.RoutingService.getProviderURL( item.id );
+			}
+			else
+			{
+				return this.RoutingService.getProviderURL( item.id );
+			}
 		}
 
-		return this.RoutingService.getContentURL( item.slug, null );
+		if( item.slug === 'providers' )
+		{
+			return this.RoutingService.getProviderURL( 'all' );
+		}
+		else
+		{
+			return this.RoutingService.getContentURL( item.slug, null );
+		}
 	}
 
 	//

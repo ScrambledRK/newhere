@@ -101,7 +101,7 @@ export class RoutingService
 
 		//
 		this.$state.go( 'main.content.providers', params, config );
-		this.updateState( provider ); // in case state does not change, reset still
+		this.updateState( provider === 'all' ? null : provider ); // in case state does not change, reset still
 
 		return true;
 	}
@@ -113,7 +113,7 @@ export class RoutingService
 	updateStateParams( params )
 	{
 		let hasOffer = Boolean(params.offer && params.offer !== '');
-		let hasProvider = Boolean(params.provider && params.provider !== '');
+		let hasProvider = Boolean(params.provider && params.provider !== '' && params.provider !== 'all');
 
 		if( !hasOffer && !hasProvider )
 			this.updateState( null );
