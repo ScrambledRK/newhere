@@ -58,7 +58,7 @@ class CategoryListController
 		}
 		else
 		{
-			this.RoutingService.goContent( category.slug, null );
+			this.RoutingService.goContent( category, null );
 		}
 	}
 
@@ -71,7 +71,7 @@ class CategoryListController
 		}
 		else
 		{
-			return this.RoutingService.getContentURL( category.slug, null );
+			return this.RoutingService.getContentURL( category, null );
 		}
 	}
 

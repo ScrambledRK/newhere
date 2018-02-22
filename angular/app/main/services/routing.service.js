@@ -26,36 +26,55 @@ export class RoutingService
 
 	/**
 	 *
-	 * @param {string} category
+	 * @param {object} category
 	 * @param {string} offer
 	 * @return {string}
 	 */
 	getContentURL( category, offer )
 	{
-		let urlCategory = "start";
+		let urlCategory = this._generateCategoryURL( category );
 		let urlOffer = "";
 
-		if( category && category !== "" )
-			urlCategory = category;
-
-		if( offer && category !== "" )
+		if( offer && category )
 			urlOffer = offer;
 
 		return "#!/offers/" + urlCategory + "/" + urlOffer;
 	}
 
+	_generateCategoryURL( category )
+	{
+		if( !category )
+			return "start";
+
+		//
+		let urlCategory = "";
+
+		while( category )
+		{
+			let slug = category.slug;
+
+			if( urlCategory !== '' )
+				slug += ",";
+
+			urlCategory = slug + urlCategory;
+			category = category.parent;
+		}
+
+		return urlCategory;
+	}
+
 	/**
 	 *
-	 * @param {string} category
+	 * @param {object} category
 	 * @param {string} offer
 	 */
 	goContent( category, offer )
 	{
-		//console.log( "routing.go.content: ", category, offer );
+		console.log( "routing.go.content: ", category, offer );
 
 		//
 		let params = {
-			category: category,
+			category: this._generateCategoryURL( category ),
 			offer: offer
 		};
 

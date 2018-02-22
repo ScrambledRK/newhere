@@ -9,6 +9,7 @@ class SideMenuController
 	constructor( $mdSidenav,
 	             $state,
 	             $auth,
+	             RoutingService,
 	             ToastService )
 	{
 		'ngInject';
@@ -19,6 +20,7 @@ class SideMenuController
 		this.$auth = $auth;
 
 		this.ToastService = ToastService;
+		this.RoutingService = RoutingService;
 	}
 
 	//
@@ -40,6 +42,32 @@ class SideMenuController
 	isAuthenticated()
 	{
 		return this.$auth.isAuthenticated();
+	}
+
+	//
+	getURL( type )
+	{
+		if( type === 'provider' )
+		{
+			return this.RoutingService.getProviderURL( 'all' );
+		}
+		else
+		{
+			return this.RoutingService.getContentURL( null, null );
+		}
+	}
+
+	//
+	goURL( type )
+	{
+		if( type === 'provider' )
+		{
+			this.RoutingService.goProvider( 'all' );
+		}
+		else
+		{
+			this.RoutingService.goContent( null, null );
+		}
 	}
 }
 

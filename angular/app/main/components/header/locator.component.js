@@ -84,16 +84,16 @@ class LocatorController
 
 		if( item.type === 'offer' )
 		{
-			let cat = '';
+			let cat = null;
 
 			if( item.categories && item.categories.length > 0 )
-				cat = item.categories[0].slug;
+				cat = item.categories[0];
 
 			this.RoutingService.goContent( cat, item.id );
 		}
 
 		if( item.type === 'category' )
-			this.RoutingService.goContent( item.slug, null );
+			this.RoutingService.goContent( item, null );
 
 		if( item.type === 'provider' )
 			this.RoutingService.goProvider( item.id );

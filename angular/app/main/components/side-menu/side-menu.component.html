@@ -57,7 +57,8 @@
 			<md-list-item>
 				<md-button
 					class=""
-					ui-sref="main.content.providers"
+					ng-click="vm.goURL('provider')"
+					href="{{vm.getURL('provider')}}"
 					aria-label="providers"
 					translate="Alle Anbieter"
 				>
@@ -66,7 +67,8 @@
 			<md-list-item>
 				<md-button
 					class=""
-					ui-sref="main.content.offers"
+					ng-click="vm.goURL('offer')"
+					href="{{vm.getURL('offer')}}"
 					aria-label="providers"
 					translate="Alle Angebote"
 				>

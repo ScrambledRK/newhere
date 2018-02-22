@@ -58,13 +58,13 @@ class OfferListController
 	//
 	goOffer( offer )
 	{
-		this.RoutingService.goContent( this.ContentService.category.slug, offer.id );
+		this.RoutingService.goContent( this.ContentService.category, offer.id );
 	}
 
 	//
 	getURL( offer )
 	{
-		return this.RoutingService.getContentURL( this.ContentService.category.slug, offer.id );
+		return this.RoutingService.getContentURL( this.ContentService.category, offer.id );
 	}
 }
 

@@ -139,7 +139,7 @@ class ToolbarController
 		}
 		else
 		{
-			this.RoutingService.goContent( category.slug, null );
+			this.RoutingService.goContent( category, null );
 		}
 	}
 
@@ -148,7 +148,7 @@ class ToolbarController
 	{
 		if( item.isOffer )
 		{
-			this.RoutingService.goContent( this.ContentService.category.slug, item.id );
+			this.RoutingService.goContent( this.ContentService.category, item.id );
 		}
 		else
 		{
@@ -163,7 +163,7 @@ class ToolbarController
 		{
 			if( item.isOffer )
 			{
-				return this.RoutingService.getContentURL( this.ContentService.category.slug, item.id );
+				return this.RoutingService.getContentURL( this.ContentService.category, item.id );
 			}
 			else
 			{
@@ -177,7 +177,7 @@ class ToolbarController
 		}
 		else
 		{
-			return this.RoutingService.getContentURL( item.slug, null );
+			return this.RoutingService.getContentURL( item, null );
 		}
 	}
 
@@ -187,7 +187,7 @@ class ToolbarController
 		if( this.detail && this.categories.length === 0 )
 		{
 			if( this.detail.isOffer )
-				return this.RoutingService.goContent( this.ContentService.category.slug, null );
+				return this.RoutingService.goContent( this.ContentService.category, null );
 
 			return this.RoutingService.goProvider( "" );
 		}
@@ -196,10 +196,10 @@ class ToolbarController
 		let item = this.categories[index].parent;
 
 		if( item )
-			return this.RoutingService.goContent( item.slug, null );
+			return this.RoutingService.goContent( item, null );
 
 		//
-		return this.RoutingService.goContent( "", null );
+		return this.RoutingService.goContent( null, null );
 	}
 
 	//
@@ -208,7 +208,7 @@ class ToolbarController
 		if( this.detail && this.categories.length === 0 )
 		{
 			if( this.detail.isOffer )
-				return this.RoutingService.getContentURL( this.ContentService.category.slug, null );
+				return this.RoutingService.getContentURL( this.ContentService.category, null );
 
 			return this.RoutingService.getProviderURL( "" );
 		}
@@ -218,10 +218,10 @@ class ToolbarController
 		let item = this.categories[index].parent;
 
 		if( item )
-			return this.RoutingService.getContentURL( item.slug, null );
+			return this.RoutingService.getContentURL( item, null );
 
 		//
-		return this.RoutingService.getContentURL( "", null );
+		return this.RoutingService.getContentURL( null, null );
 	}
 }
 

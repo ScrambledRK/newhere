@@ -58,7 +58,7 @@ class MapController
 	 */
 	goOffer( offer )
 	{
-		this.RoutingService.goContent( this.getCurrentCategory().slug, offer.offer_id );
+		this.RoutingService.goContent( this.getCurrentCategory(), offer.offer_id );
 	}
 }
 

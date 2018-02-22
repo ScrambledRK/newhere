@@ -82,7 +82,7 @@ export class ContentService
 	 */
 	onStateChanged( fromState, toState, fromParams, toParams )
 	{
-		console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
+		//console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
 
 		//
 		let paramCategory = toParams.category;
@@ -141,8 +141,8 @@ export class ContentService
 	 */
 	fetchContent( slugCategory, slugProvider, slugOffer, force )
 	{
-		console.log("fetchContent", slugCategory, slugProvider, slugOffer, force );
-		console.log( "           ", this.slugCategory, this.slugProvider, this.slugOffer );
+		//console.log("fetchContent", slugCategory, slugProvider, slugOffer, force );
+		//console.log( "           ", this.slugCategory, this.slugProvider, this.slugOffer );
 
 		//
 		this.$rootScope.isLoading = true;
@@ -167,7 +167,7 @@ export class ContentService
 		this.$q.all( [categoryPromise, providerPromise, offerPromise] )
 			.then( () =>
 				{
-					console.log( "fetchContent complete" );
+					//console.log( "fetchContent complete" );
 
 					this.defer = null;
 
@@ -243,7 +243,10 @@ export class ContentService
 		};
 
 		//
-		return this.API.one( "categories", this.slugCategory ).withHttpConfig( config ).get( query )
+		let slug = this.slugCategory.split(",").pop();
+
+		//
+		return this.API.one( "categories", slug ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
 					console.log( "fetchCategory complete", response );
@@ -258,13 +261,10 @@ export class ContentService
 					this.markerList = this.category.offers;
 
 					//
-					if( this.slugCategory === 'providers' )
+					angular.forEach( this.categoryList, ( child, key ) =>
 					{
-						this.$translate( "Anbieter" ).then( ( msg ) =>
-						{
-							this.category.title =  msg;
-						} );
-					}
+						child.parent = this.category;
+					} );
 
 					//
 					for( let j = 1; j < response.length; j++ )
@@ -293,7 +293,7 @@ export class ContentService
 	 */
 	fetchProvider( slugProvider, config, force )
 	{
-		console.log( "fetchProvider", slugProvider, force );
+		//console.log( "fetchProvider", slugProvider, force );
 
 		if( !slugProvider )
 		{
@@ -325,7 +325,7 @@ export class ContentService
 		return this.API.all( "providers" ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 				{
-					console.log("fetchProviderList complete", response );
+					//console.log("fetchProviderList complete", response );
 
 					if( !response.length )
 						return;
@@ -351,7 +351,7 @@ export class ContentService
 		return this.API.one( "providers", this.slugProvider ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
-					console.log("fetchProviderDetail complete", response );
+					//console.log("fetchProviderDetail complete", response );
 
 					this.provider = response;
 					this.offerList = this.provider.offers;
@@ -377,7 +377,7 @@ export class ContentService
 	 */
 	fetchOffer( slugOffer, config, force )
 	{
-		console.log( "fetchOffer", slugOffer, force );
+		//console.log( "fetchOffer", slugOffer, force );
 
 		//
 		if( !slugOffer )
@@ -397,7 +397,7 @@ export class ContentService
 		return this.API.one( "offers", this.slugOffer ).withHttpConfig( config ).get()
 			.then( ( response ) =>
 				{
-					console.log("fetchOffer complete", response );
+					//console.log("fetchOffer complete", response );
 					this.offer = response;
 				},
 				( msg ) =>

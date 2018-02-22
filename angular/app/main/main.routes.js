@@ -92,7 +92,7 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'main.content.offers',
 			{
-				url: '/offers/{category:[a-zA-Z0-9\-]+}/{offer:[0-9]*}',
+				url: '/offers/{category:[a-zA-Z0-9\-\,]+}/{offer:[0-9]*}',
 
 				params:
 					{
