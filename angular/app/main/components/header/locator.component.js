@@ -49,6 +49,14 @@ class LocatorController
 			//
 			angular.forEach( response.data.r_providers, ( provider, key ) =>
 			{
+				let split = provider.organisation.split("");
+
+				while( split[split.length -1] === '*' )
+					split.pop();
+
+				provider.organisation = split.join('');
+
+				//
 				provider.type = "provider";
 				provider.title = provider.organisation;
 

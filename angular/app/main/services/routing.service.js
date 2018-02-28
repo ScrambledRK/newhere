@@ -3,14 +3,17 @@ export class RoutingService
 	/**
 	 * @param {*} $state
 	 * @param {*} $rootScope
+	 * @param {*} ContentService
 	 */
 	constructor( $state,
-	             $rootScope )
+	             $rootScope,
+	             ContentService )
 	{
 		'ngInject';
 
 		this.$state = $state;
 		this.$rootScope = $rootScope;
+		this.ContentService = ContentService;
 
 		//
 		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
@@ -49,6 +52,13 @@ export class RoutingService
 		//
 		let urlCategory = "";
 
+		if( category.slug === 'providers' )
+		{
+			if( this.ContentService.provider !== null )
+				urlCategory = this.ContentService.provider.id + "";
+		}
+
+		//
 		while( category )
 		{
 			let slug = category.slug;

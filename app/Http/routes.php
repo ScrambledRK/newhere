@@ -94,6 +94,7 @@ groupAuthenticated( $api, function( $api )
 groupEveryone( $api, function( $api )
 {
     $api->get( 'categories', 'Main\CategoryController@index' );
+    $api->get( 'categories/all', 'Main\CategoryController@trace' );
     $api->get( 'categories/{slug}', 'Main\CategoryController@bySlug' );
 } );
 

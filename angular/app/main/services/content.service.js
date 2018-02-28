@@ -48,6 +48,7 @@ export class ContentService
 		this.provider = null;
 		this.offer = null;
 
+		this.categoryTree = null;
 		this.categoryList = null;
 		this.providerList = null;
 		this.offerList = null;
@@ -82,7 +83,7 @@ export class ContentService
 	 */
 	onStateChanged( fromState, toState, fromParams, toParams )
 	{
-		//console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
+		console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
 
 		//
 		let paramCategory = toParams.category;
@@ -92,20 +93,28 @@ export class ContentService
 		if( toState.name === "main.content.offers" || (!toState.name && (paramCategory || paramOffer)))
 		{
 			if( toState.name !== fromState.name )
-			{
 				this.slugProvider = null;
 
-				if( fromParams.provider && paramOffer )
-					paramCategory = 'providers';
-			}
-
+			//
 			paramProvider = null;
 
+			// {#: null, category: "start,providers,239", offer: "14"}
+			if( toParams.category )
+			{
+				let split = toParams.category.split(",");
+
+				if( split.length === 3 && split[0] === 'start' && split[1] === 'providers' )
+				{
+					paramProvider = split[2];
+					paramCategory = 'providers';
+				}
+			}
+
+			//
 			if( !paramCategory || paramCategory === "" )
 				console.error( "content.toState requires category parameter to be set" );
 		}
-
-		if( toState.name === "main.content.providers" || (!toState.name && paramProvider))
+		else if( toState.name === "main.content.providers" || (!toState.name && paramProvider))
 		{
 			if( toState.name !== fromState.name )
 				this.slugOffer = null;
@@ -160,26 +169,35 @@ export class ContentService
 
 		// ------------- //
 
-		let categoryPromise = this.fetchCategory( slugCategory, config, force );
-		let providerPromise = this.fetchProvider( slugProvider, config, force );
-		let offerPromise = this.fetchOffer( slugOffer, config, force );
+		let catTreePromise = this.fetchCategoryTree( config, force );
 
-		this.$q.all( [categoryPromise, providerPromise, offerPromise] )
-			.then( () =>
-				{
-					//console.log( "fetchContent complete" );
+		catTreePromise.then( () =>
+		{
+			let categoryPromise = this.fetchCategory( slugCategory, config, force );
 
-					this.defer = null;
+			categoryPromise.then( () =>
+			{
+				let providerPromise = this.fetchProvider( slugProvider, config, force );
+				let offerPromise = this.fetchOffer( slugOffer, config, force );
 
-					this.$rootScope.isLoading = false;
-					this.$rootScope.$broadcast( 'contentChanged', this );
+				this.$q.all( [providerPromise, offerPromise] )
+					.then( () =>
+						{
+							//console.log( "fetchContent complete" );
 
-					this._setDocumentTitle();
-				},
-				( msg ) =>
-				{
-					//console.log( "fetch content canceled/error", msg );
-				} );
+							this.defer = null;
+
+							this.$rootScope.isLoading = false;
+							this.$rootScope.$broadcast( 'contentChanged', this );
+
+							this._setDocumentTitle();
+						},
+						( msg ) =>
+						{
+							//console.log( "fetch content canceled/error", msg );
+						} );
+			} );
+		});
 	}
 
 	_setDocumentTitle()
@@ -212,6 +230,58 @@ export class ContentService
 	// -------------------------------------------------------------- //
 	// -------------------------------------------------------------- //
 	// CATEGORY
+
+	//
+	fetchCategoryTree( config, force )
+	{
+		if( this.categoryTree || true )
+			return this.$q.when();
+
+		//
+		return this.API.one( "categories", "all" ).withHttpConfig( config ).get()
+			.then( ( response ) =>
+				{
+					console.log( "fetchCategory TREE complete", response );
+
+					if( !response.length )
+						return;
+
+					//
+					this.categoryTree = response[0];
+					this._setupCategoryTree( this.categoryTree, null );
+
+					console.log("tree done man: ", this.categoryTree );
+				},
+				( msg ) =>
+				{
+					//console.log( "fetch categories canceled/error", msg );
+				} );
+	}
+
+	//
+	_setupCategoryTree( node, parent )
+	{
+		node.parent = parent;
+
+		//
+		angular.forEach( node.all_children, ( child, key ) =>
+		{
+			this._setupCategoryTree( child, node );
+		} );
+
+		//
+		node.getNumTotalOffers = function()
+		{
+			let numTotal = this.offers_count;
+
+			angular.forEach( this.all_children, ( child, key ) =>
+			{
+				numTotal += child.getNumTotalOffers();
+			} );
+
+			return numTotal;
+		}
+	}
 
 	/**
 	 *
@@ -267,6 +337,17 @@ export class ContentService
 					} );
 
 					//
+					let providers = [];
+
+					angular.forEach( this.category.offers, ( child, key ) =>
+					{
+						if( child.ngo )
+							providers.push( child.ngo );
+					} );
+
+					this._cleanProviders( providers );
+
+					//
 					for( let j = 1; j < response.length; j++ )
 					{
 						if( response[j].children )
@@ -293,7 +374,7 @@ export class ContentService
 	 */
 	fetchProvider( slugProvider, config, force )
 	{
-		//console.log( "fetchProvider", slugProvider, force );
+		console.log( "fetchProvider", slugProvider, force );
 
 		if( !slugProvider )
 		{
@@ -325,7 +406,7 @@ export class ContentService
 		return this.API.all( "providers" ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 				{
-					//console.log("fetchProviderList complete", response );
+					console.log("fetchProviderList complete", response );
 
 					if( !response.length )
 						return;
@@ -333,6 +414,8 @@ export class ContentService
 					//
 					this.providerList = response;
 					this.provider = null;
+
+					this._cleanProviders(this.providerList);
 				},
 				( msg ) =>
 				{
@@ -351,16 +434,41 @@ export class ContentService
 		return this.API.one( "providers", this.slugProvider ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
-					//console.log("fetchProviderDetail complete", response );
+					console.log("fetchProviderDetail complete", response );
 
 					this.provider = response;
 					this.offerList = this.provider.offers;
 					this.markerList = this.provider.offers;
+
+					angular.forEach( this.offerList, ( child, key ) =>
+					{
+						if( !child.ngo )
+							child.ngo = this.provider;
+					} );
+
+					this._cleanProviders([this.provider]);
 				},
 				( msg ) =>
 				{
 					//console.log( "fetch provider.detail canceled/error", msg );
 				} );
+	}
+
+	_cleanProviders( list )
+	{
+		//
+		angular.forEach( list, ( p, key ) =>
+		{
+			if( p.organisation )
+			{
+				let split = p.organisation.split("");
+
+				while( split[split.length -1] === '*' )
+					split.pop();
+
+				p.organisation = split.join('');
+			}
+		} );
 	}
 
 	// -------------------------------------------------------------- //
@@ -377,7 +485,7 @@ export class ContentService
 	 */
 	fetchOffer( slugOffer, config, force )
 	{
-		//console.log( "fetchOffer", slugOffer, force );
+		console.log( "fetchOffer", slugOffer, force );
 
 		//
 		if( !slugOffer )
@@ -397,13 +505,18 @@ export class ContentService
 		return this.API.one( "offers", this.slugOffer ).withHttpConfig( config ).get()
 			.then( ( response ) =>
 				{
-					//console.log("fetchOffer complete", response );
+					console.log("fetchOffer complete", response );
+
 					this.offer = response;
+
+					if( this.offer && this.offer.ngo )
+						this._cleanProviders([this.offer.ngo]);
 				},
 				( msg ) =>
 				{
 					//console.log( "fetch offer canceled/error", msg );
 				} );
 	}
+
 
 }
