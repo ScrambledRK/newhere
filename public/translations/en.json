@@ -86,6 +86,7 @@
   "Öffnungszeiten": "Opening hours",
   "Beschreibung": "Description",
   "Kontakt": "Contact",
+  "Content": "Content",
 
   "Target": "Target",
   "Source": "Source",
@@ -115,7 +116,9 @@
 
   "Letzte Änderung": "Last updated",
   "translate on save": "mark as translated on save",
-  "Anbieter Kontaktdaten": "Provider contact data",
+
+  "Anbieter Benutzer":"Provider Users",
+  "Anbieter Kontaktdaten": "Provider Contact Data",
   "Anbieter Notizen": "Provider Notes",
 
   "none": "none",
@@ -197,6 +200,8 @@
   "offer_form_image_upload":"upload offer image",
   "provider_form_address_checkbox":"provider without address (only website)",
   "provider_form_image_upload":"upload provider logo",
+
+  "provider_task_list_warning":"warning: changes affect provider data",
 
   "": ""
 }

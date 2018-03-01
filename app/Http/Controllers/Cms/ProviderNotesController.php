@@ -29,7 +29,7 @@ class ProviderNotesController extends Controller
         if( !$this->isUserAdmin( Auth::user() ) )
             throw new AccessDeniedHttpException();
 
-        $result = Ngo::with( [ "notes", "notes.user" ] )
+        $result = Ngo::with( [ "notes", "notes.user", "users", "users.pendings", "users.roles" ] )
             ->select('ngos.*')
             ->leftJoin("ngo_notes","ngos.note_id", "=", "ngo_notes.id" );
 
@@ -99,8 +99,6 @@ class ProviderNotesController extends Controller
         if( !$this->isUserAdmin( Auth::user() ) )
             throw new AccessDeniedHttpException();
 
-        DB::beginTransaction();
-
         //
         $provider = Ngo::with( [ "notes" ] )->findOrFail( $id );
 
@@ -126,6 +124,11 @@ class ProviderNotesController extends Controller
             $note = new NgoNotes();
         }
 
+        // ------------------------------------- //
+        // ------------------------------------- //
+
+        DB::beginTransaction();
+
         $note->checked = $request->get( 'note_checked' );
         $note->notes = $request->get( 'note_content' );
         $note->user_id = $request->get( 'user_id' );
@@ -135,6 +138,16 @@ class ProviderNotesController extends Controller
         $provider->save();
 
         DB::commit();
+
+        // ------------------------------------- //
+        // ------------------------------------- //
+
+        $provider = Ngo::with( [ "notes", "notes.user", "users", "users.pendings", "users.roles" ] );
+
+        $provider->withCount( "offers" );
+        $provider->withCount( "users" );
+
+        $provider = $provider->findOrFail( $id );
 
         //
         return response()->success( compact( 'provider' ) );

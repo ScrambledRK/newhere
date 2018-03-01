@@ -34,7 +34,7 @@ class ProviderTasksController
 		//
 		this.promise = null;
 
-		this.items = this.ProviderService.providers;
+		this.providers = this.ProviderService.providers;
 		this.numItems = this.ProviderService.numItems;
 
 		//
@@ -83,26 +83,35 @@ class ProviderTasksController
 	// --------------------------------------- //
 	// --------------------------------------- //
 
-	editItem( item )
+	editItem( item, type )
 	{
-		console.log( item );
+		if( type === 'note')
+		{
+			console.log( item );
 
-		if( !item.notes || !item.notes.id )
-			item.notes = { id: item.id };
+			if( !item.notes || !item.notes.id )
+				item.notes = { id: item.id };
 
-		this.note = item.notes;
-		this.item = item;
+			this.note = item.notes;
+			this.item = item;
+			this.items = item.users;
 
-		//
-		this.DialogService.fromTemplate('providerNotes', {
-			controller: () => this,
-			controllerAs: 'vm'
-		});
+			//
+			this.DialogService.fromTemplate('providerNotes', {
+				controller: () => this,
+				controllerAs: 'vm'
+			});
+		}
+		else
+		{
+			this.$state.go( 'cms.users.edit', { id: item.id } );
+		}
 	}
 	//
 	requestCancel()
 	{
 		this.DialogService.hide();
+		this.items = null;
 		this.item = null;
 		this.note = null;
 	}
@@ -133,7 +142,14 @@ class ProviderTasksController
 					this.ToastService.show( 'Eintrag aktualisiert.' );
 
 					this.item = response.data.provider;
-					this.note = this.item.note;
+					this.note = this.item.notes;
+					this.items = this.item.users;
+
+					//
+					let idx = this.ProviderService.indexOf( this.item.id );
+
+					if( idx !== -1 )
+						this.ProviderService.providers[idx] = this.item;
 				},
 				( error ) =>
 				{
@@ -143,6 +159,7 @@ class ProviderTasksController
 
 		//
 		this.DialogService.hide();
+		this.items = null;
 		this.item = null;
 		this.note = null;
 	}
@@ -181,6 +198,9 @@ class ProviderTasksController
 			case "user":
 				return "#!/cms/users/" + item.id;
 
+			case "user_detail":
+				return "#!/cms/users//" + item.id;
+
 			case "frontend":
 				return "#!/providers/" + item.id;
 
@@ -193,6 +213,18 @@ class ProviderTasksController
 
 	isElementVisible( name )
 	{
+		if( name === "edit" )
+			return false;
+
+		if( name === "select" )
+			return false;
+
+		if( name === 'updated_at' )
+			return false;
+
+		if( name === 'provider' )
+			return false;
+
 		return true;
 	}
 

@@ -257,6 +257,9 @@ class UserListController
 		if( name === "select" )
 			return this.UserService.isAdministrator();
 
+		if( name === 'updated_at' )
+			return true;
+
 		//
 		return false;
 	}

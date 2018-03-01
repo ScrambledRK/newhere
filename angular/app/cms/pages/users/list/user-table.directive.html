@@ -88,6 +88,7 @@
       </th>
 
       <th
+        ng-if="vm.isElementVisible('updated_at')"
         md-column
         md-order-by="updated_at"
       >{{ 'Letzte Änderung' | translate }}
@@ -204,7 +205,7 @@
           {{item.pendings.length}}</a>
       </td>
 
-      <td md-cell>
+      <td md-cell ng-if="vm.isElementVisible('updated_at')">
         <div>{{item.updated_at}}</div>
       </td>
     </tr>

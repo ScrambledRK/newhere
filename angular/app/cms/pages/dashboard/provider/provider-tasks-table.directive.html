@@ -17,7 +17,7 @@
       <th
         md-column
         class="icon"
-        ng-if="vm.isElementVisible('edit')"
+        ng-if="vm.isElementVisible('edit_task')"
       ></th>
 
       <!-- name -->
@@ -32,7 +32,7 @@
       <th
         md-column
         md-order-by="checked"
-        ng-if="vm.isElementVisible('enabled')"
+        ng-if="vm.isElementVisible('enabled_task')"
       ><i
         class="material-icons"
         style="padding-left: 14px;"
@@ -68,6 +68,13 @@
         md-order-by="updated_at"
       >{{ 'Letzte Änderung' | translate }}
       </th>
+
+      <!-- user -->
+      <th
+        md-column
+      >{{ 'Benutzer' | translate }}
+      </th>
+
     </tr>
     </thead>
 
@@ -76,16 +83,16 @@
     <tr
       md-row
       md-select="item"
-      ng-repeat="item in vm.items"
+      ng-repeat="item in vm.providers"
     >
 
       <!-- edit -->
       <td
         md-cell
-        ng-if="vm.isElementVisible('edit')"
+        ng-if="vm.isElementVisible('edit_task')"
       >
         <md-button
-          ng-click="vm.editItem(item)"
+          ng-click="vm.editItem(item,'note')"
           class="md-icon-button md-accent md-hue-2"
         >
           <md-icon aria-label="">edit</md-icon>
@@ -107,11 +114,10 @@
       <!-- enabled lock -->
       <td
         md-cell
-        ng-if="vm.isElementVisible('enabled')"
+        ng-if="vm.isElementVisible('enabled_task')"
       >
         <md-button
           ng-click="vm.toggleItem(item,true)"
-          ng-disabled="true"
           ng-if="item.notes ? !item.notes.checked : true"
           class="md-icon-button md-accent"
         >
@@ -124,7 +130,6 @@
         </md-button>
         <md-button
           ng-click="vm.toggleItem(item,false)"
-          ng-disabled="true"
           ng-if="item.notes ? item.notes.checked : false"
           class="md-icon-button md-accent"
         >
@@ -160,6 +165,15 @@
       <!-- last updated at-->
       <td md-cell>
         <div>{{item.notes ? item.notes.updated_at : item.updated_at}} </div>
+      </td>
+
+      <!-- last updated at-->
+      <td md-cell>
+        <a
+          ng-if="item.notes"
+          href="{{vm.getURL(item.notes.user,'user_detail')}}">
+          {{item.notes.user.name}}</a>
+        <div ng-if="!item.notes">-</div>
       </td>
     </tr>
     </tbody>

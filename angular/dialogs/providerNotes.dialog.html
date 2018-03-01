@@ -2,30 +2,10 @@
 
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>{{ 'Anbieter Notizen' | translate }}</h2>
-      <span flex></span>
-      <md-button
-        class="md-icon-button"
-        ng-click="vm.requestCancel()"
-      >
-        <md-icon aria-label="">close</md-icon>
-      </md-button>
-    </div>
-  </md-toolbar>
 
-  <!-- content -->
-  <md-dialog-content>
-
-    <!-- headline -->
-    <div
-      layout="row"
-      layout-align="space-between center"
-      layout-padding
-    >
       <!-- checked -->
       <md-button
         ng-click="vm.toggleItem(vm.note,true)"
-        ng-disabled="!vm.isElementEnabled('enabled')"
         ng-if="!vm.note.checked"
         class="md-icon-button md-accent"
       >
@@ -38,7 +18,6 @@
       </md-button>
       <md-button
         ng-click="vm.toggleItem(vm.note,false)"
-        ng-disabled="!vm.isElementEnabled('enabled')"
         ng-if="vm.note.checked"
         class="md-icon-button md-accent"
       >
@@ -50,8 +29,8 @@
         <md-icon aria-label="">check</md-icon>
       </md-button>
 
-      <!-- name -->
-      <span><strong>{{vm.item.organisation}}</strong></span>
+      <!-- title -->
+      <h2>{{ 'Anbieter Notizen' | translate }}: {{vm.item.organisation}}</h2>
       <span flex></span>
 
       <!-- links -->
@@ -63,161 +42,235 @@
           >
             <small>link to frontend (ID: {{vm.item.id}})</small>
           </md-tooltip>
-          <a href="{{vm.getURL(vm.item,'frontend')}}">
+          <a href="{{vm.getURL(vm.item,'frontend')}}" target="_blank">
             <md-icon>insert_link</md-icon>
           </a>
         </div>
 
-        <div style="padding-left: 4px">
+        <div style="padding-left: 8px">
           <md-tooltip
             md-direction="left"
             md-delay="800"
           >
             <small>link to cms (ID: {{vm.item.id}})</small>
           </md-tooltip>
-          <a href="{{vm.getURL(vm.item,'cms')}}">
+          <a href="{{vm.getURL(vm.item,'cms')}}" target="_blank">
             <md-icon>business</md-icon>
           </a>
         </div>
+
+        <div style="padding-left: 8px">
+          <md-tooltip
+            md-direction="left"
+            md-delay="800"
+          >
+            <small>link to offers (ID: {{vm.item.id}})</small>
+          </md-tooltip>
+          <a href="{{vm.getURL(vm.item,'offer')}}" target="_blank">
+            <md-icon>local_offer</md-icon>
+          </a>
+        </div>
       </div>
+
+      <!-- cancel -->
+      <md-button
+        class="md-icon-button"
+        ng-click="vm.requestCancel()"
+      >
+        <md-icon aria-label="">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <!-- content -->
+  <md-dialog-content>
+
+    <!-- users -->
+    <div
+      ng-if="vm.items && vm.items.length > 0"
+      layout="column"
+      layout-align="start start"
+      layout-padding
+    >
+        <span>
+          <md-icon style="margin-right: 6px">group</md-icon>
+          {{ 'Anbieter Benutzer' | translate }}
+        </span>
+
+      <user-table
+        style="margin-left: 34px"
+      ></user-table>
     </div>
 
-    <!-- last update -->
+    <!-- contact / note block -->
     <div
       layout="column"
       layout-align="start start"
+      layout-gt-sm="row"
+      layout-align-gt-sm="space-between start"
+      layout-fill
     >
-       <span style="margin-left: 16px">
-      {{ 'Letzte Änderung' | translate }}
-      </span>
+      <!-- form contact -->
+      <form
+        name="ngoForm"
+        class="blank"
+        layout="column"
+        layout-padding
+        style="min-width: 500px !important;"
+      >
+        <div>
+          <span>
+            <md-icon style="margin-right: 6px">phone</md-icon>
+            {{ 'Anbieter Kontaktdaten' | translate }}
+          </span></br>
+          <small style="margin-left: 32px;">
+            {{ 'provider_task_list_warning' | translate }}
+          </small>
+        </div>
+
+        <!-- contact -->
+        <div
+          layout="row"
+          layout-align="start start"
+          style="margin-left: 34px; margin-top: 38px;"
+        >
+          <!-- name -->
+          <md-input-container
+            style="margin-bottom: 0px !important;"
+            class="md-block"
+          >
+            <label>{{ 'Kontakt' | translate }}</label>
+            <input
+              ng-model="vm.item.contact"
+            >
+          </md-input-container>
+
+          <!-- email -->
+          <md-input-container
+            style="margin-bottom: 0px !important;"
+            class="md-block"
+          >
+            <label>{{ 'Email' | translate }}</label>
+            <input
+              ng-model="vm.item.contact_email"
+              type="email"
+              name="email"
+              ng-pattern="/^.+@.+\..+$/"
+            >
+            <div
+              ng-messages="ngoForm.email.$error"
+              role="alert"
+            >
+              <div ng-message-exp="['pattern']">
+                {{ 'the given email address should at least look valid' | translate }}
+              </div>
+            </div>
+          </md-input-container>
+
+          <!-- phone -->
+          <md-input-container
+            style="margin-bottom: 0px !important;"
+            class="md-block"
+          >
+            <label>{{ 'Telefon' | translate }}</label>
+            <input
+              ng-model="vm.item.contact_phone"
+              type="tel"
+              name="phone"
+              ng-pattern="/^\+?[0-9]+[\s0-9\-]*$/"
+              minlength="6"
+              maxlength="24"
+            >
+            <div
+              ng-messages="ngoForm.phone.$error"
+              role="alert"
+            >
+              <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+                {{ 'the given phone number should at least look valid' | translate }}
+              </div>
+            </div>
+          </md-input-container>
+        </div>
+
+      </form>
+
+      <!-- note content -->
       <div
-        layout="row"
+        layout="column"
         layout-align="start start"
         layout-padding
+        layout-fill
+        style="max-width: 900px; min-width: 400px !important;"
       >
-        <div
-          layout="row"
-          layout-align="start center"
-          layout-padding
-        >
-          <i
-            class="material-icons"
-            style="color:rgba(93, 93, 93, 0.87)"
-          >date_range</i>
-          <span style="padding-left: 4px">{{vm.note.updated_at}}</span>
-        </div>
-
-        <div
-          layout="row"
-          layout-align="start center"
-          layout-padding
-        >
-          <i
-            class="material-icons"
-            style="color:rgba(93, 93, 93, 0.87)"
-          >group</i>
-          <span style="padding-left: 4px">{{vm.note.user.name}}</span>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- form -->
-    <form
-      name="ngoForm"
-      class="blank"
-      layout="column"
-      layout-padding
-    >
       <span>
-        {{ 'Anbieter Kontaktdaten' | translate }}
+        <md-icon style="margin-right: 6px">description</md-icon>
+        {{ 'Notes' | translate }}
       </span>
 
-      <!-- contact -->
-      <div
-        layout="row"
-        layout-align="space-between start"
-      >
-        <!-- name -->
         <md-input-container
           class="md-block"
-          flex-gt-sm
-        >
-          <label>{{ 'Kontakt' | translate }}</label>
-          <input
-            ng-model="vm.item.contact"
-            placeholder="Max Mustermann"
-          >
-        </md-input-container>
-
-        <!-- email -->
-        <md-input-container class="md-block">
-          <label>{{ 'Email' | translate }}</label>
-          <input
-            ng-model="vm.item.contact_email"
-            type="email"
-            name="email"
-            placeholder="email@offer.com"
-            ng-pattern="/^.+@.+\..+$/"
-          >
-          <div
-            ng-messages="ngoForm.email.$error"
-            role="alert"
-          >
-            <div ng-message-exp="['pattern']">
-              {{ 'the given email address should at least look valid' | translate }}
-            </div>
-          </div>
-        </md-input-container>
-
-        <!-- phone -->
-        <md-input-container class="md-block">
-          <label>{{ 'Telefon' | translate }}</label>
-          <input
-            ng-model="vm.item.contact_phone"
-            placeholder="+43 660 12345678"
-            type="tel"
-            name="phone"
-            ng-pattern="/^\+?[0-9]+[\s0-9\-]*$/"
-            minlength="6"
-            maxlength="24"
-          >
-          <div
-            ng-messages="ngoForm.phone.$error"
-            role="alert"
-          >
-            <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
-              {{ 'the given phone number should at least look valid' | translate }}
-            </div>
-          </div>
-        </md-input-container>
-      </div>
-
-      <!-- notes -->
-      <div
-        layout="row"
-        layout-align="start end"
-      >
-        <md-input-container
-          class="md-block"
+          style="margin-left: 34px; max-width: 600px"
           layout-fill
         >
-          <label>{{ 'Notes' | translate }}</label>
-          <textarea
-            layout-fill
-            ng-model="vm.note.notes"
-            md-maxlength="1023"
-            rows="4"
-          ></textarea>
+        <textarea
+          layout-fill
+          ng-model="vm.note.notes"
+          md-maxlength="1023"
+          rows="4"
+        ></textarea>
         </md-input-container>
       </div>
-
-    </form>
+    </div>
 
   </md-dialog-content>
 
   <!-- toolbar -->
   <md-dialog-actions>
+
+    <div
+      layout="row"
+      layout-align="start start"
+    >
+      <!-- date -->
+      <div
+        layout="row"
+        layout-align="start center"
+        layout-padding
+      >
+        <i
+          class="material-icons"
+          style="color:rgba(93, 93, 93, 0.87)"
+        >date_range</i>
+        <span style="padding-left: 4px">{{vm.note.updated_at}}</span>
+      </div>
+
+      <!-- user -->
+      <div
+        layout="row"
+        layout-align="start center"
+        layout-padding
+      >
+        <i
+          class="material-icons"
+          style="color:rgba(93, 93, 93, 0.87)"
+        >group</i>
+        <a
+          style="padding-left: 4px"
+          ng-if="vm.note.user"
+          href="{{vm.getURL(vm.note.user,'user_detail')}}"
+        >
+          {{vm.note.user.name}}</a>
+        <span
+          style="padding-left: 4px"
+          ng-if="!vm.note.user"
+        >-</span>
+      </div>
+    </div>
+
+    <!-- -->
+    <span flex></span>
+
+    <!-- save/cancel-->
     <div>
       <md-button
         ng-click="vm.requestCancel()"

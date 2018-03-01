@@ -67,6 +67,12 @@ class CmsMenuController
 				icon: 'list',
 				title: 'Kategorien',
 				roles: ['admin','superadmin' ]
+			},
+			{
+				sref: 'cms.content',
+				icon: 'low_priority',
+				title: 'Content',
+				roles: ['admin','superadmin' ]
 			}
 		];
 

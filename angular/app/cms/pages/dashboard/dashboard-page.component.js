@@ -37,7 +37,7 @@ class DashboardPageController
 	isElementVisible( name )
 	{
 		if( name === "provider" )
-			return this.UserService.isAdministrator();
+			return false; //this.UserService.isAdministrator();
 
 		//
 		return false;

@@ -86,6 +86,7 @@
   "Öffnungszeiten": "Öffnungszeiten",
   "Beschreibung": "Beschreibung",
   "Kontakt": "Kontakt",
+  "Content": "Inhalt",
 
   "Target": "Ziel",
   "Source": "Quelle",
@@ -116,6 +117,7 @@
   "Letzte Änderung": "Letzte Änderung",
   "translate on save": "bei speichern als übersetzt markieren",
 
+  "Anbieter Benutzer":"Anbieter Benutzer",
   "Anbieter Kontaktdaten": "Anbieter Kontaktdaten",
   "Anbieter Notizen": "Anbieter Notizen",
 
@@ -201,6 +203,8 @@
   "offer_form_image_upload":"Bild zum Angebot hochladen",
   "provider_form_address_checkbox":"Anbieter ohne Adresse (nur Website)",
   "provider_form_image_upload":"Logo des Anbieter hochladen",
+
+  "provider_task_list_warning":"Achtung: Änderungen spiegeln sich in Anbieter wieder",
 
   "": ""
 }

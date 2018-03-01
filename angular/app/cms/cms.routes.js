@@ -309,6 +309,24 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 				}
 			} )
 
+		//
+		.state( 'cms.content',
+			{
+				url: '/content',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ],
+					title: "Content"
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-provider-tasks></cms-provider-tasks>"
+					}
+				}
+			} )
+
 		// --------------------------------------------- //
 		// pages:
 
