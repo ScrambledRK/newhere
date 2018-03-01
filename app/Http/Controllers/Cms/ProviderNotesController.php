@@ -129,9 +129,15 @@ class ProviderNotesController extends Controller
 
         DB::beginTransaction();
 
-        $note->checked = $request->get( 'note_checked' );
+        //
+        $isChecked = false;
+
+        if( $request->has( 'note_checked' ) )
+            $isChecked = $request->get( 'note_checked' );
+
+        $note->checked = $isChecked;
         $note->notes = $request->get( 'note_content' );
-        $note->user_id = $request->get( 'user_id' );
+        $note->user_id = Auth::user()->id; //$request->get( 'user_id' );
         $note->save();
 
         $provider->note_id = $note->id;
