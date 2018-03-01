@@ -87,7 +87,7 @@ class ProviderTasksController
 	{
 		if( type === 'note')
 		{
-			console.log( item );
+			//console.log( item );
 
 			if( !item.notes || !item.notes.id )
 				item.notes = { id: item.id };
@@ -170,7 +170,7 @@ class ProviderTasksController
 	//
 	toggleItem( item, value )
 	{
-		console.log("toggle", item, value );
+		//console.log("toggle", item, value );
 
 		let note = item;
 

@@ -36,7 +36,7 @@ class TinyMceController
 	//
 	_setupTinyMCE( $window, linklist )
 	{
-		console.log("setup tinymce");
+		//console.log("setup tinymce");
 
 		if( !this.isAdmin )
 		{
@@ -76,7 +76,7 @@ class TinyMceController
 
 			init_instance_callback : (editor) =>
 			{
-				console.log("init instance callback:", editor);
+				//console.log("init instance callback:", editor);
 				this.tinymceEditor = editor;
 			},
 

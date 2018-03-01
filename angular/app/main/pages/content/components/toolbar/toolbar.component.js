@@ -156,12 +156,12 @@ class ToolbarController
 		}
 
 		//
-		console.log("-------------");
+		//console.log("-------------");
 
-		angular.forEach( this.categories, ( child, key ) =>
-		{
-			console.log("  cat:", child );
-		} );
+		// angular.forEach( this.categories, ( child, key ) =>
+		// {
+		// 	console.log("  cat:", child );
+		// } );
 	}
 
 	//

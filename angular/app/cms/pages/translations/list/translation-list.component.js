@@ -88,7 +88,7 @@ class TranslationListController
 	//
 	editItem( item )
 	{
-		console.log( "dialog:", item );
+		//console.log( "dialog:", item );
 
 		let source = item.translations["de"];
 		let target = item.translations["en"];
@@ -189,7 +189,7 @@ class TranslationListController
 	setTranslateOnSave()
 	{
 		this.TranslationService.isTranslateOnSave = this.isTranslateOnSave;
-		console.log( this.isTranslateOnSave );
+		//console.log( this.isTranslateOnSave );
 	}
 
 	// --------------------------------------- //

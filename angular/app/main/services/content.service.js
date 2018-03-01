@@ -83,7 +83,7 @@ export class ContentService
 	 */
 	onStateChanged( fromState, toState, fromParams, toParams )
 	{
-		console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
+		//console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
 
 		//
 		let paramCategory = toParams.category;
@@ -241,7 +241,7 @@ export class ContentService
 		return this.API.one( "categories", "all" ).withHttpConfig( config ).get()
 			.then( ( response ) =>
 				{
-					console.log( "fetchCategory TREE complete", response );
+					//console.log( "fetchCategory TREE complete", response );
 
 					if( !response.length )
 						return;
@@ -250,7 +250,7 @@ export class ContentService
 					this.categoryTree = response[0];
 					this._setupCategoryTree( this.categoryTree, null );
 
-					console.log("tree done man: ", this.categoryTree );
+					//console.log("tree done man: ", this.categoryTree );
 				},
 				( msg ) =>
 				{
@@ -293,7 +293,7 @@ export class ContentService
 	 */
 	fetchCategory( slugCategory, config, force )
 	{
-		console.log( "fetchCategory", slugCategory, force );
+		//console.log( "fetchCategory", slugCategory, force );
 
 		if( !slugCategory )
 			return this.$q.when();
@@ -319,7 +319,7 @@ export class ContentService
 		return this.API.one( "categories", slug ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
-					console.log( "fetchCategory complete", response );
+					//console.log( "fetchCategory complete", response );
 
 					if( !response.length )
 						return;
@@ -374,7 +374,7 @@ export class ContentService
 	 */
 	fetchProvider( slugProvider, config, force )
 	{
-		console.log( "fetchProvider", slugProvider, force );
+		//console.log( "fetchProvider", slugProvider, force );
 
 		if( !slugProvider )
 		{
@@ -406,7 +406,7 @@ export class ContentService
 		return this.API.all( "providers" ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 				{
-					console.log("fetchProviderList complete", response );
+					//console.log("fetchProviderList complete", response );
 
 					if( !response.length )
 						return;
@@ -434,7 +434,7 @@ export class ContentService
 		return this.API.one( "providers", this.slugProvider ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
-					console.log("fetchProviderDetail complete", response );
+					//console.log("fetchProviderDetail complete", response );
 
 					this.provider = response;
 					this.offerList = this.provider.offers;
@@ -485,7 +485,7 @@ export class ContentService
 	 */
 	fetchOffer( slugOffer, config, force )
 	{
-		console.log( "fetchOffer", slugOffer, force );
+		//console.log( "fetchOffer", slugOffer, force );
 
 		//
 		if( !slugOffer )
@@ -505,7 +505,7 @@ export class ContentService
 		return this.API.one( "offers", this.slugOffer ).withHttpConfig( config ).get()
 			.then( ( response ) =>
 				{
-					console.log("fetchOffer complete", response );
+					//console.log("fetchOffer complete", response );
 
 					this.offer = response;
 

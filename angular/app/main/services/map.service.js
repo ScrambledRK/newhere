@@ -626,7 +626,7 @@ export class MapService
 	 */
 	zoomTo( offer )
 	{
-		console.log( "zoomTo:", offer );
+		//console.log( "zoomTo:", offer );
 
 		//
 		// timeout seems necessary, works most of the time without, but sometimes ..

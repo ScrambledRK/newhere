@@ -80,7 +80,7 @@ export class RoutingService
 	 */
 	goContent( category, offer )
 	{
-		console.log( "routing.go.content: ", category, offer );
+		//console.log( "routing.go.content: ", category, offer );
 
 		//
 		let params = {
