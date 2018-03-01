@@ -10,7 +10,7 @@ export function ProviderDirective()
 		//
 		$scope.querySearch = this.querySearch = function( text )
 		{
-			console.log( "search", text );
+			//console.log( "search", text );
 
 			if( !text || text.trim() === "" )
 				return $scope.vm.providers;
@@ -37,7 +37,7 @@ export function ProviderDirective()
 
 		$scope.selectedItemChange = this.selectedItemChange = function( item )
 		{
-			console.log("selected:",item);
+			//console.log("selected:",item);
 			$scope.vm.onProviderChange( item );
 		}
 	}];

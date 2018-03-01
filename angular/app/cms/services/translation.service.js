@@ -21,12 +21,22 @@ export class TranslationService
 
 		this.languages = this.UserService.languages;
 
+		this.isTranslateOnSave = false;
 		this.enabledLanguages = ["de","en","ar","fa","fr"];
 		this.defaultLanguage = "de";
 
 		//
 		this.translations = [];
 		this.numItems = 0;
+
+		// --------------------------- //
+		// pages tinymce
+
+		//
+		this.tinyOptions = {
+			plugins: 'link autolink code image',
+			toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+		}
 	}
 
 	// -------------------------------------------------------------- //
@@ -41,7 +51,7 @@ export class TranslationService
 		return this.API.one( 'cms/translations', type ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 			{
-				console.log( response );
+				//console.log( response );
 
 				this.numItems = response.data.count;
 				this.setResult( type, response.data.result );
@@ -70,7 +80,9 @@ export class TranslationService
 						ngo_id : item.id,
 						filter_id : item.id,
 						category_id : item.id,
+						page_id : item.id,
 						locale : lang,
+						tooltip : "-",
 						version : 0
 					};
 
@@ -105,6 +117,12 @@ export class TranslationService
 				this.setCategoryResult( response );
 				break;
 			}
+
+			case "page":
+			{
+				this.setPageResult( response );
+				break;
+			}
 		}
 	}
 
@@ -119,6 +137,7 @@ export class TranslationService
 					    title : item.title,
 					    tooltip : item.description,
 					    enabled : item.enabled,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -129,7 +148,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "title",
@@ -149,7 +168,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -164,6 +183,7 @@ export class TranslationService
 					    title : item.organisation,
 					    tooltip : item.description,
 					    enabled : item.published,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -174,7 +194,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "description",
@@ -184,7 +204,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -199,6 +219,7 @@ export class TranslationService
 					    title : item.title,
 					    tooltip : item.description,
 					    enabled : item.enabled,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -209,7 +230,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "title",
@@ -224,7 +245,7 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
 		} );
 	}
 
@@ -239,6 +260,7 @@ export class TranslationService
 					    title : item.title,
 					    tooltip : item.description,
 					    enabled : item.enabled,
+					    updated_at : item.updated_at,
 					    translations : {}
 				    };
 
@@ -249,7 +271,7 @@ export class TranslationService
 			{
 				entry.translations[translation.locale] = translation;
 
-				translation.tooltip = translation.description;
+				translation.tooltip = translation.description ? translation.description : "-";
 				translation.fields = [
 					{
 						label : "title",
@@ -264,7 +286,48 @@ export class TranslationService
 				];
 			} );
 
-			console.log( entry );
+			//console.log( entry );
+		} );
+	}
+
+	//
+	setPageResult( response )
+	{
+		angular.forEach( response, ( item, index ) =>
+		{
+			let entry =
+				    {
+					    id : item.id,
+					    title : item.title,
+					    tooltip : item.slug,
+					    enabled : item.enabled,
+					    updated_at : item.updated_at,
+					    translations : {}
+				    };
+
+			this.translations.push( entry );
+
+			//
+			angular.forEach( item.translations, ( translation, index ) =>
+			{
+				entry.translations[translation.locale] = translation;
+
+				translation.tooltip = translation.title ? translation.title : "-";
+				translation.fields = [
+					{
+						label : "title",
+						value : "title",
+						rows: 1
+					},
+					{
+						label : "content",
+						value : "content",
+						rows: 8
+					}
+				];
+			} );
+
+			//console.log( entry );
 		} );
 	}
 
@@ -310,6 +373,12 @@ export class TranslationService
 				case "category":
 				{
 					itemID = item.category_id;
+					break;
+				}
+
+				case "page":
+				{
+					itemID = item.page_id;
 					break;
 				}
 			}
@@ -360,8 +429,8 @@ export class TranslationService
 
 	prepareQuery()
 	{
-		if( this.$rootScope.isLoading )
-			console.log("query already in process");
+		//if( this.$rootScope.isLoading )
+			//console.log("query already in process");
 
 		this.$rootScope.isLoading = true;
 

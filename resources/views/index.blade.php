@@ -10,6 +10,8 @@
               href="{!! elixir('css/vendor.css') !!}">
         <link rel="stylesheet"
               href="{!! elixir('css/app.css') !!}">
+	    <link rel="stylesheet"
+			href="{!! elixir('css/tinymcs_custom.css') !!}">
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700'
               rel='stylesheet'
               type='text/css'>
@@ -25,6 +27,21 @@
     <script src="{!! elixir('js/vendor.js') !!}"></script>
 	<script src="{!! elixir('js/partials.js') !!}"></script>
 	<script src="{!! elixir('js/app.js') !!}"></script>
+
+        <script type="text/javascript">
+            window.newhere =
+                {
+                	// doing this so tinymce can use the same css
+                    // css names are "random" due to elixier/gulp
+                    // so when they change the user browser flushes the cache
+
+                	css: [
+                        "{!! elixir('css/tinymcs_custom.css') !!}",
+                        "https://fonts.googleapis.com/icon?family=Material+Icons",
+                        'https://fonts.googleapis.com/css?family=Lato:300,400,700'
+                    ]
+                }
+        </script>
 
         <!--[if lte IE 10]>
         <script type="text/javascript">document.location.href = '/unsupported-browser'</script>

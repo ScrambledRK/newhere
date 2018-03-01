@@ -5,7 +5,8 @@ class OfferDetailController
 	 * @param {ContentService} ContentService
 	 * @param {RoutingService} RoutingService
 	 * @param {MapService} MapService
-	 * @param $element
+	 * @param {Page} Page
+	 * @param $window
 	 * @param $rootScope
 	 * @param $scope
 	 * @param $state
@@ -13,7 +14,7 @@ class OfferDetailController
 	constructor( ContentService,
 	             RoutingService,
 	             MapService,
-	             $element,
+	             $window,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -25,7 +26,7 @@ class OfferDetailController
 		this.RoutingService = RoutingService;
 		this.MapService = MapService;
 
-		this.$window = $element;
+		this.$window = $window;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 		this.$state = $state;
@@ -53,13 +54,26 @@ class OfferDetailController
 	setContent( offer )
 	{
 		this.offer = offer;
-	}
 
-	//
-	toggleMap()
-	{
-		this.$rootScope.showMap = !this.$rootScope.showMap;
-		this.$rootScope.showDetails = !this.$rootScope.showDetails;
+		if( this.offer )
+			document.title = "newhere : " + this.offer.title;
+
+		//
+		if( this.offer && this.offer.street )
+		{
+			let address = this.offer.street + " " + this.offer.streetnumber;
+
+			//
+			this.link_google = "https://www.google.com/maps/dir/?api=1&destination=";
+			this.link_google += this.$window.encodeURIComponent( address );
+
+			this.link_wlinien = "https://www.wienerlinien.at/eportal3/ep/channelView.do/channelId/-46649"
+			this.link_wlinien += "?routeTo=" + address;
+		}
+		else if( this.offer )
+		{
+			this.RoutingService.setMapFocus( false );
+		}
 	}
 
 	//
@@ -79,13 +93,14 @@ class OfferDetailController
 
 	onSwipeUp()
 	{
-		console.log( "swipe-up" );
+		this.RoutingService.setMapFocus( false );
 	}
 
 	onSwipeDown()
 	{
-		console.log( "swipe-down" );
+		this.RoutingService.setMapFocus( true );
 	}
+
 }
 
 //

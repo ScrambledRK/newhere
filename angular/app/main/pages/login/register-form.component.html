@@ -1,116 +1,160 @@
 <form
-	ng-submit="vm.save()"
-	name="registerForm"
-	flex
+  ng-submit="vm.save()"
+  name="registerForm"
+  flex
 >
-	<div
-		flex
-		layout-padding
-	>
-		<!-- name/email -->
-		<div layout-gt-sm="row">
+  <div
+    flex
+    layout-padding
+  >
+    <!-- name/email -->
+    <div layout-gt-sm="row">
 
-			<!-- -->
-			<md-input-container
-				class="md-block"
-				flex-gt-sm
-			>
-				<label>{{ 'Name' | translate }}</label>
-				<input
-					type="text"
-					ng-model="vm.user.name"
-					required
-				>
-			</md-input-container>
+      <!-- -->
+      <md-input-container
+        class="md-block"
+        flex-gt-sm
+      >
+        <label>{{ 'Name' | translate }}</label>
+        <input
+          type="text"
+          ng-model="vm.user.name"
+          required
+        >
+      </md-input-container>
 
-			<!-- -->
-			<md-input-container
-				class="md-block"
-				flex-gt-sm
-			>
-				<label>{{ 'Email' | translate }}</label>
-				<input
-					type="email"
-					ng-model="vm.user.email"
-					required
-				>
-			</md-input-container>
-		</div>
+      <!-- -->
+      <md-input-container
+        class="md-block"
+        flex-gt-sm
+      >
+        <label>{{ 'Email' | translate }}</label>
+        <input
+          ng-model="vm.user.email"
+          type="email"
+          name="email"
+          ng-pattern="/^.+@.+\..+$/"
+          required
+        >
+        <div
+          ng-messages="registerForm.email.$error"
+          role="alert"
+        >
+          <div ng-message-exp="['pattern']">
+            {{ 'form_error_mail' | translate }}
+          </div>
+        </div>
+      </md-input-container>
 
-		<!-- password -->
-		<div layout-gt-sm="row">
+      <!-- -->
+      <md-input-container
+        class="md-block"
+        flex-gt-sm
+      >
+        <label>{{ 'Telefon' | translate }}</label>
+        <input
+          ng-model="vm.user.phone"
+          type="tel"
+          name="phone"
+          ng-pattern="/^\+?[0-9]+[\s0-9]*$/"
+          minlength="6"
+          maxlength="24"
+          required
+        >
+        <div
+          ng-messages="registerForm.phone.$error"
+          role="alert"
+        >
+          <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+            {{ 'form_error_phone' | translate }}
+          </div>
+        </div>
+      </md-input-container>
+    </div>
 
-			<!-- -->
-			<md-input-container
-				class="md-block"
-				flex-gt-sm
-			>
-				<label>{{ 'Passwort' | translate }}</label>
-				<input
-					name="password"
-					type="password"
-					ng-model="vm.user.password"
-					minlength="5"
-				>
-				<div
-					ng-messages="registerForm.password.$error"
-					ng-show="registerForm.password.$dirty"
-				>
-					<div ng-message="minlength">{{ 'Mindestens %d Zeichen' | translate |
-					                            sprintf: 5 }}
-					</div>
-				</div>
-			</md-input-container>
+    <!-- password -->
+    <div layout-gt-sm="row">
 
-			<!-- -->
-			<md-input-container
-				class="md-block"
-				flex-gt-sm
-			>
-				<label>{{ 'Passwort wiederholen' | translate }}</label>
-				<input
-					name="re_password"
-					type="password"
-					ng-model="vm.user.re_password"
-					compare-to="vm.user.password"
-				>
-				<div
-					ng-messages="registerForm.re_password.$error"
-					ng-show="registerForm.re_password.$dirty"
-				>
-					<div ng-message="compareTo">{{ 'Unterschiedliche Passwörter' | translate
-					                            }}
-					</div>
-				</div>
-			</md-input-container>
+      <!-- -->
+      <md-input-container
+        class="md-block"
+        flex-gt-sm
+      >
+        <label>{{ 'Passwort' | translate }}</label>
+        <input
+          name="password"
+          type="password"
+          ng-model="vm.user.password"
+          minlength="5"
+          required
+        >
+        <div
+          ng-messages="registerForm.password.$error"
+          ng-show="registerForm.password.$dirty"
+        >
+          <div ng-message="minlength">{{ 'form_error_password_length' | translate |
+                                      sprintf: 5 }}
+          </div>
+        </div>
+      </md-input-container>
 
-		</div>
+      <!-- -->
+      <md-input-container
+        class="md-block"
+        flex-gt-sm
+      >
+        <label>{{ 'Passwort wiederholen' | translate }}</label>
+        <input
+          name="re_password"
+          type="password"
+          ng-model="vm.user.re_password"
+          compare-to="vm.user.password"
+          required
+        >
+        <div
+          ng-messages="registerForm.re_password.$error"
+          ng-show="registerForm.re_password.$dirty"
+        >
+          <div ng-message="compareTo">{{ 'form_error_password_difference' | translate
+                                      }}
+          </div>
+        </div>
+      </md-input-container>
 
-		<!---->
-		<md-input-container class="md-block">
-			<div layout="row">
-				<md-checkbox
-					ng-model="vm.accept"
-					required
-					aria-label="Nutzungsbedingungen akzeptieren"
-				></md-checkbox>
-				<span style="margin-left:10px">
-						Hiermit bestätige ich, die <a ui-sref="main.impressum">AGBs bzw. Nutzungsbestimmungen</a> zu akzeptierten.
+    </div>
+
+    <!---->
+    <md-input-container class="md-block">
+      <div
+        layout="column"
+        layout-padding
+      >
+        <div>
+          <p>{{ 'register_form_description_0' | translate }}</p></div>
+        <div layout="row">
+          <md-checkbox
+            ng-model="vm.accept"
+            required
+            aria-label="Nutzungsbedingungen akzeptieren"
+          ></md-checkbox>
+          <span style="margin-left:10px">
+						{{ 'register_form_agb_0' | translate }}<a href="/#!/page/impressum">{{ 'agb_btn' | translate }}</a> {{ 'register_form_agb_1' | translate }}
 					</span>
-			</div>
-		</md-input-container>
-	</div>
+        </div>
+      </div>
+    </md-input-container>
+  </div>
 
-	<div
-		flex
-		layout="row"
-		layout-align="end center"
-	>
-		<save
-			is-disabled="registerForm.$invalid || registerForm.$pristine || vm.sending || !vm.accept"
-		></save>
+  <div
+    flex
+    layout="row"
+    layout-align="end center"
+  >
+    <save
+      is-disabled="registerForm.$invalid || registerForm.$pristine || vm.sending || !vm.accept"
+    ></save>
 
-		<cancel></cancel>
-	</div>
+    <cancel></cancel>
+  </div>
 
 </form>

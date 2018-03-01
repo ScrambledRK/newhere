@@ -80,6 +80,12 @@
 				class="icon"
 			>{{ 'Webseite' | translate }}
 			</th>
+
+			<th
+					md-column
+					md-order-by="updated_at"
+			>{{ 'Letzte Änderung' | translate }}
+			</th>
 		</tr>
 		</thead>
 
@@ -99,7 +105,7 @@
 					ng-click="vm.editItem(item)"
 					class="md-icon-button md-accent md-hue-2"
 				>
-					<md-icon>edit</md-icon>
+					<md-icon aria-label="">edit</md-icon>
 				</md-button>
 			</td>
 
@@ -112,10 +118,10 @@
 						md-direction="right"
 						md-delay="800"
 					>
-						<small>link to frontend (ID: {{item.id}})</small>
+						<small>{{ 'provider_link_to' | translate | sprintf: item.id }}</small>
 					</md-tooltip>
 					<a href="{{vm.getURL(item,'frontend')}}">
-						<md-icon>insert_link</md-icon>
+						<md-icon aria-label="">insert_link</md-icon>
 					</a>
 				</div>
 			</td>
@@ -147,9 +153,9 @@
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>provider is not enabled
+					>{{'provider_disabled' | translate}}
 					</md-tooltip>
-					<md-icon>lock</md-icon>
+					<md-icon aria-label="">lock</md-icon>
 				</md-button>
 				<md-button
 					ng-click="vm.toggleItem(item,false)"
@@ -160,17 +166,29 @@
 					<md-tooltip
 						md-direction="right"
 						md-delay="800"
-					>provider is enabled
+					>{{'provider_enabled' | translate}}
 					</md-tooltip>
-					<md-icon>lock_open</md-icon>
+					<md-icon aria-label="">lock_open</md-icon>
 				</md-button>
 			</td>
 
 			<!-- counts -->
 			<td md-cell>
+				<md-tooltip
+					md-direction="right"
+					md-delay="800"
+				>
+					<small>{{'provider_list_offers' | translate}}</small>
+				</md-tooltip>
 				<a href="{{vm.getURL(item,'offer')}}">{{item.offers_count}}</a>
 			</td>
 			<td md-cell>
+				<md-tooltip
+					md-direction="right"
+					md-delay="800"
+				>
+					<small>{{'provider_list_users' | translate}}</small>
+				</md-tooltip>
 				<a href="{{vm.getURL(item,'user')}}">{{item.users_count}}</a>
 			</td>
 
@@ -188,7 +206,7 @@
 				<div ng-if="item.contact_phone">
 					<md-tooltip>{{item.contact_phone}}</md-tooltip>
 					<a href="tel:{{item.contact_phone}}">
-						<md-icon>phone</md-icon>
+						<md-icon aria-label="">phone</md-icon>
 					</a>
 				</div>
 			</td>
@@ -196,7 +214,7 @@
 				<div ng-if="item.contact_email">
 					<md-tooltip md-direction="left">{{item.contact_email}}</md-tooltip>
 					<a href="mailto:{{item.contact_email}}">
-						<md-icon>mail</md-icon>
+						<md-icon aria-label="">mail</md-icon>
 					</a></div>
 			</td>
 			<td md-cell>
@@ -206,8 +224,11 @@
 						href="{{item.website}}"
 						target="_blank"
 					>
-						<md-icon>insert_link</md-icon>
+						<md-icon aria-label="">insert_link</md-icon>
 					</a></div>
+			</td>
+			<td md-cell>
+				<div>{{item.updated_at}}</div>
 			</td>
 		</tr>
 		</tbody>

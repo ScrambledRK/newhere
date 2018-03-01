@@ -78,12 +78,12 @@ export class LanguageService
 	 */
 	log( language )
 	{
-		console.log( "language.uses", this.$translate.use() );
-		console.log( "language.proposed", this.$translate.proposedLanguage() );
-		console.log( "language.preferred", this.$translate.preferredLanguage() );
-		console.log( 'language.current', this.$rootScope.language );
+		//console.log( "language.uses", this.$translate.use() );
+		//console.log( "language.proposed", this.$translate.proposedLanguage() );
+		//console.log( "language.preferred", this.$translate.preferredLanguage() );
+		//console.log( 'language.current', this.$rootScope.language );
 
-		if( language )
-			console.log( 'language.select', language );
+		//if( language )
+		//	console.log( 'language.select', language );
 	}
 }

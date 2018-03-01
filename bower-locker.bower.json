@@ -1,8 +1,9 @@
 {
-    "name": "laravel5-angular-material-starter",
-    "authors": [
-        "Jad Joubran <jad@jadjoubran.com>"
-    ],
+    "name": "newhere",
+    "description": "where refugees can get all the information for their orientation",
+    "authors": [],
+    "license": "MIT",
+    "homepage": "https://www.newhere.org",
     "ignore": [
         "**/.*",
         "node_modules",
@@ -36,7 +37,6 @@
       "font-awesome": "4.7.0",
       "leaflet": "0.7.7",
       "leaflet-fullscreen": "1.0.2",
-      "leaflet-icon-pulse": "0.1.0",
       "leaflet-pulse-icon": "0.1.0",
       "leaflet-routing-machine": "3.2.5",
       "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#leaflet-0.7",
@@ -48,7 +48,9 @@
       "satellizer": "0.15.5",
       "sprintf": "1.1.1",
       "textAngular": "1.5.16",
-      "ui-leaflet": "2.0.0"
+      "ui-leaflet": "2.0.0",
+	  "angular-ui-tinymce":"0.0.19",
+	  "tinymce":"4.6.0"
     },
     "overrides": {
         "font-awesome": {
@@ -66,6 +68,20 @@
             "main": [
                 "src/L.Icon.Pulse.js",
                 "src/L.Icon.Pulse.css"
+            ]
+        },		
+        "tinymce": {
+            "main": [
+                "tinymce.js",
+                "themes/modern/theme.js",
+                "skins/lightgray/skin.css",
+                "skins/lightgray/content.css",
+                "skins/lightgray/fonts/tinymce.ttf",
+                "skins/lightgray/fonts/tinymce.woff",
+                "plugins/autolink/plugin.js",
+                "plugins/code/plugin.js",
+                "plugins/image/plugin.js",
+                "plugins/link/plugin.js"
             ]
         }
     },

@@ -8,7 +8,7 @@
 					class="md-icon-button"
 					ng-click="vm.cancel()"
 				>
-					<md-icon>close</md-icon>
+					<md-icon aria-label="close">close</md-icon>
 				</md-button>
 			</div>
 		</md-toolbar>
@@ -50,17 +50,17 @@
 									ng-repeat="lang in vm.dialog.languages"
 									ng-value="lang"
 								>
-									<md-icon
+									<md-icon aria-label="done_all"
 										ng-if="lang.version == 2"
 									>
 										done_all
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="done"
 										ng-if="lang.version == 1"
 									>
 										done
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="highlight_off"
 										ng-if="lang.version == 0"
 									>
 										highlight_off
@@ -90,11 +90,19 @@
 					>
 						<label>{{field.label}}</label>
 						<textarea
+							ng-if="field.label != 'content'"
 							ng-model="vm.dialog.source[field.value]"
 							rows="{{field.rows}}"
 							readonly
 							disabled
 						></textarea>
+						<div
+								ng-if="field.label == 'content'"
+								ng-bind-html="vm.dialog.source[field.value]"
+								class="max-height-content"
+								disabled
+						>
+						</div>
 					</md-input-container>
 				</div>
 
@@ -126,19 +134,18 @@
 								<md-option
 									ng-repeat="lang in vm.dialog.languages"
 									ng-value="lang"
-									ng-if="lang.locale != 'de'"
 								>
-									<md-icon
+									<md-icon aria-label="done_all"
 										ng-if="lang.version == 2"
 									>
 										done_all
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="done"
 										ng-if="lang.version == 1"
 									>
 										done
 									</md-icon>
-									<md-icon
+									<md-icon aria-label="highlight_off"
 										ng-if="lang.version == 0"
 									>
 										highlight_off
@@ -159,15 +166,15 @@
 								ng-change="vm.onDialogStatusChange()"
 							>
 								<md-option value="2">
-									<md-icon>done_all</md-icon>&nbsp;&nbsp;
+									<md-icon aria-label="">done_all</md-icon>&nbsp;&nbsp;
 									                           proof-read
 								</md-option>
 								<md-option value="1">
-									<md-icon>done</md-icon>&nbsp;&nbsp;
+									<md-icon aria-label="">done</md-icon>&nbsp;&nbsp;
 									                       translated
 								</md-option>
 								<md-option value="0">
-									<md-icon>highlight_off</md-icon>&nbsp;&nbsp;
+									<md-icon aria-label="">highlight_off</md-icon>&nbsp;&nbsp;
 									                                outdated
 								</md-option>
 							</md-select>
@@ -193,11 +200,20 @@
 						ng-repeat="field in vm.dialog.target.fields"
 						class="md-block"
 					>
-						<label>{{field.label}}</label>
+						<label
+								ng-if="field.label != 'content'"
+						>{{field.label}}</label>
 						<textarea
+							ng-if="field.label != 'content'"
 							ng-model="vm.dialog.target[field.value]"
 							rows="{{field.rows}}"
 						></textarea>
+						<cms-tiny-mce
+							ng-if="field.label == 'content'"
+							ng-model="vm.dialog.target[field.value]"
+							is-admin="false"
+						>
+						</cms-tiny-mce>
 					</md-input-container>
 
 				</div>
@@ -206,6 +222,17 @@
 
 		<!-- -->
 		<md-dialog-actions>
+			<md-checkbox
+				ng-model="vm.isTranslateOnSave"
+				ng-change="vm.setTranslateOnSave()"
+        style="margin: unset;"
+			>
+
+        {{ 'translate on save' | translate }}
+			</md-checkbox>
+
+      <span flex></span>
+
 			<md-button
 				type="button"
 				ng-click="vm.cancel()"
@@ -217,5 +244,6 @@
 			>{{ 'Speichern' | translate }}
 			</md-button>
 		</md-dialog-actions>
+
 	</form>
 </md-dialog>

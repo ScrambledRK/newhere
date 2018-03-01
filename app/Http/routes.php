@@ -94,6 +94,7 @@ groupAuthenticated( $api, function( $api )
 groupEveryone( $api, function( $api )
 {
     $api->get( 'categories', 'Main\CategoryController@index' );
+    $api->get( 'categories/all', 'Main\CategoryController@trace' );
     $api->get( 'categories/{slug}', 'Main\CategoryController@bySlug' );
 } );
 
@@ -101,6 +102,11 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/categories/{slug}', 'Cms\CategoryController@bySlug' );
+
+    groupAdministration($api, function ($api)
+    {
+        $api->put( 'cms/categories/{id}', 'Cms\CategoryController@update' );
+    } );
 } );
 
 /*
@@ -129,6 +135,8 @@ groupAuthenticated( $api, function( $api )
     {
         $api->put( 'cms/providers/{id}', 'Cms\ProviderController@update' );
         $api->delete( 'cms/providers/{id}', 'Cms\ProviderController@delete' );
+        $api->get( 'cms/notes', 'Cms\ProviderNotesController@index' );
+        $api->put( 'cms/notes/{id}', 'Cms\ProviderNotesController@update' );
     } );
 } );
 
@@ -195,6 +203,7 @@ groupEveryone( $api, function( $api )
 {
     $api->controller('auth', 'Auth\AuthController');
     $api->get( 'search/address/{search}', 'Search@address');
+    $api->get( 'pages/{slug}', 'Main\PageController@bySlug');
 } );
 
 //
@@ -202,9 +211,22 @@ groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/filters', 'Cms\FilterController@index' );
 
+    //
     groupOrganisation( $api, function( $api )
     {
         $api->post('images/upload', 'ImageController@uploadImage');
+    } );
+
+    //
+    groupAdministration($api, function ($api)
+    {
+        $api->get('cms/pages', 'Cms\PageController@index');
+        $api->get('cms/pages/all', 'Cms\PageController@all');
+        $api->get('cms/pages/{id}', 'Cms\PageController@byId');
+        $api->post('cms/pages', 'Cms\PageController@create');
+        $api->post('cms/pages/upload', 'Cms\PageController@upload');
+        $api->put( 'cms/pages/{id}', 'Cms\PageController@update' );
+        $api->delete( 'cms/pages/{id}', 'Cms\PageController@delete' );
     } );
 } );
 

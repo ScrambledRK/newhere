@@ -46,6 +46,16 @@ import {UserFormComponent} from "./pages/users/form/user-form.component";
 import {UserMenuComponent} from "./components/menu/cms-user-menu.component";
 import {DashboardPageComponent} from "./pages/dashboard/dashboard-page.component";
 import {ProfileComponent} from "./pages/dashboard/profile/profile.component";
+import {PageService} from "./services/page.service";
+import {PageTableDirective} from "./pages/pages/list/page-table.directive";
+import {PageListComponent} from "./pages/pages/list/page-list.component";
+import {PageFormComponent} from "./pages/pages/form/page-form.component";
+import {LanguageMenuComponent} from "../main/components/language-switcher/language-menu.component";
+import {CategoryFormComponent} from "./pages/category/category-form.component";
+import {TinyMceComponent} from "./components/tinymce/cms-tinymce.component";
+import {ProviderTasksComponent} from "./pages/dashboard/provider/provider-tasks.component";
+import {ProviderTasksTableDirective} from "./pages/dashboard/provider/provider-tasks-table.directive";
+import {FlowConfig} from "../../config/flow.config";
 //import {ResetpasswordFormComponent} from "../main/pages/login/resetpassword-form.component";
 
 // ------------------------------- //
@@ -55,7 +65,15 @@ import {ProfileComponent} from "./pages/dashboard/profile/profile.component";
 angular.module( 'app.cms',
 	[
 		'ui.router',
-		'ui.router.state.events'
+		'ui.router.state.events',
+		'ui.tinymce',
+
+		'md.data.table',
+		'ui.tree',
+		'dndLists',
+		'flow',
+		'mgo-angular-wizard',
+		'bw.paging',
 	] );
 
 // service
@@ -67,11 +85,13 @@ angular.module( 'app.cms' )
 	.service( "CategoryService", CategoryService )
 	.service( "ProviderService", ProviderService )
 	.service( "TranslationService", TranslationService )
+	.service( "PageService", PageService )
 ;
 
 // config
 angular.module( 'app.cms' )
 	.config( CmsRoutesConfig )
+	.config(FlowConfig)
 ;
 
 // directive
@@ -99,6 +119,8 @@ angular.module( 'app.cms' )
 	.directive( "translationType", TranslationTypeDirective )
 	.directive( "translationStatus", TranslationStatusDirective )
 	.directive( "translationLanguage", TranslationLanguageDirective )
+	.directive( "pageTable", PageTableDirective )
+	.directive( "providerTasksTable", ProviderTasksTableDirective )
 ;
 
 // ------------------------------- //
@@ -123,5 +145,11 @@ angular.module( 'app.cms' )
 	.component( 'cmsProfile', ProfileComponent )
 	.component( 'cmsRequestTable', RequestTableComponent )
 	.component( 'cmsUserMenu', UserMenuComponent )
+	.component( 'cmsPageList', PageListComponent )
+	.component( 'cmsPageForm', PageFormComponent )
+	.component( 'cmsLanguageMenu', LanguageMenuComponent )
+	.component( 'cmsCategoryForm', CategoryFormComponent )
+	.component( 'cmsTinyMce', TinyMceComponent )
+	.component( 'cmsProviderTasks', ProviderTasksComponent )
 	//.component( 'resetpasswordForm', ResetpasswordFormComponent )
 ;

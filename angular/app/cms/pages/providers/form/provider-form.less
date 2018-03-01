@@ -1,0 +1,34 @@
+.provider-form md-icon
+{
+  color: grey;
+}
+
+.provider-form .hint
+{
+  /* Position the hint */
+  position:    absolute;
+  left:        36px;
+  right:       auto;
+  bottom:      15px;
+  /* Copy styles from ng-messages */
+  font-size:   12px;
+  line-height: 14px;
+  transition:  all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+  /* Set our own color */
+  color:       grey;
+}
+
+.provider-form .hint.ng-hide,
+.provider-form .hint.ng-enter,
+.provider-form .hint.ng-leave.ng-leave-active
+{
+  bottom:  26px;
+  opacity: 0;
+}
+
+.provider-form .hint.ng-leave,
+.provider-form .hint.ng-enter.ng-enter-active
+{
+  bottom:  36px;
+  opacity: 1;
+}

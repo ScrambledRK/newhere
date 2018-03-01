@@ -4,6 +4,7 @@ class OfferFormController
 	             $timeout,
 	             $scope,
 	             $rootScope,
+	             $translate,
 	             API,
 	             UserService,
 	             ToastService,
@@ -18,8 +19,10 @@ class OfferFormController
 		this.SearchService = SearchService;
 		this.MapService = MapService;
 		this.$timeout = $timeout;
+		this.$translate = $translate;
 		this.$scope = $scope;
 		this.$rootScope = $rootScope;
+		this.$state = $state;
 
 		//
 		this.providers = this.UserService.providers;
@@ -38,6 +41,15 @@ class OfferFormController
 		if( $state.params.id )
 			this.fetchItem( $state.params.id );
 
+		// ------------------------------ //
+		// ------------------------------ //
+
+		//
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			this.onLanguageChanged();
+		} );
+
 		//
 		let onImage = this.$rootScope.$on( "image.changed", ( event ) =>
 		{
@@ -47,6 +59,38 @@ class OfferFormController
 		this.$scope.$on( '$destroy', () =>
 		{
 			onImage();
+			onLanguage();
+		} );
+
+		// ------------------------------ //
+		// ------------------------------ //
+
+		this.label_checkbox_without_address = "without Address (only website)";
+
+		$translate( "offer_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
+		} );
+	}
+
+	//
+	onWithoutAddressChange()
+	{
+		this.$timeout( () =>
+		{
+			this.MapService.invalidateSize();
+		}, 1, false );
+	}
+
+	//
+	onLanguageChanged()
+	{
+		if( this.offer.id )
+			this.fetchItem( this.offer.id );
+
+		this.$translate( "offer_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
 		} );
 	}
 
@@ -60,7 +104,7 @@ class OfferFormController
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim laden der Daten.' );
+					this.ToastService.error( 'Unbekannter Fehler aufgetreten.' );
 				}
 			);
 	}
@@ -74,7 +118,7 @@ class OfferFormController
 	 */
 	setOffer( item )
 	{
-		console.log("set offer:", item );
+		//console.log("set offer:", item );
 
 		//
 		for(let k in item)
@@ -145,7 +189,7 @@ class OfferFormController
 		this.$rootScope.$broadcast( 'filterChanged', this );
 
 		//
-		console.log("got offer:", this.offer );
+		//console.log("got offer:", this.offer );
 	}
 
 	/**
@@ -153,7 +197,7 @@ class OfferFormController
 	 */
 	save()
 	{
-		console.log("save offer:", this.offer );
+		//console.log("save offer:", this.offer );
 
 		if( this.offer.isWithoutAddress )
 		{
@@ -183,11 +227,11 @@ class OfferFormController
 		this.API.one( 'cms/offers', this.offer.id ).customPUT( this.offer )
 			.then( ( response ) =>
 				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
 	}
@@ -198,14 +242,14 @@ class OfferFormController
 		this.API.all( 'cms/offers' ).post( this.offer )
 			.then( ( response ) =>
 				{
-					this.ToastService.show( 'Erfolgreich gespeichert.' );
-					console.log( "res:", response.data.offer );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
+					//console.log( "res:", response.data.offer );
 
 					this.setOffer( response.data.offer );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 				}
 			);
 	}
@@ -225,6 +269,27 @@ class OfferFormController
 		return true;
 	}
 
+	//
+	toggleItem( isEnabled )
+	{
+		if( this.offer )
+		{
+			if( this.offer.enabled !== isEnabled )
+				this.$scope.offerForm.$setDirty();
+
+			this.offer.enabled = isEnabled;
+		}
+	}
+
+	cancel()
+	{
+		this.$state.go( 'cms.offers' );
+	}
+
+	onProviderSelected()
+	{
+		this.$scope.offerForm.$setDirty();
+	}
 
 	// ------------------------------------------------------- //
 	// ------------------------------------------------------- //
@@ -253,7 +318,7 @@ class OfferFormController
 
 	updateMap()
 	{
-		console.log("update map:", this.offer );
+		//console.log("update map:", this.offer );
 
 		this.MapService.markers = {};
 		this.MapService.setMarkers( [ this.offer ] );

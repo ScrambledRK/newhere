@@ -64,7 +64,7 @@ class FilterSelectorController
 		//
 		angular.forEach( this.selected, ( filter, key ) =>
 		{
-			console.log( "selected:", filter.slug, filter );
+			//console.log( "selected:", filter.slug, filter );
 		} );
 	}
 

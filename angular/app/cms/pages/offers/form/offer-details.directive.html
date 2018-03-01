@@ -1,102 +1,173 @@
 <md-card
-	ng-form="offerDetails"
+  ng-form="offerDetails"
+  class="offer-form"
 >
-	<md-card-title>
-		<md-card-title-text>
-			<span class="md-headline">{{ 'Details' | translate }}</span>
-		</md-card-title-text>
-	</md-card-title>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{ 'offer_form_title' | translate }}</span>
+    </md-card-title-text>
+  </md-card-title>
 
-	<md-content layout-padding>
-		<md-input-container class="md-block">
-			<label>{{ 'Titel' | translate }}</label>
-			<input
-				ng-model="vm.offer.title"
-				md-maxlength="100"
-				required
-			>
-		</md-input-container>
+  <md-content
+    layout-padding
+    layout="column"
+  >
+    <md-input-container class="md-block">
+      <label>{{ 'Titel' | translate }} <i>({{$root.language}})</i></label>
+      <md-icon>title</md-icon>
+      <div
+        class="hint"
+        ng-show="true"
+      >{{ 'offer_form_hint_title' | translate }}
+      </div>
+      <input
+        ng-model="vm.offer.title"
+        md-maxlength="100"
+        required
+      >
+    </md-input-container>
 
-		<md-input-container class="md-block">
-			<label>{{ 'Beschreibung' | translate }}</label>
-			<textarea
-				ng-model="vm.offer.description"
-				md-maxlength="200"
-				rows="3"
-				required
-			></textarea>
-		</md-input-container>
+    <md-input-container class="md-block">
+      <label>{{ 'Beschreibung' | translate }} <i>({{$root.language}})</i></label>
+      <md-icon>description</md-icon>
+      <div
+        class="hint"
+        ng-show="true"
+      >{{ 'offer_form_hint_description' | translate }}
+      </div>
+      <textarea
+        ng-model="vm.offer.description"
+        md-maxlength="200"
+        rows="3"
+        required
+      ></textarea>
+    </md-input-container>
 
-		<!-- email -->
-		<md-input-container class="md-block">
-			<label>{{ 'Email' | translate }}</label>
-			<input
-				ng-model="vm.offer.email"
-				type="email"
-				name="email"
-				placeholder="email@offer.com"
-				ng-pattern="/^.+@.+\..+$/"
-			>
-			<div
-				ng-messages="offerDetails.email.$error"
-				role="alert"
-			>
-				<div ng-message-exp="['pattern']">
-					{{ 'the given email address should at least look valid' | translate }}
-				</div>
-			</div>
-		</md-input-container>
+    <!-- email -->
+    <md-input-container class="md-block">
+      <label>{{ 'Email' | translate }}</label>
+      <md-icon>mail</md-icon>
+      <div
+        class="hint"
+        ng-show="!vm.offer.email || vm.offer.email.length == 0 || offerDetails.email.$valid"
+        ng-hide="!offerDetails.email.$valid"
+      >{{ 'offer_form_hint_mail' | translate }}
+      </div>
+      <input
+        ng-model="vm.offer.email"
+        type="email"
+        name="email"
+        ng-pattern="/^.+@.+\..+$/"
+      >
+      <div
+        ng-messages="offerDetails.email.$error"
+        role="alert"
+      >
+        <div ng-message-exp="['pattern']">
+          {{ 'form_error_mail' | translate }}
+        </div>
+      </div>
+    </md-input-container>
 
-		<!-- phone -->
-		<md-input-container class="md-block">
-			<label>{{ 'Telefon' | translate }}</label>
-			<input
-				ng-model="vm.offer.phone"
-				placeholder="+43 660 12345678"
-				type="tel"
-				name="phone"
-				ng-pattern="/^\+?[0-9]+[\s0-9]*$/"
-				minlength="6"
-				maxlength="24"
-			>
-			<div
-				ng-messages="offerDetails.phone.$error"
-				role="alert"
-			>
-				<div ng-message-exp="['minlength', 'maxlength', 'pattern']">
-					{{ 'the given phone number should at least look valid' | translate }}
-				</div>
-			</div>
-		</md-input-container>
+    <!-- phone -->
+    <md-input-container class="md-block">
+      <label>{{ 'Telefon' | translate }}</label>
+      <md-icon>phone</md-icon>
+      <div
+        class="hint"
+        ng-show="!vm.offer.phone || vm.offer.phone.length == 0 || offerDetails.phone.$valid"
+        ng-hide="!offerDetails.phone.$valid"
+      >{{ 'offer_form_hint_phone' | translate }}
+      </div>
+      <input
+        ng-model="vm.offer.phone"
+        type="tel"
+        name="phone"
+        ng-pattern="/^\+?[0-9]+[\s0-9\-]*$/"
+        minlength="6"
+        maxlength="24"
+      >
+      <div
+        ng-messages="offerDetails.phone.$error"
+        role="alert"
+      >
+        <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+          {{ 'form_error_phone' | translate }}
+        </div>
+      </div>
+    </md-input-container>
 
-		<!-- website -->
-		<md-input-container class="md-block">
-			<label>{{ 'Webseite' | translate }}</label>
-			<input
-				ng-model="vm.offer.website"
-				type="url"
-				placeholder="http://www.your-offer.com"
-			>
-		</md-input-container>
+    <!-- website -->
+    <md-input-container
+      class="md-block"
+    >
+      <label>{{ 'Webseite' | translate }}</label>
+      <md-icon>insert_link</md-icon>
+      <div
+        class="hint"
+        ng-show="!vm.offer.website || vm.offer.website.length == 0 || offerDetails.website.$valid"
+        ng-hide="!offerDetails.website.$valid"
+      >{{ 'offer_form_hint_website' | translate }}
+      </div>
+      <input
+        name="website"
+        ng-model="vm.offer.website"
+        type="text"
+        ng-pattern="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/"
+      >
+      <div
+        ng-messages="offerForm.website.$error"
+        role="alert"
+      >
+        <div ng-message-exp="['pattern']">
+          {{ 'form_error_website' | translate }}
+        </div>
+      </div>
+    </md-input-container>
 
-		<!-- facebook -->
-		<md-input-container class="md-block">
-			<label>Facebook URL</label>
-			<input
-				ng-model="vm.offer.facebook_url"
-				type="url"
-				placeholder="http://www.facebook.com/link"
-			>
-		</md-input-container>
+    <!-- facebook -->
+    <md-input-container
+      class="md-block"
+    >
+      <label>{{ 'Facebook URL' | translate }}</label>
+      <md-icon>insert_link</md-icon>
+      <div
+        class="hint"
+        ng-show="!vm.offer.facebook_url || vm.offer.facebook_url.length == 0 || offerDetails.facebook_url.$valid"
+        ng-hide="!offerDetails.facebook_url.$valid"
+      >{{ 'offer_form_hint_facebook' | translate }}
+      </div>
+      <input
+        name="facebook_url"
+        ng-model="vm.offer.facebook_url"
+        type="text"
+        ng-pattern="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/"
+      >
+      <div
+        ng-messages="offerDetails.facebook_url.$error"
+        role="alert"
+      >
+        <div ng-message-exp="['pattern']">
+          {{ 'form_error_website' | translate }}
+        </div>
+      </div>
+    </md-input-container>
 
-		<!-- opening hours -->
-		<md-input-container class="md-block">
-			<label>{{ 'Öffnungszeiten' | translate }}</label>
-			<textarea
-				ng-model="vm.offer.opening_hours"
-				md-maxlength="200"
-				rows="5"
-			></textarea>
-		</md-input-container>
-	</md-content>
+    <!-- opening hours -->
+    <md-input-container class="md-block">
+      <label>{{ 'Öffnungszeiten' | translate }} <i>({{$root.language}})</i></label>
+      <md-icon>query_builder</md-icon>
+      <div
+        class="hint"
+        ng-show="true"
+      >{{ 'offer_form_hint_opening_hours' | translate }}
+      </div>
+      <textarea
+        name="opening_hours"
+        ng-model="vm.offer.opening_hours"
+        md-maxlength="200"
+        rows="5"
+      ></textarea>
+    </md-input-container>
+  </md-content>
 </md-card>

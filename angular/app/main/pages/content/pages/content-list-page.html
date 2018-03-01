@@ -1,28 +1,65 @@
 <!-- LOADER -->
 <div
-	ng-if="vm.isLoading()"
-	layout-align="center center"
-	layout-fill
-	layout="row"
+    ng-if="vm.isLoading()"
+    layout-align="center center"
+    layout-fill
+    layout="row"
 >
-	<loader></loader>
+  <loader></loader>
 </div>
 
 <!-- MAP TOGGLER -->
 <map-toggler-wide
-	hide-gt-sm
+    hide-gt-sm
 ></map-toggler-wide>
 
 <!-- CATEGORY/OFFER LIST -->
 <md-content
-	class="content-padding"
-	layout-fill
-	layout="column"
-	md-scroll-y
+    class="content-padding"
+    layout-fill
+    layout="column"
+    md-scroll-y
 >
-	<category-list></category-list>
-	<offer-title
-		ng-if="vm.hasOffers() && vm.hasCategories()"
-	></offer-title>
-	<offer-list></offer-list>
+
+  <!-- category description-->
+  <div
+      class="content-description"
+      ng-if="vm.ContentService.category.description"
+  >
+    <div
+        layout="row"
+        layout-align="space-between center"
+    >
+      <span ng-if="$root.isTextAlignmentLeft">
+        {{vm.ContentService.category.description}}
+      </span>
+
+      <md-button
+          class="md-icon-button"
+          aria-label="further information"
+          ng-click="vm.goFurther()"
+          href="{{vm.getFurtherURL()}}"
+          ng-if="vm.ContentService.category.page"
+      >
+        <md-icon aria-label="">more_horiz</md-icon>
+      </md-button>
+
+      <span ng-if="!$root.isTextAlignmentLeft">
+        {{vm.ContentService.category.description}}
+      </span>
+    </div>
+  </div>
+
+  <!-- -->
+  <category-title
+      ng-if="vm.hasCategories() && vm.ContentService.category.description">
+  </category-title>
+  <category-list ng-if="vm.hasCategories()"></category-list>
+
+  <!-- -->
+  <offer-title
+      ng-if="vm.hasOffers() && (vm.ContentService.category.description || vm.hasCategories())">
+  </offer-title>
+  <offer-list ng-if="vm.hasOffers()"></offer-list>
+
 </md-content>

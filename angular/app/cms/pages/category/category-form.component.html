@@ -1,0 +1,114 @@
+<!-- Nested node template -->
+<script
+    type="text/ng-template"
+    id="tree-categories-form.html"
+>
+  <div ui-tree-handle
+       layout="row"
+       layout-align="space-between center"
+       class="angular-ui-tree-handle">
+
+    <!-- 1 -->
+    <md-icon aria-label="">
+      <i
+          class="material-icons"
+          ng-if="category.all_children.length"
+          ng-click="vm.toggleExpansion(category,this)"
+      >
+        {{ category.isExpanded ? 'expand_less' : 'expand_more' }}
+      </i>
+    </md-icon>
+
+    <!-- 2 -->
+    <span>
+				{{category.title}}
+				<md-tooltip md-direction="right"><small>{{category.description}}</small></md-tooltip>
+			</span>
+
+    <!-- spacer -->
+    <span flex></span>
+
+    <!-- 3 -->
+    <md-select
+        ng-model="category.page_id"
+        ng-change="vm.onSelectedPageChanged(category)"
+        style="margin: 0;"
+    >
+      <md-option
+          ng-repeat="page in vm.pages"
+          ng-value="page.id"
+      >{{page.slug}}
+      </md-option>
+    </md-select>
+
+  </div>
+
+  <ol
+      ui-tree-nodes=""
+      ng-model="category.all_children"
+      ng-class="{hidden: !category.isExpanded}"
+  >
+    <li
+        ng-repeat="category in category.all_children"
+        ui-tree-node
+        ng-include="'tree-categories-form.html'"
+    >
+    </li>
+  </ol>
+</script>
+
+<!-- -->
+<!-- -->
+<div>
+  <md-card>
+
+    <!-- title -->
+    <md-card-title>
+      <md-card-title-text>
+				<span class="md-headline">
+					<md-icon aria-label="">list</md-icon>&nbsp;&nbsp;
+					{{ 'Kategorien' | translate }}
+				</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <!-- content -->
+    <md-content
+        flex
+        style="padding: 20px;"
+    >
+      <div
+          ui-tree
+          data-drag-enabled="false"
+      >
+        <ol
+            ui-tree-nodes=""
+            ng-model="category"
+            id="tree-root"
+        >
+          <li
+              ng-repeat="category in category.all_children"
+              ui-tree-node
+              ng-include="'tree-categories-form.html'"
+          ></li>
+        </ol>
+      </div>
+    </md-content>
+  </md-card>
+
+  <!-- save -->
+  <div
+      flex
+      layout="row"
+      layout-align="end center"
+  >
+    <md-button
+        class="md-primary md-raised"
+        ng-disabled="vm.isSaveDisabled"
+        ng-click="vm.save()"
+    >{{
+      'Speichern' | translate }}
+    </md-button>
+  </div>
+
+</div>

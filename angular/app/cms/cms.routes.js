@@ -62,6 +62,9 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 				}
 			} )
 
+		// --------------------------------------------- //
+		// offers:
+
 		//
 		.state( 'cms.offers',
 			{
@@ -124,6 +127,9 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 					}
 				}
 			} )
+
+		// --------------------------------------------- //
+		// providers:
 
 		//
 		.state( 'cms.providers',
@@ -188,6 +194,9 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 				}
 			} )
 
+		// --------------------------------------------- //
+		// users:
+
 		//
 		.state( 'cms.users',
 			{
@@ -251,6 +260,8 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 				}
 			} )
 
+		// --------------------------------------------- //
+
 		//
 		.state( 'cms.translations',
 			{
@@ -276,6 +287,101 @@ export function CmsRoutesConfig( $stateProvider, $urlRouterProvider )
 
 					'content@cms.translations': {
 						template: "<translation-table></translation-table>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.categories',
+			{
+				url: '/categories',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ],
+					title: "Kategorien"
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-category-form></cms-category-form>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.content',
+			{
+				url: '/content',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ],
+					title: "Content"
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-provider-tasks></cms-provider-tasks>"
+					}
+				}
+			} )
+
+		// --------------------------------------------- //
+		// pages:
+
+		//
+		.state( 'cms.pages',
+			{
+				url: '/pages',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ],
+					title: "Seiten"
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-page-list></cms-page-list>"
+					},
+
+					'content@cms.pages': {
+						template: "<page-table></page-table>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.pages.new',
+			{
+				url: '/new',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ]
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-page-form></cms-page-form>"
+					}
+				}
+			} )
+
+		//
+		.state( 'cms.pages.edit',
+			{
+				url: '/{id:[0-9]+}',
+
+				data: {
+					auth: true,
+					roles: ['admin', 'superadmin' ]
+				},
+
+				views: {
+					'body@cms': {
+						template: "<cms-page-form></cms-page-form>"
 					}
 				}
 			} )

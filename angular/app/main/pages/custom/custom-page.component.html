@@ -1,0 +1,32 @@
+<div
+    layout="column"
+    class="Page-container custom-page-container"
+    layout-fill
+>
+  <md-toolbar>
+    <div
+        class="md-toolbar-tools"
+        layout="row"
+        layout-align="space-between center"
+    >
+      <h2>
+        <span>{{vm.page.title}}</span>
+      </h2>
+      <span flex></span>
+      <language-menu></language-menu>
+    </div>
+  </md-toolbar>
+
+  <md-content
+    layout-padding
+    layout-align="center start"
+    layout="row"
+  >
+    <div
+      ng-bind-html="vm.page.content"
+      class="custom-page-content"
+    >
+    </div>
+  </md-content>
+
+</div>

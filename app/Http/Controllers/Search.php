@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Logic\Address\AddressAPI;
+use App\Ngo;
 use App\Offer;
 use Illuminate\Http\Request;
 
@@ -28,7 +30,112 @@ class Search extends Controller
     {
         $toSearch = $request->get( 'query' );
 
-        $result = Offer::with( [ 'ngo', 'categories' ] )
+        $r_offers = $this->searchOffers( $toSearch );
+        $c_offers = $r_offers->count();
+
+        $r_providers = $this->searchProviders( $toSearch );
+        $c_providers = $r_providers->count();
+
+        $r_categories = $this->searchCategories( $toSearch );
+        $c_categories = $r_categories->count();
+
+        //
+        return response()->success( compact( 'r_offers',
+                                             'c_offers',
+                                             'r_providers',
+                                             'c_providers',
+                                             'r_categories',
+                                             'c_categories'
+                                    ) );
+    }
+
+    /**
+     * @param $toSearch
+     * @return mixed
+     */
+    private function searchCategories( $toSearch )
+    {
+        $result = Category::with( [ ] )
+                     ->where( 'enabled', true )
+                     ->where( function( $query ) use ( $toSearch )
+                     {
+                         $query->whereHas( 'translations',
+                             function( $query ) use ( $toSearch )
+                             {
+                                 $query->where(
+                                     'title',
+                                     'ilike',
+                                     '%' . $toSearch . '%'
+                                 );
+                             } )
+                               ->orWhereHas( 'translations',
+                                   function( $query ) use ( $toSearch )
+                                   {
+                                       $query->where(
+                                           'description',
+                                           'ilike',
+                                           '%' . $toSearch . '%'
+                                       );
+                                   } );
+                     } )
+                     ->limit( 5 )
+                     ->get();
+
+        return $result;
+    }
+
+    /**
+     * @param $toSearch
+     * @return mixed
+     */
+    private function searchProviders( $toSearch )
+    {
+        $result = Ngo::with( [ ] )
+                       ->where( 'published', true )
+                       ->where( function( $query ) use ( $toSearch )
+                       {
+                           $query->whereHas( 'translations',
+                               function( $query ) use ( $toSearch )
+                               {
+                                   $query->where(
+                                       'organisation',
+                                       'ilike',
+                                       '%' . $toSearch . '%'
+                                   );
+                               } )
+                                 ->orWhereHas( 'translations',
+                                     function( $query ) use ( $toSearch )
+                                     {
+                                         $query->where(
+                                             'description',
+                                             'ilike',
+                                             '%' . $toSearch . '%'
+                                         );
+                                     } )
+                                 ->orWhere(
+                                     'street',
+                                     'ilike',
+                                     '%' . $toSearch . '%'
+                                 )
+                                 ->orWhere(
+                                     'zip',
+                                     'ilike',
+                                     '%' . $toSearch . '%'
+                                 );
+                       } )
+                       ->limit( 5 )
+                       ->get();
+
+        return $result;
+    }
+
+    /**
+     * @param $toSearch
+     * @return mixed
+     */
+    private function searchOffers( $toSearch )
+    {
+        $result = Offer::with( ['categories'] )
                        ->where( 'enabled', true )
                        ->where( function( $query ) use ( $toSearch )
                        {
@@ -59,59 +166,11 @@ class Search extends Controller
                                      'zip',
                                      'ilike',
                                      '%' . $toSearch . '%'
-                                 )
-                                 ->orWhereHas( 'ngo',
-                                     function( $query ) use ( $toSearch )
-                                     {
-                                         $query->where(
-                                             'organisation',
-                                             'ilike',
-                                             '%' . $toSearch . '%'
-                                         )->where( 'published', true );
-                                     } )
-                                 ->orWhereHas( 'categories',
-                                     function( $query ) use ( $toSearch )
-                                     {
-                                         $query->whereHas( 'translations',
-                                             function( $q ) use ( $toSearch )
-                                             {
-                                                 $q->where(
-                                                     'title',
-                                                     'ilike',
-                                                     '%' . $toSearch . '%'
-                                                 );
-                                             } );
-                                     } )
-                                 ->orWhereHas( 'categories.parent',
-                                     function( $query ) use ( $toSearch )
-                                     {
-                                         $query->whereHas( 'translations',
-                                             function( $q ) use ( $toSearch )
-                                             {
-                                                 $q->where(
-                                                     'title',
-                                                     'ilike',
-                                                     '%' . $toSearch . '%'
-                                                 );
-                                             } );
-                                     } )
-                                 ->orWhereHas( 'categories.parent.parent',
-                                     function( $query ) use ( $toSearch )
-                                     {
-                                         $query->whereHas( 'translations',
-                                             function( $q ) use ( $toSearch )
-                                             {
-                                                 $q->where(
-                                                     'title',
-                                                     'ilike',
-                                                     '%' . $toSearch . '%' );
-                                             } );
-                                     } );
+                                 );
                        } )
+                       ->limit( 5 )
                        ->get();
 
-        $count = $result->count();
-
-        return response()->success( compact( 'result', 'count' ) );
+        return $result;
     }
 }

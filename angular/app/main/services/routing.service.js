@@ -3,14 +3,17 @@ export class RoutingService
 	/**
 	 * @param {*} $state
 	 * @param {*} $rootScope
+	 * @param {*} ContentService
 	 */
 	constructor( $state,
-	             $rootScope )
+	             $rootScope,
+	             ContentService )
 	{
 		'ngInject';
 
 		this.$state = $state;
 		this.$rootScope = $rootScope;
+		this.ContentService = ContentService;
 
 		//
 		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
@@ -26,36 +29,62 @@ export class RoutingService
 
 	/**
 	 *
-	 * @param {string} category
+	 * @param {object} category
 	 * @param {string} offer
 	 * @return {string}
 	 */
 	getContentURL( category, offer )
 	{
-		let urlCategory = "start";
+		let urlCategory = this._generateCategoryURL( category );
 		let urlOffer = "";
 
-		if( category && category !== "" )
-			urlCategory = category;
-
-		if( offer && category !== "" )
+		if( offer && category )
 			urlOffer = offer;
 
 		return "#!/offers/" + urlCategory + "/" + urlOffer;
 	}
 
+	_generateCategoryURL( category )
+	{
+		if( !category )
+			return "start";
+
+		//
+		let urlCategory = "";
+
+		if( category.slug === 'providers' )
+		{
+			if( this.ContentService.provider !== null )
+				urlCategory = this.ContentService.provider.id + "";
+		}
+
+		//
+		while( category )
+		{
+			let slug = category.slug;
+
+			if( urlCategory !== '' )
+				slug += ",";
+
+			urlCategory = slug + urlCategory;
+			category = category.parent;
+		}
+
+		return urlCategory;
+	}
+
 	/**
 	 *
-	 * @param {string} category
+	 * @param {object} category
 	 * @param {string} offer
 	 */
 	goContent( category, offer )
 	{
-		console.log( "routing.go.content: ", category, offer );
+		//console.log( "routing.go.content: ", category, offer );
 
 		//
 		let params = {
-			category: category,
+			category: this._generateCategoryURL( category ),
 			offer: offer
 		};
 
@@ -87,7 +116,7 @@ export class RoutingService
 	 */
 	goProvider( provider )
 	{
-		console.log( "routing.go.provider: ", provider );
+		//console.log( "routing.go.provider: ", provider );
 
 		//
 		let params = {
@@ -101,7 +130,7 @@ export class RoutingService
 
 		//
 		this.$state.go( 'main.content.providers', params, config );
-		this.updateState( provider ); // in case state does not change, reset still
+		this.updateState( provider === 'all' ? null : provider ); // in case state does not change, reset still
 
 		return true;
 	}
@@ -113,7 +142,7 @@ export class RoutingService
 	updateStateParams( params )
 	{
 		let hasOffer = Boolean(params.offer && params.offer !== '');
-		let hasProvider = Boolean(params.provider && params.provider !== '');
+		let hasProvider = Boolean(params.provider && params.provider !== '' && params.provider !== 'all');
 
 		if( !hasOffer && !hasProvider )
 			this.updateState( null );
@@ -157,7 +186,7 @@ export class RoutingService
 	{
 		if( this.viewStateChanged )
 		{
-			console.log("viewStateChanged", this.isMapFocused, this.isDetailState );
+			//console.log("viewStateChanged", this.isMapFocused, this.isDetailState );
 
 			this.$rootScope.$broadcast( 'viewStateChanged', this.isMapFocused, this.isDetailState );
 			this.viewStateChanged = false;

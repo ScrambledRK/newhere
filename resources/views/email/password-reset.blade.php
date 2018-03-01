@@ -9,6 +9,7 @@
 
     @include('beautymail::templates.sunny.contentStart')
 
+        <p>Um ein neues Passwort zu vergeben klicke auf den folgenden Link</p>
         <p>To set a new password for your account, click the link below</p>
 
     @include('beautymail::templates.sunny.contentEnd')

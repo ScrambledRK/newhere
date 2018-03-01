@@ -33,7 +33,7 @@ class AuthController extends Controller
     {
         $this->validate( $request, [
             'email'    => 'required|email',
-            'password' => 'required|min:5',
+            'password' => 'required|min:5'
         ] );
 
         //
@@ -102,10 +102,11 @@ class AuthController extends Controller
         $this->validate( $request, [
             'name'     => 'required|min:3',
             'email'    => 'required|email|unique:users',
+            'phone'    => 'required|min:6',
             'password' => 'required|min:5',
         ] );
 
-        $user = $this->storeAndSendMail( $request->name, $request->email, $request->password );
+        $user = $this->storeAndSendMail( $request->name, $request->email, $request->phone, $request->password );
         $user->attachRole( Role::where( 'name', 'user' )->firstOrFail() );
 
         $token = JWTAuth::fromUser( $user );
@@ -119,13 +120,14 @@ class AuthController extends Controller
      * @param $password
      * @return User
      */
-    private function storeAndSendMail( $name, $email, $password )
+    private function storeAndSendMail( $name, $email, $phone, $password )
     {
         $confirmation_code = str_random( 30 );
 
         $user = new User;
         $user->name = trim( $name );
         $user->email = trim( strtolower( $email ) );
+        $user->phone = trim( strtolower( $phone ) );
         $user->password = bcrypt( $password );
         $user->confirmation_code = $confirmation_code;
         $user->save();
@@ -160,15 +162,15 @@ class AuthController extends Controller
         return redirect( '/#/login' );
     }
 
-    public function getVerify()
-    {
-        $user = User::find( 3 );
-        $user->confirmation_code = str_random( 30 );
-        $user->save();
-
-        $this->userRepository->verifyMail( $user );
-
-        return true;//
-    }
+//    public function getVerify()
+//    {
+//        $user = User::find( 3 );
+//        $user->confirmation_code = str_random( 30 );
+//        $user->save();
+//
+//        $this->userRepository->verifyMail( $user );
+//
+//        return true;//
+//    }
 
 }

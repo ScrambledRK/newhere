@@ -12,6 +12,27 @@ use App\Language;
 class CategoryController extends Controller
 {
 
+    public function trace()
+    {
+        $result = Category::with( [] );
+
+        //
+        $result = $result->where( 'enabled', true );
+        $result = $result->where( 'slug', 'start' );
+        $result = $result->withCount('offers');
+        $result = $result->with( 'allChildren' )->where( function( $query )
+        {
+            $query->where( 'enabled', true );
+               // ->has( 'offers', '>=', 1 );
+        } );
+
+        //
+        $result = $result->get();
+
+        //
+        return response()->json( $result );
+    }
+
     /**
      * @param Request $request
      * @return mixed
@@ -75,23 +96,23 @@ class CategoryController extends Controller
      */
     public function bySlug( Request $request, $slug )
     {
-        $result = Category::with( ['image'] );
+        $result = Category::with( [ 'image', 'page' ] );
 
         //
-        $result = $result->where('enabled', true );
-        $result = $result->where('slug', $slug );
+        $result = $result->where( 'enabled', true );
+        $result = $result->where( 'slug', $slug );
 
         //
         if( $request->get( 'withOffers', false ) )
-            $result = $result->with( ['offers'] );
+            $result = $result->with( [ 'offers' ] );
 
         //
         if( $request->get( 'withParents', false ) )
-            $result = $result->with( ['parent'] );
+            $result = $result->with( [ 'parent' ] );
 
         //
         if( $request->get( 'withChildren', false ) )
-            $result = $result->with( ['children'] );
+            $result = $result->with( [ 'children' ] );
 
         // ------------------------------------------- //
         // ------------------------------------------- //
@@ -105,7 +126,7 @@ class CategoryController extends Controller
         // ------------------------------------------- //
         // ------------------------------------------- //
 
-        return response()->json($result);
+        return response()->json( $result );
     }
 
 }

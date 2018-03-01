@@ -14,8 +14,11 @@ class CategorySelectorController
 		this.$scope.category = this.category = {};
 		this.selected = [];
 
+		// ---------------------- //
+		// ---------------------- //
+
 		//
-		this.$rootScope.$on( "categoriesChanged", ( event, data ) =>
+		let onCategories = this.$rootScope.$on( "categoriesChanged", ( event, data ) =>
 		{
 			if( !this.item )
 				console.error("no category item available! oh-nose");
@@ -24,6 +27,12 @@ class CategorySelectorController
 			this.selected = this.item;
 
 			this.onCategoriesChanged();
+		} );
+
+		//
+		this.$scope.$on( '$destroy', () =>
+		{
+			onCategories();
 		} );
 	}
 
@@ -37,8 +46,8 @@ class CategorySelectorController
 	{
 		this.setupCategories( this.category );
 
-		console.log( this.category );
-		console.log( this.selected );
+		//console.log( this.category );
+		//console.log( this.selected );
 	}
 
 	//
@@ -80,7 +89,7 @@ class CategorySelectorController
 
 	toggleExpansion( category, node )
 	{
-		console.log( "t:", category, node );
+		//console.log( "t:", category, node );
 
 		category.isExpanded = !category.isExpanded;
 		node.toggle();
@@ -102,7 +111,7 @@ class CategorySelectorController
 				this.selected.splice( index );
 		}
 
-		console.log( this.selected );
+		//console.log( this.selected );
 	}
 
 	//

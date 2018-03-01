@@ -17,14 +17,14 @@
 				ng-if="vm.isElementVisible('user')"
 				style="min-width: 200px"
 				md-order-by="user_id"
-			>{{ 'User' | translate }}
+			>{{ 'Benutzer' | translate }}
 			</th>
 
 			<!-- type -->
 			<th
 				md-column
 				md-order-by="type"
-			>{{ 'Request' | translate }}
+			>{{ 'Antrag' | translate }}
 			</th>
 
 			<!-- role -->
@@ -98,7 +98,7 @@
 						md-delay="800"
 					>wants to join role/provider
 					</md-tooltip>
-					<md-icon>redo</md-icon>
+					<md-icon aria-label="">redo</md-icon>
 				</md-button>
 
 				<md-button
@@ -111,7 +111,7 @@
 						md-delay="800"
 					>wants to leave role/provider
 					</md-tooltip>
-					<md-icon>undo</md-icon>
+					<md-icon aria-label="">undo</md-icon>
 				</md-button>
 			</td>
 
@@ -122,8 +122,8 @@
 
 			<!-- provider -->
 			<td md-cell>
-				<md-icon ng-if="item.ngo && !item.ngo.published">lock</md-icon>
-				<md-icon ng-if="item.ngo && item.ngo.published">lock_open</md-icon>
+				<md-icon aria-label="" ng-if="item.ngo && !item.ngo.published">lock</md-icon>
+				<md-icon aria-label="" ng-if="item.ngo && item.ngo.published">lock_open</md-icon>
 				<a
 					href="{{vm.getURL(item,'provider')}}"
 					ng-if="item.ngo"
@@ -139,7 +139,7 @@
 					ng-click="vm.deleteItem(item)"
 					class="md-icon-button md-accent md-hue-1"
 				>
-					<md-icon>delete</md-icon>
+					<md-icon aria-label="">delete</md-icon>
 				</md-button>
 			</td>
 
@@ -152,7 +152,7 @@
 					ng-click="vm.acceptItem(item)"
 					class="md-icon-button md-accent md-hue-2"
 				>
-					<md-icon>done</md-icon>
+					<md-icon aria-label="">done</md-icon>
 				</md-button>
 			</td>
 

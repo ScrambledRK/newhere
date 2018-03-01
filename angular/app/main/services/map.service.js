@@ -1,3 +1,58 @@
+/*
+cartodb
+:
+{mustHaveUrl: true, createLayer: ƒ}
+cartodbInteractive
+:
+{mustHaveKey: true, mustHaveLayer: true, createLayer: ƒ}
+cartodbTiles
+:
+{mustHaveKey: true, createLayer: ƒ}
+cartodbUTFGrid
+:
+{mustHaveKey: true, mustHaveLayer: true, createLayer: ƒ}
+custom
+:
+{createLayer: ƒ}
+featureGroup
+:
+{mustHaveUrl: false, createLayer: ƒ}
+geoJSON
+:
+{mustHaveUrl: true, createLayer: ƒ}
+geoJSONAwesomeMarker
+:
+{mustHaveUrl: false, createLayer: ƒ}
+geoJSONShape
+:
+{mustHaveUrl: false, createLayer: ƒ}
+geoJSONVectorMarker
+:
+{mustHaveUrl: false, createLayer: ƒ}
+group
+:
+{mustHaveUrl: false, createLayer: ƒ}
+iip
+:
+{mustHaveUrl: true, createLayer: ƒ}
+imageOverlay
+:
+{mustHaveUrl: true, mustHaveBounds: true, createLayer: ƒ}
+markercluster
+:
+{mustHaveUrl: false, createLayer: ƒ}
+wms
+:
+{mustHaveUrl: true, createLayer: ƒ}
+wmts
+:
+{mustHaveUrl: true, createLayer: ƒ}
+xyz
+:
+{mustHaveUrl: true, createLayer: ƒ}
+
+ */
+
 export class MapService
 {
 	constructor( $rootScope,
@@ -13,56 +68,27 @@ export class MapService
 	{
 		'ngInject';
 
-		L.Icon.Default.imagePath = '/img';
-
-		console.log( "YES!\n", L );
 
 		var vm = this;
 
-		//
-		this.located = false;
-		this.map = null;
-		this.route = null;
-		this.meMarker = null;
-		this.defaults = {};
-		this.markers = [];
+		this.ContentService = ContentService;
+		this.ToastService = ToastService;
+		this.$translate = $translate;
+		this.$rootScope = $rootScope;
+		this.$timeout = $timeout;
+
 		this.leafletData = leafletData;
 		this.leafletMarkerEvents = leafletMarkerEvents;
-		this.highlight = -1;
-		this.$timeout = $timeout;
-		this.counter = 0;
+
+		// ------------------ //
+		// ------------------ //
 
 		//
-		this.ContentService = ContentService;
+		this.map = null;
+		this.markers = [];
 
-		$rootScope.$on( "contentChanged", ( event ) =>
-		{
-			console.log( "map content changed, yes man yes" );
-
-			//
-			this.setMarkers( this.ContentService.markerList, this.ContentService.offer );
-			this.zoomTo( this.ContentService.offer );
-		} );
-
-		/**
-		 *
-		 */
-		leafletData.getMap( 'nhMap' ).then( ( map ) =>
-		{
-			vm.map = map;
-			vm.map.invalidateSize();
-
-			//
-			// workaround for bug with disableClusteringAtZoom and spiderfyOnMaxZoom
-			//
-			leafletData.getLayers().then( ( layers ) =>
-			{
-				layers.overlays.offers.on( 'clusterclick', function( a )
-				{
-					a.layer.zoomToBounds();
-				} );
-			} );
-		} );
+		//
+		L.Icon.Default.imagePath = '/img';
 
 		this.tokens = {
 			mapbox: 'pk.eyJ1IjoibWFnbm9sbyIsImEiOiJuSFdUYkg4In0.5HOykKk0pNP1N3isfPQGTQ'
@@ -80,13 +106,7 @@ export class MapService
 			iconAnchor: [14, 40],
 		};
 
-		// ------------------ //
-		// ------------------ //
-
-		this.ToastService = ToastService;
-		this.$translate = $translate;
-		this.$rootScope = $rootScope;
-
+		//
 		this.defaults = {
 			tapTolerance: 150
 		};
@@ -97,13 +117,133 @@ export class MapService
 			zoom: 12
 		};
 
-		this.controls = {
-			fullscreen: {
-				position: 'topleft'
+		// ------------------ //
+		// ------------------ //
+
+		this.layers = this._createLayers();
+		this._setupLeafletData( leafletData );
+
+		//
+		// this.$timeout( () =>
+		// {
+		// 	this._createTransportLayer( $http );
+		// 	this._createStationLayer( $http );
+		// }, 1, false );
+
+		//
+		this.events = {
+			markers: {
+				enable: this.leafletMarkerEvents.getAvailableEvents(),
 			}
 		};
 
-		this.layers = {
+		// ------------------ //
+		// ------------------ //
+
+		$rootScope.$on( "contentChanged", ( event ) =>
+		{
+			this.setMarkers( this.ContentService.markerList, this.ContentService.offer );
+			this.zoomTo( this.ContentService.offer );
+		} );
+
+		//
+		// angular? bug - this method has to be defined within the constructor
+		//
+		this.setMarkers = ( offers, highlighted ) =>
+		{
+			angular.forEach( this.markers, ( marker, key ) =>
+			{
+				marker.icon = this.blueIcon;
+				marker.zIndexOffset = 10;
+				marker.isHighlight = false;
+			} );
+
+			//
+			this.markers = [];
+
+			//
+			this.leafletData.getLayers().then( ( layers ) =>
+			{
+				if( this.markers.length > 0 )
+					layers.overlays.offers.refreshClusters();
+			} );
+
+			//
+			// timeout hack, because there is a angular/leaflet race-condition
+			// without it, highlighted clusters stay highlighted although they shouldn't
+			//
+			this.$timeout( () =>
+			{
+				angular.forEach( offers, ( offer, key ) =>
+				{
+					let isFocus = false;
+					let icon = this.blueIcon;
+					let depth = 10;
+
+					if( highlighted && offer.id === highlighted.id )
+					{
+						isFocus = true;
+						icon = this.whiteIcon;
+						depth = 999999;
+					}
+
+					//
+					if( offer && offer.latitude && offer.longitude )
+					{
+						let marker = {
+							offer_id: offer.id,
+							isHighlight: isFocus,
+							lng: parseFloat( offer.latitude ), // jupp, we have them all wrong
+							lat: parseFloat( offer.longitude ),
+							icon: icon,
+							layer: 'offers',
+							clickable: true,
+							draggable: false,
+							riseOnHover: true,
+							zIndexOffset: depth
+						};
+
+						this.markers.push( marker );
+					}
+				} );
+
+				//
+				if( this.stationMarkers )
+					this.markers.push.apply( this.markers, this.stationMarkers );
+
+				//
+				this.leafletData.getLayers().then( ( layers ) =>
+				{
+					try
+					{
+						if( this.markers.length > 0 )
+							layers.overlays.offers.refreshClusters();
+					}
+					catch(err)
+					{
+						//;
+					}
+				} );
+			}, 0, false );
+		};
+
+		// ------------------ //
+		// ------------------ //
+
+
+	}
+
+	// ----------------------------------------------------------------------------------- //
+	// ----------------------------------------------------------------------------------- //
+
+	/**
+	 *
+	 * @returns
+	 * @private
+	 */
+	_createLayers()
+	{
+		return {
 			baselayers: {
 				xyz: {
 					name: 'LightAll',
@@ -131,175 +271,388 @@ export class MapService
 						disableClusteringAtZoom: 15,
 						spiderfyOnMaxZoom: false,
 
-						iconCreateFunction: function( cluster )
-						{
-							var childCount = cluster.getChildCount();
-
-							var c = ' marker-cluster-';
-							var h = '';
-
-							if( childCount < 10 )
-							{
-								c += 'small';
-							}
-							else if( childCount < 100 )
-							{
-								c += 'medium';
-							}
-							else
-							{
-								c += 'large';
-							}
-
-							//
-							var children = cluster.getAllChildMarkers();
-
-							for( let j = 0; j < children.length; j++ )
-							{
-								if( children[j].options.isHighlight )
-								{
-									h = " highlight";
-									break;
-								}
-							}
-
-							return new L.DivIcon( {
-								html: '<div><span>' + childCount + '</span></div>',
-								className: 'marker-cluster' + c + h,
-								iconSize: new L.Point( 40, 40 )
-							} );
-						}
+						iconCreateFunction: this._createOfferMarker
 					}
+				},
+
+				//
+				stations: {
+					name: 'stations',
+					type: 'featureGroup',
+					visible: true,
+					layerOptions: {}
 				}
 			}
 		};
-
-		this.events = {
-			markers: {
-				enable: this.leafletMarkerEvents.getAvailableEvents(),
-			}
-		};
-
-		//
-		//
-		//
-		this.setMarkers = ( offers, highlighted ) =>
-		{
-			angular.forEach( this.markers, ( marker, key ) =>
-			{
-				marker.icon = this.blueIcon;
-				marker.zIndexOffset = 10;
-				marker.isHighlight = false;
-			} );
-
-			//
-			this.markers = [];
-
-			//
-			this.leafletData.getLayers().then( ( layers ) =>
-			{
-				layers.overlays.offers.refreshClusters();
-			} );
-
-			//
-			// timeout hack, because there is a angular/leaflet race-condition
-			// without it, highlighted clusters stay highlighted although they shouldn't
-			//
-			this.$timeout( () =>
-			{
-				angular.forEach( offers, ( offer, key ) =>
-				{
-					var isFocus = false;
-					var icon = this.blueIcon;
-					var depth = 10;
-
-					if( highlighted && offer.id === highlighted.id )
-					{
-						this.highlight = offer.id;
-
-						isFocus = true;
-						icon = this.whiteIcon;
-						depth = 999999;
-					}
-
-					if( offer && offer.latitude && offer.longitude )
-					{
-						var marker = {
-							counter: this.counter++,
-							offer_id: offer.id,
-							isHighlight: isFocus,
-							lng: parseFloat( offer.latitude ), // jupp, we have them all wrong
-							lat: parseFloat( offer.longitude ),
-							icon: icon,
-							layer: 'offers',
-							clickable: true,
-							draggable: false,
-							riseOnHover: true,
-							zIndexOffset: depth
-						};
-
-						this.markers[offer.id] = marker;
-					}
-				} );
-
-				//
-				this.leafletData.getLayers().then( ( layers ) =>
-				{
-					layers.overlays.offers.refreshClusters();
-				} );
-			}, 0, false );
-		};
-
-		//
-		// https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:OEFFLINIENOGD&srsName=EPSG:4326&outputFormat=json
-		// http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png
-		//
-		//
-		$http.get( "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:OEFFLINIENOGD&srsName=EPSG:4326&outputFormat=json" )
-			.then( ( data, status ) =>
-			{
-				angular.extend( this.layers.overlays, {
-					transportation: {
-						name:'public transport',
-						type: 'geoJSON',
-						data: data,
-						visible: true,
-						layerOptions: {
-							style: {
-								color: 'blue',
-								weight: 2.0,
-								opacity: 0.6
-							}
-						}
-					}
-				});
-			} );
 	}
 
+	/**
+	 *
+	 * @param cluster
+	 * @returns {leafletHelpers.Leaflet.DivIcon|{is, equal}|*}
+	 * @private
+	 */
+	_createOfferMarker( cluster )
+	{
+		let childCount = cluster ? cluster.getChildCount() : 0;
+
+		let c = ' marker-cluster-';
+		let h = '';
+
+		if( childCount < 10 )
+		{
+			c += 'small';
+		}
+		else if( childCount < 100 )
+		{
+			c += 'medium';
+		}
+		else
+		{
+			c += 'large';
+		}
+
+		//
+		if( cluster )
+		{
+			let children = cluster.getAllChildMarkers();
+
+			for( let j = 0; j < children.length; j++ )
+			{
+				if( children[j].options.isHighlight )
+				{
+					h = " highlight";
+					break;
+				}
+			}
+		}
+
+		return new L.DivIcon( {
+			html: '<div><span>' + childCount + '</span></div>',
+			className: 'marker-cluster' + c + h,
+			iconSize: new L.Point( 40, 40 )
+		} );
+	}
+
+	/**
+	 *
+	 * @param leafletData
+	 * @private
+	 */
+	_setupLeafletData( leafletData )
+	{
+		leafletData.getMap( 'nhMap' ).then( ( map ) =>
+		{
+			this.map = map;
+			this.map.invalidateSize();
+
+			//
+			// workaround for bug with disableClusteringAtZoom and spiderfyOnMaxZoom
+			//
+			leafletData.getLayers().then( ( layers ) =>
+			{
+				layers.overlays.offers.on( 'clusterclick', function( a )
+				{
+					a.layer.zoomToBounds();
+				} );
+			} );
+
+			//
+			map.on( "zoomend", () =>
+			{
+				if( this.layers.overlays.other_transportation )
+					this.layers.overlays.other_transportation.visible = (map.getZoom() >= 16);
+
+				if( this.layers.overlays.metro_transportation )
+					this.layers.overlays.metro_transportation.visible = (map.getZoom() >= 14);
+			} );
+		} );
+	}
+
+	// ----------------------------------------------------------------------------------- //
+	// ----------------------------------------------------------------------------------- //
+	// Transportation
+
+	/**
+	 *
+	 * @param $http
+	 * @private
+	 */
+	_createTransportLayer( $http )
+	{
+		if( $http )
+		{
+			this.tp1 = null;
+			this.tp2 = null;
+
+			$http.get( "public_transport_1.json" )
+				.then( ( response ) =>
+					{
+						this.tp1 = response;
+						this._createTransportLayer( null );
+					},
+					( response ) =>
+					{
+						//console.log( "error", response );
+					} );
+
+			$http.get( "public_transport_2.json" )
+				.then( ( response ) =>
+					{
+						this.tp2 = response;
+						this._createTransportLayer( null );
+					},
+					( response ) =>
+					{
+						//console.log( "error", response );
+					} );
+		}
+
+		// ---------------------- //
+
+		if( this.tp1 && this.tp2 )
+		{
+			let data = {
+				type: "FeatureCollection",
+				totalFeatures: 3400,
+				features:[],
+				crs: {
+					type: "name",
+					properties: {
+						name: "urn:ogc:def:crs:EPSG::4326"
+					}
+				}
+			};
+
+			//
+			data.features.push.apply( data.features, this.tp1.data.features );
+			data.features.push.apply( data.features, this.tp2.data.features );
+
+			//
+			angular.extend( this.layers.overlays, {
+				metro_transportation:
+					{
+						name: 'public transport metro',
+						type: 'geoJSONShape',
+						data: data,
+						visible: true,
+						layerOptions:
+							{
+								filter: function( feature )
+								{
+									return feature.properties.LTYP === "4" ||
+										feature.properties.LTYP === "5";
+								},
+
+								style: this._getTransportFeatureStyle
+							}
+					},
+				other_transportation:
+					{
+						name: 'public transport other',
+						type: 'geoJSONShape',
+						data: data,
+						visible: true,
+						layerOptions:
+							{
+								filter: function( feature )
+								{
+									return feature.properties.LTYP !== "4" &&
+										feature.properties.LTYP !== "5";
+								},
+
+								style: this._getTransportFeatureStyle
+							}
+					}
+			} );
+		}
+	}
+
+	/**
+	 *
+	 * @param feature
+	 * @returns {{color: string, weight: number, opacity: number}}
+	 * @private
+	 */
+	_getTransportFeatureStyle( feature )
+	{
+		//console.log( feature );
+
+		//
+		let color = '#4a6aff';
+		let alpha = 0.2 + Math.random() * 0.6;
+		let weight = 1.0;
+
+		//
+		switch( feature.properties.LTYP )
+		{
+			case '1':   // Straßenbahn
+				color = '#ff8668';
+				break;
+
+			case '2':   // Autobus
+				color = '#55baff';
+				break;
+
+			case '3': // Regionalbus
+				color = '#6affbf';
+				break;
+
+			case '4': // U-Bahn
+			{
+				switch( feature.properties.LBEZEICHNUNG )
+				{
+					case "U1":
+						color = "#ff0600";
+						break;
+
+					case "U2":
+						color = "#bb00ff";
+						break;
+
+					case "U3":
+						color = "#ff7825";
+						break;
+
+					case "U4":
+						color = "#74ff30";
+						break;
+
+					case "U5":
+						color = "#44ffca";
+						break;
+
+					case "U6":
+						color = "#ffbf41";
+						break;
+				}
+
+				weight = 2.5;
+				alpha = 0.9;
+				break;
+			}
+
+			case "5":   // S-Bahn
+				color = '#3247ff';
+				weight = 2.0;
+				alpha = 0.6;
+				break;
+		}
+
+		return {
+			color: color,
+			weight: weight,
+			opacity: alpha
+		};
+	}
+
+	/**
+	 *
+	 * @param $http
+	 * @private
+	 */
+	_createStationLayer( $http )
+	{
+		this.stationMarkers = [];
+
+		//
+		$http.get( "stations_mini.json" )
+			.then( ( response ) =>
+				{
+					let count = 0;
+
+					angular.forEach( response.data.list, ( station, key ) =>
+					{
+						let marker = {
+							lines: station.relatedLines,
+							name: station.name,
+							lng: parseFloat( station.longitude ),
+							lat: parseFloat( station.latitude ),
+							icon: this._createStationIcon( station ),
+							layer: 'stations',
+							clickable: false,
+							draggable: false,
+							riseOnHover: false,
+							zIndexOffset: 5
+						};
+
+						if( count++ < 100 )
+						{
+							L.marker([marker.lat, marker.lng], marker).addTo(this.map)
+								.bindPopup( marker.name );
+						}
+
+						//if( this.stationMarkers.length < 10 )
+						//	this.stationMarkers.push( marker );
+					} );
+				},
+				( response ) =>
+				{
+					//console.log( "error", response );
+				} );
+	}
+
+	_createStationIcon( station )
+	{
+		let text = station.relatedLines;
+
+		return new L.DivIcon( {
+			html: '<div><span>' + text + '</span></div>',
+			iconSize: new L.Point( 40, 40 ),
+			className: 'leaflet-transport-icon'
+		} );
+
+	}
+
+	// ----------------------------------------------------------------------------------- //
+	// ----------------------------------------------------------------------------------- //
+
+	/**
+	 *
+	 */
 	invalidateSize()
 	{
+		//console.log( "map.service invalidate size - request" );
+
 		this.leafletData.getMap( 'nhMap' ).then( ( map ) =>
 		{
-			console.log( "map.service invalidate size" );
 			map.invalidateSize();
 		} );
 	}
 
+	/**
+	 *
+	 * @param offer
+	 */
 	zoomTo( offer )
 	{
-		if( offer && offer.latitude && offer.longitude )
+		//console.log( "zoomTo:", offer );
+
+		//
+		// timeout seems necessary, works most of the time without, but sometimes ..
+		// switching from a zoomed offer to a null offer (say provider) it doesn't
+		// do anything ...
+		//
+		this.$timeout( () =>
 		{
-			this.center = {
-				lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
-				lng: parseFloat( offer.latitude ),
-				zoom: 16
-			};
-		}
-		else
-		{
-			this.center = this.fixCenter;
-		}
+			if( offer && offer.latitude && offer.longitude )
+			{
+				this.center = {
+					lat: parseFloat( offer.longitude ), // jupp, we have them all wrong
+					lng: parseFloat( offer.latitude ),
+					zoom: 16
+				};
+			}
+			else
+			{
+				this.center = this.fixCenter;
+			}
+		}, 1, false );
+
 	}
+
+	// ----------------------------------------------------------------------------------- //
+	// ----------------------------------------------------------------------------------- //
 
 	/**
 	 *
@@ -312,7 +665,7 @@ export class MapService
 		{
 			navigator.geolocation.getCurrentPosition( ( position ) =>
 			{
-				console.log( position.coords.latitude + ' ' + position.coords.longitude );
+				//console.log( position.coords.latitude + ' ' + position.coords.longitude );
 
 				this.center.lat = position.coords.latitude;
 				this.center.lng = position.coords.longitude;

@@ -48,6 +48,6 @@ export class SearchService
 			query: value
 		};
 
-		return this.API.one( 'search' ).getList( 'offers', query );
+		return this.API.all( 'search' ).customGET( 'offers', query );
 	}
 }

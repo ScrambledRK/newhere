@@ -35,7 +35,7 @@ export class ContentService
 		//
 		this.$rootScope.$on( "$stateChangeStart", ( event, toState, toParams, fromState, fromParams ) =>
 		{
-			this.onStateChanged( fromState, toState, toParams );
+			this.onStateChanged( fromState, toState, fromParams, toParams );
 		} );
 
 		// --------------------------- //
@@ -48,6 +48,7 @@ export class ContentService
 		this.provider = null;
 		this.offer = null;
 
+		this.categoryTree = null;
 		this.categoryList = null;
 		this.providerList = null;
 		this.offerList = null;
@@ -59,7 +60,7 @@ export class ContentService
 		this.slugOffer = null;
 
 		//
-		this.onStateChanged( this.$state, this.$state, this.$state.params );
+		this.onStateChanged( this.$state, this.$state, this.$state.params, this.$state.params );
 	}
 
 	/**
@@ -80,34 +81,53 @@ export class ContentService
 	 * @param toState
 	 * @param toParams
 	 */
-	onStateChanged( fromState, toState, toParams )
+	onStateChanged( fromState, toState, fromParams, toParams )
 	{
+		//console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
+
+		//
 		let paramCategory = toParams.category;
 		let paramProvider = toParams.provider;
 		let paramOffer = toParams.offer;
 
-		if( toState.name === "main.content.offers" )
+		if( toState.name === "main.content.offers" || (!toState.name && (paramCategory || paramOffer)))
 		{
 			if( toState.name !== fromState.name )
 				this.slugProvider = null;
 
+			//
 			paramProvider = null;
 
+			// {#: null, category: "start,providers,239", offer: "14"}
+			if( toParams.category )
+			{
+				let split = toParams.category.split(",");
+
+				if( split.length === 3 && split[0] === 'start' && split[1] === 'providers' )
+				{
+					paramProvider = split[2];
+					paramCategory = 'providers';
+				}
+			}
+
+			//
 			if( !paramCategory || paramCategory === "" )
 				console.error( "content.toState requires category parameter to be set" );
 		}
-
-		if( toState.name === "main.content.providers" )
+		else if( toState.name === "main.content.providers" || (!toState.name && paramProvider))
 		{
 			if( toState.name !== fromState.name )
-				this.slugCategory = this.slugOffer = null;
+				this.slugOffer = null;
 
-			paramCategory = null;
 			paramOffer = null;
+			paramCategory = 'providers';
 
 			if( !paramProvider )
 				console.error( "content.toState requires provider parameter to be set" );
 		}
+
+		//if( paramProvider === 'all' )
+		//	paramCategory = 'providers';
 
 		//
 		this.fetchContent(
@@ -130,6 +150,10 @@ export class ContentService
 	 */
 	fetchContent( slugCategory, slugProvider, slugOffer, force )
 	{
+		//console.log("fetchContent", slugCategory, slugProvider, slugOffer, force );
+		//console.log( "           ", this.slugCategory, this.slugProvider, this.slugOffer );
+
+		//
 		this.$rootScope.isLoading = true;
 
 		//
@@ -145,29 +169,119 @@ export class ContentService
 
 		// ------------- //
 
-		let categoryPromise = this.fetchCategory( slugCategory, config, force );
-		let providerPromise = this.fetchProvider( slugProvider, config, force );
-		let offerPromise = this.fetchOffer( slugOffer, config, force );
+		let catTreePromise = this.fetchCategoryTree( config, force );
 
-		this.$q.all( [categoryPromise, providerPromise, offerPromise] )
-			.then( () =>
-				{
-					console.log( "fetch content complete" );
+		catTreePromise.then( () =>
+		{
+			let categoryPromise = this.fetchCategory( slugCategory, config, force );
 
-					this.defer = null;
+			categoryPromise.then( () =>
+			{
+				let providerPromise = this.fetchProvider( slugProvider, config, force );
+				let offerPromise = this.fetchOffer( slugOffer, config, force );
 
-					this.$rootScope.isLoading = false;
-					this.$rootScope.$broadcast( 'contentChanged', this );
-				},
-				( msg ) =>
-				{
-					console.log( "fetch content canceled/error", msg );
-				} );
+				this.$q.all( [providerPromise, offerPromise] )
+					.then( () =>
+						{
+							//console.log( "fetchContent complete" );
+
+							this.defer = null;
+
+							this.$rootScope.isLoading = false;
+							this.$rootScope.$broadcast( 'contentChanged', this );
+
+							this._setDocumentTitle();
+						},
+						( msg ) =>
+						{
+							//console.log( "fetch content canceled/error", msg );
+						} );
+			} );
+		});
+	}
+
+	_setDocumentTitle()
+	{
+		if( this.offer && this.slugOffer )
+		{
+			document.title = "newhere : " + this.offer.title;
+		}
+		else if( this.provider && this.slugProvider )
+		{
+			document.title = "newhere : " + this.provider.organisation;
+		}
+		else if( this.category && this.slugCategory )
+		{
+			document.title = "newhere : " + this.category.title;
+		}
+		else if( this.providerList && !this.slugProvider && !this.slugOffer )
+		{
+			this.$translate( "Anbieter" ).then( ( msg ) =>
+			{
+				document.title = "newhere : " + msg;
+			} );
+		}
+		else
+		{
+			document.title = "newhere : welcome";
+		}
 	}
 
 	// -------------------------------------------------------------- //
 	// -------------------------------------------------------------- //
 	// CATEGORY
+
+	//
+	fetchCategoryTree( config, force )
+	{
+		if( this.categoryTree || true )
+			return this.$q.when();
+
+		//
+		return this.API.one( "categories", "all" ).withHttpConfig( config ).get()
+			.then( ( response ) =>
+				{
+					//console.log( "fetchCategory TREE complete", response );
+
+					if( !response.length )
+						return;
+
+					//
+					this.categoryTree = response[0];
+					this._setupCategoryTree( this.categoryTree, null );
+
+					//console.log("tree done man: ", this.categoryTree );
+				},
+				( msg ) =>
+				{
+					//console.log( "fetch categories canceled/error", msg );
+				} );
+	}
+
+	//
+	_setupCategoryTree( node, parent )
+	{
+		node.parent = parent;
+
+		//
+		angular.forEach( node.all_children, ( child, key ) =>
+		{
+			this._setupCategoryTree( child, node );
+		} );
+
+		//
+		node.getNumTotalOffers = function()
+		{
+			let numTotal = this.offers_count;
+
+			angular.forEach( this.all_children, ( child, key ) =>
+			{
+				numTotal += child.getNumTotalOffers();
+			} );
+
+			return numTotal;
+		}
+	}
 
 	/**
 	 *
@@ -179,7 +293,7 @@ export class ContentService
 	 */
 	fetchCategory( slugCategory, config, force )
 	{
-		console.log( "fetching categories: ", slugCategory );
+		//console.log( "fetchCategory", slugCategory, force );
 
 		if( !slugCategory )
 			return this.$q.when();
@@ -199,9 +313,14 @@ export class ContentService
 		};
 
 		//
-		return this.API.one( "categories", this.slugCategory ).withHttpConfig( config ).get( query )
+		let slug = this.slugCategory.split(",").pop();
+
+		//
+		return this.API.one( "categories", slug ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
+					//console.log( "fetchCategory complete", response );
+
 					if( !response.length )
 						return;
 
@@ -212,6 +331,23 @@ export class ContentService
 					this.markerList = this.category.offers;
 
 					//
+					angular.forEach( this.categoryList, ( child, key ) =>
+					{
+						child.parent = this.category;
+					} );
+
+					//
+					let providers = [];
+
+					angular.forEach( this.category.offers, ( child, key ) =>
+					{
+						if( child.ngo )
+							providers.push( child.ngo );
+					} );
+
+					this._cleanProviders( providers );
+
+					//
 					for( let j = 1; j < response.length; j++ )
 					{
 						if( response[j].children )
@@ -220,7 +356,7 @@ export class ContentService
 				},
 				( msg ) =>
 				{
-					console.log( "fetch categories canceled/error", msg );
+					//console.log( "fetch categories canceled/error", msg );
 				} );
 	}
 
@@ -238,10 +374,13 @@ export class ContentService
 	 */
 	fetchProvider( slugProvider, config, force )
 	{
-		console.log( "fetching providers: ", slugProvider );
+		//console.log( "fetchProvider", slugProvider, force );
 
 		if( !slugProvider )
+		{
+			this.provider = null;
 			return this.$q.when();
+		}
 
 		if( !force && slugProvider === this.slugProvider )
 			return this.$q.when();
@@ -267,15 +406,20 @@ export class ContentService
 		return this.API.all( "providers" ).withHttpConfig( config ).getList( query )
 			.then( ( response ) =>
 				{
+					//console.log("fetchProviderList complete", response );
+
 					if( !response.length )
 						return;
 
 					//
 					this.providerList = response;
+					this.provider = null;
+
+					this._cleanProviders(this.providerList);
 				},
 				( msg ) =>
 				{
-					console.log( "fetch provider.list canceled/error", msg );
+					//console.log( "fetch provider.list canceled/error", msg );
 				} );
 	}
 
@@ -290,14 +434,41 @@ export class ContentService
 		return this.API.one( "providers", this.slugProvider ).withHttpConfig( config ).get( query )
 			.then( ( response ) =>
 				{
+					//console.log("fetchProviderDetail complete", response );
+
 					this.provider = response;
 					this.offerList = this.provider.offers;
 					this.markerList = this.provider.offers;
+
+					angular.forEach( this.offerList, ( child, key ) =>
+					{
+						if( !child.ngo )
+							child.ngo = this.provider;
+					} );
+
+					this._cleanProviders([this.provider]);
 				},
 				( msg ) =>
 				{
-					console.log( "fetch provider.detail canceled/error", msg );
+					//console.log( "fetch provider.detail canceled/error", msg );
 				} );
+	}
+
+	_cleanProviders( list )
+	{
+		//
+		angular.forEach( list, ( p, key ) =>
+		{
+			if( p.organisation )
+			{
+				let split = p.organisation.split("");
+
+				while( split[split.length -1] === '*' )
+					split.pop();
+
+				p.organisation = split.join('');
+			}
+		} );
 	}
 
 	// -------------------------------------------------------------- //
@@ -314,13 +485,14 @@ export class ContentService
 	 */
 	fetchOffer( slugOffer, config, force )
 	{
-		console.log( "fetching offer: ", slugOffer );
-
-		this.offer = null;
+		//console.log( "fetchOffer", slugOffer, force );
 
 		//
 		if( !slugOffer )
+		{
+			this.offer = null;
 			return this.$q.when();
+		}
 
 		if( !force && slugOffer === this.slugOffer )
 			return this.$q.when();
@@ -333,12 +505,18 @@ export class ContentService
 		return this.API.one( "offers", this.slugOffer ).withHttpConfig( config ).get()
 			.then( ( response ) =>
 				{
+					//console.log("fetchOffer complete", response );
+
 					this.offer = response;
+
+					if( this.offer && this.offer.ngo )
+						this._cleanProviders([this.offer.ngo]);
 				},
 				( msg ) =>
 				{
-					console.log( "fetch offer canceled/error", msg );
+					//console.log( "fetch offer canceled/error", msg );
 				} );
 	}
+
 
 }

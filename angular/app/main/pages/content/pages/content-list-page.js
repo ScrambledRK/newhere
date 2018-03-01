@@ -5,13 +5,15 @@ class ContentListPageController
 	 * @param {*} $rootScope
 	 */
 	constructor( ContentService,
-	             $rootScope )
+	             $rootScope,
+	             $state )
 	{
 		'ngInject';
 
 		//
 		this.ContentService = ContentService;
 		this.$rootScope = $rootScope;
+		this.$state = $state;
 	}
 
 	hasOffers()
@@ -30,6 +32,19 @@ class ContentListPageController
 	isLoading()
 	{
 		return this.$rootScope.isLoading && !this.hasCategories() && !this.hasOffers();
+	}
+
+	// ------------------------- //
+
+	goFurther()
+	{
+		this.$state.go( 'main.page', {slug:this.ContentService.category.page.slug} );
+	}
+
+	//
+	getFurtherURL()
+	{
+		return "#!/page/" + this.ContentService.category.page.slug;
 	}
 }
 

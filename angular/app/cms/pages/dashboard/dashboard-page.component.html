@@ -35,6 +35,16 @@
 					<cms-profile></cms-profile>
 				</div>
 			</md-tab>
+
+			<!-- org -->
+			<md-tab
+				label="{{ 'Anbieter' | translate }}"
+        ng-if="vm.isElementVisible('provider')"
+			>
+				<div style="padding-top: 8px">
+					<cms-provider-tasks></cms-provider-tasks>
+				</div>
+			</md-tab>
 		</md-tabs>
 	</md-content>
 

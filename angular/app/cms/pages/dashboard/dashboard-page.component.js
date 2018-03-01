@@ -1,6 +1,6 @@
 class DashboardPageController
 {
-	constructor( $state, UserService )
+	constructor( $state, $scope, $rootScope, UserService )
 	{
 		'ngInject';
 
@@ -11,14 +11,37 @@ class DashboardPageController
 		//
 		this.tab = 0;
 
-		if( this.UserService.isWithoutRole() )
-			this.tab = 1;
+		let onUser = $rootScope.$on( "userChanged", ( event, item ) =>
+		{
+			this._checkUser();
+		} );
 
-		if( $state.params.tab )
-			this.tab = $state.params.tab;
+		$scope.$on( '$destroy', () =>
+		{
+			onUser();
+		} );
+
+		this._checkUser();
 	}
 
+	_checkUser()
+	{
+		if( !this.UserService.isAdministrator() )
+			this.tab = 1;
 
+		if( this.$state.params.tab )
+			this.tab = this.$state.params.tab;
+	}
+
+	//
+	isElementVisible( name )
+	{
+		if( name === "provider" )
+			return false; //this.UserService.isAdministrator();
+
+		//
+		return false;
+	}
 }
 
 export const DashboardPageComponent = {

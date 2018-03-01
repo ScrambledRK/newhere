@@ -5,7 +5,7 @@
 >
 	<md-toolbar>
 		<md-button ng-click="vm.close()">
-			<md-icon>close</md-icon>
+			<md-icon aria-label="close">close</md-icon>
 		</md-button>
 	</md-toolbar>
 
@@ -57,7 +57,8 @@
 			<md-list-item>
 				<md-button
 					class=""
-					ui-sref="main.content.providers"
+					ng-click="vm.goURL('provider')"
+					href="{{vm.getURL('provider')}}"
 					aria-label="providers"
 					translate="Alle Anbieter"
 				>
@@ -66,7 +67,8 @@
 			<md-list-item>
 				<md-button
 					class=""
-					ui-sref="main.content.offers"
+					ng-click="vm.goURL('offer')"
+					href="{{vm.getURL('offer')}}"
 					aria-label="providers"
 					translate="Alle Angebote"
 				>
@@ -81,7 +83,15 @@
 			<md-divider></md-divider>
 			<md-list-item>
 				<md-button
-					ui-sref="main.impressum"
+					ui-sref="main.page({slug:'about-us'})"
+					aria-label="about"
+				>
+					Über uns
+				</md-button>
+			</md-list-item>
+			<md-list-item>
+				<md-button
+					ui-sref="main.page({slug:'impressum'})"
 					aria-label="impressum"
 				>
 					Impressum &amp; Nutzungsbedingungen

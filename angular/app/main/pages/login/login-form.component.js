@@ -15,6 +15,9 @@ class LoginFormController
 
 		this.email = '';
 		this.password = '';
+
+		if( $state.params.registerMail && $state.params.registerMail.length > 0 )
+			this.registerMail = $state.params.registerMail;
 	}
 
 	login()

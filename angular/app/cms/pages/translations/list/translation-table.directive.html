@@ -38,10 +38,15 @@
 			<!-- languages -->
 			<th
 				ng-repeat="lang in vm.languages"
-				ng-if="lang != 'de'"
 				md-column
 				md-order-by="{{lang}}"
 			>{{lang}}
+			</th>
+
+			<th
+					md-column
+					md-order-by="updated_at"
+			>{{ 'Letzte Änderung' | translate }}
 			</th>
 		</tr>
 		</thead>
@@ -114,7 +119,6 @@
 			<td
 				md-cell
 				ng-repeat="lang in vm.languages"
-				ng-if="lang != 'de'"
 			>
 
 				<md-tooltip
@@ -143,7 +147,9 @@
 					highlight_off
 				</md-icon>
 			</td>
-
+			<td md-cell>
+				<div>{{item.updated_at}}</div>
+			</td>
 		</tr>
 		</tbody>
 	</table>

@@ -52,13 +52,27 @@ class CategoryListController
 	//
 	goCategory( category )
 	{
-		this.RoutingService.goContent( category.slug, null );
+		if( category.slug === 'providers')
+		{
+			this.RoutingService.goProvider( 'all' );
+		}
+		else
+		{
+			this.RoutingService.goContent( category, null );
+		}
 	}
 
 	//
 	getURL( category )
 	{
-		return this.RoutingService.getContentURL( category.slug, null );
+		if( category.slug === 'providers')
+		{
+			return this.RoutingService.getProviderURL( 'all' );
+		}
+		else
+		{
+			return this.RoutingService.getContentURL( category, null );
+		}
 	}
 
 	//

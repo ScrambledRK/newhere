@@ -23,27 +23,21 @@ class CmsMenuController
 			{
 				sref: 'cms.offers',
 				icon: 'local_offer',
-				title: 'Offers',
+				title: 'Angebote',
 				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user']
 			},
 			{
 				sref: 'cms.providers',
 				icon: 'business',
-				title: 'Providers',
+				title: 'Anbieter',
 				roles: ['admin', 'superadmin', 'organisation-admin', 'organisation-user']
 			},
 			{
 				sref: 'cms.translations',
 				icon: 'translate',
-				title: 'Translations',
+				title: 'Übersetzungen',
 				roles: ['admin', 'superadmin', 'moderator']
 			},
-			// {
-			// 	sref: 'cms.categories',
-			// 	icon: 'list',
-			// 	title: 'Categories',
-			// 	roles: ['admin', 'superadmin']
-			// },
 			// {
 			// 	sref: 'cms.filters',
 			// 	icon: 'filter_list',
@@ -59,8 +53,26 @@ class CmsMenuController
 			{
 				sref: 'cms.users',
 				icon: 'group',
-				title: 'Users',
+				title: 'Benutzer',
 				roles: ['admin','superadmin', 'organisation-admin', 'organisation-user' ]
+			},
+			{
+				sref: 'cms.pages',
+				icon: 'description',
+				title: 'Seiten',
+				roles: ['admin','superadmin' ]
+			},
+			{
+				sref: 'cms.categories',
+				icon: 'list',
+				title: 'Kategorien',
+				roles: ['admin','superadmin' ]
+			},
+			{
+				sref: 'cms.content',
+				icon: 'low_priority',
+				title: 'Content',
+				roles: ['admin','superadmin' ]
 			}
 		];
 

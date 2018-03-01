@@ -10,6 +10,7 @@ class ContentPageController
 	 * @param {*} $scope
 	 */
 	constructor( RoutingService,
+				 ContentService,
 	             MapService,
 	             $rootScope,
 	             $document,
@@ -21,6 +22,7 @@ class ContentPageController
 
 		//
 		this.RoutingService = RoutingService;
+		this.ContentService = ContentService;
 		this.MapService = MapService;
 		this.$rootScope = $rootScope;
 		this.$document = $document;
@@ -60,7 +62,7 @@ class ContentPageController
 		let isMapFocused = this.RoutingService.isMapFocused;
 		let isDetailState = this.RoutingService.isDetailState;
 
-		console.log("resizeContent", isMapFocused, isDetailState );
+		//console.log("resizeContent", isMapFocused, isDetailState );
 
 		let contentElement = angular.element( this.$document[0].querySelector( '#content-container' ) );
 		let mapElement = angular.element( this.$document[0].querySelector( '#map-container' ) );
@@ -96,8 +98,11 @@ class ContentPageController
 			}
 
 			//
-			this.$timeout( () => { this.MapService.invalidateSize(); }, 150, false );
-			this.$timeout( () => { this.MapService.invalidateSize(); }, 350, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 1, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 100, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 200, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 300, false );
+			this.$timeout( () => { this.MapService.invalidateSize(); }, 400, false );
 			this.$timeout( () => { this.MapService.invalidateSize(); }, 500, false );
 		}
 	}

@@ -6,6 +6,7 @@ use App\Category;
 use App\Filter;
 use App\Offer;
 use App\OfferTranslation;
+use App\Page;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -71,6 +72,17 @@ class TranslationController extends Controller
                 $table_translation = 'category_translations';
                 $table_data = 'categories';
                 $join_field = 'category_id';
+
+                break;
+            }
+
+            case "page":
+            {
+                $result = $this->indexPage( $request );
+
+                $table_translation = 'page_translations';
+                $table_data = 'pages';
+                $join_field = 'page_id';
 
                 break;
             }
@@ -286,6 +298,41 @@ class TranslationController extends Controller
         return $result;
     }
 
+    //
+    private function indexPage( Request $request )
+    {
+        $result = Page::with( [ "translations" ] );
+
+        //
+        if( $request->has( 'enabled' ) )
+        {
+            $result = $result->where( 'enabled', $request->get( 'enabled' ) );
+        }
+
+        //
+        if( $request->has( 'title' ) )
+        {
+            $toSearch = $request->get( 'title' );
+
+            //
+            $result = $result->whereHas( 'translations',
+                function( $query ) use ( $toSearch )
+                {
+                    $query->where(
+                        'title',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    )->orWhere(
+                        'slug',
+                        'ilike',
+                        '%' . $toSearch . '%'
+                    );
+                } );
+        }
+
+        return $result;
+    }
+
     // ------------------------------------- //
     // ------------------------------------- //
 
@@ -320,6 +367,12 @@ class TranslationController extends Controller
                 break;
             }
 
+            case "page":
+            {
+                $result = Page::findOrFail( (int)$id );
+                break;
+            }
+
             default:
                 throw new Exception( 'unknown translation type' );
         }
@@ -338,6 +391,9 @@ class TranslationController extends Controller
 
         if( $request->has( 'opening_hours' ) )
             $result->translateOrNew( $locale )->opening_hours = $request->get( 'opening_hours' );
+
+        if( $request->has( 'content' ) )
+            $result->translateOrNew( $locale )->content = $request->get( 'content' );
 
         //
         $result->translateOrNew( $locale )->version = $request->get( 'version' );

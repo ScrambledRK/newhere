@@ -44,28 +44,32 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 			} )
 
 		//
-		.state( 'main.impressum',
+		.state( 'main.page',
 			{
-				url: '/impressum-agbs',
+				url: '/page/{slug:[a-zA-Z0-9-]+}',
+
+				params:
+					{
+						slug: {
+							value: 'about-us'
+						}
+					},
 
 				views:
 					{
 						'body@main': {
-							templateUrl: getView( 'impressum/impressum' )
-						}
-					}
-			} )
+							templateProvider: function( $stateParams )
+							{
+								let result = "<custom-page></custom-page>";
 
-		//
-		.state( 'main.contribute',
-			{
-				url: '/contribute',
+								if( $stateParams.slug === 'about-us' )
+									result += "<paypal-donate></paypal-donate>";
 
-				views:
-					{
-						'body@main': {
-							templateUrl: getView( 'contribute/contribute' )
+								return result;
+							}
 						}
+
+
 					}
 			} )
 
@@ -88,7 +92,7 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		//
 		.state( 'main.content.offers',
 			{
-				url: '/offers/{category:[a-zA-Z0-9\-]+}/{offer:[0-9]*}',
+				url: '/offers/{category:[a-zA-Z0-9\-\,]+}/{offer:[0-9]*}',
 
 				params:
 					{
@@ -135,7 +139,7 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 				views:
 					{
 						'navigation@main.content': {
-							template: ""
+							template: "<toolbar></toolbar>"
 						},
 
 						'content@main.content': {
@@ -158,6 +162,11 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.login',
 			{
 				url: '/login',
+				params: {
+					registerMail: {
+						value: null
+					}
+				},
 
 				views:
 					{

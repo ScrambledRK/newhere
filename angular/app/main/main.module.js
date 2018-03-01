@@ -25,6 +25,10 @@ import {RoutingService} from "./services/routing.service";
 import {RegisterFormComponent} from "./pages/login/register-form.component";
 import {ForgotpasswordFormComponent} from "./pages/login/forgotpassword-form.component";
 import {ResetpasswordFormComponent} from "./pages/login/resetpassword-form.component";
+import {CategoryTitleDirective} from "./directives/category-title.directive";
+import {CustomPageComponent} from "./pages/custom/custom-page.component";
+import {PayPalDonateComponent} from "./components/donate/paypal.component";
+import {LanguageMenuComponent} from "./components/language-switcher/language-menu.component";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -51,6 +55,7 @@ angular.module( 'app.main' )
 //
 angular.module( 'app.main' )
 	.directive( "offerTitle", OfferTitleDirective )
+	.directive( "categoryTitle", CategoryTitleDirective )
 ;
 
 // ------------------------------- //
@@ -62,6 +67,8 @@ angular.module( 'app.main' )
 	.component( 'sideMenu', SideMenuComponent )
 	.component( 'loader', LoaderComponent )
 	.component( 'languageSwitcher', LanguageSwitcherComponent )
+	.component( 'languageMenu', LanguageMenuComponent )
+	.component( 'paypalDonate', PayPalDonateComponent )
 ;
 
 angular.module( 'app.main' )
@@ -83,4 +90,5 @@ angular.module( 'app.main' )
 	.component( 'registerForm', RegisterFormComponent )
 	.component( 'forgotpasswordForm', ForgotpasswordFormComponent )
 	.component( 'resetpasswordForm', ResetpasswordFormComponent )
+	.component( 'customPage', CustomPageComponent )
 ;

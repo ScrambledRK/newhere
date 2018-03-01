@@ -5,6 +5,7 @@ class ProviderFormController
 				 ToastService,
 				 API,
 				 $timeout,
+				 $translate,
 				 $rootScope,
 	             $scope,
 	             $state )
@@ -19,6 +20,8 @@ class ProviderFormController
 		this.$timeout = $timeout;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
+		this.$state = $state;
+		this.$translate = $translate;
 
 		//
 		this.offer = {
@@ -36,6 +39,12 @@ class ProviderFormController
 		// ------------ //
 
 		//
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		{
+			this.onLanguageChanged();
+		} );
+
+		//
 		let onSave = this.$rootScope.$on( "role.createProvider", ( event ) =>
 		{
 			this.save();
@@ -44,8 +53,8 @@ class ProviderFormController
 		//
 		let onCheck = this.$rootScope.$on( "role.checkComplete", ( event, ctrl ) =>
 		{
-			ctrl.canComplete = !this.$scope.form.$invalid
-				&& !this.$scope.form.$pristine && !this.isProcessing;
+			ctrl.canComplete = !this.$scope.aform.$invalid
+				&& !this.$scope.aform.$pristine && !this.isProcessing;
 		} );
 
 		//
@@ -56,9 +65,41 @@ class ProviderFormController
 
 		this.$scope.$on( '$destroy', () =>
 		{
+			onLanguage();
 			onSave();
 			onCheck();
 			onImage();
+		} );
+
+		// ------------------------------ //
+		// ------------------------------ //
+
+		this.label_checkbox_without_address = "without Address (only website)";
+
+		$translate( "provider_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
+		} );
+	}
+
+	//
+	onWithoutAddressChange()
+	{
+		this.$timeout( () =>
+		{
+			this.MapService.invalidateSize();
+		}, 1, false );
+	}
+
+	//
+	onLanguageChanged( )
+	{
+		if( this.offer.id )
+			this.fetchItem( this.offer.id );
+
+		this.$translate( "provider_form_address_checkbox" ).then( ( msg ) =>
+		{
+			this.label_checkbox_without_address = msg;
 		} );
 	}
 
@@ -82,8 +123,6 @@ class ProviderFormController
 	{
 		this.isProcessing = true;
 
-		console.log("save that ass");
-
 		if( this.offer.isWithoutAddress )
 		{
 			this.offer.street = null;
@@ -99,8 +138,8 @@ class ProviderFormController
 			this.API.all( 'cms/providers' ).post( this.offer )
 				.then( ( response ) =>
 					{
-						this.ToastService.show( 'Erfolgreich gespeichert.' );
-						console.log( "res:", response.data.provider );
+						this.ToastService.show( 'Eintrag aktualisiert.' );
+						//console.log( "res:", response.data.provider );
 
 						this.setProvider( response.data.provider );
 						this.$rootScope.$broadcast( 'role.createProviderComplete', this.offer );
@@ -109,7 +148,7 @@ class ProviderFormController
 					},
 					( error ) =>
 					{
-						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 						this.isProcessing = false;
 					}
 				);
@@ -119,8 +158,8 @@ class ProviderFormController
 			this.API.one( 'cms/providers', this.offer.id ).customPUT( this.offer )
 				.then( ( response ) =>
 					{
-						this.ToastService.show( 'Erfolgreich gespeichert.' );
-						console.log( "res:", response.data.provider );
+						this.ToastService.show( 'Eintrag aktualisiert.' );
+						//console.log( "res:", response.data.provider );
 
 						this.setProvider( response.data.provider );
 						this.$rootScope.$broadcast( 'role.createProviderComplete', this.offer );
@@ -129,7 +168,7 @@ class ProviderFormController
 					},
 					( error ) =>
 					{
-						this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+						this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 						this.isProcessing = false;
 					}
 				);
@@ -138,7 +177,7 @@ class ProviderFormController
 
 	setProvider(item)
 	{
-		console.log("setProvider:", item );
+		//console.log("setProvider:", item );
 
 		//
 		for(let k in item)
@@ -152,6 +191,11 @@ class ProviderFormController
 
 		//
 		this.updateMap();
+	}
+
+	cancel()
+	{
+		this.$state.go( 'cms.providers' );
 	}
 
 	// ------------------------------------------------------- //
@@ -184,7 +228,7 @@ class ProviderFormController
 
 	updateMap()
 	{
-		console.log("update map:", this.offer );
+		//console.log("update map:", this.offer );
 
 		this.MapService.markers = {};
 		this.MapService.setMarkers( [ this.offer ] );

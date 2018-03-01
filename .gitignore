@@ -13,3 +13,4 @@ public/css
 public/build
 .DS_Store
 /public/jstmp
+/app.config.json

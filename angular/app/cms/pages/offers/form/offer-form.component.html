@@ -1,15 +1,61 @@
 <div
+	layout="row"
+	layout-align="start center"
+>
+	<i
+		class="material-icons"
+		style="color: red !important; margin-left: 22px; margin-right: 14px;"
+	>warning</i>
+	<span translate="Alle angegebenen Daten werden veröffentlicht"></span>
+</div>
+
+<div
 	style="padding:.5em;"
 	layout="row"
 	layout-align="space-between center"
 >
-	<span class="md-title">
-		{{ vm.offer.title || 'Neues Angebot' | translate  }}
+
+	<!-- enabled -->
+	<md-button
+			ng-click="vm.toggleItem(true)"
+			ng-if="!vm.offer.enabled"
+			class="md-icon-button md-accent md-hue-2"
+	>
+		<md-tooltip
+				md-direction="right"
+				md-delay="800"
+		>{{'offer_disabled' | translate}}
+		</md-tooltip>
+		<md-icon>lock</md-icon>
+	</md-button>
+	<md-button
+			ng-click="vm.toggleItem(false)"
+			ng-if="vm.offer.enabled"
+			class="md-icon-button md-accent md-hue-2"
+	>
+		<md-tooltip
+				md-direction="right"
+				md-delay="800"
+		>{{'offer_enabled' | translate}}
+		</md-tooltip>
+		<md-icon>lock_open</md-icon>
+	</md-button>
+
+	<!-- title -->
+	<span class="md-title" ng-if="vm.offer.title">
+		{{ vm.offer.title }}
 	</span>
+	<span class="md-title" ng-if="!vm.offer.title">
+		{{ 'Neues Angebot' | translate  }}
+	</span>
+
+	<span flex></span>
+
+	<!-- ngo list -->
 	<span ng-if="vm.providers.length > 1">
     <md-input-container class="md-block">
-      <label>{{ 'NGO' | translate }}</label>
-      <md-select ng-model="vm.offer.ngo_id">
+      <label>{{ 'Anbieter' | translate }}</label>
+      <md-select ng-model="vm.offer.ngo_id" md-on-close="vm.onProviderSelected">
         <md-option
 	        ng-repeat="ngo in vm.providers"
 	        ng-value="ngo.id"
@@ -39,6 +85,7 @@
 		>
 			<!-- details -->
 		  <offer-details></offer-details>
+
 			<div
 				layout="row"
 				layout-md="column"
@@ -46,6 +93,7 @@
 			>
 				<div
 					flex-gt-md="50"
+					flex-gt-xs="40"
 					layout="column"
 				>
 					<!-- filters -->
@@ -53,6 +101,7 @@
 				</div>
 				<div
 					flex-gt-md="50"
+					flex-gt-xs="60"
 					layout="column"
 				>
 					<!-- categories -->
@@ -98,6 +147,7 @@
 		layout="row"
 		layout-align="end center"
 	>
+
 		<save
 			is-disabled="offerForm.$invalid || offerForm.$pristine"
 		></save>

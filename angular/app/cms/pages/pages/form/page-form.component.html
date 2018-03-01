@@ -1,0 +1,110 @@
+<form
+  name="pageForm"
+  ng-submit="vm.save()"
+  class="blank"
+  layout-fill
+>
+  <!-- horrible hack, I am sorry -->
+  <span style="display:none">{{ form = pageForm}}</span>
+
+  <div
+    layout="column"
+    layout-fill
+  >
+    <!-- #1 row: general -->
+    <md-card>
+      <!-- -->
+      <md-content
+        layout-padding
+        layout="row"
+      >
+        <!-- enabled -->
+        <md-input-container
+          class="md-block"
+          style="padding: 0px !important;"
+        >
+          <md-button
+            ng-click="vm.toggleItem(true)"
+            ng-if="!vm.page.enabled"
+            class="md-icon-button md-accent md-hue-2"
+          >
+            <md-tooltip
+              md-direction="right"
+              md-delay="800"
+            >page is not enabled
+            </md-tooltip>
+            <md-icon>lock</md-icon>
+          </md-button>
+          <md-button
+            ng-click="vm.toggleItem(false)"
+            ng-if="vm.page.enabled"
+            class="md-icon-button md-accent md-hue-2"
+          >
+            <md-tooltip
+              md-direction="right"
+              md-delay="800"
+            >page is enabled
+            </md-tooltip>
+            <md-icon>lock_open</md-icon>
+          </md-button>
+        </md-input-container>
+
+        <!-- title -->
+        <md-input-container
+          class="md-block"
+          style="margin-bottom: 0px !important;"
+          flex
+        >
+          <label>{{ 'Titel' | translate }}</label>
+          <input
+            ng-model="vm.page.title"
+            required
+          >
+        </md-input-container>
+
+        <!-- slug -->
+        <md-input-container
+          class="md-block"
+          style="margin-bottom: 0px !important;"
+          flex
+        >
+          <label>{{ 'Slug' | translate }}</label>
+          <input
+            ng-model="vm.page.slug"
+            required
+          >
+        </md-input-container>
+
+      </md-content>
+    </md-card>
+
+    <!-- #2 row: content-->
+
+    <md-input-container
+      class="md-block"
+      style="padding-bottom: 0; margin-bottom: 0; padding-left: 8px; padding-right: 8px"
+    >
+      <cms-tiny-mce
+        ng-model="vm.page.content"
+        ng-disabled="vm.isProcessing"
+        is-admin="true"
+      >
+      </cms-tiny-mce>
+    </md-input-container>
+
+  </div>
+
+  <!-- submit -->
+  <div
+    flex
+    layout="row"
+    layout-align="end center"
+  >
+    <save
+      is-disabled="pageForm.$invalid || pageForm.$pristine"
+    ></save>
+
+    <cancel></cancel>
+  </div>
+
+</form>

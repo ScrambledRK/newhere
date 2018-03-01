@@ -4,12 +4,12 @@
 			<p layout-align="space-between center" layout="row">
 				<md-button ng-click="vm.toggleSelection(item)" ng-if="item.id != 0 && !vm.options.editWeight && !vm.options.simple"  class="md-icon-button md-mega-mini" layout="column" layout-align="center center" ng-class="{'md-raised md-primary ': vm.selectedItem(item), 'md-default' : !vm.selectedItem(item) , 'child': vm.childSelected(item, vm.selection)}"><i class="material-icons">check</i></md-button>
 				<span class="handle" ng-if="vm.options.drag && item.id != 0">
-							<md-icon class="matrial-icons">more_vert</md-icon>
+							<md-icon aria-label="" class="matrial-icons">more_vert</md-icon>
 				</span>
 				<span dnd-nodrag ng-click="vm.options.itemClick(item.id, item.title)" class="cursor">{{item.title}}</span>
 				<span flex dnd-nodrag></span>
 
-				<md-icon class="material-icons" ng-click="vm.onMovedComplete(key)" ng-if="vm.options.edit">close</md-icon>
+				<md-icon aria-label="" class="material-icons" ng-click="vm.onMovedComplete(key)" ng-if="vm.options.edit">close</md-icon>
 				<md-icon dnd-nodrag class="material-icons toggler cursor " ng-if="!vm.options.simple">
 					<i class="material-icons" ng-if="item.children.length" ng-click="vm.toggleExpansion(item)">{{ vm.isExpanded(item) ? 'expand_less' : 'expand_more' }}</i>
 					<!--<i class="material-icons" ng-if="!item.children.length && item.id != 0 && vm.options.drag" ng-click="vm.addChildren(item)">add</i>-->

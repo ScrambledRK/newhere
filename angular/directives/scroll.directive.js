@@ -14,11 +14,11 @@ export function ScrollDirective($window) {
 		{
 			angular.element( $window ).bind( "scroll", function( event )
 			{
-				console.log("aaaaa");
+				//console.log("aaaaa");
 
 				scope.$apply( function()
 				{
-					console.log("bbbbb");
+					//console.log("bbbbb");
 					scope.onScroll();
 				} );
 			} );

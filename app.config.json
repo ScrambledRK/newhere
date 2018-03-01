@@ -1,0 +1,12 @@
+{
+  "development": {
+    "isFrontendDebug": true,
+    "isDonateEnabled":true,
+    "paypalKey":"V5KEAY8W275X8"
+  },
+  "production": {
+    "isFrontendDebug": false,
+    "isDonateEnabled":false,
+    "paypalKey":"5MEGM33GLVPBY"
+  }
+}

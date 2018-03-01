@@ -4,11 +4,11 @@ return [
 
     // These CSS rules will be applied after the regular template CSS
 
-    /*
-        'css' => [
-            '.button-content .button { background: red }',
-        ],
-    */
+
+    'css' => [
+        '.button-content .button { background: #357DBA; }
+        #body { background-color: #C6BB83; }',
+    ],
 
     'colors' => [
 
@@ -24,9 +24,9 @@ return [
         'address'     => null,
 
         'logo'        => [
-            'path'   => '%PUBLIC%/img/newhere-logo_white.svg',
-            'width'  => '',
-            'height' => '',
+            'path'   => '%PUBLIC%/img/newhere-logo.png',
+            'width'  => '261',
+            'height' => '241',
         ],
 
         'twitter'  => null,

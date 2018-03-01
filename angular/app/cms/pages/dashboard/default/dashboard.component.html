@@ -1,5 +1,9 @@
-hello, here you see some statistics about our content
-and changes since your last login.
+<div>
+	<p>{{ 'dashboard_0' | translate }}</p>
+  <p ng-if="!vm.isElementVisible('pending-requests')">
+    {{ 'dashboard_1' | translate }}
+  </p>
+</div>
 
 <!-- pending table -->
 <div

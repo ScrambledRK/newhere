@@ -19,6 +19,7 @@ class RegisterFormController
 		this.user = {
 			name: null,
 			email: null,
+			phone: null,
 			password: null,
 			re_password: null
 		};
@@ -35,7 +36,7 @@ class RegisterFormController
 				//this.$auth.setToken( response.data );
 
 				this.ToastService.show( 'Registrierung erfolgreich.' );
-				this.$state.go( 'main.login' );
+				this.$state.go( 'main.login', {registerMail:this.user.email} );
 			} )
 			.catch( this.failedRegistration.bind( this ) );
 	}

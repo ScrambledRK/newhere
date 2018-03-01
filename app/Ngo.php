@@ -61,4 +61,8 @@ class Ngo extends Model
         return $this->belongsTo( 'App\Image' );
     }
 
+    public function notes()
+    {
+        return $this->belongsTo( 'App\NgoNotes', 'note_id', 'id' );
+    }
 }

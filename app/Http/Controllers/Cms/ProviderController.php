@@ -7,6 +7,7 @@ use App\Filter;
 use App\Http\Controllers\Controller;
 use App\Logic\Address\AddressAPI;
 use App\Ngo;
+use App\NgoNotes;
 use App\Offer;
 use App\User;
 use Auth;
@@ -261,14 +262,140 @@ class ProviderController extends Controller
         // ---------------------------------- //
 
         //
-        if( $request->has( 'description' ) )
+        $hasDescriptionChanged  = $provider->description   != $request->get( 'description' );
+
+        if( $hasDescriptionChanged )
         {
-            $locale = $request->get( 'language' );
-            $provider->translateOrNew( $locale )->description = $request->get( 'description' );
+            $locale = $request->header("Language", "de");
+
+            $provider->translations()->where("locale","!=", $locale)
+                ->update( [ 'version' => 0 ] );
+
+            $provider->translations()->where("locale","=", $locale)
+                ->update( [ 'version' => 2 ] );
         }
+
+        $provider->description = $request->get( 'description' );
+
+        // ---------------------------------- //
+        // ---------------------------------- //
 
         return $provider;
     }
+
+    // ----------------------------------------------------------------------------- //
+    // ----------------------------------------------------------------------------- //
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function lol( Request $request )
+    {
+        $result = Ngo::with( [] );
+
+        $count = $result->count();
+        $result = $result->get();
+
+        return response()->success( compact( 'result', 'count' ) );
+
+//        if( !$this->isUserAdmin( Auth::user() ) )
+//            throw new AccessDeniedHttpException();
+//
+//        $result = Ngo::with( ["notes","notes.user"] );
+//
+//        // ------------------------------------------- //
+//        // ------------------------------------------- //
+//
+//        //
+//        if( $request->has( 'enabled' ) )
+//        {
+//            $result = $result->where( 'notes.checked',
+//                                      $request->get( 'enabled' ) );
+//        }
+//
+//        //
+//        if( $request->has( 'title' ) )
+//        {
+//            $toSearch = $request->get( 'title' );
+//
+//            $result = $result->where( function( $query ) use ( $toSearch )
+//            {
+//                $query->where(
+//                    'organisation',
+//                    'ilike',
+//                    '%' . $toSearch . '%'
+//                )
+//                      ->orWhere(
+//                          'notes.notes',
+//                          'ilike',
+//                          '%' . $toSearch . '%'
+//                      );
+//            } );
+//        }
+//
+//        //
+//        if( $request->has( 'withCounts' ) )
+//        {
+//            $result->withCount( "offers" );
+//            $result->withCount( "users" );
+//        }
+//
+//        //
+//        $count = $result->count();
+//        $result = $this->paginate( $request, $result );
+//
+//        //
+//        $result = $result->get();
+//
+//        // ------------------------------------------- //
+//        // ------------------------------------------- //
+//
+//        return response()->success( compact( 'result', 'count' ) );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function note( Request $request, $id )
+    {
+        if( !$this->isUserAdmin( Auth::user() ) )
+            throw new AccessDeniedHttpException();
+
+        DB::beginTransaction();
+
+        //
+        $provider = Ngo::with(["notes"])->findOrFail( $id );
+
+        //
+        if( $request->has( 'contact' ) )
+            $provider->contact = $request->get( 'contact' );
+
+        if( $request->has( 'contact_email' ) )
+            $provider->contact_email = $request->get( 'contact_email' );
+
+        if( $request->has( 'contact_phone' ) )
+            $provider->contact_phone = $request->get( 'contact_phone' );
+
+        //
+        $note = NgoNotes::firstOrCreate ( array( 'id' => $provider->note_id ) );
+
+        $note->checked = $request->get( 'note_checked' );
+        $note->notes = $request->get( 'note_content' );
+        $note->save();
+
+        $provider->note_id = $note->id;
+        $provider->save();
+
+        DB::commit();
+
+        //
+        return response()->success( compact( 'provider' ) );
+    }
+
+    // ------------------------------------------------------------------------------ //
+    // ------------------------------------------------------------------------------ //
 
     /**
      * @param Ngo $provider

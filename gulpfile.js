@@ -2,6 +2,8 @@ var elixir = require('laravel-elixir');
 require('./tasks/angular.task.js');
 require('./tasks/bower.task.js');
 require('./tasks/ngHtml2Js.task.js');
+require('./tasks/tinymce.task.js');
+require('./tasks/clean.task.js');
 require('laravel-elixir-livereload');
 require('laravel-elixir-karma');
 
@@ -23,7 +25,8 @@ elixir(function(mix) {
             'public/js/partials.js',
             'public/js/app.js',
             'public/css/vendor.css',
-            'public/css/app.css'
+            'public/css/app.css',
+            'public/css/tinymcs_custom.css',
         ],
         karmaJsDir = [
             'public/js/vendor.js',
@@ -35,10 +38,12 @@ elixir(function(mix) {
         ];
 
     mix
+	    .clean()
         .bower()
         .angular('./angular/')
         .ngHtml2Js('./angular/**/*.html')
-        .less('./angular/**/*.less', 'public/css')
+        .tinymce()
+        .less('./angular/**/*.less', 'public/css')        
         .version(assets)
         .livereload('public/build/rev-manifest.json', {
             liveCSS: true

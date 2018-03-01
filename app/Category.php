@@ -42,7 +42,7 @@ class Category extends Model
     public function allChildren()
     {
         return $this->hasMany('App\Category', 'parent_id', 'id')
-                    ->with('allChildren');
+                    ->with('allChildren')->withCount('offers');
     }
 
     //
@@ -88,5 +88,14 @@ class Category extends Model
     {
         return $this->belongsTo( 'App\Image' );
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function page()
+    {
+        return $this->hasOne( 'App\Page', 'id', 'page_id' )
+            ->where( 'enabled', true )->select(['id','slug']);
     }
 }

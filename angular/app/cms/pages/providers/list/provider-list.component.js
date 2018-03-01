@@ -41,7 +41,7 @@ class ProviderListController
 		this.query =
 			{
 				withCounts: true,
-				order: '-id',
+				order: 'updated_at',
 				limit: 10,
 				page: 1
 			};
@@ -118,11 +118,11 @@ class ProviderListController
 		this.ProviderService.updateList( [item] )
 			.then( ( success ) =>
 				{
-					this.ToastService.show( 'Anbieter aktualisiert.' );
+					this.ToastService.show( 'Eintrag aktualisiert.' );
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim Speichern der Daten.' );
+					this.ToastService.error( "Fehler beim aktualisieren der Einträge." );
 					this.onQueryUpdate();
 				}
 			);
@@ -147,12 +147,12 @@ class ProviderListController
 						.then( ( response ) =>
 						{
 							this.ToastService.show(
-								sprintf( '%d Anbieter gelöscht.', this.selectedItems.length )
+								sprintf( '%d Einträge gelöscht.', this.selectedItems.length )
 							);
 						},
 						( error ) =>
 						{
-							this.ToastService.error( 'Fehler beim löschen der Daten.' );
+							this.ToastService.error( 'Fehler beim löschen der Einträge.' );
 							this.onQueryUpdate();
 						} );
 				}
@@ -173,12 +173,12 @@ class ProviderListController
 			.then( ( response ) =>
 				{
 					this.ToastService.show(
-						sprintf( '%d Anbieter aktualisiert.', this.selectedItems.length )
+						sprintf( '%d Einträge aktualisiert.', this.selectedItems.length )
 					);
 				},
 				( error ) =>
 				{
-					this.ToastService.error( 'Fehler beim aktualisieren der Daten.' );
+					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 					this.onQueryUpdate();
 				} );
 	}

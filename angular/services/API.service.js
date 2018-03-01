@@ -23,9 +23,20 @@ export class APIService
 					{
 						for( var error in response.data.errors )
 						{
-							return ToastService.error( response.data.errors[error][0] );
+							try
+							{
+								ToastService.error( response.data.errors[error][0] );
+							}
+							catch( err )
+							{
+								return true; // error not handled
+							}
 						}
+
+						return false; // error handled
 					}
+
+					return true;  // error not handled
 				} )
 				.addFullRequestInterceptor( function( element, operation, what, url, headers )
 				{
@@ -42,7 +53,7 @@ export class APIService
 
 					if( operation === "getList" )
 					{
-						console.log( what, url );
+						//console.log( what, url );
 						extractedData = data.data["result"];
 
 						if( data.data['count'] )
@@ -56,6 +67,7 @@ export class APIService
 					{
 						extractedData = data;
 					}
+
 					return extractedData;
 				} );
 		} );
