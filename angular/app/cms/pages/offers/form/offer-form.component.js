@@ -260,9 +260,9 @@ class OfferFormController
 		this.offer.valid_until = this.valid_until;
 		this.offer.valid_from = this.valid_from;
 
-		if( new Date() > this.offer.valid_until )
+		if( this.offer.valid_from > this.offer.valid_until )
 		{
-			this.ToastService.error( 'Enddatum liegt in der Vergangenheit!' );
+			this.ToastService.error( 'Enddatum liegt vor Startdatum!' );
 			return false;
 		}
 

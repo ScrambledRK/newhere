@@ -46,6 +46,7 @@
   "Alle": "All",
 
   "Unbekannter Fehler aufgetreten.": "Unknown Error occurred",
+  "Enddatum liegt vor Startdatum!":"End-Date is before Start-Date!",
 
   "-0":"----------------------------------------------------------------------",
   "-1":"----------------------------------------------------------------------",
