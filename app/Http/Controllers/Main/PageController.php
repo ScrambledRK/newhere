@@ -29,8 +29,11 @@ class PageController extends Controller
         $page = $page->where('enabled', true );
         $page = $page->where('slug', $slug )->firstOrFail();
 
+        // the where is useless for now, but in case we ever actually use the version as a filter
+        $translations = $page->translations()->where("version",">=",0)->get(['id','locale']);
+
         //
-        return response()->json( $page );
+        return response()->success( compact( 'page', 'translations' ) );
     }
 
 }

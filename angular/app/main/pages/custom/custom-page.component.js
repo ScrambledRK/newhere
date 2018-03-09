@@ -5,6 +5,7 @@ class CustomPageController
 	 * @param {API} API
 	 * @param {PageService} PageService
 	 * @param {ToastService} ToastService
+	 * @param {LanguageService} LanguageService
 	 * @param {*} $rootScope
 	 * @param {*} $scope
 	 * @param {*} $state
@@ -12,6 +13,7 @@ class CustomPageController
 	constructor( API,
 				 PageService,
 	             ToastService,
+	             LanguageService,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -22,6 +24,7 @@ class CustomPageController
 		this.API = API;
 		this.PageService = PageService;
 		this.ToastService = ToastService;
+		this.LanguageService = LanguageService;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 
@@ -40,6 +43,7 @@ class CustomPageController
 
 		this.$scope.$on( '$destroy', () =>
 		{
+			this.LanguageService.overrideLanguages( null );
 			onLanguage();
 		} );
 	}
@@ -55,7 +59,9 @@ class CustomPageController
 		this.API.one( 'pages', slug ).get()
 			.then( ( item ) =>
 				{
-					this.setPage( item );
+					this.setPage( item.data.page );
+					this.LanguageService.overrideLanguages( item.data.translations );
+
 					this._isLoading = false;
 				},
 				( error ) =>

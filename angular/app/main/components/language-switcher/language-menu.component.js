@@ -1,22 +1,26 @@
 class LanguageMenuController
 {
-	constructor( LanguageService, $rootScope )
+	constructor( LanguageService, $rootScope, $scope )
 	{
 		'ngInject';
 
 		//
 		this.LanguageService = LanguageService;
+		this.$rootScope = $rootScope;
 
-		this.active = $rootScope.language;
-		this.languages = [];
-	}
+		//
+		this.active = this.$rootScope.language;
+		this.languages = this.LanguageService.fetchPublished();
 
-	//
-	$onInit()
-	{
-		this.LanguageService.fetchPublished().then( ( list ) =>
+		//
+		let onLanguage = $rootScope.$on( "checkLanguage", ( event, data ) =>
 		{
-			this.languages = list;
+			this.checkLanguage( )
+		} );
+
+		$scope.$on( '$destroy', () =>
+		{
+			onLanguage();
 		} );
 	}
 
@@ -24,7 +28,19 @@ class LanguageMenuController
 	switchLanguage( language )
 	{
 		this.LanguageService.changeLanguage( language );
-		this.active = language;
+	}
+
+	//
+	checkLanguage( )
+	{
+		if( this.LanguageService.isActive( this.$rootScope.language ) )
+		{
+			this.active = this.$rootScope.language;
+		}
+		else
+		{
+			this.active = "de";
+		}
 	}
 }
 

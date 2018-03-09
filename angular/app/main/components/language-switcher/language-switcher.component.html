@@ -2,7 +2,9 @@
 	<md-list-item ng-repeat="language in vm.languages">
 		<md-button
 			class="md-primary"
+      ng-class="{'disableButton': !language.active}"
 			ng-click="vm.switchLanguage(language.language)"
+			ng-disabled="!language.active"
 		>{{language.translatedName}}
 		</md-button>
 	</md-list-item>
