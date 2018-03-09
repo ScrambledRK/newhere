@@ -353,6 +353,8 @@ export class ContentService
 						if( response[j].children )
 							this.categoryList.push.apply( this.categoryList, response[j].children );
 					}
+
+					this.sortOffers();
 				},
 				( msg ) =>
 				{
@@ -518,5 +520,23 @@ export class ContentService
 				} );
 	}
 
+	//
+	sortOffers()
+	{
+		if( !this.offerList )
+			return;
 
+		let cmp = function compare(a,b)
+		{
+			if (a.title < b.title)
+				return -1;
+
+			if (a.title > b.title)
+				return 1;
+
+			return 0;
+		};
+
+		this.offerList.sort(cmp);
+	}
 }
