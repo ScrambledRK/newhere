@@ -1,64 +1,62 @@
-<div
-	layout="row"
-	layout-align="start center"
->
-	<i
-		class="material-icons"
-		style="color: red !important; margin-left: 22px; margin-right: 14px;"
-	>warning</i>
-	<span translate="Alle angegebenen Daten werden veröffentlicht"></span>
-</div>
+
+
 
 <div
-	style="padding:.5em;"
-	layout="row"
-	layout-align="space-between center"
+  layout-align="space-between center"
+  layout="row"
 >
+  <div
+    layout="column"
+  >
+    <!-- warning -->
+    <div
+      layout="row"
+      layout-align="start center"
+    >
+      <i
+        class="material-icons"
+        style="color: red !important; margin-left: 22px; margin-right: 14px;"
+      >warning</i>
+      <span translate="Alle angegebenen Daten werden veröffentlicht"></span>
+    </div>
 
-	<!-- enabled -->
-	<md-button
-			ng-click="vm.toggleItem(true)"
-			ng-if="!vm.offer.enabled"
-			class="md-icon-button md-accent md-hue-2"
-	>
-		<md-tooltip
-				md-direction="right"
-				md-delay="800"
-		>{{'offer_disabled' | translate}}
-		</md-tooltip>
-		<md-icon>lock</md-icon>
-	</md-button>
-	<md-button
-			ng-click="vm.toggleItem(false)"
-			ng-if="vm.offer.enabled"
-			class="md-icon-button md-accent md-hue-2"
-	>
-		<md-tooltip
-				md-direction="right"
-				md-delay="800"
-		>{{'offer_enabled' | translate}}
-		</md-tooltip>
-		<md-icon>lock_open</md-icon>
-	</md-button>
+    <!-- now -->
+    <div>
+      <md-icon
+        ng-if="vm.isVisible"
+        style="margin-left: 22px"
+      >visibility
+      </md-icon>
 
-	<!-- title -->
-	<span class="md-title" ng-if="vm.offer.title">
-		{{ vm.offer.title }}
-	</span>
-	<span class="md-title" ng-if="!vm.offer.title">
-		{{ 'Neues Angebot' | translate  }}
-	</span>
+      <md-icon
+        ng-if="!vm.isVisible"
+        style="margin-left: 22px"
+      >visibility_off
+      </md-icon>
 
-	<span flex></span>
+      <span ng-if="vm.isVisible" style="margin-left: 12px">
+      {{ 'offer_currently_visible' | translate | sprintf: vm.now }}
+    </span>
 
-	<!-- ngo list -->
-	<span ng-if="vm.providers.length > 1">
+      <span ng-if="!vm.isVisible" style="margin-left: 12px">
+      {{ 'offer_currently_invisible' | translate | sprintf: vm.now }}
+    </span>
+    </div>
+  </div>
+
+  <span flex></span>
+
+  <!-- ngo list -->
+  <span ng-if="vm.providers.length > 1">
     <md-input-container class="md-block">
       <label>{{ 'Anbieter' | translate }}</label>
-      <md-select ng-model="vm.offer.ngo_id" md-on-close="vm.onProviderSelected">
+      <md-select
+        ng-model="vm.offer.ngo_id"
+        md-on-close="vm.onProviderSelected"
+      >
         <md-option
-	        ng-repeat="ngo in vm.providers"
-	        ng-value="ngo.id"
+          ng-repeat="ngo in vm.providers"
+          ng-value="ngo.id"
         >{{ ngo.organisation }}</md-option>
       </md-select>
     </md-input-container>
@@ -66,93 +64,93 @@
 </div>
 
 <form
-	name="offerForm"
-	ng-submit="vm.save()"
-	class="blank"
+  name="offerForm"
+  ng-submit="vm.save()"
+  class="blank"
 >
-	<md-content
-		class="blank"
-		layout-xs="column"
-		layout="row"
-	>
+  <md-content
+    class="blank"
+    layout-xs="column"
+    layout="row"
+  >
 
-		<!-- 1# details/filters/categories -->
-		<div
-			flex-xs
-			flex-gt-md="66"
-			flex-gt-xs="60"
-			layout="column"
-		>
-			<!-- details -->
-		  <offer-details></offer-details>
+    <!-- 1# details/filters/categories -->
+    <div
+      flex-xs
+      flex-gt-md="66"
+      flex-gt-xs="60"
+      layout="column"
+    >
+      <!-- details -->
+      <offer-details></offer-details>
 
-			<div
-				layout="row"
-				layout-md="column"
-				flex
-			>
-				<div
-					flex-gt-md="50"
-					flex-gt-xs="40"
-					layout="column"
-					ng-if="false"
-				>
-					<!-- filters -->
-					<offer-filters></offer-filters>
-				</div>
-				<div
-					flex-gt-md="50"
-					flex-gt-xs="60"
-					layout="column"
-				>
-					<!-- categories -->
-					<offer-categories></offer-categories>
-				</div>
-			</div>
-		</div>
+      <div
+        layout="row"
+        layout-md="column"
+        flex
+      >
+        <div
+          flex-gt-md="50"
+          flex-gt-xs="40"
+          layout="column"
+          ng-if="false"
+        >
+          <!-- filters -->
+          <offer-filters></offer-filters>
+        </div>
+        <div
+          flex-gt-md="50"
+          flex-gt-xs="60"
+          layout="column"
+        >
+          <!-- categories -->
+          <offer-categories></offer-categories>
+        </div>
+      </div>
+    </div>
 
-		<!-- 2# image/date/address/translation -->
-		<div
-			flex-xs
-			flex-gt-md="33"
-			flex-gt-xs="40"
-			layout="column"
-		>
-			<!-- image -->
-			<offer-image></offer-image>
+    <!-- 2# image/date/address/translation -->
+    <div
+      flex-xs
+      flex-gt-md="33"
+      flex-gt-xs="40"
+      layout="column"
+    >
+      <!-- image -->
+      <offer-image></offer-image>
 
-			<!-- date -->
-			<offer-date></offer-date>
+      <!-- date -->
+      <offer-date></offer-date>
 
-			<!-- address -->
-			<offer-address></offer-address>
+      <!-- address -->
+      <offer-address></offer-address>
 
-			<div
-				layout="row"
-				layout-xs="column"
-				flex
-			>
-				<div
-					flex-gt-xs="100"
-					layout="column"
-				>
-					<!-- translations -->
-					<offer-translation></offer-translation>
-				</div>
-			</div>
-		</div>
-	</md-content>
+      <div
+        layout="row"
+        layout-xs="column"
+        flex
+      >
+        <div
+          flex-gt-xs="100"
+          layout="column"
+        >
+          <!-- translations -->
+          <offer-translation></offer-translation>
+        </div>
+      </div>
+    </div>
+  </md-content>
 
-	<div
-		flex
-		layout="row"
-		layout-align="end center"
-	>
+  <div
+    flex
+    layout="row"
+    layout-align="end center"
+  >
 
-		<save
-			is-disabled="offerForm.$invalid || offerForm.$pristine"
-		></save>
+    <save
+      is-disabled="offerForm.$invalid || offerForm.$pristine"
+    ></save>
 
-		<cancel></cancel>
-	</div>
+    <cancel></cancel>
+  </div>
 </form>

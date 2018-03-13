@@ -48,6 +48,23 @@
 
   "Unbekannter Fehler aufgetreten.": "Unknown Error occurred",
   "Enddatum liegt vor Startdatum!":"End-Date is before Start-Date!",
+  "Angebot ohne Startdatum":"Offer without Start-Date",
+  "Angebot ohne Enddatum":"Offer without End-Date",
+
+  "offer_valid_nostart_noend_enabled":"The offer has no date restrictions and is publicly visible for visitors of NewHere",
+  "offer_valid_nostart_noend_disabled":"The offer has no date restrictions but is hidden for visitors of NewHere",
+
+  "offer_valid_start_end_enabled":"The offer will be publicly visible for visitors of NewHere starting on %(from)s and hidden on %(until)s",
+  "offer_valid_start_end_disabled":"The offer is currently hidden for visitors of NewHere regardless of current date restrictions",
+
+  "offer_valid_nostart_end_enabled":"The offer will be publicly visible for visitors of NewHere and hidden on %(until)s",
+  "offer_valid_nostart_end_disabled":"The offer is currently hidden for visitors of NewHere regardless of current date restrictions",
+
+  "offer_valid_start_noend_enabled":"The offer will be publicly visible for visitors of NewHere starting on %(from)s",
+  "offer_valid_start_noend_disabled":"The offer is currently hidden for visitors of NewHere regardless of current date restrictions",
+
+  "offer_currently_visible":"The offer is currently (%s) visible to visitors of NewHere",
+  "offer_currently_invisible":"The offer is currently (%s) hidden and not accessible to visitors of NewHere",
 
   "-0":"----------------------------------------------------------------------",
   "-1":"----------------------------------------------------------------------",

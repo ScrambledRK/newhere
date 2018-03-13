@@ -48,6 +48,23 @@
 
   "Unbekannter Fehler aufgetreten.": "Unbekannter Fehler aufgetreten.",
   "Enddatum liegt vor Startdatum!":"Enddatum liegt vor Startdatum!",
+  "Angebot ohne Startdatum":"Angebot ohne Enddatum",
+  "Angebot ohne Enddatum":"Angebot ohne Enddatum",
+
+  "offer_valid_nostart_noend_enabled":"Das Angebot hat keinen bestimmten Gültigkeitszeitraum und ist dennoch sichtbar für NewHere-Besucher",
+  "offer_valid_nostart_noend_disabled":"Das Angebot hat keinen bestimmten Gültigkeitszeitraum und ist dennoch versteckt für NewHere-Besucher",
+
+  "offer_valid_start_end_enabled":"Das Angebot wird mit %(from)s sichtbar für NewHere-Besucher und versteckt ab %(until)s",
+  "offer_valid_start_end_disabled":"Das Angebot wird ungeachtet des angegebenen Gültigkeitszeitraum für NewHere-Besucher versteckt",
+
+  "offer_valid_nostart_end_enabled":"Das Angebot ist für NewHere-Besucher sichtbar und wird ab %(until)s versteckt",
+  "offer_valid_nostart_end_disabled":"Das Angebot wird ungeachtet des angegebenen Gültigkeitszeitraum für NewHere-Besucher versteckt",
+
+  "offer_valid_start_noend_enabled":"Das Angebot wird mit %(from)s sichtbar für NewHere-Besucher",
+  "offer_valid_start_noend_disabled":"Das Angebot wird ungeachtet des angegebenen Gültigkeitszeitraum für NewHere-Besucher versteckt",
+
+  "offer_currently_visible":"Das Angebot ist derzeit (%s) sichtbar für NewHere-Besucher",
+  "offer_currently_invisible":"Das Angebot ist derzeit (%s) versteckt für NewHere-Besucher",
 
   "-0":"----------------------------------------------------------------------",
   "-1":"----------------------------------------------------------------------",

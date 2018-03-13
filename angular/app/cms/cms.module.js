@@ -153,3 +153,7 @@ angular.module( 'app.cms' )
 	.component( 'cmsProviderTasks', ProviderTasksComponent )
 	//.component( 'resetpasswordForm', ResetpasswordFormComponent )
 ;
+
+// ------------------------------- //
+// ------------------------------- //
+

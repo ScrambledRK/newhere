@@ -131,6 +131,7 @@ angular.module('app')
 // ETC
 // --------------------------------------------------- //
 
+//
 angular.module('app').factory('missingTranslationHandler', function (isFrontendDebug,$log)
 {
 	return function (translationID, uses)
@@ -142,7 +143,64 @@ angular.module('app').factory('missingTranslationHandler', function (isFrontendD
 	};
 });
 
+//
 angular.module('app').config(function ($qProvider,isFrontendDebug)
 {
 	$qProvider.errorOnUnhandledRejections( isFrontendDebug );
 });
+
+//
+angular.module('app').config( ['$mdDateLocaleProvider', function($mdDateLocaleProvider)
+{
+	$mdDateLocaleProvider.formatDate = function(date)
+	{
+		if( !date )
+			return null;
+
+		let dd = date.getDate();
+		let mm = date.getMonth()+1;
+		let yyyy = date.getFullYear();
+
+		if(dd<10){
+			dd='0'+dd;
+		}
+		if(mm<10){
+			mm='0'+mm;
+		}
+
+		return dd + '.' + mm + '.' + yyyy;
+	};
+
+	//
+	$mdDateLocaleProvider.parseDate = function(dateString)
+	{
+		if( !dateString || dateString.length < 7 )
+			return new Date(NaN);
+
+		//
+		let split = dateString.split(".");
+
+		if( split.length < 3 )
+			return new Date(NaN);
+
+		if( split[0].length < 1 || split[0].length > 2 )
+			return new Date(NaN);
+
+		if( split[1].length < 1 || split[1].length > 2 )
+			return new Date(NaN);
+
+		if( split[2].length !== 4 )
+			return new Date(NaN);
+
+		//
+		let dd = parseInt( split[0], 10);
+		let mm = parseInt( split[1], 10);
+		let yyyy = parseInt( split[2], 10);
+
+		if( dd <= 0 || dd > 32 || mm <= 0 || mm > 12 || yyyy <= 2000 )
+			return new Date(NaN);
+
+		//
+		return new Date( yyyy, mm - 1, dd );
+	};
+}]);

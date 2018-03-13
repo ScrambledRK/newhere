@@ -30,7 +30,15 @@ class OfferFormController
 		this.category = {};
 
 		//
+		this.isValidFromPickerOpen = false;
+		this.isValidUntilPickerOpen = false;
+
+		this.now = this.getDateText( new Date() );
+
+		//
 		this.offer = {
+			isWithoutValidFrom: true,
+			isWithoutValidUntil: true,
 			isWithoutAddress: true,
 			categories: [],
 			filters: [],
@@ -71,6 +79,29 @@ class OfferFormController
 		{
 			this.label_checkbox_without_address = msg;
 		} );
+
+		//
+		this.updateValidText();
+	}
+
+	//
+	getDateText( date )
+	{
+		if( !date )
+			return "";
+
+		let dd = date.getDate();
+		let mm = date.getMonth()+1;
+		let yyyy = date.getFullYear();
+
+		if(dd<10){
+			dd='0'+dd;
+		}
+		if(mm<10){
+			mm='0'+mm;
+		}
+
+		return dd + '.' + mm + '.' + yyyy;
 	}
 
 	//
@@ -162,12 +193,27 @@ class OfferFormController
 			}
 		}
 
-		//
 		if( this.offer.valid_from )
+		{
 			this.valid_from = new Date( this.offer.valid_from );
+			this.offer.isWithoutValidFrom = false;
+		}
+		else
+		{
+			this.valid_from = null;
+			this.offer.isWithoutValidFrom = true;
+		}
 
 		if( this.offer.valid_until )
+		{
 			this.valid_until = new Date( this.offer.valid_until );
+			this.offer.isWithoutValidUntil = false;
+		}
+		else
+		{
+			this.valid_until = null;
+			this.offer.isWithoutValidUntil = true;
+		}
 
 		//
 		this.offer.isWithoutAddress = !this.offer.street;
@@ -181,12 +227,16 @@ class OfferFormController
 		if( !this.offer.filters )
 			this.offer.filters = [];
 
+
 		//
 		this.updateMap();
 
 		//
 		this.$rootScope.$broadcast( 'categoriesChanged', this );
 		this.$rootScope.$broadcast( 'filterChanged', this );
+
+		//
+		this.updateValidText();
 
 		//
 		//console.log("got offer:", this.offer );
@@ -209,6 +259,9 @@ class OfferFormController
 
 		if( !this.offer.enabled )
 			this.offer.enabled = false;
+
+		//
+		this.onValidChange();
 
 		//
 		if( this.validateForm() )
@@ -272,6 +325,43 @@ class OfferFormController
 		return true;
 	}
 
+	onValidChange( isCheckbox )
+	{
+		if( isCheckbox )
+		{
+			if( this.offer.isWithoutValidFrom )
+				this.valid_from = null;
+
+			if( this.offer.isWithoutValidUntil )
+				this.valid_until = null;
+		}
+		else
+		{
+			if( this.valid_from )
+			{
+				this.offer.isWithoutValidFrom = false;
+			}
+			else
+			{
+				this.offer.isWithoutValidFrom = true;
+			}
+
+			if( this.valid_until )
+			{
+				this.offer.isWithoutValidUntil = false;
+			}
+			else
+			{
+				this.offer.isWithoutValidUntil = true;
+			}
+		}
+
+		this.isValidFromPickerOpen = !this.offer.isWithoutValidFrom && !this.valid_from;
+		this.isValidUntilPickerOpen = !this.offer.isWithoutValidUntil && !this.valid_until;
+
+		this.updateValidText();
+	}
+
 	//
 	toggleItem( isEnabled )
 	{
@@ -281,6 +371,101 @@ class OfferFormController
 				this.$scope.offerForm.$setDirty();
 
 			this.offer.enabled = isEnabled;
+		}
+
+		this.updateValidText();
+	}
+
+	checkEnabled()
+	{
+		this.$scope.offerForm.$setDirty();
+	}
+
+	/*
+  "offer_currently_visible":"The offer is currently (%s) visible to visitors of NewHere",
+  "offer_currently_invisible":"The offer is currently (%s) hidden and not accessible to visitors of NewHere",
+	 */
+
+	updateValidText()
+	{
+		if( !this.offer )
+		{
+			this.validText = "";
+			return;
+		}
+
+		//
+		let s = Boolean(this.valid_from);
+		let e = Boolean(this.valid_until);
+		let v = Boolean(this.offer.enabled);
+
+		console.log( s, e, v );
+
+		let result = "";
+
+		//
+		if( !s && !e && v )
+		{
+			result = "offer_valid_nostart_noend_enabled";
+		}
+		else if( !s && !e && !v )
+		{
+			result = "offer_valid_nostart_noend_disabled";
+		}
+		else if( s && e && v )
+		{
+			result = "offer_valid_start_end_enabled";
+		}
+		else if( s && e && !v )
+		{
+			result = "offer_valid_start_end_disabled";
+		}
+		else if( !s && e && v )
+		{
+			result = "offer_valid_nostart_end_enabled";
+		}
+		else if( !s && e && !v )
+		{
+			result = "offer_valid_nostart_end_disabled";
+		}
+		else if( s && !e && v )
+		{
+			result = "offer_valid_start_noend_enabled";
+		}
+		else if( s && !e && !v )
+		{
+			result = "offer_valid_start_noend_disabled";
+		}
+
+		//
+		this.$translate( result ).then( ( msg ) =>
+		{
+			this.validText = sprintf( msg, {
+				from: this.getDateText( this.valid_from ),
+				until:this.getDateText( this.valid_until )
+			} );
+		} );
+
+		//
+		if( v )
+		{
+			let n = new Date().getTime();
+
+			let isS = !this.valid_from || this.valid_from.getTime() < n;
+			let isE = !this.valid_until || this.valid_until.getTime() > n;
+
+			if( isS && isE )
+			{
+				this.isVisible = true;
+			}
+			else
+			{
+				this.isVisible = false;
+			}
+		}
+		else
+		{
+			this.isVisible = false;
 		}
 	}
 
