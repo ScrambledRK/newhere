@@ -19,6 +19,7 @@ export class LanguageService
 		this.$log = $log;
 
 		this.publishedLanguages = [];
+		this.override = null;
 
 		//
 		this.API.all('languages').one('published').getList().then( (list) =>
@@ -29,6 +30,11 @@ export class LanguageService
 				this.publishedLanguages[j].active = true;
 			}
 
+			if( this.override )
+			{
+				this.overrideLanguages( this.override );
+				this.override = null;
+			}
 		} );
 
 		this.log();
@@ -45,8 +51,17 @@ export class LanguageService
 	//
 	overrideLanguages( languages )
 	{
+		if( this.publishedLanguages.length <= 0 )
+		{
+			this.override = languages;
+			return;
+		}
+
+		//
 		if( languages === null )
 		{
+			this.override = null;
+
 			for( let i = 0; i < this.publishedLanguages.length; i++ )
 				this.publishedLanguages[i].active = true;
 

@@ -27,7 +27,16 @@ class LanguageMenuController
 	//
 	switchLanguage( language )
 	{
-		this.LanguageService.changeLanguage( language );
+		if( this.isContent )
+		{
+			this.$rootScope.$broadcast( 'contentLanguageChanged', language );
+			this.active = language;
+		}
+		else
+		{
+			this.LanguageService.changeLanguage( language );
+			this.active = language;
+		}
 	}
 
 	//
@@ -48,5 +57,7 @@ export const LanguageMenuComponent = {
 	template: require('./language-menu.component.html'),
 	controller: LanguageMenuController,
 	controllerAs: 'vm',
-	bindings: {}
+	bindings: {
+		isContent:"="
+	}
 };

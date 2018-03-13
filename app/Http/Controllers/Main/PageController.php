@@ -9,6 +9,7 @@ use App\Logic\Address\AddressAPI;
 use App\Page;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -21,8 +22,12 @@ class PageController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function bySlug( $slug )
+    public function bySlug( $slug, Request $request )
     {
+        if( $request->has("language") )
+            App::setLocale( $request->get("language") );
+
+        //
         $page = Page::with( [] );
 
         //

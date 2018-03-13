@@ -48,11 +48,16 @@ export class UserService
 			this.$q.all( [userPromise, providerPromise] )
 				.then( () =>
 					{
-						this.$rootScope.isLoading = false;
-						this.$rootScope.$broadcast( 'userChanged', this );
+						this._finalizeAuth();
 					}
 				);
 		}
+	}
+
+	_finalizeAuth()
+	{
+		this.$rootScope.isLoading = false;
+		this.$rootScope.$broadcast( 'userChanged', this );
 	}
 
 	// ------------------------------------------------------ //
@@ -134,8 +139,7 @@ export class UserService
 				} )
 			.then( () =>
 				{
-					this.$rootScope.isLoading = false;
-					this.$rootScope.$broadcast( 'userChanged', this );
+					this._finalizeAuth();
 				},
 				( error ) =>
 				{

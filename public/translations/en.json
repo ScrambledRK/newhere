@@ -44,6 +44,7 @@
   "Ja": "Yes",
   "Nein": "No",
   "Alle": "All",
+  "Weiter":"Next",
 
   "Unbekannter Fehler aufgetreten.": "Unknown Error occurred",
   "Enddatum liegt vor Startdatum!":"End-Date is before Start-Date!",

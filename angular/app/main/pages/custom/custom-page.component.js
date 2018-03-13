@@ -35,28 +35,40 @@ class CustomPageController
 		// ------------------------------- //
 
 		//
-		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, language ) =>
 		{
 			if( this._slug )
 				this.fetchItem( this._slug );
 		} );
 
+		let onContentLanguage = this.$rootScope.$on( "contentLanguageChanged", ( event, language ) =>
+		{
+			if( this._slug )
+				this.fetchItem( this._slug, language );
+		} );
+
+
 		this.$scope.$on( '$destroy', () =>
 		{
 			this.LanguageService.overrideLanguages( null );
+
+			onContentLanguage();
 			onLanguage();
 		} );
 	}
 
 
 	//
-	fetchItem( slug )
+	fetchItem( slug, language )
 	{
 		this._isLoading = true;
 		this._slug = slug;
 
+		if( !language )
+			language = this.$rootScope.language;
+
 		//
-		this.API.one( 'pages', slug ).get()
+		this.API.one( 'pages', slug ).get( {language:language} )
 			.then( ( item ) =>
 				{
 					this.setPage( item.data.page );
