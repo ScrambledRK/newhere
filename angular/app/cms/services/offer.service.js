@@ -53,8 +53,8 @@ export class OfferService
 		{
 			let n = new Date().getTime();
 
-			let isS = !offer.valid_from || offer.valid_from.getTime() < n;
-			let isE = !offer.valid_until || offer.valid_until.getTime() > n;
+			let isS = !offer.valid_from || new Date(offer.valid_from).getTime() < n;
+			let isE = !offer.valid_until || new Date(offer.valid_until).getTime() > n;
 
 			if( isS && isE )
 			{
