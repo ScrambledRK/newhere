@@ -207,6 +207,9 @@ class OfferFormController
 			this.offer.city = null;
 		}
 
+		if( !this.offer.enabled )
+			this.offer.enabled = false;
+
 		//
 		if( this.validateForm() )
 		{
