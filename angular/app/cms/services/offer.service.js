@@ -39,9 +39,36 @@ export class OfferService
 				this.offers.length = 0;
 				this.offers.push.apply( this.offers, response );
 
+				for( let i = 0; i < this.offers.length; i++ )
+					this._setupOffer( this.offers[i] );
+
 				this.resolveQuery();
 			} )
 		;
+	}
+
+	_setupOffer( offer )
+	{
+		if( offer.enabled )
+		{
+			let n = new Date().getTime();
+
+			let isS = !offer.valid_from || offer.valid_from.getTime() < n;
+			let isE = !offer.valid_until || offer.valid_until.getTime() > n;
+
+			if( isS && isE )
+			{
+				offer.isVisible = true;
+			}
+			else
+			{
+				offer.isVisible = false;
+			}
+		}
+		else
+		{
+			offer.isVisible = false;
+		}
 	}
 
 	/**

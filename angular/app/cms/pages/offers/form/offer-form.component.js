@@ -316,10 +316,13 @@ class OfferFormController
 		this.offer.valid_until = this.valid_until;
 		this.offer.valid_from = this.valid_from;
 
-		if( this.offer.valid_from > this.offer.valid_until )
+		if( this.offer.valid_from && this.offer.valid_until )
 		{
-			this.ToastService.error( 'Enddatum liegt vor Startdatum!' );
-			return false;
+			if( this.valid_from.getTime() > this.valid_until.getTime() )
+			{
+				this.ToastService.error( 'Enddatum liegt vor Startdatum!' );
+				return false;
+			}
 		}
 
 		return true;
