@@ -328,6 +328,18 @@ class OfferFormController
 			}
 		}
 
+		if( this.offer.categories.length === 0 )
+		{
+			this.ToastService.error( 'offer_form_error_no_category' );
+			return false;
+		}
+
+		if( !this.offer.hasOwnProperty('ngo_id') || !this.offer.ngo_id )
+		{
+			this.ToastService.error( 'offer_form_error_no_provider' );
+			return false;
+		}
+
 		return true;
 	}
 

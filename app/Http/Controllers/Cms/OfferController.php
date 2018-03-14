@@ -143,6 +143,9 @@ class OfferController extends Controller
         $offer = $this->populateFromRequest( $request, $offer );
         $offer->save();
 
+        $offer = $this->attachFromRequest( $request, $offer );  // must save inbetween for id
+        $offer->save();
+
         //
         if( $request->has( 'translations' ) )
         {
@@ -169,6 +172,7 @@ class OfferController extends Controller
 
         $offer = Offer::findOrFail( $id );
         $offer = $this->populateFromRequest( $request, $offer );
+        $offer = $this->attachFromRequest( $request, $offer );
         $offer->save();
 
         DB::commit();
@@ -313,6 +317,16 @@ class OfferController extends Controller
         // ---------------------------------- //
         // ---------------------------------- //
 
+        return $offer;
+    }
+
+    /**
+     * @param Request $request
+     * @param Offer $offer
+     * @return Offer
+     */
+    private function attachFromRequest( Request $request, Offer $offer )
+    {
         //
         if( $request->has( 'filters' ) )
         {
@@ -336,9 +350,6 @@ class OfferController extends Controller
                 $offer->categories()->attach( $cat );
             }
         }
-
-        // ---------------------------------- //
-        // ---------------------------------- //
 
         return $offer;
     }

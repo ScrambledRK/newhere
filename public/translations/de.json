@@ -48,6 +48,10 @@
 
   "Unbekannter Fehler aufgetreten.": "Unbekannter Fehler aufgetreten.",
   "Enddatum liegt vor Startdatum!":"Enddatum liegt vor Startdatum!",
+
+  "offer_form_error_no_category":"Es muss zumin. eine Kategorie bestimmt werden.",
+  "offer_form_error_no_provider":"Angebot muss einem Anbieter zugeordnet werden.",
+
   "Angebot ohne Startdatum":"Angebot ohne Startdatum",
   "Angebot ohne Enddatum":"Angebot ohne Enddatum",
 
