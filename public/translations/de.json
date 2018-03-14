@@ -48,7 +48,7 @@
 
   "Unbekannter Fehler aufgetreten.": "Unbekannter Fehler aufgetreten.",
   "Enddatum liegt vor Startdatum!":"Enddatum liegt vor Startdatum!",
-  "Angebot ohne Startdatum":"Angebot ohne Enddatum",
+  "Angebot ohne Startdatum":"Angebot ohne Startdatum",
   "Angebot ohne Enddatum":"Angebot ohne Enddatum",
 
   "offer_valid_nostart_noend_enabled":"Das Angebot hat keinen bestimmten Gültigkeitszeitraum und ist dennoch sichtbar für NewHere-Besucher",
