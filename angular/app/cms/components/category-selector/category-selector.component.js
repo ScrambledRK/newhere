@@ -56,7 +56,7 @@ class CategorySelectorController
 		if( !node )
 			return;
 
-		node.isExpanded = false;
+		node.isExpanded = true;
 		node.isSelected = false;
 
 		//

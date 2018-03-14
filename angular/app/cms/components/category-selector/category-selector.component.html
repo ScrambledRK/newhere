@@ -19,6 +19,7 @@
 			ng-true-value="true"
 			ng-false-value="false"
 			ng-click="vm.toggleSelection(category)"
+      md-indeterminate="category.all_children && category.all_children.length > 0"
 		>
 			{{category.title}}
 			<md-tooltip md-direction="right">{{category.description}}</md-tooltip>
