@@ -136,6 +136,7 @@ class OfferFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Unbekannter Fehler aufgetreten.' );
+					this.ToastService.error( error );
 				}
 			);
 	}
@@ -288,6 +289,7 @@ class OfferFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
+					this.ToastService.error( error );
 				}
 			);
 	}
@@ -306,6 +308,7 @@ class OfferFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
+					this.ToastService.error( error );
 				}
 			);
 	}

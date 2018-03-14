@@ -48,6 +48,14 @@ export class ToastService
 		if( !content )
 			return false;
 
+		//
+		if( typeof content === 'object' )
+		{
+			if( content.data && content.data.message )
+				content = content.data.message;
+		}
+
+		//
 		this.$translate( content ).then( ( msg ) =>
 		{
 			this.$mdToast.show
