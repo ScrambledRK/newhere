@@ -9,6 +9,9 @@ export class SearchService
 		this.$http = $http;
 
 		this.API = API;
+
+		//
+		this.empty = Promise.resolve([]);
 	}
 
 	/**
@@ -17,6 +20,10 @@ export class SearchService
 	 */
 	searchAddress( query )
 	{
+		if( !(/\d/.test(query)) )
+			return this.empty;
+
+		//
 		if( this.$http.pendingRequests.length )
 		{
 			this.aborter.resolve();

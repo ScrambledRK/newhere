@@ -2,7 +2,7 @@
 
 namespace App\Logic\Address;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\Client;use Illuminate\Support\Facades\Config;
 
 /**
  * Class AddressAPI
@@ -64,24 +64,37 @@ class AddressAPI
             return $returnArray;
         }
 
-        $features = $json[ 'features' ];
+        $features = $json[ 'results' ];
 
+        //
         foreach( $features as $feature )
         {
-            $properties = $feature[ 'properties' ];
+            $properties = $feature[ 'components' ];
 
-            if( array_key_exists( "street", $properties )
-                && array_key_exists( "housenumber", $properties )
-                && array_key_exists( "locality", $properties )
-                && array_key_exists( "postalcode", $properties )
-            )
+            if( $properties[ '_type' ] == 'building' )
             {
+                if( !array_key_exists( "road", $properties ) )
+                    continue;
+
+                if( !array_key_exists( "house_number", $properties ) )
+                    continue;
+
+                if( !array_key_exists( "state", $properties ) )
+                    continue;
+
+                if( !array_key_exists( "postcode", $properties ) )
+                    continue;
+
+                //
                 $returnAddress = [
-                    "street"      => $properties[ 'street' ],
-                    "number"      => $properties[ 'housenumber' ],
-                    "city"        => $properties[ 'locality' ],
-                    "zip"         => $properties[ 'postalcode' ],
-                    "coordinates" => $feature[ 'geometry' ][ 'coordinates' ]
+                    "street"      => $properties[ 'road' ],
+                    "number"      => $properties[ 'house_number' ],
+                    "city"        => $properties[ 'state' ],
+                    "zip"         => $properties[ 'postcode' ],
+                    "coordinates" => [
+                        $feature[ 'geometry' ]['lng'],
+                        $feature[ 'geometry' ]['lat']
+                    ]
                 ];
 
                 $returnArray[] = $returnAddress;
@@ -102,9 +115,9 @@ class AddressAPI
     private function query( $input )
     {
         if( empty( $input ) )
-        {
             return null;
-        }
+
+        $input = $input . ', Vienna, Austria';
 
         //
         $response = null;
@@ -113,18 +126,13 @@ class AddressAPI
         {
             $client = new Client();
             $response = $client->request(
-                'GET', 'https://search.mapzen.com/v1/autocomplete',
+                'GET', 'https://api.opencagedata.com/geocode/v1/json',
                 [
                     'query' => [
-                        'text'                   => $input,
-                        'api_key'                => 'search-pTjgegT',
-                        'layers'                 => 'address',
-                        'focus.point.lat'        => 48.208493,
-                        'focus.point.lon'        => 16.373118,
-                        'boundary.circle.lat'    => 48.208493,
-                        'boundary.circle.lon'    => 16.373118,
-                        'boundary.circle.radius' => 35,
-                        'boundary.country'       => 'AUT'
+                        'q'              => $input,
+                        'key'            => Config::get('services.opencagedata.key'),
+                        'countrycode'    => 'at',
+                        'no_annotations' => '1',
                     ],
                 ]
             );
