@@ -228,7 +228,6 @@ class OfferFormController
 		if( !this.offer.filters )
 			this.offer.filters = [];
 
-
 		//
 		this.updateMap();
 
@@ -260,6 +259,13 @@ class OfferFormController
 
 		if( !this.offer.enabled )
 			this.offer.enabled = false;
+
+		//
+		if( !this.offer.hasOwnProperty('ngo_id') || !this.offer.ngo_id )
+		{
+			if( this.providers.length === 1 )
+				this.offer.ngo_id = this.providers[0].id;
+		}
 
 		//
 		this.onValidChange();
