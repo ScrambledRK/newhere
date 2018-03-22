@@ -227,6 +227,9 @@ groupAuthenticated( $api, function( $api )
         $api->post('cms/pages/upload', 'Cms\PageController@upload');
         $api->put( 'cms/pages/{id}', 'Cms\PageController@update' );
         $api->delete( 'cms/pages/{id}', 'Cms\PageController@delete' );
+
+        //
+        $api->post('cms/admin/provider/clean', 'Cms\AdminController@cleanProviders');
     } );
 } );
 
