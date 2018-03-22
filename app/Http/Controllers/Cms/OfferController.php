@@ -400,7 +400,7 @@ class OfferController extends Controller
         {
             $category = Category::with( [ 'allChildren' ] )
                                 ->where( "slug", "start" )
-                                ->get()[0];
+                                ->get()[ 0 ];
         }
 
         //$category = $category->fresh( [ 'allChildren' ] );
@@ -408,11 +408,8 @@ class OfferController extends Controller
         // ---------------------------- //
         // ---------------------------- //
 
-        $isFromSet = false;
-        $isUntilSet = false;
-
-        $from = null;
-        $until = null;
+        $from = "unset";
+        $until = "unset";
         $num = 0;
 
         //
@@ -422,31 +419,25 @@ class OfferController extends Controller
         {
             $result = $this->updateCategories( $cat );
 
+            $isFromDate = $from != null && $from != "unset";
+            $isUntilDate = $until != null && $until != "unset";
+
             //
             if( $result[ 0 ] > 0 )
             {
                 $num += $result[ 0 ];
 
                 //
-                if( !$isFromSet )
-                {
-                    $from = $result[ 1 ];
-                    $isFromSet = true;
-                }
-
-                if( !$isUntilSet )
-                {
-                    $until = $result[ 2 ];
-                    $isUntilSet = true;
-                }
-
-                //
-                if( $result[ 1 ] == null || ($from != null && $result[ 1 ] < $from) )  // null overrules a date
+                if( $result[ 1 ] == null
+                    || ( $isFromDate && $result[ 1 ] < $from )
+                    || $from === "unset" )  // null overrules a date
                 {
                     $from = $result[ 1 ];
                 }
 
-                if( $result[ 2 ] == null || ($until != null && $result[ 2 ] > $until) )
+                if( $result[ 2 ] == null
+                    || ( $isUntilDate && $result[ 2 ] > $until )
+                    || $until === "unset" )
                 {
                     $until = $result[ 2 ];
                 }
@@ -456,44 +447,43 @@ class OfferController extends Controller
         // ---------------------------- //
         // ---------------------------- //
 
-        $category->load("offers");
-
+        $category->load( "offers" );
         $offers = $category->getRelations()[ "offers" ];
+
         //$num += count( $offers );
 
         //
         foreach( $offers as $off )
         {
-            if( $off->enabled )
+            $num++;
+
+            //
+            $isFromDate = $from != null && $from != "unset";
+            $isUntilDate = $until != null && $until != "unset";
+
+            if( $off->valid_from == null
+                || ( $isFromDate && $off->valid_from < $from )
+                || $from === "unset" ) // only set if unset
             {
-                $num++;
+                $from = $off->valid_from;
             }
 
-            if( $off->valid_from != null )
+            if( $off->valid_until == null
+                || ( $isUntilDate && $off->valid_until > $until )
+                || $until === "unset" )
             {
-                if( !$isFromSet || ($from != null && $off->valid_from < $from) ) // only set if unset
-                {
-                    $from = $off->valid_from;
-                    $isFromSet = true;
-                }
-            }
-
-            if( $off->valid_until != null )
-            {
-                if( !$isUntilSet || ($until != null && $off->valid_until > $until) )
-                {
-                    $until = $off->valid_until;
-                    $isUntilSet = true;
-                }
+                $until = $off->valid_until;
             }
         }
 
         //
-        if( $from === 0 ) {
+        if( $from === "unset" )
+        {
             $from = null;
         }
 
-        if( $until === 0 ) {
+        if( $until === "unset" )
+        {
             $until = null;
         }
 

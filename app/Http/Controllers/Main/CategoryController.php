@@ -125,14 +125,35 @@ class CategoryController extends Controller
                 ] );
         }
 
-
         //
         if( $request->get( 'withParents', false ) )
             $result = $result->with( [ 'parent' ] );
 
         //
         if( $request->get( 'withChildren', false ) )
-            $result = $result->with( [ 'children' ] );
+        {
+            $now = date( "Y-m-d h:i:s" );
+
+            $result = $result->with(
+                [
+                    'children' => function( $q ) use ( $now )
+                    {
+                        $q->where( function( $query ) use ( $now )
+                        {
+                            $query->whereDate( 'valid_from', '<=', $now )
+                                  ->orWhereNull( 'valid_from' );
+                        } )
+                          ->where( function( $query ) use ( $now )
+                          {
+                              $query->whereDate( 'valid_until', '>=', $now )
+                                    ->orWhereNull( 'valid_until' );
+                          } )
+                          ->where( "num_offers", ">", 0 )
+                          ->orWhere( "slug", "providers" );
+                    }
+                ] );
+
+        }
 
         // ------------------------------------------- //
         // ------------------------------------------- //
