@@ -97,6 +97,9 @@ class CategorySelectorController
 
 	toggleSelection( category )
 	{
+		if( category.all_children && category.all_children.length > 0 ) // only leaf nodes allowed
+			return;
+
 		//
 		let index = this.indexOf( category.id );
 
