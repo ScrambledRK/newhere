@@ -21,7 +21,7 @@ export class CategoryService
 		this.category = {};
 
 		//
-		this.fetchCategories();
+		//this.fetchCategories();
 
 		//
 		this.$rootScope.$on( "languageChanged", ( event, data ) =>

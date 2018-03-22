@@ -3,11 +3,13 @@ export class UserService
 	/**
 	 *
 	 * @param {Restangular} API
+	 * @param {CategoryService} CategoryService
 	 * @param {AuthProvider} $auth
 	 * @param {*} $rootScope
 	 * @param {*} $q
 	 */
 	constructor( API,
+	             CategoryService,
 	             $auth,
 	             $rootScope,
 	             $q, )
@@ -16,6 +18,7 @@ export class UserService
 
 		//
 		this.API = API;
+		this.CategoryService = CategoryService;
 		this.$auth = $auth;
 		this.$rootScope = $rootScope;
 		this.$q = $q;
@@ -44,8 +47,9 @@ export class UserService
 
 			let userPromise = this.fetchUser();
 			let providerPromise = this.fetchProviders();
+			let categoryPromise = this.CategoryService.fetchCategories();
 
-			this.$q.all( [userPromise, providerPromise] )
+			this.$q.all( [userPromise, providerPromise, categoryPromise] )
 				.then( () =>
 					{
 						this._finalizeAuth();
@@ -123,7 +127,7 @@ export class UserService
 				} )
 			.then( () =>
 				{
-					return this.fetchUser()
+					return this.fetchUser();
 				},
 				( error ) =>
 				{
@@ -131,7 +135,15 @@ export class UserService
 				} )
 			.then( () =>
 				{
-					return this.fetchProviders()
+					return this.fetchProviders();
+				},
+				( error ) =>
+				{
+					throw error;
+				} )
+			.then( () =>
+				{
+					return this.CategoryService.fetchCategories();
 				},
 				( error ) =>
 				{

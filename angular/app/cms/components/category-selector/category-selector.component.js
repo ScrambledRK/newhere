@@ -11,7 +11,7 @@ class CategorySelectorController
 		this.$scope = $scope;
 
 		//
-		this.$scope.category = this.category = {};
+		this.$scope.category = this.category = this.CategoryService.category;
 		this.selected = [];
 
 		// ---------------------- //
