@@ -230,6 +230,7 @@ groupAuthenticated( $api, function( $api )
 
         //
         $api->post('cms/admin/provider/clean', 'Cms\AdminController@cleanProviders');
+        $api->post('cms/admin/category/clean', 'Cms\AdminController@cleanCategories');
     } );
 } );
 

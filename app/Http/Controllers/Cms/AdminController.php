@@ -69,5 +69,39 @@ class AdminController extends Controller
         return $result;
     }
 
+    //
+    public function cleanCategories( Request $request )
+    {
+        $result = "clean categories:\n\n";
 
+        //
+        $offers = Offer::all();
+        $offers->load("categories");
+
+        foreach( $offers as $off )
+        {
+            $categories = $off->getRelations()[ "categories" ];
+
+            //
+            $off->categories()->detach();
+
+            foreach( $categories as $cat )
+            {
+                $cat->load("children");
+                $children = $cat->getRelations()[ "children" ];
+
+                if( is_null($children) || count($children) == 0 )
+                {
+                    $off->categories()->attach( $cat );
+                }
+                else
+                {
+                    $result .= "\n" . $off->id . "\t" . $cat->id;
+                }
+            }
+        }
+
+        //
+        return $result;
+    }
 }
