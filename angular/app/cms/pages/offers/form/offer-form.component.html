@@ -148,7 +148,7 @@
   >
 
     <save
-      is-disabled="offerForm.$invalid || offerForm.$pristine"
+      is-disabled="offerForm.$invalid || offerForm.$pristine || vm.isSaving"
     ></save>
 
     <cancel></cancel>

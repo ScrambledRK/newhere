@@ -463,7 +463,7 @@ class OfferController extends Controller
 
             if( $off->valid_from == null
                 || ( $isFromDate && $off->valid_from < $from )
-                || $from === "unset" ) // only set if unset
+                || $from === "unset" )
             {
                 $from = $off->valid_from;
             }

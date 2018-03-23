@@ -128,15 +128,19 @@ class OfferFormController
 	//
 	fetchItem( id )
 	{
+		this.isSaving = true;
+
 		this.API.one( 'cms/offers', id ).get()
 			.then( ( item ) =>
 				{
 					this.setOffer( item );
+					this.isSaving = false;
 				},
 				( error ) =>
 				{
 					this.ToastService.error( 'Unbekannter Fehler aufgetreten.' );
 					this.ToastService.error( error );
+					this.isSaving = false;
 				}
 			);
 	}
@@ -287,15 +291,19 @@ class OfferFormController
 	//
 	updateItem()
 	{
+		this.isSaving = true;
+
 		this.API.one( 'cms/offers', this.offer.id ).customPUT( this.offer )
 			.then( ( response ) =>
 				{
 					this.ToastService.show( 'Eintrag aktualisiert.' );
+					this.isSaving = false;
 				},
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 					this.ToastService.error( error );
+					this.isSaving = false;
 				}
 			);
 	}
@@ -303,6 +311,8 @@ class OfferFormController
 	//
 	createItem()
 	{
+		this.isSaving = true;
+
 		this.API.all( 'cms/offers' ).post( this.offer )
 			.then( ( response ) =>
 				{
@@ -310,11 +320,13 @@ class OfferFormController
 					//console.log( "res:", response.data.offer );
 
 					this.setOffer( response.data.offer );
+					this.isSaving = false;
 				},
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
 					this.ToastService.error( error );
+					this.isSaving = false;
 				}
 			);
 	}
