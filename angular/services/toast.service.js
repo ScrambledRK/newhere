@@ -43,7 +43,7 @@ export class ToastService
 	 * @param {string} content
 	 * @returns {boolean}
 	 */
-	error( content )
+	error( content, track )
 	{
 		if( !content )
 			return false;
@@ -53,6 +53,14 @@ export class ToastService
 		{
 			if( content.data && content.data.message )
 				content = content.data.message;
+		}
+
+		if( track )
+		{
+			window.ga('send', 'exception', {
+				'exDescription': content,
+				'exFatal': false
+			});
 		}
 
 		//

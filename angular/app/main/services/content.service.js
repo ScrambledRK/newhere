@@ -90,6 +90,9 @@ export class ContentService
 		let paramProvider = toParams.provider;
 		let paramOffer = toParams.offer;
 
+		let trackurl = "";
+
+		//
 		if( toState.name === "main.content.offers" || (!toState.name && (paramCategory || paramOffer)))
 		{
 			if( toState.name !== fromState.name )
@@ -113,6 +116,10 @@ export class ContentService
 			//
 			if( !paramCategory || paramCategory === "" )
 				console.error( "content.toState requires category parameter to be set" );
+
+			//
+			trackurl = "main.content.offers/";
+			trackurl += paramCategory.split(",").join("/") + "/" + (paramOffer ? paramOffer : "");
 		}
 		else if( toState.name === "main.content.providers" || (!toState.name && paramProvider))
 		{
@@ -124,10 +131,14 @@ export class ContentService
 
 			if( !paramProvider )
 				console.error( "content.toState requires provider parameter to be set" );
+
+			//
+			trackurl = "main.content.providers/";
+			trackurl += paramCategory.split(",").join("/") + "/" + (paramProvider ? paramProvider : "");
 		}
 
-		//if( paramProvider === 'all' )
-		//	paramCategory = 'providers';
+		//
+		this.$rootScope.$broadcast( 'onStateChangeRequestComplete', trackurl );
 
 		//
 		this.fetchContent(

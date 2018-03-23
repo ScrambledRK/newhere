@@ -44,5 +44,32 @@ export function RoutesRun( $rootScope,
 		} );
 
 	//
-	$rootScope.$on( '$destroy', onStateChangeStart );
+	let onStateChangeEnd = $rootScope.$on( "$stateChangeSuccess",
+		( event, toState, toParams, fromState, fromParams ) =>
+		{
+			if( !toState.data || !toState.data.delayTracking )
+				$rootScope.$broadcast( 'onStateChangeRequestComplete', toState.name );
+		} );
+
+	//
+	let onTracking = $rootScope.$on( "onStateChangeRequestComplete",
+		( event, page ) =>
+		{
+			console.log("oida?", page );
+
+			if(!page || page.length === 0 )
+				return;
+
+			//
+			window.ga('set', 'page', page  );
+			window.ga('send', 'pageview');
+		} );
+
+	//
+	$rootScope.$on( '$destroy', () =>
+	{
+		onStateChangeStart();
+		onStateChangeEnd();
+		onTracking();
+	} );
 }

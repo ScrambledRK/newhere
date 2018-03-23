@@ -54,11 +54,11 @@ class RegisterFormController
 		{
 			for( var error in response.data.errors )
 			{
-				return this.ToastService.error( response.data.errors[error][0] );
+				return this.ToastService.error( response.data.errors[error][0], true );
 			}
 		}
 		this.sending = false;
-		this.ToastService.error( response.statusText );
+		this.ToastService.error( response.statusText, true );
 	}
 }
 

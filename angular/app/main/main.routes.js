@@ -81,6 +81,10 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 			{
 				abstract: true,
 
+				data: {
+					delayTracking: true,
+				},
+
 				views:
 					{
 						'body@main': {

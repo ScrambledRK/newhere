@@ -139,7 +139,7 @@ class OfferFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Unbekannter Fehler aufgetreten.' );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 					this.isSaving = false;
 				}
 			);
@@ -302,7 +302,7 @@ class OfferFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 					this.isSaving = false;
 				}
 			);
@@ -325,7 +325,7 @@ class OfferFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 					this.isSaving = false;
 				}
 			);
@@ -559,19 +559,19 @@ class OfferFormController
 		if( response.data )
 		{
 			if( response.statusText )
-				this.ToastService.error( response.statusText );
+				this.ToastService.error( response.statusText, true );
 
 			if( response.data.errors && response.data.errors.message )
 			{
 				response.data.errors.message.forEach( function( element )
 				{
-					this.ToastService.error( element );
+					this.ToastService.error( element, true );
 				}, this );
 			}
 		}
 		else if( response.message )
 		{
-			this.ToastService.error( response.message );
+			this.ToastService.error( response.message, true );
 		}
 	}
 }

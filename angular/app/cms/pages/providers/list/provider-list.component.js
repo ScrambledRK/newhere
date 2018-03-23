@@ -123,7 +123,7 @@ class ProviderListController
 				( error ) =>
 				{
 					this.ToastService.error( "Fehler beim aktualisieren der Einträge." );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 
 					this.onQueryUpdate();
 				}
@@ -155,7 +155,7 @@ class ProviderListController
 						( error ) =>
 						{
 							this.ToastService.error( 'Fehler beim löschen der Einträge.' );
-							this.ToastService.error( error );
+							this.ToastService.error( error, true );
 
 							this.onQueryUpdate();
 						} );
@@ -183,7 +183,7 @@ class ProviderListController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 
 					this.onQueryUpdate();
 				} );

@@ -245,19 +245,19 @@ class ProviderFormController
 		if( response.data )
 		{
 			if( response.statusText )
-				this.ToastService.error( response.statusText );
+				this.ToastService.error( response.statusText, true );
 
 			if( response.data.errors && response.data.errors.message )
 			{
 				response.data.errors.message.forEach( function( element )
 				{
-					this.ToastService.error( element );
+					this.ToastService.error( element, true );
 				}, this );
 			}
 		}
 		else if( response.message )
 		{
-			this.ToastService.error( response.message );
+			this.ToastService.error( response.message, true );
 		}
 	}
 }

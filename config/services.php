@@ -38,4 +38,8 @@ return [
     'opencagedata' => [
         'key' => env('OPENCAGEDATA_KEY')
     ],
+
+    'analytics' => [
+        'key' => env('ANALYTICS_KEY')
+    ],
 ];

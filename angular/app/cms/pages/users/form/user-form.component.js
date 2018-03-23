@@ -82,7 +82,7 @@ class UserFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim laden der Daten.' );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 				}
 			);
 	}
@@ -246,7 +246,7 @@ class UserFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 				}
 			);
 	}
@@ -268,7 +268,7 @@ class UserFormController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
-					this.ToastService.error( error );
+					this.ToastService.error( error, true );
 				}
 			);
 	}

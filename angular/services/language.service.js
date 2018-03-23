@@ -97,6 +97,13 @@ export class LanguageService
 		if( language === this.$rootScope.language )
 			return language;
 
+		window.ga('send', {
+			hitType: 'event',
+			eventCategory: 'language',
+			eventAction: 'change',
+			eventValue: language
+		});
+
 		//
 		switch( language )
 		{
