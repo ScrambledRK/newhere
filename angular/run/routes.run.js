@@ -4,6 +4,7 @@ export function RoutesRun( $rootScope,
                            $mdSidenav,
                            ToastService,
                            AnalyticService,
+                           $location,
                            $auth,
                            $state )
 {
@@ -15,6 +16,9 @@ export function RoutesRun( $rootScope,
 		{
 			if( toState.data && toState.data.auth )
 			{
+				document.title = "newhere : cms";
+
+				//
 				if( !$auth.isAuthenticated() )
 				{
 					event.preventDefault();
@@ -24,6 +28,9 @@ export function RoutesRun( $rootScope,
 					return $state.go( 'main.login' );
 				}
 			}
+
+			if( toState.data && toState.data.title )
+				document.title = "newhere : " + toState.data.title;
 
 			// ------------------------------- //
 			// ------------------------------- //
@@ -48,18 +55,11 @@ export function RoutesRun( $rootScope,
 	let onStateChangeEnd = $rootScope.$on( "$stateChangeSuccess",
 		( event, toState, toParams, fromState, fromParams ) =>
 		{
-			if( !toState.data || !toState.data.delayTracking )
-				$rootScope.$broadcast( 'onStateChangeRequestComplete', toState.name );
-		} );
+			let url = $location.$$url;
+			//	url = url.split("#!")[1];
 
-	//
-	let onTracking = $rootScope.$on( "onStateChangeRequestComplete",
-		( event, page ) =>
-		{
-			if(!page || page.length === 0 )
-				return;
-
-			AnalyticService.visitPage( page );
+			if( url && url.length > 0 )
+				AnalyticService.visitPage( url );
 		} );
 
 	//

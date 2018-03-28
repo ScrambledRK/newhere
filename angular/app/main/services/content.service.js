@@ -90,8 +90,6 @@ export class ContentService
 		let paramProvider = toParams.provider;
 		let paramOffer = toParams.offer;
 
-		let trackurl = "";
-
 		//
 		if( toState.name === "main.content.offers" || (!toState.name && (paramCategory || paramOffer)))
 		{
@@ -116,10 +114,6 @@ export class ContentService
 			//
 			if( !paramCategory || paramCategory === "" )
 				console.error( "content.toState requires category parameter to be set" );
-
-			//
-			trackurl = "main.content.offers/";
-			trackurl += paramCategory.split(",").join("/") + "/" + (paramOffer ? paramOffer : "");
 		}
 		else if( toState.name === "main.content.providers" || (!toState.name && paramProvider))
 		{
@@ -131,14 +125,7 @@ export class ContentService
 
 			if( !paramProvider )
 				console.error( "content.toState requires provider parameter to be set" );
-
-			//
-			trackurl = "main.content.providers/";
-			trackurl += paramCategory.split(",").join("/") + "/" + (paramProvider ? paramProvider : "");
 		}
-
-		//
-		this.$rootScope.$broadcast( 'onStateChangeRequestComplete', trackurl );
 
 		//
 		this.fetchContent(
@@ -231,10 +218,6 @@ export class ContentService
 			{
 				document.title = "newhere : " + msg;
 			} );
-		}
-		else
-		{
-			document.title = "newhere : welcome";
 		}
 	}
 

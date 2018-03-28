@@ -35,6 +35,10 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 			{
 				url: '/',
 
+				data: {
+					title: "welcome",
+				},
+
 				views:
 					{
 						'body@main': {
@@ -47,6 +51,10 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.page',
 			{
 				url: '/page/{slug:[a-zA-Z0-9-]+}',
+
+				data: {
+					delayTracking: true,
+				},
 
 				params:
 					{
@@ -166,6 +174,11 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.login',
 			{
 				url: '/login',
+
+				data: {
+					title: "login"
+				},
+
 				params: {
 					registerMail: {
 						value: null
@@ -184,6 +197,10 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.register',
 			{
 				url: '/register',
+
+				data: {
+					title: "register"
+				},
 
 				views:
 					{
