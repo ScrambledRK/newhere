@@ -6,7 +6,7 @@
         <!-- Google Analytics -->
         <script>
         window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-        ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto');
+        ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
         </script>
         <script async src='https://www.google-analytics.com/analytics.js'></script>
 
