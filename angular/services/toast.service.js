@@ -3,12 +3,13 @@
  */
 export class ToastService
 {
-	constructor( $mdToast, $translate )
+	constructor( $mdToast, $translate, AnalyticService )
 	{
 		'ngInject';
 
 		this.$mdToast = $mdToast;
 		this.$translate = $translate;
+		this.AnalyticService = AnalyticService;
 
 		this.delay = 6000;
 		this.position = 'bottom right';
@@ -56,12 +57,7 @@ export class ToastService
 		}
 
 		if( track )
-		{
-			window.ga('send', 'exception', {
-				'exDescription': content,
-				'exFatal': false
-			});
-		}
+			this.AnalyticService.exception( content, false );
 
 		//
 		this.$translate( content ).then( ( msg ) =>

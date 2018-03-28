@@ -7,6 +7,7 @@ export class LanguageService
 	 * @param {*} $rootScope
 	 */
 	constructor( API,
+	             AnalyticService,
 	             $translate,
 	             $rootScope,
 	             $log )
@@ -14,6 +15,7 @@ export class LanguageService
 		'ngInject';
 
 		this.API = API;
+		this.AnalyticService = AnalyticService;
 		this.$translate = $translate;
 		this.$rootScope = $rootScope;
 		this.$log = $log;
@@ -97,12 +99,9 @@ export class LanguageService
 		if( language === this.$rootScope.language )
 			return language;
 
-		window.ga('send', {
-			hitType: 'event',
-			eventCategory: 'language',
-			eventAction: 'change',
-			eventValue: language
-		});
+
+		//
+		this.AnalyticService.changeLanguage( language );
 
 		//
 		switch( language )

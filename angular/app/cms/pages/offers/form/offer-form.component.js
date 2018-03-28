@@ -435,7 +435,7 @@ class OfferFormController
 		let e = Boolean(this.valid_until);
 		let v = Boolean(this.offer.enabled);
 
-		console.log( s, e, v );
+		//console.log( s, e, v );
 
 		let result = "";
 

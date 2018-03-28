@@ -3,6 +3,7 @@ export function RoutesRun( $rootScope,
                            $mdComponentRegistry,
                            $mdSidenav,
                            ToastService,
+                           AnalyticService,
                            $auth,
                            $state )
 {
@@ -55,14 +56,10 @@ export function RoutesRun( $rootScope,
 	let onTracking = $rootScope.$on( "onStateChangeRequestComplete",
 		( event, page ) =>
 		{
-			console.log("oida?", page );
-
 			if(!page || page.length === 0 )
 				return;
 
-			//
-			window.ga('set', 'page', page  );
-			window.ga('send', 'pageview');
+			AnalyticService.visitPage( page );
 		} );
 
 	//

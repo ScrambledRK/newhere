@@ -79,6 +79,7 @@ import {ToastService} from './services/toast.service';
 import {SearchService} from './services/search.service';
 import {LanguageService} from './services/language.service';
 import {DialogService} from './services/dialog.service';
+import {AnalyticService} from './services/analytics.service';
 
 //
 angular.module('app')
@@ -87,6 +88,7 @@ angular.module('app')
 	.service('ToastService', ToastService)
 	.service('LanguageService', LanguageService)
 	.service('DialogService', DialogService)
+	.service('AnalyticService', AnalyticService)
 ;
 
 // --------------------------------------------------- //
