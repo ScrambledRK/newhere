@@ -52,10 +52,10 @@ export function RoutesRun( $rootScope,
 		} );
 
 	//
-	let onStateChangeEnd = $rootScope.$on( "$stateChangeSuccess",
+	let onStateChangeEnd = $rootScope.$on( "$locationChangeSuccess",
 		( event, toState, toParams, fromState, fromParams ) =>
 		{
-			let url = $location.$$url;
+			let url = $location.url();
 			//	url = url.split("#!")[1];
 
 			if( url && url.length > 0 )

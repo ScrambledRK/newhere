@@ -16,7 +16,7 @@ export class AnalyticService
 		window.ga('send', 'pageview');
 	}
 
-	switchLanguage( language )
+	changeLanguage( language )
 	{
 		//
 		window.ga('send', {
