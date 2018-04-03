@@ -63,6 +63,24 @@
         @endif
 
 	<script>
+        window.initAnalytics = function( hasConsented )
+        {
+        	console.log("cookies?", hasConsented );
+
+	        if( hasConsented )
+            {
+                window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+                window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
+
+                if( window.onCookieConsent )
+                    window.onCookieConsent( this.hasConsented() );
+            }
+            else
+            {
+                window.ga = null;
+            }
+        };
+
         window.cookieconsent.initialise({
             container: document.getElementById("cookie-container"),
 
@@ -79,20 +97,17 @@
             revokable:true,
             type:'opt-in',
 
+	        onInitialise: function(status)
+            {
+                window.initAnalytics(this.hasConsented());
+            },
             onStatusChange: function(status)
             {
-                if( this.hasConsented() )
-                {
-                    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-                    window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
-
-                    if( window.onCookieConsent )
-                        window.onCookieConsent( this.hasConsented() );
-                }
-                else
-                {
-                    window.ga = null;
-                }
+                window.initAnalytics(this.hasConsented());
+            },
+            onRevokeChoice: function(status)
+            {
+                window.initAnalytics(false);
             },
             law: {
                 regionalLaw: false,
