@@ -87,12 +87,15 @@ class AdminController extends Controller
 
             foreach( $categories as $cat )
             {
-                $cat->load("children");
-                $children = $cat->getRelations()[ "children" ];
+                $children = Category::where('parent_id',"=", (int)$cat->id );
+                $count = $children->count(); //count($children);
 
-                if( is_null($children) || count($children) == 0 )
+                $result .= $cat->id . "\t" . $cat->slug . "\t" . $count . "\n";
+
+                //
+                if( $count == 0 )
                 {
-                    $off->categories()->attach( $cat );
+                   $off->categories()->attach( $cat );
                 }
                 else
                 {
