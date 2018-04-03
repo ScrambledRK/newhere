@@ -85,6 +85,9 @@
                 {
                     window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
                     window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
+
+                    if( window.onCookieConsent )
+                        window.onCookieConsent( this.hasConsented() );
                 }
                 else
                 {

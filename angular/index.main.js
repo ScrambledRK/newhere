@@ -80,6 +80,7 @@ import {SearchService} from './services/search.service';
 import {LanguageService} from './services/language.service';
 import {DialogService} from './services/dialog.service';
 import {AnalyticService} from './services/analytics.service';
+import {DocumentService} from './services/document.service';
 
 //
 angular.module('app')
@@ -89,6 +90,7 @@ angular.module('app')
 	.service('LanguageService', LanguageService)
 	.service('DialogService', DialogService)
 	.service('AnalyticService', AnalyticService)
+	.service('DocumentService', DocumentService)
 ;
 
 // --------------------------------------------------- //

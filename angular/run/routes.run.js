@@ -4,6 +4,7 @@ export function RoutesRun( $rootScope,
                            $mdSidenav,
                            ToastService,
                            AnalyticService,
+                           DocumentService,
                            $location,
                            $auth,
                            $state )
@@ -14,9 +15,12 @@ export function RoutesRun( $rootScope,
 	let onStateChangeStart = $rootScope.$on( "$stateChangeStart",
 		( event, toState, toParams, fromState, fromParams ) =>
 		{
+			DocumentService.isDirty = true;
+
+			//
 			if( toState.data && toState.data.auth )
 			{
-				document.title = "newhere : cms";
+				DocumentService.changeTitle("cms");
 
 				//
 				if( !$auth.isAuthenticated() )
@@ -30,7 +34,7 @@ export function RoutesRun( $rootScope,
 			}
 
 			if( toState.data && toState.data.title )
-				document.title = "newhere : " + toState.data.title;
+				DocumentService.changeTitle( toState.data.title );
 
 			// ------------------------------- //
 			// ------------------------------- //
@@ -59,7 +63,19 @@ export function RoutesRun( $rootScope,
 			//	url = url.split("#!")[1];
 
 			if( url && url.length > 0 )
-				AnalyticService.visitPage( url );
+			{
+				if( DocumentService.isDirty )
+				{
+					DocumentService.onComplete = (title) => {
+						AnalyticService.visitPage( url, document.title );
+					};
+				}
+				else
+				{
+					AnalyticService.visitPage( url, document.title );
+				}
+			}
+
 		} );
 
 	//

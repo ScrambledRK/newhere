@@ -3,12 +3,14 @@ export class ContentService
 	/**
 	 *
 	 * @param {Restangular} API
+	 * @param {DocumentService} DocumentService
 	 * @param {*} $state
 	 * @param {*} $translate
 	 * @param {*} $rootScope
 	 * @param {*} $q
 	 */
 	constructor( API,
+	             DocumentService,
 	             $state,
 	             $translate,
 	             $rootScope,
@@ -18,6 +20,7 @@ export class ContentService
 
 		//
 		this.API = API;
+		this.DocumentService = DocumentService;
 
 		this.$state = $state;
 		this.$translate = $translate;
@@ -202,22 +205,20 @@ export class ContentService
 	{
 		if( this.offer && this.slugOffer )
 		{
-			document.title = "newhere : " + this.offer.title;
+			this.DocumentService.changeTitle(this.offer.title);
 		}
 		else if( this.provider && this.slugProvider )
 		{
-			document.title = "newhere : " + this.provider.organisation;
+			this.DocumentService.changeTitle(this.provider.organisation);
 		}
 		else if( this.category && this.slugCategory )
 		{
-			document.title = "newhere : " + this.category.title;
+			this.DocumentService.changeTitle(this.category.title);
 		}
 		else if( this.providerList && !this.slugProvider && !this.slugOffer )
 		{
-			this.$translate( "Anbieter" ).then( ( msg ) =>
-			{
-				document.title = "newhere : " + msg;
-			} );
+			this.DocumentService.changeTitle("Anbieter",true);
+
 		}
 	}
 

@@ -14,6 +14,7 @@ class CustomPageController
 				 PageService,
 	             ToastService,
 	             LanguageService,
+	             DocumentService,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -25,6 +26,7 @@ class CustomPageController
 		this.PageService = PageService;
 		this.ToastService = ToastService;
 		this.LanguageService = LanguageService;
+		this.DocumentService = DocumentService;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 
@@ -90,7 +92,7 @@ class CustomPageController
 		this.page = page;
 
 		if( this.page )
-			document.title = "newhere : " + this.page.title;
+			this.DocumentService.changeTitle( this.page.title );
 	}
 
 
