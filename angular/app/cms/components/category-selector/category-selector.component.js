@@ -1,12 +1,14 @@
 class CategorySelectorController
 {
 	constructor( CategoryService,
+	             $timeout,
 	             $rootScope,
 	             $scope )
 	{
 		'ngInject';
 
 		this.CategoryService = CategoryService;
+		this.$timeout = $timeout;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 
@@ -21,7 +23,7 @@ class CategorySelectorController
 		let onCategories = this.$rootScope.$on( "categoriesChanged", ( event, data ) =>
 		{
 			if( !this.item )
-				console.error("no category item available! oh-nose");
+				console.error( "no category item available! oh-nose" );
 
 			this.$scope.category = this.category = this.CategoryService.category;
 			this.selected = this.item;
@@ -44,14 +46,19 @@ class CategorySelectorController
 	//
 	onCategoriesChanged()
 	{
-		this.setupCategories( this.category );
+		this.unselectCategories( this.category );
 
-		//console.log( this.category );
-		//console.log( this.selected );
+		this.$timeout( () =>{
+			this.selectCategories( this.category ); // hack to ensure view update -.-
+		}, 150, false );
+
+
+		console.log( this.category );
+		console.log( this.selected );
 	}
 
 	//
-	setupCategories( node )
+	unselectCategories( node )
 	{
 		if( !node )
 			return;
@@ -62,7 +69,20 @@ class CategorySelectorController
 		//
 		angular.forEach( node.all_children, ( child, key ) =>
 		{
-			this.setupCategories( child );
+			this.unselectCategories( child );
+		} );
+	}
+
+	//
+	selectCategories( node )
+	{
+		if( !node )
+			return;
+
+		//
+		angular.forEach( node.all_children, ( child, key ) =>
+		{
+			this.selectCategories( child );
 		} );
 
 		//
@@ -106,7 +126,7 @@ class CategorySelectorController
 		if( !category.isSelected )  // toggled by checkbox after click event >_>
 		{
 			if( index === -1 )
-				this.selected.push( {id:category.id} );
+				this.selected.push( { id: category.id } );
 		}
 		else
 		{
@@ -141,7 +161,7 @@ class CategorySelectorController
  * @type {{template: *, controller: CategorySelectorController, controllerAs: string, bindings: {item: string}}}
  */
 export const CategorySelectorComponent = {
-	template: require('./category-selector.component.html'),
+	template: require( './category-selector.component.html' ),
 	controller: CategorySelectorController,
 	controllerAs: 'vm',
 	bindings: {
