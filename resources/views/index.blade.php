@@ -3,13 +3,7 @@
       ng-strict-di>
     <head>
 
-        <!-- Google Analytics -->
-        <script>
-        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-        ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
-        </script>
-        <script async src='https://www.google-analytics.com/analytics.js'></script>
-
+      <!-- cookies -->
         <meta http-equiv="X-UA-Compatible"
               content="IE=edge">
         <meta name="viewport"
@@ -36,6 +30,8 @@
 	<script src="{!! elixir('js/partials.js') !!}"></script>
 	<script src="{!! elixir('js/app.js') !!}"></script>
 
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+
         <script type="text/javascript">
             window.newhere =
                 {
@@ -56,6 +52,7 @@
         <![endif]-->
     </head>
     <body>
+        <div id="cookie-container">
         <div ui-view="front"></div>
 
         {{--livereload--}}
@@ -64,5 +61,42 @@
 				document.write( '<script src="' + location.protocol + '//' + (location.host.split( ':' )[0] || 'localhost') + ':35729/livereload.js?snipver=1" type="text/javascript"><\/script>' )
             </script>
         @endif
+
+	<script>
+        window.cookieconsent.initialise({
+            container: document.getElementById("cookie-container"),
+
+            palette:{
+                popup: {background: "#fff"},
+                button: {background: "#357DBA"},
+            },
+
+	        compliance: {
+		        'info': '<div class="cc-compliance">\{\{dismiss\}\}</div>',
+		        'opt-in': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{allow\}\}</div>',
+		        'opt-out': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{dismiss\}\}</div>',
+	        },
+            revokable:true,
+            type:'opt-in',
+
+            onStatusChange: function(status)
+            {
+                if( this.hasConsented() )
+                {
+                    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+                    window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
+                }
+                else
+                {
+                    window.ga = null;
+                }
+            },
+            law: {
+                regionalLaw: false,
+            },
+            location: false,
+        });
+    </script>
+
     </body>
 </html>

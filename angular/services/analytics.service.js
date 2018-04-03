@@ -12,12 +12,18 @@ export class AnalyticService
 
 	visitPage( page )
 	{
+		if( !window.ga )
+			return;
+
 		window.ga('set', 'page', page  );
 		window.ga('send', 'pageview');
 	}
 
 	changeLanguage( language )
 	{
+		if( !window.ga )
+			return;
+
 		//
 		window.ga('send', {
 			hitType: 'event',
@@ -29,6 +35,9 @@ export class AnalyticService
 
 	exception( error, isFatal )
 	{
+		if( !window.ga )
+			return;
+
 		window.ga('send', 'exception', {
 			'exDescription': error,
 			'exFatal': isFatal

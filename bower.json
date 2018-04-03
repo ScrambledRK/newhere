@@ -50,7 +50,8 @@
     "textAngular": "https://github.com/fraywing/textAngular.git#a4c905845164d8c20e5cf69ece742185b2a1f1ed",
     "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#919b862389ddddc85c197746f3126fd24de0dc42",
     "angular-ui-tinymce": "0.0.19",
-    "tinymce": "4.6.0"
+    "tinymce": "4.6.0",
+    "cookieconsent":"3.0.6"
   },
   "group": {
     "main": [
