@@ -530,14 +530,19 @@ class OfferFormController
 		if( !item )
 			return;
 
-		this.offer.street = item.street;
-		this.offer.streetnumber = item.number;
-		this.offer.city = item.city;
-		this.offer.zip = item.zip;
-		this.offer.latitude = item.coordinates[0];
-		this.offer.longitude = item.coordinates[1];
+		this.SearchService.getAddressDetail( item ).then( ( response ) =>
+		{
+			response = response.data;
 
-		this.updateMap();
+			this.offer.street = response.street;
+			this.offer.streetnumber = response.number;
+			this.offer.city = response.city;
+			this.offer.zip = response.zip;
+			this.offer.latitude = response.coordinates[0];
+			this.offer.longitude = response.coordinates[1];
+
+			this.updateMap();
+		} );
 	}
 
 	updateMap()

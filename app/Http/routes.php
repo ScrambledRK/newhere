@@ -202,7 +202,6 @@ groupAuthenticated( $api, function( $api )
 groupEveryone( $api, function( $api )
 {
     $api->controller('auth', 'Auth\AuthController');
-    $api->get( 'search/address/{search}', 'Search@address');
     $api->get( 'pages/{slug}', 'Main\PageController@bySlug');
 } );
 
@@ -210,6 +209,10 @@ groupEveryone( $api, function( $api )
 groupAuthenticated( $api, function( $api )
 {
     $api->get( 'cms/filters', 'Cms\FilterController@index' );
+
+    //
+    $api->get( 'search/address/{search}', 'Search@address');
+    $api->get( 'search/address/detail/{search}', 'Search@addressDetail');
 
     //
     groupOrganisation( $api, function( $api )

@@ -32,8 +32,8 @@ class Category extends Model
                        ->where( 'enabled', true )
                        ->orderBy( 'sortindex', 'ASC' )
                        ->with( 'image' );
-                     //  ->has( 'offers' )
-                    //   ->orHas( '_children' );
+        //  ->has( 'offers' )
+        //   ->orHas( '_children' );
 
         return $result;
     }
@@ -41,10 +41,10 @@ class Category extends Model
     //
     public function allChildren()
     {
-        return $this->hasMany('App\Category', 'parent_id', 'id')
+        return $this->hasMany( 'App\Category', 'parent_id', 'id' )
                     ->where( 'enabled', true )
                     ->orderBy( 'sortindex', 'ASC' )
-                    ->with('allChildren')->withCount('offers');
+                    ->with( 'allChildren' )->withCount( 'offers' );
     }
 
     //
@@ -98,6 +98,6 @@ class Category extends Model
     public function page()
     {
         return $this->hasOne( 'App\Page', 'id', 'page_id' )
-            ->where( 'enabled', true )->select(['id','slug']);
+                    ->where( 'enabled', true )->select( [ 'id', 'slug' ] );
     }
 }

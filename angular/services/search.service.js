@@ -20,8 +20,8 @@ export class SearchService
 	 */
 	searchAddress( query )
 	{
-		if( !(/\d/.test(query)) )
-			return this.empty;
+		if( !query || query.length === 0 )
+			return;
 
 		//
 		if( this.$http.pendingRequests.length )
@@ -42,6 +42,14 @@ export class SearchService
 				{
 					throw error;
 				} );
+	}
+
+	getAddressDetail( address )
+	{
+		if( !address || !address.id || address.id.length === 0 )
+			return;
+
+		return this.$http.get( '/api/search/address/detail/' + address.id );
 	}
 
 	/**

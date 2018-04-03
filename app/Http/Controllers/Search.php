@@ -17,7 +17,19 @@ class Search extends Controller
     public function address( $search )
     {
         $addressApi = new AddressAPI();
-        $returnArray = $addressApi->getAddressSuggestions( $search );
+        $returnArray = $addressApi->getSuggestion( $search );
+
+        return response()->json( $returnArray );
+    }
+
+    /**
+     * @param $search
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addressDetail( $search )
+    {
+        $addressApi = new AddressAPI();
+        $returnArray = $addressApi->getAddress( $search );
 
         return response()->json( $returnArray );
     }

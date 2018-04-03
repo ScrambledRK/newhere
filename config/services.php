@@ -35,8 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-    'opencagedata' => [
-        'key' => env('OPENCAGEDATA_KEY')
+    'geocoding' => [
+        'key' => env('GEOCODING_KEY')
     ],
 
     'analytics' => [

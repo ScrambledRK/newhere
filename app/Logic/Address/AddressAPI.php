@@ -16,7 +16,7 @@ use GuzzleHttp\Client;use Illuminate\Support\Facades\Config;
 class AddressAPI
 {
     /**
-     * Returns the coordinates of the specified address, or null if an error occurred
+     * should not be used anymore, because frontend must provide coordinates ... hmm ...
      *
      * @param $street
      * @param $streetnumber
@@ -26,18 +26,17 @@ class AddressAPI
      */
     public function getCoordinates( $street, $streetnumber, $zip )
     {
-        $json = $this->query( $street . ' ' . $streetnumber . ', ' . $zip );
+        $suggestion = $this->getSuggestion( $street . ' ' . $streetnumber . ', ' . $zip );
 
-        if( $json === null )
+        if( $suggestion === null || count($suggestion) === 0 )
         {
             return null;
         }
 
+        //
         try
         {
-            $feature = $json[ 'features' ][ 0 ];
-
-            return $feature[ 'geometry' ][ 'coordinates' ];
+            return $this->getAddress( $suggestion[0]['id'] )[ 'coordinates' ];
         }
         catch( \Exception $error )
         {
@@ -49,75 +48,61 @@ class AddressAPI
 
     /**
      * @param $input
-     *
-     * @return array
-     * Returns an array of address suggestions, or an empty array if an error occurs or no suggestions were found
      */
-    public function getAddressSuggestions( $input )
+    public function getAddress( $id )
     {
-        $returnArray = [];
-
-        $json = $this->query( $input );
+        $json = $this->queryAddress( $id );
 
         if( $json == null )
         {
-            return $returnArray;
+            return null;
         }
 
-        $features = $json[ 'results' ];
-
         //
-        foreach( $features as $feature )
+        $result = [];
+
+        foreach( $json[ 'result' ][ 'address_components' ] as $feature )
         {
-            $properties = $feature[ 'components' ];
+            $types = $feature['types'];
+            $value = $feature['long_name'];
 
-            if( $properties[ '_type' ] == 'building' )
+            //
+            if( in_array( "street_number", $types ) )
             {
-                if( !array_key_exists( "road", $properties ) )
-                    continue;
-
-                if( !array_key_exists( "house_number", $properties ) )
-                    continue;
-
-                if( !array_key_exists( "state", $properties ) )
-                    continue;
-
-                if( !array_key_exists( "postcode", $properties ) )
-                    continue;
-
-                //
-                $returnAddress = [
-                    "street"      => $properties[ 'road' ],
-                    "number"      => $properties[ 'house_number' ],
-                    "city"        => $properties[ 'state' ],
-                    "zip"         => $properties[ 'postcode' ],
-                    "coordinates" => [
-                        $feature[ 'geometry' ]['lng'],
-                        $feature[ 'geometry' ]['lat']
-                    ]
-                ];
-
-                $returnArray[] = $returnAddress;
+                $result['number'] = $value;
+            }
+            elseif( in_array( "route", $types ) )
+            {
+                $result['street'] = $value;
+            }
+            elseif( in_array( "locality", $types ) )
+            {
+                $result['city'] = $value;
+            }
+            elseif( in_array( "postal_code", $types ) )
+            {
+                $result['zip'] = $value;
             }
         }
 
-        return $returnArray;
+        //
+        $result['coordinates'] = [
+            $json[ 'result' ][ 'geometry' ]['location']['lng'],
+            $json[ 'result' ][ 'geometry' ]['location']['lat']
+        ];
+
+        return $result;
+
     }
 
     /**
-     * Queries the mapzen API for addresses within an radius of 35 kilometers around vienna.
-     * Returns null if an error occurred
-     *
      * @param $input
-     *
      * @return mixed|null
      */
-    private function query( $input )
+    private function queryAddress( $id )
     {
-        if( empty( $input ) )
+        if( empty( $id ) )
             return null;
-
-        $input = $input . ', Vienna, Austria';
 
         //
         $response = null;
@@ -126,13 +111,92 @@ class AddressAPI
         {
             $client = new Client();
             $response = $client->request(
-                'GET', 'https://api.opencagedata.com/geocode/v1/json',
+                'GET', 'https://maps.googleapis.com/maps/api/place/details/json',
                 [
                     'query' => [
-                        'q'              => $input,
-                        'key'            => Config::get('services.opencagedata.key'),
-                        'countrycode'    => 'at',
-                        'no_annotations' => '1',
+                        'placeid' => $id,
+                        'key'     => Config::get( 'services.geocoding.key' ),
+                        'region'  => 'at'
+                    ],
+                ]
+            );
+        }
+        catch( \Exception $error )
+        {
+            return null;
+        }
+
+        //
+        $result = null;
+
+        try
+        {
+            $result = json_decode( $response->getBody(), true );
+        }
+        catch( \Exception $error )
+        {
+            //;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $input
+     *
+     * @return array
+     * Returns an array of address suggestions, or an empty array if an error occurs or no suggestions were found
+     */
+    public function getSuggestion( $input )
+    {
+        $result = [];
+
+        $json = $this->querySuggestion( $input );
+
+        if( $json == null )
+        {
+            return $result;
+        }
+
+        //
+        $features = $json[ 'predictions' ];
+
+        foreach( $features as $feature )
+        {
+            $result[] = [
+                "description" => $feature[ 'description' ],
+                "id"          => $feature[ 'place_id' ]
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $input
+     * @return mixed|null
+     */
+    private function querySuggestion( $input )
+    {
+        if( empty( $input ) )
+            return null;
+
+        //
+        $response = null;
+
+        try
+        {
+            $client = new Client();
+            $response = $client->request(
+                'GET', 'https://maps.googleapis.com/maps/api/place/autocomplete/json',
+                [
+                    'query' => [
+                        'input'      => $input,
+                        'key'        => Config::get( 'services.geocoding.key' ),
+                        'components' => 'country:at',
+                        'location'   => '48.208493,16.373118',
+                        'radius'     => '35000',
+                        'types'      => 'address',
                     ],
                 ]
             );
