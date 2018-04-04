@@ -136,7 +136,7 @@ class ProviderTasksController
 			user_id : n.user_id
 		};
 
-		this.API.one( 'cms/notes', this.item.id ).customPUT( payload )
+		this.API.one( 'cms/notes', i.id ).customPUT( payload )
 			.then( ( response ) =>
 				{
 					this.ToastService.show( 'Eintrag aktualisiert.' );
@@ -168,20 +168,33 @@ class ProviderTasksController
 	// --------------------------------------- //
 
 	//
-	toggleItem( item, value )
+	toggleItem( item, value, update )
 	{
 		//console.log("toggle", item, value );
 
-		let note = item;
+		let note = null;
 
 		if( item.note_id )
+		{
 			note = item.notes;
+		}
+		else
+		{
+			note = {
+				id : item.id,
+				checked : false,
+				notes : null,
+			};
+
+			item.note_id = note.id;
+			item.notes = note;
+		}
 
 		//
 		note.checked = value;
 
-		// if( item.note_id )
-		// 	this.requestComplete( item, item.notes );
+		if( update )
+			this.requestComplete( item, note );
 	}
 
 	//
