@@ -73,7 +73,7 @@
                 window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
 
                 if( window.onCookieConsent )
-                    window.onCookieConsent( this.hasConsented() );
+                    window.onCookieConsent( hasConsented );
             }
             else
             {
