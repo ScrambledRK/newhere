@@ -52,7 +52,7 @@
         <![endif]-->
     </head>
     <body>
-        <div id="cookie-container">
+        <div id="cookie-container"></div>
         <div ui-view="front"></div>
 
         {{--livereload--}}
