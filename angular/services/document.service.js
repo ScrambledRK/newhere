@@ -10,11 +10,12 @@
  */
 export class DocumentService
 {
-	constructor( $rootScope, $location, AnalyticService )
+	constructor( $rootScope, $location, $translate, AnalyticService )
 	{
 		'ngInject';
 
 		this.$rootScope = $rootScope;
+		this.$translate = $translate;
 		this.AnalyticService = AnalyticService;
 
 		//
@@ -48,7 +49,7 @@ export class DocumentService
 
 		this.updateTitle( (title) =>
 		{
-			//console.log("update", this.url, this.title );
+			console.log("update", this.url, this.title );
 
 			this.AnalyticService.visitPage( this.url, title );
 			this.invalidateTitle();
@@ -58,7 +59,7 @@ export class DocumentService
 	//
 	invalidateTitle()
 	{
-		//console.log("invalidateTitle", this.title, this.isTranslation, this.isDirty );
+		console.log("invalidateTitle", this.title, this.isTranslation, this.isDirty );
 
 		this.url = null;
 		this.title = null;
@@ -76,7 +77,7 @@ export class DocumentService
 		this.title = title;
 		this.isTranslation = Boolean(translate);
 
-		//console.log("changeTitle",  this.title, this.isTranslation, this.isDirty );
+		console.log("changeTitle",  this.title, this.isTranslation, this.isDirty );
 
 		//
 		this._update();
@@ -85,7 +86,7 @@ export class DocumentService
 	//
 	updateTitle( success )
 	{
-		//console.log("updateTitle", this.title, this.isTranslation, this.isDirty );
+		console.log("updateTitle", this.title, this.isTranslation, this.isDirty );
 
 		if( !this.isDirty )
 		{

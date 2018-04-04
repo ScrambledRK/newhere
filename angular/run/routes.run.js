@@ -34,7 +34,7 @@ export function RoutesRun( $rootScope,
 			}
 
 			if( toState.data && toState.data.title )
-				DocumentService.changeTitle( toState.data.title );
+				DocumentService.changeTitle( toState.data.title, true );
 
 			// ------------------------------- //
 			// ------------------------------- //

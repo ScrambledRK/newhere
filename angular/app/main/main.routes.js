@@ -52,10 +52,6 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 			{
 				url: '/page/{slug:[a-zA-Z0-9-]+}',
 
-				data: {
-					delayTracking: true,
-				},
-
 				params:
 					{
 						slug: {
@@ -88,10 +84,6 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.content',
 			{
 				abstract: true,
-
-				data: {
-					delayTracking: true,
-				},
 
 				views:
 					{
@@ -176,7 +168,7 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 				url: '/login',
 
 				data: {
-					title: "login"
+					title: "Anmelden"
 				},
 
 				params: {
@@ -199,7 +191,7 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 				url: '/register',
 
 				data: {
-					title: "register"
+					title: "Registrieren"
 				},
 
 				views:
@@ -214,7 +206,10 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.forgotpassword',
 			{
 				url: '/forgot-password',
-				data: {},
+
+				data: {
+					title: "Passwort vergessen?"
+				},
 
 				views:
 					{
@@ -228,7 +223,10 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 		.state( 'main.resetpassword',
 			{
 				url: '/reset-password/{token}',
-				data: {},
+
+				data: {
+					title: "Passwort ändern"
+				},
 
 				views:
 					{
