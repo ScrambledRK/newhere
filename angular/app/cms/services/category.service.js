@@ -26,7 +26,8 @@ export class CategoryService
 		//
 		this.$rootScope.$on( "languageChanged", ( event, data ) =>
 		{
-			this.fetchCategories();
+			if( this.$rootScope.isCMS )
+				this.fetchCategories();
 		} );
 	}
 

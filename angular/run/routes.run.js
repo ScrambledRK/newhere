@@ -16,11 +16,13 @@ export function RoutesRun( $rootScope,
 		( event, toState, toParams, fromState, fromParams ) =>
 		{
 			DocumentService.invalidateTitle();
+			$rootScope.isCMS = false;
 
 			//
 			if( toState.data && toState.data.auth )
 			{
 				DocumentService.changeTitle("cms");
+				$rootScope.isCMS = true;
 
 				//
 				if( !$auth.isAuthenticated() )
