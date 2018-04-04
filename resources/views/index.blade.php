@@ -65,7 +65,7 @@
 	<script>
         window.initAnalytics = function( hasConsented )
         {
-        	console.log("cookies?", hasConsented );
+        	//console.log("cookies?", hasConsented );
 
 	        if( hasConsented )
             {
