@@ -1,13 +1,18 @@
 <!doctype html>
 <html ng-app="app"
-      ng-strict-di>
+      ng-strict-di lang="{{App::getLocale()}}">
     <head>
 
-      <!-- cookies -->
         <meta http-equiv="X-UA-Compatible"
               content="IE=edge">
+
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+
+      <meta name="description"
+            content="Refugess should find their way around. New Here will help.">
+
         <link rel="stylesheet"
               href="{!! elixir('css/vendor.css') !!}">
         <link rel="stylesheet"
@@ -19,11 +24,12 @@
               type='text/css'>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
-        <!-- <link rel="stylesheet" href="https://npmcdn.com/lrm-mapzen/dist/leaflet.routing.mapzen.css"> -->
-        <meta name="apple-mobile-web-app-capable"
+
+       <meta name="apple-mobile-web-app-capable"
               content="yes">
         <meta name="mobile-web-app-capable"
               content="yes">
+
         <title>new here : welcome</title>
 
     <script src="{!! elixir('js/vendor.js') !!}"></script>
