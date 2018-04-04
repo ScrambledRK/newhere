@@ -88,6 +88,9 @@ export class ContentService
 	{
 		//console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
 
+		if( toState && toState.name && !toState.name.startsWith("main") )
+			return;
+
 		//
 		let paramCategory = toParams.category;
 		let paramProvider = toParams.provider;

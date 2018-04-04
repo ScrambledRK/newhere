@@ -15,7 +15,7 @@ export function RoutesRun( $rootScope,
 	let onStateChangeStart = $rootScope.$on( "$stateChangeStart",
 		( event, toState, toParams, fromState, fromParams ) =>
 		{
-			DocumentService.isDirty = true;
+			DocumentService.invalidateTitle();
 
 			//
 			if( toState.data && toState.data.auth )
@@ -56,33 +56,8 @@ export function RoutesRun( $rootScope,
 		} );
 
 	//
-	let onStateChangeEnd = $rootScope.$on( "$locationChangeSuccess",
-		( event, toState, toParams, fromState, fromParams ) =>
-		{
-			let url = $location.url();
-			//	url = url.split("#!")[1];
-
-			if( url && url.length > 0 )
-			{
-				if( DocumentService.isDirty )
-				{
-					DocumentService.onComplete = (title) => {
-						AnalyticService.visitPage( url, document.title );
-					};
-				}
-				else
-				{
-					AnalyticService.visitPage( url, document.title );
-				}
-			}
-
-		} );
-
-	//
 	$rootScope.$on( '$destroy', () =>
 	{
 		onStateChangeStart();
-		onStateChangeEnd();
-		onTracking();
 	} );
 }
