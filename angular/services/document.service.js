@@ -1,5 +1,12 @@
 /**
  * @name DocumentService
+ *
+ * updates the document title and keeps track of the current url
+ * also triggers the analytics service once both informations (url, title) are up-to-date
+ *
+ * due to the async nature of the whole thing, several calls to _update are made but only
+ * the one with all the info will succeed. invalidating the current data is necessary to
+ * allow for click-happy users (see routes.run.js)
  */
 export class DocumentService
 {
