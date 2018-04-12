@@ -10,8 +10,8 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0">
 
-      <meta name="description"
-            content="Refugess should find their way around. New Here will help.">
+        <meta name="description"
+              content="Refugess should find their way around. New Here will help.">
 
         <link rel="stylesheet"
               href="{!! elixir('css/vendor.main.css') !!}">
@@ -26,7 +26,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
 
-       <meta name="apple-mobile-web-app-capable"
+        <meta name="apple-mobile-web-app-capable"
               content="yes">
         <meta name="mobile-web-app-capable"
               content="yes">
@@ -42,10 +42,6 @@
         <script type="text/javascript">
             window.newhere =
                 {
-                	// doing this so tinymce can use the same css
-                    // css names are "random" due to elixier/gulp
-                    // so when they change the user browser flushes the cache
-
                 	css: [
                         "{!! elixir('css/tinymcs_custom.css') !!}",
                         "https://fonts.googleapis.com/icon?family=Material+Icons",
@@ -67,66 +63,59 @@
         <div id="cookie-container"></div>
         <div ui-view="front"></div>
 
-        {{--livereload--}}
-        @if ( env('APP_ENV') === 'local' )
-            <script type="text/javascript">
-				document.write( '<script src="' + location.protocol + '//' + (location.host.split( ':' )[0] || 'localhost') + ':35729/livereload.js?snipver=1" type="text/javascript"><\/script>' )
-            </script>
-        @endif
-
-	<script>
-        window.initAnalytics = function( hasConsented )
-        {
-        	//console.log("cookies?", hasConsented );
-
-	        if( hasConsented )
+        <script>
+            window.initAnalytics = function( hasConsented )
             {
-                window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-                window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
+                //console.log("cookies?", hasConsented );
 
-                if( window.onCookieConsent )
-                    window.onCookieConsent( hasConsented );
-            }
-            else
-            {
-                window.ga = null;
-            }
-        };
+                if( hasConsented )
+                {
+                    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+                    window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
 
-        window.cookieconsent.initialise({
-            container: document.getElementById("cookie-container"),
+                    if( window.onCookieConsent )
+                        window.onCookieConsent( hasConsented );
+                }
+                else
+                {
+                    window.ga = null;
+                }
+            };
 
-            palette:{
-                popup: {background: "#fff"},
-                button: {background: "#357DBA"},
-            },
+            window.cookieconsent.initialise({
+                container: document.getElementById("cookie-container"),
 
-	        compliance: {
-		        'info': '<div class="cc-compliance">\{\{dismiss\}\}</div>',
-		        'opt-in': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{allow\}\}</div>',
-		        'opt-out': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{dismiss\}\}</div>',
-	        },
-            revokable:true,
-            type:'opt-in',
+                palette:{
+                    popup: {background: "#fff"},
+                    button: {background: "#357DBA"},
+                },
 
-	        onInitialise: function(status)
-            {
-                window.initAnalytics(this.hasConsented());
-            },
-            onStatusChange: function(status)
-            {
-                window.initAnalytics(this.hasConsented());
-            },
-            onRevokeChoice: function(status)
-            {
-                window.initAnalytics(false);
-            },
-            law: {
-                regionalLaw: false,
-            },
-            location: false,
-        });
-    </script>
+                compliance: {
+                    'info': '<div class="cc-compliance">\{\{dismiss\}\}</div>',
+                    'opt-in': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{allow\}\}</div>',
+                    'opt-out': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{dismiss\}\}</div>',
+                },
+                revokable:true,
+                type:'opt-in',
+
+                onInitialise: function(status)
+                {
+                    window.initAnalytics(this.hasConsented());
+                },
+                onStatusChange: function(status)
+                {
+                    window.initAnalytics(this.hasConsented());
+                },
+                onRevokeChoice: function(status)
+                {
+                    window.initAnalytics(false);
+                },
+                law: {
+                    regionalLaw: false,
+                },
+                location: false,
+            });
+        </script>
 
     </body>
 </html>

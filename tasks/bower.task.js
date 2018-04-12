@@ -54,7 +54,8 @@ Elixir.extend( 'bower', function( jsOutputFile, jsOutputFolder, cssOutputFile, c
 
 	// ---------------------------------------- //
 	// ---------------------------------------- //
-
+	// de-duplicate dependencies (all into main)
+	
 	//
 	var allCMS = mainBowerFiles( { group: 'cms' } );
 

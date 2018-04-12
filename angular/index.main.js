@@ -6,7 +6,6 @@ angular.module( 'app',
 	[
 		'app.main',
 		'oc.lazyLoad',
-	//	'app.cms',
 
 		'ui-leaflet',
 		'ui.router',
