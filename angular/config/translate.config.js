@@ -27,7 +27,7 @@ export function TranslateConfig( $translateProvider )
 	);
 
 	$translateProvider.useMissingTranslationHandler('missingTranslationHandler');
-	$translateProvider.useSanitizeValueStrategy( 'sanitize' );
+	$translateProvider.useSanitizeValueStrategy( 'sanitizeParameters' );
 
 	$translateProvider.preferredLanguage( 'de' );
 	$translateProvider.fallbackLanguage( 'en' );

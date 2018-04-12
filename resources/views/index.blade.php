@@ -3,22 +3,23 @@
       ng-strict-di lang="{{App::getLocale()}}">
     <head>
 
+	    <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible"
               content="IE=edge">
 
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8">
 
       <meta name="description"
             content="Refugess should find their way around. New Here will help.">
 
         <link rel="stylesheet"
-              href="{!! elixir('css/vendor.css') !!}">
+              href="{!! elixir('css/vendor.main.css') !!}">
+	    <link rel="stylesheet"
+                href="{!! elixir('css/vendor.cms.css') !!}">
         <link rel="stylesheet"
               href="{!! elixir('css/app.css') !!}">
-	    <link rel="stylesheet"
-			href="{!! elixir('css/tinymcs_custom.css') !!}">
+
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700'
               rel='stylesheet'
               type='text/css'>
@@ -32,9 +33,9 @@
 
         <title>new here : welcome</title>
 
-    <script src="{!! elixir('js/vendor.js') !!}"></script>
+    <script src="{!! elixir('js/vendor.main.js') !!}"></script>
+	<script src="{!! elixir('js/main.bundle.js') !!}"></script>
 	<script src="{!! elixir('js/partials.js') !!}"></script>
-	<script src="{!! elixir('js/app.js') !!}"></script>
 
     <script async src='https://www.google-analytics.com/analytics.js'></script>
 
@@ -49,6 +50,11 @@
                         "{!! elixir('css/tinymcs_custom.css') !!}",
                         "https://fonts.googleapis.com/icon?family=Material+Icons",
                         'https://fonts.googleapis.com/css?family=Lato:300,400,700'
+                    ],
+
+                    cms: [
+	                    "{!! elixir('js/vendor.cms.js') !!}",
+	                    "{!! elixir('js/cms.bundle.js') !!}"
                     ]
                 }
         </script>

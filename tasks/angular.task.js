@@ -11,6 +11,7 @@ var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var webpack = require('webpack-stream');
 var webpackConfig = require('../webpack.config.js')
+var mainBowerFiles = require( 'main-bower-files' );
 
 var Elixir = require('laravel-elixir');
 var Task = Elixir.Task;
@@ -18,10 +19,14 @@ var Task = Elixir.Task;
 Elixir.extend('angular', function(src, jsOutputFile, jsOutputFolder) {
 
 	var baseDir = src || Elixir.config.assetsPath + '/angular/';
-	var jsFile = jsOutputFile || 'app.js';
+	var jsMain = 'main.bundle.js';
+	var jsCMS = 'cms.bundle.js';
+
+	var src = []; //mainBowerFiles();
+		src = src.concat( [baseDir + "index.main.js", baseDir + "**/*.*.js"] );
 
 	new Task('angular-webpack', function() {
-		return gulp.src([baseDir + "index.main.js", baseDir + "**/*.*.js"])
+		return gulp.src( src )
 			 .pipe(eslint())
 	         .pipe(eslint.format())
 			 .pipe(webpack(webpackConfig))
@@ -33,8 +38,17 @@ Elixir.extend('angular', function(src, jsOutputFile, jsOutputFolder) {
 	// not having any sourcemaps yet. there is also a problem telling gulp that this task below is
 	// depending on the webpack task above.
 	//
-	new Task('angular-js', function(){
-		return gulp.src([Elixir.config.js.tempFolder + "/" + jsFile])
+	new Task('angular-js-main', function(){
+		return gulp.src([Elixir.config.js.tempFolder + "/" + jsMain])
+			.pipe(gulpif(!config.production, sourcemaps.init({loadMaps: true})))
+			.pipe(ngAnnotate())
+			.pipe(gulpif(config.production, uglify()))
+			.pipe(gulpif(!config.production, sourcemaps.write(jsOutputFolder)))
+			.pipe(gulp.dest(jsOutputFolder || Elixir.config.js.outputFolder));
+	}).watch(baseDir + '/**/*.js');
+
+	new Task('angular-js-cms', function(){
+		return gulp.src([Elixir.config.js.tempFolder + "/" + jsCMS])
 			.pipe(gulpif(!config.production, sourcemaps.init({loadMaps: true})))
 			.pipe(ngAnnotate())
 			.pipe(gulpif(config.production, uglify()))

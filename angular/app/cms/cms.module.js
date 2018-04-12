@@ -6,7 +6,6 @@ import {PaginationDirective} from "./directives/pagination.directive";
 import {UnpublishedDirective} from "./directives/unpublished.directive";
 import {OfferTableDirective} from "./pages/offers/list/offer-table.directive";
 import {OfferListComponent} from "./pages/offers/list/offer-list.component";
-import {UserService} from "./services/user.service";
 import {SearchDirective} from "./directives/search.directive";
 import {EnabledDirective} from "./directives/enabled.directive";
 import {ProviderDirective} from "./directives/provider.directive";
@@ -26,7 +25,6 @@ import {OfferService} from "./services/offer.service";
 import {MapService} from "../main/services/map.service";
 import {FilterService} from "../../services/filter.service";
 import {FilterSelectorComponent} from "./components/filter-selector/filter-selector.component";
-import {CategoryService} from "./services/category.service";
 import {CategorySelectorComponent} from "./components/category-selector/category-selector.component";
 import {ProviderListComponent} from "./pages/providers/list/provider-list.component";
 import {ProviderService} from "./services/provider.service";
@@ -62,8 +60,10 @@ import {FlowConfig} from "../../config/flow.config";
 // ------------------------------- //
 
 //
-angular.module( 'app.cms',
+angular.module( 'cms',
 	[
+		'app',
+
 		'ui.router',
 		'ui.router.state.events',
 		'ui.tinymce',
@@ -77,25 +77,23 @@ angular.module( 'app.cms',
 	] );
 
 // service
-angular.module( 'app.cms' )
-	.service( "UserService", UserService )
+angular.module( 'cms' )
 	.service( "OfferService", OfferService )
 	.service( "MapService", MapService )
 	.service( "FilterService", FilterService )
-	.service( "CategoryService", CategoryService )
 	.service( "ProviderService", ProviderService )
 	.service( "TranslationService", TranslationService )
 	.service( "PageService", PageService )
 ;
 
 // config
-angular.module( 'app.cms' )
+angular.module( 'cms' )
 	.config( CmsRoutesConfig )
 	.config(FlowConfig)
 ;
 
 // directive
-angular.module( 'app.cms' )
+angular.module( 'cms' )
 	.directive( "dial", DialDirective )
 	.directive( "search", SearchDirective )
 	.directive( "enabled", EnabledDirective )
@@ -127,7 +125,7 @@ angular.module( 'app.cms' )
 // ------------------------------- //
 
 // component
-angular.module( 'app.cms' )
+angular.module( 'cms' )
 	.component( 'cmsPage', CmsPageComponent )
 	.component( 'cmsMenu', CmsMenuComponent )
 	.component( 'cmsDashboardPage', DashboardPageComponent )

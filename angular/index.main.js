@@ -1,11 +1,12 @@
 import './app/main/main.module';
-import './app/cms/cms.module';
+//import './app/cms/cms.module';
 
 //
 angular.module( 'app',
 	[
 		'app.main',
-		'app.cms',
+		'oc.lazyLoad',
+	//	'app.cms',
 
 		'ui-leaflet',
 		'ui.router',
@@ -81,6 +82,8 @@ import {LanguageService} from './services/language.service';
 import {DialogService} from './services/dialog.service';
 import {AnalyticService} from './services/analytics.service';
 import {DocumentService} from './services/document.service';
+import {UserService} from './services/user.service';
+import {CategoryService} from './services/category.service';
 
 //
 angular.module('app')
@@ -91,6 +94,8 @@ angular.module('app')
 	.service('DialogService', DialogService)
 	.service('AnalyticService', AnalyticService)
 	.service('DocumentService', DocumentService)
+	.service('UserService', UserService)
+	.service( "CategoryService", CategoryService )
 ;
 
 // --------------------------------------------------- //
