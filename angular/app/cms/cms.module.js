@@ -44,7 +44,7 @@ import {UserFormComponent} from "./pages/users/form/user-form.component";
 import {UserMenuComponent} from "./components/menu/cms-user-menu.component";
 import {DashboardPageComponent} from "./pages/dashboard/dashboard-page.component";
 import {ProfileComponent} from "./pages/dashboard/profile/profile.component";
-import {PageService} from "./services/page.service";
+
 import {PageTableDirective} from "./pages/pages/list/page-table.directive";
 import {PageListComponent} from "./pages/pages/list/page-list.component";
 import {PageFormComponent} from "./pages/pages/form/page-form.component";
@@ -83,7 +83,6 @@ angular.module( 'cms' )
 	.service( "FilterService", FilterService )
 	.service( "ProviderService", ProviderService )
 	.service( "TranslationService", TranslationService )
-	.service( "PageService", PageService )
 ;
 
 // config

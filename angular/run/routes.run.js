@@ -55,6 +55,14 @@ export function RoutesRun( $rootScope,
 
 			if( $mdComponentRegistry.get( 'side-menu' ) )
 				$mdSidenav( 'side-menu' ).close();
+
+			//
+			$rootScope.showCookiePolicy = false;
+
+			let page = toState && toState.name && toState.name === 'main.landing';
+			let control = window.mycc === undefined;
+
+			$rootScope.showCookiePolicy = page || control;
 		} );
 
 	//

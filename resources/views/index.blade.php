@@ -40,6 +40,7 @@
     <script async src='https://www.google-analytics.com/analytics.js'></script>
 
         <script type="text/javascript">
+            // akward way to reference the sources later (random names due to cache-busting)
             window.newhere =
                 {
                 	css: [
@@ -60,18 +61,23 @@
         <![endif]-->
     </head>
     <body>
-        <div id="cookie-container"></div>
+        <div id="cookie-container" ng-show="$root.showCookiePolicy"></div>
         <div ui-view="front"></div>
 
         <script>
             window.initAnalytics = function( hasConsented )
             {
-                //console.log("cookies?", hasConsented );
+                console.log("cookies?", hasConsented );
 
                 if( hasConsented )
                 {
-                    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-                    window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
+                	if( !window.ga )
+                    {
+                    	console.log("creating gaga");
+
+	                    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+                        window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
+                    }
 
                     if( window.onCookieConsent )
                         window.onCookieConsent( hasConsented );
@@ -100,14 +106,17 @@
 
                 onInitialise: function(status)
                 {
+	                window.mycc = status;   // used to show/hide the revoke button
                     window.initAnalytics(this.hasConsented());
                 },
                 onStatusChange: function(status)
                 {
+	                window.mycc = status;
                     window.initAnalytics(this.hasConsented());
                 },
                 onRevokeChoice: function(status)
                 {
+	                window.mycc = status;
                     window.initAnalytics(false);
                 },
                 law: {
