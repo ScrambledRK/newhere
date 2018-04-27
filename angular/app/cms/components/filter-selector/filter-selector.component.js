@@ -17,8 +17,8 @@ class FilterSelectorController
 		//
 		this.$rootScope.$on( "filterChanged", ( event, data ) =>
 		{
-			if( !this.item )
-				console.error("no filter item available! oh-nose");
+			//if( !this.item )
+			//	console.error("no filter item available! oh-nose");
 
 			this.selected = this.item;
 			this.onFilterChanged();

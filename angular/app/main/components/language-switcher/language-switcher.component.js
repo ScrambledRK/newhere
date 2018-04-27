@@ -1,3 +1,6 @@
+/**
+ * landing page and side-menu
+ */
 class LanguageSwitcherController
 {
 	/**

@@ -17,8 +17,7 @@ import {OfferImageDirective} from "./pages/offers/form/offer-image.directive";
 import {OfferDateDirective} from "./pages/offers/form/offer-date.directive";
 import {OfferAddressDirective} from "./pages/offers/form/offer-address.directive";
 import {OfferTranslationDirective} from "./pages/offers/form/offer-translation.directive";
-import {SaveDirective} from "./directives/save.directive";
-import {CancelDirective} from "./directives/cancel.directive";
+
 import {OfferFormComponent} from "./pages/offers/form/offer-form.component";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
 import {OfferService} from "./services/offer.service";
@@ -103,9 +102,7 @@ angular.module( 'cms' )
 	.directive( "providerTable", ProviderTableDirective )
 	.directive( "translationTable", TranslationTableDirective )
 	.directive( "userTable", UserTableDirective )
-	.directive( "cancel", CancelDirective )
 	.directive( "create", CreateDirective )
-	.directive( "save", SaveDirective )
 	.directive( "offerDetails", OfferDetailsDirective )
 	.directive( "offerFilters", OfferFiltersDirective )
 	.directive( "offerCategories", OfferCategoriesDirective )

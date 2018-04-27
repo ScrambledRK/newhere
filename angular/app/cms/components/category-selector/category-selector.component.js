@@ -22,8 +22,8 @@ class CategorySelectorController
 		//
 		let onCategories = this.$rootScope.$on( "categoriesChanged", ( event, data ) =>
 		{
-			if( !this.item )
-				console.error( "no category item available! oh-nose" );
+			//if( !this.item )
+			//	console.error( "no category item available! oh-nose" );
 
 			this.$scope.category = this.category = this.CategoryService.category;
 			this.selected = this.item;
@@ -53,8 +53,8 @@ class CategorySelectorController
 		}, 150, false );
 
 
-		console.log( this.category );
-		console.log( this.selected );
+		//console.log( this.category );
+		//console.log( this.selected );
 	}
 
 	//

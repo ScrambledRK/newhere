@@ -67,14 +67,10 @@
         <script>
             window.initAnalytics = function( hasConsented )
             {
-                console.log("cookies?", hasConsented );
-
                 if( hasConsented )
                 {
                 	if( !window.ga )
                     {
-                    	console.log("creating gaga");
-
 	                    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
                         window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {'siteSpeedSampleRate': 100} );
                     }

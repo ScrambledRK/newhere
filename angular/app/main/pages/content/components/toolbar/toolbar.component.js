@@ -1,3 +1,6 @@
+/**
+ * Breadcrum Bar
+ */
 class ToolbarController
 {
 	/**
@@ -62,7 +65,9 @@ class ToolbarController
 		} );
 	}
 
-	//
+	/**
+	 * update the items visible in the bar
+	 */
 	setContent()
 	{
 		//
@@ -73,9 +78,6 @@ class ToolbarController
 		//
 		let category = this.ContentService.category;
 
-		//if( !category )
-		//	return;
-
 		//
 		let limit = 1;
 
@@ -85,6 +87,7 @@ class ToolbarController
 		if( this.$mdMedia( "gt-sm" ) )
 			limit = 4;
 
+		// in case there is a detail-view, make space for the detail in the bar
 		if( this.ContentService.offer || this.ContentService.provider )
 			limit--;
 
@@ -117,7 +120,7 @@ class ToolbarController
 				icon: this.ContentService.offer.street ? 'location_on' : 'insert_link'
 			};
 
-			//
+			// offer coming from a provider, interject the provider
 			if( this.ContentService.provider )
 			{
 				let custom = {
@@ -154,14 +157,6 @@ class ToolbarController
 				icon: 'location_on'
 			};
 		}
-
-		//
-		//console.log("-------------");
-
-		// angular.forEach( this.categories, ( child, key ) =>
-		// {
-		// 	console.log("  cat:", child );
-		// } );
 	}
 
 	//

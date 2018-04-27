@@ -1,3 +1,6 @@
+/**
+ * responsible for requesting offers/provider/category data
+ */
 export class ContentService
 {
 	/**
@@ -55,7 +58,7 @@ export class ContentService
 		this.categoryList = null;
 		this.providerList = null;
 		this.offerList = null;
-		this.markerList = null;
+		this.markerList = null; // map markers
 
 		//
 		this.slugCategory = null;
@@ -80,6 +83,8 @@ export class ContentService
 	}
 
 	/**
+	 * horrible hack to get provider data when clicking on the "provider" category,
+	 * while at the same time switching between listings and details
 	 *
 	 * @param toState
 	 * @param toParams
@@ -87,17 +92,25 @@ export class ContentService
 	onStateChanged( fromState, toState, fromParams, toParams )
 	{
 		//console.log("onStateChanged", fromState.name, toState.name, fromParams, toParams );
-
 		if( toState && toState.name && !toState.name.startsWith("main") )
 			return;
 
 		//
-		let paramCategory = toParams.category;
+		let paramCategory = toParams.category;  // may be a comma separated list: e.g.: "start,providers,239"
 		let paramProvider = toParams.provider;
 		let paramOffer = toParams.offer;
 
 		//
-		if( toState.name === "main.content.offers" || (!toState.name && (paramCategory || paramOffer)))
+		let isDefaultOffer = (!toState.name && (paramCategory || paramOffer));
+		let isDefaultProvider = (!toState.name && paramProvider);
+
+		// e.g.:
+		// cat: 'providers', provider: 239, offer: null
+		// cat: 'providers', provider: 239, offer: 14
+		// cat: 'healthcare', provider: null, offer: 14
+		// cat: 'start,providers,239', provider: null, offer: 14
+		//
+		if( toState.name === "main.content.offers" || isDefaultOffer )
 		{
 			if( toState.name !== fromState.name )
 				this.slugProvider = null;
@@ -106,6 +119,7 @@ export class ContentService
 			paramProvider = null;
 
 			// {#: null, category: "start,providers,239", offer: "14"}
+			//
 			if( toParams.category )
 			{
 				let split = toParams.category.split(",");
@@ -121,7 +135,7 @@ export class ContentService
 			if( !paramCategory || paramCategory === "" )
 				console.error( "content.toState requires category parameter to be set" );
 		}
-		else if( toState.name === "main.content.providers" || (!toState.name && paramProvider))
+		else if( toState.name === "main.content.providers" || isDefaultProvider )
 		{
 			if( toState.name !== fromState.name )
 				this.slugOffer = null;
@@ -175,11 +189,11 @@ export class ContentService
 
 		let catTreePromise = this.fetchCategoryTree( config, force );
 
-		catTreePromise.then( () =>
+		catTreePromise.then( () =>  // resolved immediately; just a stub
 		{
 			let categoryPromise = this.fetchCategory( slugCategory, config, force );
 
-			categoryPromise.then( () =>
+			categoryPromise.then( () => // there was a reason why categories must be fetched first, I forgot ... some display bug workaround
 			{
 				let providerPromise = this.fetchProvider( slugProvider, config, force );
 				let offerPromise = this.fetchOffer( slugOffer, config, force );
@@ -221,7 +235,6 @@ export class ContentService
 		else if( this.providerList && !this.slugProvider && !this.slugOffer )
 		{
 			this.DocumentService.changeTitle("Anbieter",true);
-
 		}
 	}
 
@@ -326,15 +339,19 @@ export class ContentService
 					this.category = response[0];
 					this.categoryList = this.category.children;
 					this.offerList = this.category.offers;
-					this.markerList = this.category.offers;
+					this.markerList = this.category.offers; // no separate marker list ... yet -.-
 
-					//
+					// ------------------------------- //
+					// shallow graph a little
+
 					angular.forEach( this.categoryList, ( child, key ) =>
 					{
 						child.parent = this.category;
 					} );
 
-					//
+					// ------------------------------- //
+					// remove ****'s in names
+
 					let providers = [];
 
 					angular.forEach( this.category.offers, ( child, key ) =>
@@ -345,7 +362,9 @@ export class ContentService
 
 					this._cleanProviders( providers );
 
-					//
+					// ------------------------------- //
+					// actually update the category list
+
 					for( let j = 1; j < response.length; j++ )
 					{
 						if( response[j].children )
@@ -415,7 +434,7 @@ export class ContentService
 					this.providerList = response;
 					this.provider = null;
 
-					this._cleanProviders(this.providerList);
+					this._cleanProviders(this.providerList); // remove ****'s in names
 				},
 				( msg ) =>
 				{
@@ -446,7 +465,7 @@ export class ContentService
 							child.ngo = this.provider;
 					} );
 
-					this._cleanProviders([this.provider]);
+					this._cleanProviders([this.provider]); // remove ****'s in names
 				},
 				( msg ) =>
 				{

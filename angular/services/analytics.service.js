@@ -1,6 +1,5 @@
 /**
  * @name AnalyticService
- *
  * may or may not be google, may or may not be allowed (due to cookie consent)
  */
 export class AnalyticService
@@ -25,8 +24,6 @@ export class AnalyticService
 		{
 			this.hasConsent = hasConsent;
 
-			console.log("onCookieConsent",hasConsent);
-
 			if( this.page && this.title )
 				this.visitPage( this.page, this.title );
 		}
@@ -34,8 +31,6 @@ export class AnalyticService
 
 	visitPage( page, title )
 	{
-		console.log("track-page", Boolean(window.ga), this.hasConsent );
-
 		this.page = page;
 		this.title = title;
 

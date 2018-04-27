@@ -1,3 +1,11 @@
+/**
+ * angular ui-router responsible for the app state management
+ * view, controller setup for each state and url navigation-bar
+ *
+ * @param $stateProvider
+ * @param $urlRouterProvider
+ * @constructor
+ */
 export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 {
 	'ngInject';
@@ -243,6 +251,7 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 
 		// //////////////////////////////////////////////////////////////////////// //
 		// //////////////////////////////////////////////////////////////////////// //
+		// unfortunately ... to make the cms lazy load the state system has to be here
 
 		//
 		.state( 'cms',
@@ -270,9 +279,6 @@ export function MainRoutesConfig( $stateProvider, $urlRouterProvider )
 
 				lazyLoad: function( $transition$ )
 				{
-					console.log("lazyLoad!!");
-
-					//
 					let $ocLazyLoad = $transition$.injector().get( '$ocLazyLoad' );
 
 					return $ocLazyLoad.load( window.newhere.cms[0] ).then( () =>

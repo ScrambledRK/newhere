@@ -1,3 +1,6 @@
+/**
+ * language switch drop-down
+ */
 class LanguageMenuController
 {
 	constructor( LanguageService, $rootScope, $scope )
@@ -12,6 +15,7 @@ class LanguageMenuController
 		this.active = this.$rootScope.language;
 		this.languages = this.LanguageService.fetchPublished();
 
+		// available languages changed (e.g. overridden by custom-page languages)
 		//
 		let onLanguage = $rootScope.$on( "checkLanguage", ( event, data ) =>
 		{

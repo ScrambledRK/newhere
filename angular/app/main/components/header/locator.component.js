@@ -1,3 +1,6 @@
+/**
+ * front-end search bar resulting in offers, providers, categories
+ */
 class LocatorController
 {
 	/**

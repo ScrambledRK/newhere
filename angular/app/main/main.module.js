@@ -30,6 +30,8 @@ import {CustomPageComponent} from "./pages/custom/custom-page.component";
 import {PayPalDonateComponent} from "./components/donate/paypal.component";
 import {LanguageMenuComponent} from "./components/language-switcher/language-menu.component";
 import {PageService} from "./services/page.service";
+import {SaveDirective} from "./directives/save.directive";
+import {CancelDirective} from "./directives/cancel.directive";
 
 // ------------------------------- //
 // ------------------------------- //
@@ -58,6 +60,8 @@ angular.module( 'app.main' )
 angular.module( 'app.main' )
 	.directive( "offerTitle", OfferTitleDirective )
 	.directive( "categoryTitle", CategoryTitleDirective )
+	.directive( "cancel", CancelDirective )
+	.directive( "save", SaveDirective )
 ;
 
 // ------------------------------- //
