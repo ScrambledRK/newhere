@@ -40,6 +40,7 @@ export class AnalyticService
 		if( !this.hasConsent )
 			return;
 
+		window.ga('set', 'anonymizeIp', true);
 		window.ga('set', 'page', page  );
 		window.ga('send', 'pageview');
 
@@ -56,6 +57,7 @@ export class AnalyticService
 			return;
 
 		//
+		window.ga('set', 'anonymizeIp', true);
 		window.ga('send', {
 			hitType: 'event',
 			eventCategory: 'language',
@@ -72,9 +74,10 @@ export class AnalyticService
 		if( !this.hasConsent )
 			return;
 
+		window.ga('set', 'anonymizeIp', true);
 		window.ga('send', 'exception', {
-			'exDescription': error,
-			'exFatal': isFatal
+			exDescription: error,
+			exFatal: isFatal
 		});
 	}
 
