@@ -25,7 +25,7 @@ export class APIService
 						{
 							try
 							{
-								ToastService.error( response.data.errors[error][0] );
+								ToastService.error( response.data.errors[error][0], true );
 							}
 							catch( err )
 							{

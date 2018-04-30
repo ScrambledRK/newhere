@@ -1,13 +1,16 @@
+/**
+ * appended to "about-us" custom page;
+ * paypalKey injected by build-process via .app.config.json
+ */
 class PayPalDonateController
 {
-	constructor(isDonateEnabled,paypalKey)
+	constructor( isDonateEnabled, paypalKey )
 	{
 		'ngInject';
 
 		//
 		this.isDonateEnabled = isDonateEnabled;
 		this.paypalKey = paypalKey;
-
 	}
 }
 

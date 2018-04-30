@@ -3,11 +3,13 @@ export class UserService
 	/**
 	 *
 	 * @param {Restangular} API
+	 * @param {CategoryService} CategoryService
 	 * @param {AuthProvider} $auth
 	 * @param {*} $rootScope
 	 * @param {*} $q
 	 */
 	constructor( API,
+	             CategoryService,
 	             $auth,
 	             $rootScope,
 	             $q, )
@@ -16,6 +18,7 @@ export class UserService
 
 		//
 		this.API = API;
+		this.CategoryService = CategoryService;
 		this.$auth = $auth;
 		this.$rootScope = $rootScope;
 		this.$q = $q;
@@ -44,15 +47,21 @@ export class UserService
 
 			let userPromise = this.fetchUser();
 			let providerPromise = this.fetchProviders();
+			let categoryPromise = this.CategoryService.fetchCategories();
 
-			this.$q.all( [userPromise, providerPromise] )
+			this.$q.all( [userPromise, providerPromise, categoryPromise] )
 				.then( () =>
 					{
-						this.$rootScope.isLoading = false;
-						this.$rootScope.$broadcast( 'userChanged', this );
+						this._finalizeAuth();
 					}
 				);
 		}
+	}
+
+	_finalizeAuth()
+	{
+		this.$rootScope.isLoading = false;
+		this.$rootScope.$broadcast( 'userChanged', this );
 	}
 
 	// ------------------------------------------------------ //
@@ -118,7 +127,7 @@ export class UserService
 				} )
 			.then( () =>
 				{
-					return this.fetchUser()
+					return this.fetchUser();
 				},
 				( error ) =>
 				{
@@ -126,7 +135,7 @@ export class UserService
 				} )
 			.then( () =>
 				{
-					return this.fetchProviders()
+					return this.fetchProviders();
 				},
 				( error ) =>
 				{
@@ -134,8 +143,15 @@ export class UserService
 				} )
 			.then( () =>
 				{
-					this.$rootScope.isLoading = false;
-					this.$rootScope.$broadcast( 'userChanged', this );
+					return this.CategoryService.fetchCategories();
+				},
+				( error ) =>
+				{
+					throw error;
+				} )
+			.then( () =>
+				{
+					this._finalizeAuth();
 				},
 				( error ) =>
 				{

@@ -1,12 +1,26 @@
 class CmsPageController
 {
-	constructor( $mdSidenav, UserService )
+	constructor( $mdSidenav, UserService, LanguageService, $scope )
 	{
 		'ngInject';
 
 		//
 		this.mdSidenav = $mdSidenav;
 		this.UserService = UserService;
+		this.LanguageService = LanguageService;
+		this.$scope = $scope;
+
+
+	}
+
+	$onInit()
+	{
+		this.LanguageService.overrideLanguages([{locale:"en"},{locale:"de"}]);
+
+		this.$scope.$on( '$destroy', () =>
+		{
+			this.LanguageService.overrideLanguages( null );
+		} );
 	}
 
 	toggleItemsList()

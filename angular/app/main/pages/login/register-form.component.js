@@ -33,7 +33,7 @@ class RegisterFormController
 		this.$auth.signup( this.user )
 			.then( ( response ) =>
 			{
-				//this.$auth.setToken( response.data );
+				this.sending = false;
 
 				this.ToastService.show( 'Registrierung erfolgreich.' );
 				this.$state.go( 'main.login', {registerMail:this.user.email} );
@@ -50,15 +50,18 @@ class RegisterFormController
 	//
 	failedRegistration( response )
 	{
+		this.sending = false;
+
 		if( response.status === 422 )
 		{
 			for( var error in response.data.errors )
 			{
-				return this.ToastService.error( response.data.errors[error][0] );
+				return this.ToastService.error( response.data.errors[error][0], true );
 			}
 		}
-		this.sending = false;
-		this.ToastService.error( response.statusText );
+
+
+		this.ToastService.error( response.statusText, true );
 	}
 }
 

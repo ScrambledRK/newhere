@@ -21,12 +21,13 @@ export class CategoryService
 		this.category = {};
 
 		//
-		this.fetchCategories();
+		//this.fetchCategories();
 
 		//
 		this.$rootScope.$on( "languageChanged", ( event, data ) =>
 		{
-			this.fetchCategories();
+			if( this.$rootScope.isCMS )
+				this.fetchCategories();
 		} );
 	}
 

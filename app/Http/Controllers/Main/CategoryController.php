@@ -19,11 +19,11 @@ class CategoryController extends Controller
         //
         $result = $result->where( 'enabled', true );
         $result = $result->where( 'slug', 'start' );
-        $result = $result->withCount('offers');
+        $result = $result->withCount( 'offers' );
         $result = $result->with( 'allChildren' )->where( function( $query )
         {
             $query->where( 'enabled', true );
-               // ->has( 'offers', '>=', 1 );
+            // ->has( 'offers', '>=', 1 );
         } );
 
         //
@@ -104,7 +104,26 @@ class CategoryController extends Controller
 
         //
         if( $request->get( 'withOffers', false ) )
-            $result = $result->with( [ 'offers' ] );
+        {
+            $now = date( "Y-m-d h:i:s" );
+
+            $result = $result->with(
+                [
+                    'offers' => function( $q ) use ( $now )
+                    {
+                        $q->where( function( $query ) use ( $now )
+                        {
+                            $query->whereDate( 'valid_from', '<=', $now )
+                                  ->orWhereNull( 'valid_from' );
+                        } )
+                          ->where( function( $query ) use ( $now )
+                          {
+                              $query->whereDate( 'valid_until', '>=', $now )
+                                    ->orWhereNull( 'valid_until' );
+                          } );
+                    }
+                ] );
+        }
 
         //
         if( $request->get( 'withParents', false ) )
@@ -112,7 +131,29 @@ class CategoryController extends Controller
 
         //
         if( $request->get( 'withChildren', false ) )
-            $result = $result->with( [ 'children' ] );
+        {
+            $now = date( "Y-m-d h:i:s" );
+
+            $result = $result->with(
+                [
+                    'children' => function( $q ) use ( $now )
+                    {
+                        $q->where( function( $query ) use ( $now )
+                        {
+                            $query->whereDate( 'valid_from', '<=', $now )
+                                  ->orWhereNull( 'valid_from' );
+                        } )
+                          ->where( function( $query ) use ( $now )
+                          {
+                              $query->whereDate( 'valid_until', '>=', $now )
+                                    ->orWhereNull( 'valid_until' );
+                          } )
+                          ->where( "num_offers", ">", 0 )
+                          ->orWhere( "slug", "providers" );
+                    }
+                ] );
+
+        }
 
         // ------------------------------------------- //
         // ------------------------------------------- //

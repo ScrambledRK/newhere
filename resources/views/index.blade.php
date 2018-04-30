@@ -1,44 +1,57 @@
 <!doctype html>
 <html ng-app="app"
-      ng-strict-di>
+      ng-strict-di lang="{{App::getLocale()}}">
     <head>
+
+	    <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible"
               content="IE=edge">
+
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0">
+
+        <meta name="description"
+              content="Refugess should find their way around. New Here will help.">
+
         <link rel="stylesheet"
-              href="{!! elixir('css/vendor.css') !!}">
+              href="{!! elixir('css/vendor.main.css') !!}">
+	    <link rel="stylesheet"
+                href="{!! elixir('css/vendor.cms.css') !!}">
         <link rel="stylesheet"
               href="{!! elixir('css/app.css') !!}">
-	    <link rel="stylesheet"
-			href="{!! elixir('css/tinymcs_custom.css') !!}">
+
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700'
               rel='stylesheet'
               type='text/css'>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
-        <!-- <link rel="stylesheet" href="https://npmcdn.com/lrm-mapzen/dist/leaflet.routing.mapzen.css"> -->
+
         <meta name="apple-mobile-web-app-capable"
               content="yes">
         <meta name="mobile-web-app-capable"
               content="yes">
+
         <title>new here : welcome</title>
 
-    <script src="{!! elixir('js/vendor.js') !!}"></script>
+    <script src="{!! elixir('js/vendor.main.js') !!}"></script>
+	<script src="{!! elixir('js/main.bundle.js') !!}"></script>
 	<script src="{!! elixir('js/partials.js') !!}"></script>
-	<script src="{!! elixir('js/app.js') !!}"></script>
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
 
         <script type="text/javascript">
+            // akward way to reference the sources later (random names due to cache-busting)
             window.newhere =
                 {
-                	// doing this so tinymce can use the same css
-                    // css names are "random" due to elixier/gulp
-                    // so when they change the user browser flushes the cache
-
                 	css: [
                         "{!! elixir('css/tinymcs_custom.css') !!}",
                         "https://fonts.googleapis.com/icon?family=Material+Icons",
                         'https://fonts.googleapis.com/css?family=Lato:300,400,700'
+                    ],
+
+                    cms: [
+	                    "{!! elixir('js/vendor.cms.js') !!}",
+	                    "{!! elixir('js/cms.bundle.js') !!}"
                     ]
                 }
         </script>
@@ -48,13 +61,69 @@
         <![endif]-->
     </head>
     <body>
+        <div id="cookie-container" ng-show="$root.showCookiePolicy"></div>
         <div ui-view="front"></div>
 
-        {{--livereload--}}
-        @if ( env('APP_ENV') === 'local' )
-            <script type="text/javascript">
-				document.write( '<script src="' + location.protocol + '//' + (location.host.split( ':' )[0] || 'localhost') + ':35729/livereload.js?snipver=1" type="text/javascript"><\/script>' )
-            </script>
-        @endif
+        <script>
+            window.initAnalytics = function( hasConsented )
+            {
+                if( hasConsented )
+                {
+                	if( !window.ga )
+                    {
+	                    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+                        window.ga('create', "{!! Config::get('services.analytics.key') !!}", 'auto', {
+                        	'siteSpeedSampleRate': 100,
+                            'anonymizeIp':true
+                        } );
+                    }
+
+                    if( window.onCookieConsent )
+                        window.onCookieConsent( hasConsented );
+                }
+                else
+                {
+                    window.ga = null;
+                }
+            };
+
+            window.cookieconsent.initialise({
+                container: document.getElementById("cookie-container"),
+
+                palette:{
+                    popup: {background: "#fff"},
+                    button: {background: "#357DBA"},
+                },
+
+                compliance: {
+                    'info': '<div class="cc-compliance">\{\{dismiss\}\}</div>',
+                    'opt-in': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{allow\}\}</div>',
+                    'opt-out': '<div class="cc-compliance cc-highlight">\{\{deny}}\{\{dismiss\}\}</div>',
+                },
+                revokable:true,
+                type:'opt-in',
+
+                onInitialise: function(status)
+                {
+	                window.mycc = status;   // used to show/hide the revoke button
+                    window.initAnalytics(this.hasConsented());
+                },
+                onStatusChange: function(status)
+                {
+	                window.mycc = status;
+                    window.initAnalytics(this.hasConsented());
+                },
+                onRevokeChoice: function(status)
+                {
+	                window.mycc = status;
+                    window.initAnalytics(false);
+                },
+                law: {
+                    regionalLaw: false,
+                },
+                location: false,
+            });
+        </script>
+
     </body>
 </html>

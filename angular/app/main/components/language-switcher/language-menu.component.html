@@ -16,6 +16,7 @@
 			<md-button
 					class="md-primary"
 					ng-click="vm.switchLanguage(language.language)"
+					ng-disabled="!language.active"
 			>{{language.translatedName}}
 			</md-button>
 		</md-menu-item>

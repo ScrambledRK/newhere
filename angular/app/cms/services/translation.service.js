@@ -1,3 +1,6 @@
+/**
+ * the actual form is a dialog, this is just
+ */
 export class TranslationService
 {
 	/**
@@ -61,7 +64,13 @@ export class TranslationService
 		;
 	}
 
-	//
+	/**
+	 * trying to consolidate the data into a common form so translation forms
+	 * can look somewhat similar.
+	 *
+	 * @param type
+	 * @param response
+	 */
 	setResult( type, response )
 	{
 		this.translations.length = 0;
@@ -73,7 +82,7 @@ export class TranslationService
 			{
 				let index = this.indexOf( lang, item.translations );
 
-				if( index === -1 )
+				if( index === -1 )  // no entry for the language? lets dummy it!
 				{
 					let dummy = {
 						offer_id : item.id,
@@ -86,7 +95,7 @@ export class TranslationService
 						version : 0
 					};
 
-					item.translations.push( dummy );
+					item.translations.push( dummy ); // onto the response items itself
 				}
 			} );
 		} );

@@ -21,12 +21,15 @@ require('laravel-elixir-karma');
 elixir(function(mix) {
 
     var assets = [
-            'public/js/vendor.js',
             'public/js/partials.js',
-            'public/js/app.js',
-            'public/css/vendor.css',
-            'public/css/app.css',
-            'public/css/tinymcs_custom.css',
+            'public/js/vendor.main.js',
+            'public/js/vendor.cms.js',            
+            'public/css/vendor.main.css',
+            'public/css/vendor.cms.css',
+            'public/js/main.bundle.js',
+            'public/js/cms.bundle.js',
+            'public/css/app.css',                        
+            'public/css/tinymcs_custom.css'
         ],
         karmaJsDir = [
             'public/js/vendor.js',

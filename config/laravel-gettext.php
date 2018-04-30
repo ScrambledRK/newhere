@@ -17,6 +17,10 @@ return [
      */
     'supported-locales' => [
         'en',
+        'de',
+        'ar',
+        'fa',
+        'fr'
     ],
 
     /**

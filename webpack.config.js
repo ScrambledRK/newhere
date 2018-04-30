@@ -1,9 +1,12 @@
 module.exports = {
+	entry: {
+		main: "./angular/index.main.js",
+		cms: "./angular/app/cms/cms.module.js"
+	},
 
-	entry: "./angular/index.main.js",
 	devtool: 'source-map',
 	output: {
-		filename: "app.js"
+		filename: "[name].bundle.js"
 	},
 	module: {
 		loaders: [

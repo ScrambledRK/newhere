@@ -36,7 +36,7 @@
         md-selected-item-change="vm.selectedAddressChanged(item)"
         md-search-text="vm.searchAddress"
         md-items="item in vm.queryAddress(vm.searchAddress)"
-        md-item-text="item.street+' '+item.number+', '+item.zip+' '+item.city"
+        md-item-text="item.description"
         md-min-length="2"
         md-floating-label="{{ 'Adresssuche' | translate }}"
         placeholder="z.B. Stephansplatz 1, 1010 Wien"
@@ -44,7 +44,7 @@
       >
         <md-item-template>
 					<span md-highlight-text="vm.searchAddress">
-						{{item.street+' '+item.number+', '+item.zip+' '+item.city}}
+						{{item.description}}
 					</span>
         </md-item-template>
         <md-not-found>

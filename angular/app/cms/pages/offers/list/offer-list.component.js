@@ -141,6 +141,8 @@ class OfferListController
 				( error ) =>
 				{
 					this.ToastService.error( 'Fehler beim aktualisieren der Einträge.' );
+					this.ToastService.error( error, true );
+
 					this.onQueryUpdate();
 				}
 			);

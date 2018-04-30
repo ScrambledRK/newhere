@@ -13,6 +13,7 @@ class OfferDetailController
 	 */
 	constructor( ContentService,
 	             RoutingService,
+	             DocumentService,
 	             MapService,
 	             $window,
 	             $rootScope,
@@ -24,6 +25,7 @@ class OfferDetailController
 		//
 		this.ContentService = ContentService;
 		this.RoutingService = RoutingService;
+		this.DocumentService = DocumentService;
 		this.MapService = MapService;
 
 		this.$window = $window;
@@ -56,7 +58,7 @@ class OfferDetailController
 		this.offer = offer;
 
 		if( this.offer )
-			document.title = "newhere : " + this.offer.title;
+			this.DocumentService.changeTitle(this.offer.title);
 
 		//
 		if( this.offer && this.offer.street )

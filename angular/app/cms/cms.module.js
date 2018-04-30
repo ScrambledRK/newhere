@@ -6,7 +6,6 @@ import {PaginationDirective} from "./directives/pagination.directive";
 import {UnpublishedDirective} from "./directives/unpublished.directive";
 import {OfferTableDirective} from "./pages/offers/list/offer-table.directive";
 import {OfferListComponent} from "./pages/offers/list/offer-list.component";
-import {UserService} from "./services/user.service";
 import {SearchDirective} from "./directives/search.directive";
 import {EnabledDirective} from "./directives/enabled.directive";
 import {ProviderDirective} from "./directives/provider.directive";
@@ -18,15 +17,13 @@ import {OfferImageDirective} from "./pages/offers/form/offer-image.directive";
 import {OfferDateDirective} from "./pages/offers/form/offer-date.directive";
 import {OfferAddressDirective} from "./pages/offers/form/offer-address.directive";
 import {OfferTranslationDirective} from "./pages/offers/form/offer-translation.directive";
-import {SaveDirective} from "./directives/save.directive";
-import {CancelDirective} from "./directives/cancel.directive";
+
 import {OfferFormComponent} from "./pages/offers/form/offer-form.component";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
 import {OfferService} from "./services/offer.service";
 import {MapService} from "../main/services/map.service";
 import {FilterService} from "../../services/filter.service";
 import {FilterSelectorComponent} from "./components/filter-selector/filter-selector.component";
-import {CategoryService} from "./services/category.service";
 import {CategorySelectorComponent} from "./components/category-selector/category-selector.component";
 import {ProviderListComponent} from "./pages/providers/list/provider-list.component";
 import {ProviderService} from "./services/provider.service";
@@ -46,7 +43,7 @@ import {UserFormComponent} from "./pages/users/form/user-form.component";
 import {UserMenuComponent} from "./components/menu/cms-user-menu.component";
 import {DashboardPageComponent} from "./pages/dashboard/dashboard-page.component";
 import {ProfileComponent} from "./pages/dashboard/profile/profile.component";
-import {PageService} from "./services/page.service";
+
 import {PageTableDirective} from "./pages/pages/list/page-table.directive";
 import {PageListComponent} from "./pages/pages/list/page-list.component";
 import {PageFormComponent} from "./pages/pages/form/page-form.component";
@@ -62,8 +59,10 @@ import {FlowConfig} from "../../config/flow.config";
 // ------------------------------- //
 
 //
-angular.module( 'app.cms',
+angular.module( 'cms',
 	[
+		'app',
+
 		'ui.router',
 		'ui.router.state.events',
 		'ui.tinymce',
@@ -77,25 +76,22 @@ angular.module( 'app.cms',
 	] );
 
 // service
-angular.module( 'app.cms' )
-	.service( "UserService", UserService )
+angular.module( 'cms' )
 	.service( "OfferService", OfferService )
 	.service( "MapService", MapService )
 	.service( "FilterService", FilterService )
-	.service( "CategoryService", CategoryService )
 	.service( "ProviderService", ProviderService )
 	.service( "TranslationService", TranslationService )
-	.service( "PageService", PageService )
 ;
 
 // config
-angular.module( 'app.cms' )
+angular.module( 'cms' )
 	.config( CmsRoutesConfig )
 	.config(FlowConfig)
 ;
 
 // directive
-angular.module( 'app.cms' )
+angular.module( 'cms' )
 	.directive( "dial", DialDirective )
 	.directive( "search", SearchDirective )
 	.directive( "enabled", EnabledDirective )
@@ -106,9 +102,7 @@ angular.module( 'app.cms' )
 	.directive( "providerTable", ProviderTableDirective )
 	.directive( "translationTable", TranslationTableDirective )
 	.directive( "userTable", UserTableDirective )
-	.directive( "cancel", CancelDirective )
 	.directive( "create", CreateDirective )
-	.directive( "save", SaveDirective )
 	.directive( "offerDetails", OfferDetailsDirective )
 	.directive( "offerFilters", OfferFiltersDirective )
 	.directive( "offerCategories", OfferCategoriesDirective )
@@ -127,7 +121,7 @@ angular.module( 'app.cms' )
 // ------------------------------- //
 
 // component
-angular.module( 'app.cms' )
+angular.module( 'cms' )
 	.component( 'cmsPage', CmsPageComponent )
 	.component( 'cmsMenu', CmsMenuComponent )
 	.component( 'cmsDashboardPage', DashboardPageComponent )
@@ -153,3 +147,7 @@ angular.module( 'app.cms' )
 	.component( 'cmsProviderTasks', ProviderTasksComponent )
 	//.component( 'resetpasswordForm', ResetpasswordFormComponent )
 ;
+
+// ------------------------------- //
+// ------------------------------- //
+

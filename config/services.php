@@ -35,4 +35,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'geocoding' => [
+        'key' => env('GEOCODING_KEY')
+    ],
+
+    'analytics' => [
+        'key' => env('ANALYTICS_KEY')
+    ],
 ];

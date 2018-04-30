@@ -1,27 +1,93 @@
 <md-card>
-	<md-card-title>
-		<md-card-title-text>
-			<span class="md-headline">{{ 'Angebot gültig' | translate }}</span>
-		</md-card-title-text>
-	</md-card-title>
-	<md-content
-		layout-padding
-		layout="column"
-		layout-align="space-between center"
-	>
-                    <span>{{ 'von' | translate }}
-                        <md-datepicker
-	                        ng-model="vm.valid_from"
-	                        md-placeholder="{{ 'Datum eingeben' | translate }}"
-                        ></md-datepicker>
-                    </span>
-		<span>
-                        {{ 'bis' | translate }}
-                        <md-datepicker
-	                        ng-model="vm.valid_until"
-	                        md-min-date="vm.valid_from"
-	                        md-placeholder="{{ 'Datum eingeben' | translate }}"
-                        ></md-datepicker>
-                    </span>
-	</md-content>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{ 'Angebot gültig' | translate }}</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-content
+    layout-padding
+    layout="column"
+    layout-align="space-between center"
+  >
+
+    <!-- starting -->
+    <div
+      layout="row"
+      layout-align="start center"
+    >
+      <span>{{ 'von' | translate }}</span>
+
+      <div layout="column">
+        <md-datepicker
+          ng-model="vm.valid_from"
+          md-max-date="vm.valid_until"
+          md-placeholder="{{ 'Datum eingeben' | translate }}"
+          md-is-open="vm.isValidFromPickerOpen"
+          ng-change="vm.onValidChange(false)"
+          ng-blur="vm.onValidChange(false)"
+        ></md-datepicker>
+
+        <!-- -->
+        <md-checkbox
+          style="margin-left: 16px;"
+          ng-model="vm.offer.isWithoutValidFrom"
+          ng-true-value="true"
+          ng-false-value="false"
+          ng-change="vm.onValidChange(true)"
+        >
+          {{ 'Angebot ohne Startdatum' | translate }}
+        </md-checkbox>
+      </div>
+    </div>
+
+    <!-- until -->
+    <div
+      layout="row"
+      layout-align="start center"
+    >
+      <span>{{ 'bis' | translate }}</span>
+
+      <div layout="column">
+        <md-datepicker
+          ng-model="vm.valid_until"
+          md-min-date="vm.valid_from"
+          md-placeholder="{{ 'Datum eingeben' | translate }}"
+          md-is-open="vm.isValidUntilPickerOpen"
+          ng-change="vm.onValidChange(false)"
+          ng-blur="vm.onValidChange(false)"
+        ></md-datepicker>
+
+        <!-- -->
+        <md-checkbox
+          style="margin-left: 16px;"
+          ng-model="vm.offer.isWithoutValidUntil"
+          ng-true-value="true"
+          ng-false-value="false"
+          ng-change="vm.onValidChange(true)"
+        >
+          {{ 'Angebot ohne Enddatum' | translate }}
+        </md-checkbox>
+      </div>
+    </div>
+
+    <md-divider
+      style="min-width: 280px; padding: 12px"
+    ></md-divider>
+
+    <div>
+      <md-switch
+        ng-model="vm.offer.enabled"
+        aria-label="offer enabled"
+        ng-true-value="true"
+        ng-false-value="false"
+        ng-change="vm.updateValidText()"
+      >
+        <span ng-if="vm.offer.enabled">{{ 'offer_enabled' | translate }}</span>
+        <span ng-if="!vm.offer.enabled">{{ 'offer_disabled' | translate }}</span>
+      </md-switch>
+    </div>
+
+    <span>{{vm.validText}}</span>
+
+  </md-content>
 </md-card>

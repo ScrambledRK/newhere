@@ -3,12 +3,13 @@
  */
 export class ToastService
 {
-	constructor( $mdToast, $translate )
+	constructor( $mdToast, $translate, AnalyticService )
 	{
 		'ngInject';
 
 		this.$mdToast = $mdToast;
 		this.$translate = $translate;
+		this.AnalyticService = AnalyticService;
 
 		this.delay = 6000;
 		this.position = 'bottom right';
@@ -43,11 +44,22 @@ export class ToastService
 	 * @param {string} content
 	 * @returns {boolean}
 	 */
-	error( content )
+	error( content, track )
 	{
 		if( !content )
 			return false;
 
+		//
+		if( typeof content === 'object' )
+		{
+			if( content.data && content.data.message )
+				content = content.data.message;
+		}
+
+		if( track )
+			this.AnalyticService.exception( content, false );
+
+		//
 		this.$translate( content ).then( ( msg ) =>
 		{
 			this.$mdToast.show

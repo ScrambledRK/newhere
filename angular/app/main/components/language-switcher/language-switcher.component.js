@@ -1,3 +1,6 @@
+/**
+ * landing page and side-menu
+ */
 class LanguageSwitcherController
 {
 	/**
@@ -15,17 +18,9 @@ class LanguageSwitcherController
 		this.RoutingService = RoutingService;
 		this.$state = $state;
 
-		this.languages = [];
+		this.languages = this.LanguageService.fetchPublished();
 	}
 
-	//
-	$onInit()
-	{
-		this.LanguageService.fetchPublished().then( ( list ) =>
-		{
-			this.languages = list;
-		} );
-	}
 
 	//
 	switchLanguage( language )

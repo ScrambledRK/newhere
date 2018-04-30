@@ -3,6 +3,9 @@ export function RoutesRun( $rootScope,
                            $mdComponentRegistry,
                            $mdSidenav,
                            ToastService,
+                           AnalyticService,
+                           DocumentService,
+                           $location,
                            $auth,
                            $state )
 {
@@ -12,8 +15,16 @@ export function RoutesRun( $rootScope,
 	let onStateChangeStart = $rootScope.$on( "$stateChangeStart",
 		( event, toState, toParams, fromState, fromParams ) =>
 		{
+			DocumentService.invalidateTitle();
+			$rootScope.isCMS = false;
+
+			//
 			if( toState.data && toState.data.auth )
 			{
+				DocumentService.changeTitle("cms");
+				$rootScope.isCMS = true;
+
+				//
 				if( !$auth.isAuthenticated() )
 				{
 					event.preventDefault();
@@ -23,6 +34,9 @@ export function RoutesRun( $rootScope,
 					return $state.go( 'main.login' );
 				}
 			}
+
+			if( toState.data && toState.data.title )
+				DocumentService.changeTitle( toState.data.title, true );
 
 			// ------------------------------- //
 			// ------------------------------- //
@@ -41,8 +55,19 @@ export function RoutesRun( $rootScope,
 
 			if( $mdComponentRegistry.get( 'side-menu' ) )
 				$mdSidenav( 'side-menu' ).close();
+
+			//
+			$rootScope.showCookiePolicy = false;
+
+			let page = toState && toState.name && toState.name === 'main.landing';
+			let control = window.mycc === undefined;
+
+			$rootScope.showCookiePolicy = page || control;
 		} );
 
 	//
-	$rootScope.$on( '$destroy', onStateChangeStart );
+	$rootScope.$on( '$destroy', () =>
+	{
+		onStateChangeStart();
+	} );
 }

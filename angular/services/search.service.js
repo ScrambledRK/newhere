@@ -9,6 +9,9 @@ export class SearchService
 		this.$http = $http;
 
 		this.API = API;
+
+		//
+		this.empty = Promise.resolve([]);
 	}
 
 	/**
@@ -17,6 +20,10 @@ export class SearchService
 	 */
 	searchAddress( query )
 	{
+		if( !query || query.length === 0 )
+			return;
+
+		//
 		if( this.$http.pendingRequests.length )
 		{
 			this.aborter.resolve();
@@ -35,6 +42,14 @@ export class SearchService
 				{
 					throw error;
 				} );
+	}
+
+	getAddressDetail( address )
+	{
+		if( !address || !address.id || address.id.length === 0 )
+			return;
+
+		return this.$http.get( '/api/search/address/detail/' + address.id );
 	}
 
 	/**

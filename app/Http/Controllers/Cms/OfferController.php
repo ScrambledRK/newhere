@@ -12,6 +12,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -143,6 +144,9 @@ class OfferController extends Controller
         $offer = $this->populateFromRequest( $request, $offer );
         $offer->save();
 
+        $offer = $this->attachFromRequest( $request, $offer );  // must save inbetween for id
+        $offer->save();
+
         //
         if( $request->has( 'translations' ) )
         {
@@ -157,6 +161,10 @@ class OfferController extends Controller
 
         DB::commit();
 
+        //
+        $this->updateCategories();
+
+        //
         return response()->success( compact( 'offer' ) );
     }
 
@@ -169,10 +177,15 @@ class OfferController extends Controller
 
         $offer = Offer::findOrFail( $id );
         $offer = $this->populateFromRequest( $request, $offer );
+        $offer = $this->attachFromRequest( $request, $offer );
         $offer->save();
 
         DB::commit();
 
+        //
+        $this->updateCategories();
+
+        //
         return response()->success( compact( [ 'offer' ] ) );
     }
 
@@ -188,8 +201,12 @@ class OfferController extends Controller
         if( !$this->isUserOffer( $offer ) )
             throw new AccessDeniedHttpException();
 
+        //
+        $this->updateCategories();
+
         $offer->delete();
 
+        //
         return response()->success( compact( 'offer' ) );
     }
 
@@ -225,19 +242,19 @@ class OfferController extends Controller
         // ---------------------------------- //
 
         //
-        $hasTitleChanged        = $offer->title         != $request->get( 'title' );
-        $hasDescriptionChanged  = $offer->description   != $request->get( 'description' );
-        $hasHoursChanged        = $offer->opening_hours != $request->get( 'opening_hours' );
+        $hasTitleChanged = $offer->title != $request->get( 'title' );
+        $hasDescriptionChanged = $offer->description != $request->get( 'description' );
+        $hasHoursChanged = $offer->opening_hours != $request->get( 'opening_hours' );
 
         if( $hasTitleChanged || $hasDescriptionChanged || $hasHoursChanged )
         {
-            $locale = $request->header("Language", "de");
+            $locale = $request->header( "Language", "de" );
 
-            $offer->translations()->where("locale","!=", $locale)
-                ->update( [ 'version' => 0 ] );
+            $offer->translations()->where( "locale", "!=", $locale )
+                  ->update( [ 'version' => 0 ] );
 
-            $offer->translations()->where("locale","=", $locale)
-                ->update( [ 'version' => 2 ] );
+            $offer->translations()->where( "locale", "=", $locale )
+                  ->update( [ 'version' => 2 ] );
         }
 
         // ---------------------------------- //
@@ -313,6 +330,16 @@ class OfferController extends Controller
         // ---------------------------------- //
         // ---------------------------------- //
 
+        return $offer;
+    }
+
+    /**
+     * @param Request $request
+     * @param Offer $offer
+     * @return Offer
+     */
+    private function attachFromRequest( Request $request, Offer $offer )
+    {
         //
         if( $request->has( 'filters' ) )
         {
@@ -336,9 +363,6 @@ class OfferController extends Controller
                 $offer->categories()->attach( $cat );
             }
         }
-
-        // ---------------------------------- //
-        // ---------------------------------- //
 
         return $offer;
     }
@@ -365,5 +389,112 @@ class OfferController extends Controller
         }
 
         return false;
+    }
+
+    /**
+     * @param Offer $offer
+     */
+    private function updateCategories( Category $category = null )
+    {
+        if( $category == null )
+        {
+            $category = Category::with( [ 'allChildren' ] )
+                                ->where( "slug", "start" )
+                                ->get()[ 0 ];
+        }
+
+        //$category = $category->fresh( [ 'allChildren' ] );
+
+        // ---------------------------- //
+        // ---------------------------- //
+
+        $from = "unset";
+        $until = "unset";
+        $num = 0;
+
+        //
+        $categories = $category->getRelations()[ "allChildren" ];
+
+        foreach( $categories as $cat )
+        {
+            $result = $this->updateCategories( $cat );
+
+            $isFromDate = $from != null && $from != "unset";
+            $isUntilDate = $until != null && $until != "unset";
+
+            //
+            if( $result[ 0 ] > 0 )
+            {
+                $num += $result[ 0 ];
+
+                //
+                if( $result[ 1 ] == null
+                    || ( $isFromDate && $result[ 1 ] < $from )
+                    || $from === "unset" )  // null overrules a date
+                {
+                    $from = $result[ 1 ];
+                }
+
+                if( $result[ 2 ] == null
+                    || ( $isUntilDate && $result[ 2 ] > $until )
+                    || $until === "unset" )
+                {
+                    $until = $result[ 2 ];
+                }
+            }
+        }
+
+        // ---------------------------- //
+        // ---------------------------- //
+
+        $category->load( "offers" );
+        $offers = $category->getRelations()[ "offers" ];
+
+        //$num += count( $offers );
+
+        //
+        foreach( $offers as $off )
+        {
+            $num++;
+
+            //
+            $isFromDate = $from != null && $from != "unset";
+            $isUntilDate = $until != null && $until != "unset";
+
+            if( $off->valid_from == null
+                || ( $isFromDate && $off->valid_from < $from )
+                || $from === "unset" )
+            {
+                $from = $off->valid_from;
+            }
+
+            if( $off->valid_until == null
+                || ( $isUntilDate && $off->valid_until > $until )
+                || $until === "unset" )
+            {
+                $until = $off->valid_until;
+            }
+        }
+
+        //
+        if( $from === "unset" )
+        {
+            $from = null;
+        }
+
+        if( $until === "unset" )
+        {
+            $until = null;
+        }
+
+        // ---------------------------- //
+        // ---------------------------- //
+
+        $category->num_offers = $num;
+        $category->valid_from = $from;
+        $category->valid_until = $until;
+        $category->save();
+
+        return [ $num, $from, $until ];
     }
 }

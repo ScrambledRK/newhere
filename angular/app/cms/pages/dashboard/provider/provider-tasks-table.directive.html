@@ -118,7 +118,7 @@
         ng-if="vm.isElementVisible('enabled_task')"
       >
         <md-button
-          ng-click="vm.toggleItem(item,true)"
+          ng-click="vm.toggleItem(item,true,true)"
           ng-if="item.notes ? !item.notes.checked : true"
           class="md-icon-button md-accent"
         >
@@ -130,7 +130,7 @@
           <md-icon aria-label="">radio_button_unchecked</md-icon>
         </md-button>
         <md-button
-          ng-click="vm.toggleItem(item,false)"
+          ng-click="vm.toggleItem(item,false,true)"
           ng-if="item.notes ? item.notes.checked : false"
           class="md-icon-button md-accent"
         >

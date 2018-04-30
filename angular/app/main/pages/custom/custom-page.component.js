@@ -5,6 +5,7 @@ class CustomPageController
 	 * @param {API} API
 	 * @param {PageService} PageService
 	 * @param {ToastService} ToastService
+	 * @param {LanguageService} LanguageService
 	 * @param {*} $rootScope
 	 * @param {*} $scope
 	 * @param {*} $state
@@ -12,6 +13,8 @@ class CustomPageController
 	constructor( API,
 				 PageService,
 	             ToastService,
+	             LanguageService,
+	             DocumentService,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -22,6 +25,8 @@ class CustomPageController
 		this.API = API;
 		this.PageService = PageService;
 		this.ToastService = ToastService;
+		this.LanguageService = LanguageService;
+		this.DocumentService = DocumentService;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 
@@ -32,30 +37,45 @@ class CustomPageController
 		// ------------------------------- //
 
 		//
-		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, data ) =>
+		let onLanguage = this.$rootScope.$on( "languageChanged", ( event, language ) =>
 		{
 			if( this._slug )
 				this.fetchItem( this._slug );
 		} );
 
+		let onContentLanguage = this.$rootScope.$on( "contentLanguageChanged", ( event, language ) =>
+		{
+			if( this._slug )
+				this.fetchItem( this._slug, language );
+		} );
+
+
 		this.$scope.$on( '$destroy', () =>
 		{
+			this.LanguageService.overrideLanguages( null );
+
+			onContentLanguage();
 			onLanguage();
 		} );
 	}
 
 
 	//
-	fetchItem( slug )
+	fetchItem( slug, language )
 	{
 		this._isLoading = true;
 		this._slug = slug;
 
+		if( !language )
+			language = this.$rootScope.language;
+
 		//
-		this.API.one( 'pages', slug ).get()
+		this.API.one( 'pages', slug ).get( {language:language} )
 			.then( ( item ) =>
 				{
-					this.setPage( item );
+					this.setPage( item.data.page );
+					this.LanguageService.overrideLanguages( item.data.translations );
+
 					this._isLoading = false;
 				},
 				( error ) =>
@@ -72,7 +92,7 @@ class CustomPageController
 		this.page = page;
 
 		if( this.page )
-			document.title = "newhere : " + this.page.title;
+			this.DocumentService.changeTitle( this.page.title );
 	}
 
 
