@@ -15,6 +15,7 @@ class CustomPageController
 	             ToastService,
 	             LanguageService,
 	             DocumentService,
+	             $timeout,
 	             $rootScope,
 	             $scope,
 	             $state )
@@ -27,6 +28,7 @@ class CustomPageController
 		this.ToastService = ToastService;
 		this.LanguageService = LanguageService;
 		this.DocumentService = DocumentService;
+		this.$timeout = $timeout;
 		this.$rootScope = $rootScope;
 		this.$scope = $scope;
 
@@ -93,6 +95,35 @@ class CustomPageController
 
 		if( this.page )
 			this.DocumentService.changeTitle( this.page.title );
+
+		this.$timeout( () => { this.parsePage(); }, 0, false );
+	}
+
+	parsePage()
+	{
+		let barList = document.getElementsByClassName("toggle-bar");
+		let boxList = document.getElementsByClassName("toggle-box");
+
+		//
+		angular.forEach( barList, ( item, index ) =>
+		{
+			let box = angular.element( boxList[index] );
+
+			let bar = angular.element( item );
+				bar.on( "click", () =>
+				{
+					if( box.hasClass("active") )
+					{
+						box.removeClass("active");
+						bar.removeClass("active");
+					}
+					else
+					{
+						box.addClass("active");
+						bar.addClass("active");
+					}
+				});
+		} );
 	}
 
 

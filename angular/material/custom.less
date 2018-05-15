@@ -1,5 +1,70 @@
 @import "colors";
 
+h1, h2, h3, h4, h5
+{
+  &.toggle-bar
+  {
+    background: #EEEEEE;
+    cursor:     pointer;
+    padding:    10px;
+    color:      @blue;
+
+    &:after
+    {
+      transition:  color 0.5s linear, content 0.5s linear;
+      float:       right;
+      font-family: 'Material Icons', serif;
+      content:     'arrow_right';
+      color:       #CCCCCC;
+    }
+
+    &:hover
+    {
+      &:after
+      {
+        transition:  color 0.5s linear, content 0.5s linear;
+        float:       right;
+        font-family: 'Material Icons', serif;
+        color:       @blue;
+        content:     'arrow_drop_down';
+      }
+    }
+  }
+
+  &.active
+  {
+    &:after
+    {
+      transition: color 0.5s linear, content 0.5s linear;
+      content:    'arrow_drop_up';
+      color:      #CCCCCC;
+    }
+
+    &:hover
+    {
+      &:after
+      {
+        transition: color 0.5s linear, content 0.5s linear;
+        content:    'arrow_drop_up';
+        color:      @blue;
+      }
+    }
+  }
+}
+
+div
+{
+  &.toggle-box
+  {
+    display: none;
+  }
+
+  &.active
+  {
+    display: block;
+  }
+}
+
 .btn-download
 {
   font-size: 24px;
@@ -32,14 +97,14 @@ body
 {
   max-width: 650px;
   width:     650px;
-  padding: 8px;
+  padding:   8px;
 
   > ul
   {
     -webkit-margin-before: 1em;
-    -webkit-margin-after: 1em;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
+    -webkit-margin-after:  1em;
+    -webkit-margin-start:  0px;
+    -webkit-margin-end:    0px;
     -webkit-padding-start: 40px;
 
     > li
